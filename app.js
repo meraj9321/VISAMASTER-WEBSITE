@@ -21,17 +21,14 @@ const app = express();
 app.use(
   session({
     name: "adminSession",
-
-    secret: process.env.SESSION_SECRET || "visamaster-admin-session-secret",
-
+    secret: process.env.SESSION_SECRET,
     resave: false,
-
     saveUninitialized: false,
-
     cookie: {
       httpOnly: true,
-      secure: false,
-      maxAge: 1000 * 60 * 60 * 8,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      // maxAge nahi rakhenge, taaki cookie browser-session cookie rahe
     },
   }),
 );

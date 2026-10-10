@@ -3,7 +3,9 @@ const express = require("express");
 const router = express.Router();
 
 const { showDashboard } = require("../controllers/adminController");
+const adminAuth = require("../middleware/adminAuth");
 
-router.get("/", showDashboard);
+// Protect admin dashboard
+router.get("/", adminAuth, showDashboard);
 
 module.exports = router;

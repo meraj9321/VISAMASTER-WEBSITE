@@ -25,7 +25,7 @@ exports.login = async (req, res, next) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-      return res.render("admin/login", {
+      return res.status(400).render("admin/login", {
         error: "Please enter ID and password.",
       });
     }
@@ -35,32 +35,30 @@ exports.login = async (req, res, next) => {
       active: true,
     });
 
-    if (!adminUser) {
-      return res.render("admin/login", {
+    if (!adminUser || !(await bcrypt.compare(password, adminUser.password))) {
+      return res.status(401).render("admin/login", {
         error: "Invalid ID or password.",
       });
     }
 
-    const passwordMatch = await bcrypt.compare(password, adminUser.password);
+    req.session.regenerate((error) => {
+      if (error) return next(error);
 
-    if (!passwordMatch) {
-      return res.render("admin/login", {
-        error: "Invalid ID or password.",
+      req.session.adminUser = {
+        id: adminUser._id.toString(),
+        username: adminUser.username,
+      };
+
+      req.session.save((saveError) => {
+        if (saveError) return next(saveError);
+        return res.redirect("/admin");
       });
-    }
-
-    req.session.adminUser = {
-      id: adminUser._id.toString(),
-      username: adminUser.username,
-    };
-
-    return res.redirect("/admin");
+    });
   } catch (error) {
     console.error("Admin login error:", error);
     next(error);
   }
 };
-
 // =========================================================
 // LOGOUT
 // =========================================================
