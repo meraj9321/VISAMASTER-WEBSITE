@@ -1,80 +1,36 @@
 const Enquiry = require("../models/Enquiry");
-
 const Team = require("../models/TeamMember");
-
+const Country = require("../models/Country");
 const transporter = require("../config/mail");
 
 // =========================================================
-// CONTACT PAGE DATA
+// GET CONTACT PAGE DATA
 // =========================================================
 
 async function getContactPageData() {
-  // -----------------------------------------
-  // PARTNERS
-  // -----------------------------------------
-
   const partners = await Team.find({
     role: "partner",
     active: true,
-  }).sort({
-    order: 1,
-  });
-
-  // -----------------------------------------
-  // ACCOUNTANTS
-  // -----------------------------------------
+  }).sort({ order: 1 });
 
   const accountants = await Team.find({
     role: "accountant",
     active: true,
-  }).sort({
-    order: 1,
-  });
-
-  // -----------------------------------------
-  // VISA EXECUTIVES
-  // -----------------------------------------
+  }).sort({ order: 1 });
 
   const executives = await Team.find({
     role: "executive",
     active: true,
-  }).sort({
-    order: 1,
-  });
+  }).sort({ order: 1 });
 
-  // -----------------------------------------
-  // DESTINATIONS
-  // -----------------------------------------
-
-  // Abhi destinations hardcoded hain.
-  // Baad mein inko MongoDB se dynamic kar sakte hain.
-
-  const destinations = [
-    {
-      name: "Dubai",
-      slug: "dubai",
-    },
-
-    {
-      name: "USA",
-      slug: "usa",
-    },
-
-    {
-      name: "Canada",
-      slug: "canada",
-    },
-
-    {
-      name: "UK",
-      slug: "uk",
-    },
-
-    {
-      name: "Australia",
-      slug: "australia",
-    },
-  ];
+  // Fetch destinations from the existing Country collection.
+  // Include countries where isActive is true or the field is missing.
+  const destinations = await Country.find({
+    $or: [{ isActive: true }, { isActive: { $exists: false } }],
+  })
+    .select("name slug")
+    .sort({ name: 1 })
+    .lean();
 
   return {
     partners,
@@ -85,7 +41,7 @@ async function getContactPageData() {
 }
 
 // =========================================================
-// GET CONTACT PAGE
+// SHOW CONTACT PAGE
 // =========================================================
 
 exports.showContactPage = async (req, res) => {
@@ -93,489 +49,202 @@ exports.showContactPage = async (req, res) => {
     const { partners, accountants, executives, destinations } =
       await getContactPageData();
 
-    // -----------------------------------------
-    // SUCCESS POPUP
-    // -----------------------------------------
-
-    const success =
-      req.query.success === "1"
-        ? "Thank you! Your enquiry has been submitted successfully."
-        : null;
-
     res.render("contacts/index", {
       currentPage: "contact",
       partners,
       accountants,
       executives,
       destinations,
-      success,
+      success: req.query.success === "1",
       error: null,
       formData: {},
     });
   } catch (error) {
-    console.error("CONTACT PAGE ERROR:", error);
+    console.error("Error loading contact page:", error);
 
-    res.status(500).send("Something went wrong");
+    res.status(500).send("Unable to load the contact page.");
   }
 };
 
 // =========================================================
-// POST ENQUIRY
+// SUBMIT ENQUIRY
 // =========================================================
 
 exports.submitEnquiry = async (req, res) => {
   try {
     const { name, phone, email, destination, visaType, message } = req.body;
 
-    // =====================================================
+    // -----------------------------------------------------
     // VALIDATION
-    // =====================================================
+    // -----------------------------------------------------
 
     if (!name || !phone || !email || !destination || !visaType || !message) {
-      const { partners, accountants, executives, destinations } =
-        await getContactPageData();
+      const pageData = await getContactPageData();
 
       return res.status(400).render("contacts/index", {
         currentPage: "contact",
-
-        partners,
-        accountants,
-        executives,
-        destinations,
-
-        success: null,
-
+        ...pageData,
+        success: false,
         error: "Please fill in all required fields.",
-
-        formData: {
-          name,
-          phone,
-          email,
-          destination,
-          visaType,
-          message,
-        },
+        formData: req.body,
       });
     }
 
-    // =====================================================
-    // EMAIL VALIDATION
-    // =====================================================
+    const cleanName = name.trim();
+    const cleanPhone = phone.trim();
+    const cleanEmail = email.trim();
+    const cleanDestination = destination.trim();
+    const cleanVisaType = visaType.trim();
+    const cleanMessage = message.trim();
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email.trim())) {
-      const { partners, accountants, executives, destinations } =
-        await getContactPageData();
+    if (!emailRegex.test(cleanEmail)) {
+      const pageData = await getContactPageData();
 
       return res.status(400).render("contacts/index", {
         currentPage: "contact",
-
-        partners,
-        accountants,
-        executives,
-        destinations,
-
-        success: null,
-
+        ...pageData,
+        success: false,
         error: "Please enter a valid email address.",
-
-        formData: {
-          name,
-          phone,
-          email,
-          destination,
-          visaType,
-          message,
-        },
+        formData: req.body,
       });
     }
 
-    // =====================================================
-    // CLEAN FORM DATA
-    // =====================================================
+    // -----------------------------------------------------
+    // VERIFY DESTINATION AGAINST DATABASE
+    // -----------------------------------------------------
 
-    const cleanName = name.trim();
+    const selectedCountry = await Country.findOne({
+      slug: cleanDestination,
+      $or: [{ isActive: true }, { isActive: { $exists: false } }],
+    }).select("name slug");
 
-    const cleanPhone = phone.trim();
+    if (!selectedCountry) {
+      const pageData = await getContactPageData();
 
-    const cleanEmail = email.trim().toLowerCase();
+      return res.status(400).render("contacts/index", {
+        currentPage: "contact",
+        ...pageData,
+        success: false,
+        error: "Please select a valid destination.",
+        formData: req.body,
+      });
+    }
 
-    const cleanDestination = destination.trim();
+    // Use the actual country name in the saved enquiry and email.
+    const destinationName = selectedCountry.name;
 
-    const cleanVisaType = visaType.trim();
-
-    const cleanMessage = message.trim();
-
-    // =====================================================
+    // -----------------------------------------------------
     // SAVE ENQUIRY TO MONGODB
-    // =====================================================
+    // -----------------------------------------------------
 
     const enquiry = new Enquiry({
       name: cleanName,
-
       phone: cleanPhone,
-
       email: cleanEmail,
-
-      destination: cleanDestination,
-
+      destination: destinationName,
       visaType: cleanVisaType,
-
       message: cleanMessage,
     });
 
     await enquiry.save();
 
-    console.log("ENQUIRY SAVED TO MONGODB:", enquiry._id.toString());
+    // -----------------------------------------------------
+    // PREPARE EMAIL CONTENT
+    // -----------------------------------------------------
 
-    // =====================================================
-    // SEND EMAIL USING NODEMAILER
-    // =====================================================
+    const escapeHtml = (value) =>
+      String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+
+    const safeName = escapeHtml(cleanName);
+    const safePhone = escapeHtml(cleanPhone);
+    const safeEmail = escapeHtml(cleanEmail);
+    const safeDestination = escapeHtml(destinationName);
+    const safeVisaType = escapeHtml(cleanVisaType);
+    const safeMessage = escapeHtml(cleanMessage).replace(/\n/g, "<br>");
 
     const mailOptions = {
-      // -----------------------------------------
-      // EMAIL SENDER
-      // -----------------------------------------
-
-      from: `"VisaMaster Website" <${process.env.EMAIL_USER}>`,
-
-      // -----------------------------------------
-      // EMAIL RECEIVER
-      // -----------------------------------------
-
+      from: process.env.EMAIL_USER,
       to: process.env.CONTACT_RECEIVER_EMAIL,
-
-      // -----------------------------------------
-      // EMAIL SUBJECT
-      // -----------------------------------------
-
-      subject: `New VisaMaster Enquiry - ${cleanName}`,
-
-      // -----------------------------------------
-      // PLAIN TEXT EMAIL
-      // -----------------------------------------
-
+      replyTo: cleanEmail,
+      subject: `New Visa Enquiry - ${cleanName}`,
       text: `
-New VisaMaster Enquiry
-======================
+
+New Visa Enquiry
 
 Name: ${cleanName}
-
 Phone: ${cleanPhone}
-
 Email: ${cleanEmail}
-
-Destination: ${cleanDestination}
-
+Destination: ${destinationName}
 Visa Type: ${cleanVisaType}
 
 Message:
 ${cleanMessage}
+, html:
+<h2>New Visa Enquiry</h2>
 
-----------------------------------------
+    <p><strong>Name:</strong> ${safeName}</p>
+    <p><strong>Phone:</strong> ${safePhone}</p>
+    <p><strong>Email:</strong> ${safeEmail}</p>
+    <p><strong>Destination:</strong> ${safeDestination}</p>
+    <p><strong>Visa Type:</strong> ${safeVisaType}</p>
 
-Enquiry ID:
-${enquiry._id.toString()}
-
-Submitted At:
-${enquiry.createdAt}
-      `,
-
-      // -----------------------------------------
-      // HTML EMAIL
-      // -----------------------------------------
-
-      html: `
-        <div style="
-          font-family: Arial, Helvetica, sans-serif;
-          max-width: 700px;
-          margin: 0 auto;
-          padding: 30px;
-          background: #f7f9fc;
-          color: #102d50;
-        ">
-
-          <div style="
-            background: #102d50;
-            padding: 22px;
-            border-radius: 12px 12px 0 0;
-            color: white;
-          ">
-
-            <h1 style="
-              margin: 0;
-              font-size: 26px;
-            ">
-              VisaMaster
-            </h1>
-
-            <p style="
-              margin: 6px 0 0;
-              font-size: 14px;
-              opacity: 0.9;
-            ">
-              New Website Enquiry
-            </p>
-
-          </div>
-
-          <div style="
-            background: white;
-            padding: 25px;
-            border-radius: 0 0 12px 12px;
-            border: 1px solid #e5e7eb;
-          ">
-
-            <h2 style="
-              margin-top: 0;
-              color: #102d50;
-            ">
-              New Visa Enquiry
-            </h2>
-
-            <table style="
-              width: 100%;
-              border-collapse: collapse;
-              font-size: 15px;
-            ">
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  border-bottom: 1px solid #eee;
-                  width: 35%;
-                ">
-                  Name
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  border-bottom: 1px solid #eee;
-                ">
-                  ${cleanName}
-                </td>
-              </tr>
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  border-bottom: 1px solid #eee;
-                ">
-                  Phone
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  border-bottom: 1px solid #eee;
-                ">
-                  ${cleanPhone}
-                </td>
-              </tr>
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  border-bottom: 1px solid #eee;
-                ">
-                  Email
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  border-bottom: 1px solid #eee;
-                ">
-                  ${cleanEmail}
-                </td>
-              </tr>
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  border-bottom: 1px solid #eee;
-                ">
-                  Destination
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  border-bottom: 1px solid #eee;
-                ">
-                  ${cleanDestination}
-                </td>
-              </tr>
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  border-bottom: 1px solid #eee;
-                ">
-                  Visa Type
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  border-bottom: 1px solid #eee;
-                ">
-                  ${cleanVisaType}
-                </td>
-              </tr>
-
-              <tr>
-                <td style="
-                  padding: 12px 8px;
-                  font-weight: bold;
-                  vertical-align: top;
-                ">
-                  Message
-                </td>
-
-                <td style="
-                  padding: 12px 8px;
-                  white-space: pre-wrap;
-                ">
-                  ${cleanMessage}
-                </td>
-              </tr>
-
-            </table>
-
-            <div style="
-              margin-top: 25px;
-              padding: 15px;
-              background: #fff8df;
-              border-left: 4px solid #ffc43d;
-              border-radius: 6px;
-              font-size: 13px;
-            ">
-
-              <strong>Enquiry ID:</strong>
-              ${enquiry._id.toString()}
-
-              <br><br>
-
-              <strong>Submitted At:</strong>
-              ${enquiry.createdAt}
-
-            </div>
-
-          </div>
-
-          <p style="
-            text-align: center;
-            margin-top: 20px;
-            font-size: 12px;
-            color: #777;
-          ">
-            This enquiry was submitted through the VisaMaster website.
-          </p>
-
-        </div>
-      `,
+    <p><strong>Message:</strong></p>
+    <p>${safeMessage}</p>
+  `,
     };
 
-    // =====================================================
+    // -----------------------------------------------------
     // SEND EMAIL
-    // =====================================================
+    // -----------------------------------------------------
 
     try {
       await transporter.sendMail(mailOptions);
+    } catch (emailError) {
+      console.error("Enquiry saved, but email failed:", emailError);
 
-      console.log(
-        "ENQUIRY EMAIL SENT SUCCESSFULLY TO:",
-        process.env.CONTACT_RECEIVER_EMAIL,
-      );
-    } catch (mailError) {
-      // ---------------------------------------------------
-      // IMPORTANT
-      // ---------------------------------------------------
-      // MongoDB me enquiry already save ho chuki hai.
-      // Isliye email fail hone par enquiry delete nahi karenge.
-      // ---------------------------------------------------
-
-      console.error("ENQUIRY EMAIL ERROR:", mailError);
-
-      const { partners, accountants, executives, destinations } =
-        await getContactPageData();
+      const pageData = await getContactPageData();
 
       return res.status(500).render("contacts/index", {
         currentPage: "contact",
-
-        partners,
-        accountants,
-        executives,
-        destinations,
-
-        success: null,
-
+        ...pageData,
+        success: false,
         error:
-          "Your enquiry was saved, but we could not send the notification email. Please try again later.",
-
-        formData: {
-          name: cleanName,
-          phone: cleanPhone,
-          email: cleanEmail,
-          destination: cleanDestination,
-          visaType: cleanVisaType,
-          message: cleanMessage,
-        },
+          "Your enquiry was saved, but the notification email could not be sent. Please contact us if needed.",
+        formData: req.body,
       });
     }
 
-    // =====================================================
-    // SUCCESS
-    // =====================================================
-
-    // POST ke baad render nahi kar rahe.
-    //
-    // Redirect kar rahe hain.
-    //
-    // Isse browser refresh karne par POST dobara
-    // execute nahi hoga.
+    // -----------------------------------------------------
+    // REDIRECT AFTER SUCCESS
+    // -----------------------------------------------------
 
     return res.redirect("/contact?success=1");
   } catch (error) {
-    // =====================================================
-    // GENERAL ERROR
-    // =====================================================
-
-    console.error("ENQUIRY SUBMISSION ERROR:", error);
+    console.error("Error submitting enquiry:", error);
 
     try {
-      const { partners, accountants, executives, destinations } =
-        await getContactPageData();
+      const pageData = await getContactPageData();
 
       return res.status(500).render("contacts/index", {
         currentPage: "contact",
-
-        partners,
-        accountants,
-        executives,
-        destinations,
-
-        success: null,
-
-        error:
-          "Something went wrong while submitting your enquiry. Please try again.",
-
-        formData: {
-          name: req.body.name || "",
-          phone: req.body.phone || "",
-          email: req.body.email || "",
-          destination: req.body.destination || "",
-          visaType: req.body.visaType || "",
-          message: req.body.message || "",
-        },
+        ...pageData,
+        success: false,
+        error: "Something went wrong. Please try again.",
+        formData: req.body,
       });
     } catch (pageError) {
-      console.error("CONTACT ERROR PAGE FAILED:", pageError);
+      console.error("Error reloading contact page:", pageError);
 
-      return res.status(500).send("Something went wrong");
+      return res
+        .status(500)
+        .send("Something went wrong while processing your enquiry.");
     }
   }
 };
