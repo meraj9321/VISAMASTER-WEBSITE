@@ -1,0 +1,1527 @@
+/* =========================================================
+   VISAMASTER - ABOUT PAGE
+   ========================================================= */
+
+/* =========================================================
+   COMMON ABOUT CONTAINER
+   ========================================================= */
+
+.about-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* =========================================================
+   SECTION LABEL
+   ========================================================= */
+
+.about .section-label,
+.about-page .section-label,
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+
+  color: #102d50;
+}
+
+/* =========================================================
+   ABOUT HERO
+   ========================================================= */
+
+.about-hero {
+  position: relative;
+  overflow: hidden;
+
+  padding: 90px 0 100px;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(255, 196, 61, 0.22),
+      transparent 25%
+    ),
+    radial-gradient(circle at 10% 90%, rgba(16, 45, 80, 0.06), transparent 28%),
+    #fffdf7;
+}
+
+.about-hero::before {
+  content: "";
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  border: 3px dashed rgba(16, 45, 80, 0.08);
+  border-radius: 50%;
+
+  top: -80px;
+  right: -60px;
+
+  transform: rotate(12deg);
+}
+
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.95fr;
+  align-items: center;
+  gap: 70px;
+}
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.about-hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 9px 16px;
+
+  border: 2px solid #102d50;
+  border-radius: 999px;
+
+  background: #ffc43d;
+
+  color: #102d50;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  box-shadow: 4px 4px 0 #102d50;
+
+  transform: rotate(-2deg);
+
+  margin-bottom: 25px;
+}
+
+.about-hero-content h1 {
+  margin: 0 0 22px;
+
+  max-width: 650px;
+
+  color: #102d50;
+
+  font-size: clamp(48px, 6vw, 76px);
+  line-height: 0.98;
+  font-weight: 900;
+
+  letter-spacing: -3px;
+}
+
+.about-hero-content h1 span {
+  display: block;
+
+  color: #f0a72d;
+
+  font-family: "Kalam", cursive;
+
+  font-weight: 700;
+
+  transform: rotate(-2deg);
+}
+
+.about-hero-content > p {
+  max-width: 580px;
+
+  margin: 0 0 30px;
+
+  color: #526174;
+
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   HERO BUTTONS
+   ========================================================= */
+
+.about-hero-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  margin-bottom: 30px;
+}
+
+.about-primary-btn,
+.about-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 52px;
+
+  padding: 0 22px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 800;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.about-primary-btn {
+  background: #102d50;
+  color: #fff;
+
+  box-shadow: 5px 5px 0 #f0a72d;
+}
+
+.about-primary-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 7px 7px 0 #f0a72d;
+}
+
+.about-secondary-btn {
+  border: 2px solid #102d50;
+
+  background: #fff;
+
+  color: #102d50;
+}
+
+.about-secondary-btn:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 4px 4px 0 #ffc43d;
+}
+
+.about-primary-btn span,
+.about-secondary-btn span {
+  font-size: 18px;
+}
+
+/* =========================================================
+   TRUST POINTS
+   ========================================================= */
+
+.about-trust-points {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.about-trust-points div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: #526174;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.about-trust-points span {
+  display: grid;
+  place-items: center;
+
+  width: 22px;
+  height: 22px;
+
+  border-radius: 50%;
+
+  background: #e8f4df;
+
+  color: #2c7a39;
+
+  font-size: 12px;
+  font-weight: 900;
+}
+
+/* =========================================================
+   HERO VISUAL
+   ========================================================= */
+
+.about-hero-visual {
+  position: relative;
+
+  min-height: 460px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.travel-circle {
+  position: absolute;
+
+  width: 330px;
+  height: 330px;
+
+  border: 3px dashed rgba(16, 45, 80, 0.16);
+  border-radius: 50%;
+
+  transform: rotate(-10deg);
+}
+
+.travel-globe {
+  position: relative;
+  z-index: 3;
+
+  width: 180px;
+  height: 180px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #fff;
+
+  font-size: 105px;
+
+  box-shadow:
+    0 25px 50px rgba(16, 45, 80, 0.12),
+    8px 8px 0 rgba(255, 196, 61, 0.8);
+
+  animation: aboutFloat 4s ease-in-out infinite;
+}
+
+.travel-plane,
+.travel-suitcase,
+.travel-passport {
+  position: absolute;
+
+  z-index: 4;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 18px;
+
+  background: #fff;
+
+  box-shadow: 4px 5px 0 rgba(16, 45, 80, 0.14);
+
+  animation: aboutFloat 4s ease-in-out infinite;
+}
+
+.travel-plane {
+  top: 35px;
+  right: 45px;
+
+  width: 75px;
+  height: 75px;
+
+  font-size: 42px;
+
+  transform: rotate(12deg);
+  animation-delay: 0.4s;
+}
+
+.travel-suitcase {
+  bottom: 48px;
+  left: 55px;
+
+  width: 82px;
+  height: 82px;
+
+  font-size: 42px;
+
+  transform: rotate(-8deg);
+
+  animation-delay: 0.8s;
+}
+
+.travel-passport {
+  bottom: 65px;
+  right: 45px;
+
+  width: 72px;
+  height: 72px;
+
+  font-size: 38px;
+
+  transform: rotate(7deg);
+
+  animation-delay: 1.1s;
+}
+
+/* =========================================================
+   HERO DECORATIONS
+   ========================================================= */
+
+.sky-sun {
+  position: absolute;
+
+  top: 35px;
+  left: 40px;
+
+  font-size: 50px;
+
+  animation: aboutFloat 5s ease-in-out infinite;
+}
+
+.sky-cloud {
+  position: absolute;
+
+  font-size: 45px;
+
+  opacity: 0.8;
+
+  animation: cloudMove 6s ease-in-out infinite;
+}
+
+.cloud-one {
+  top: 90px;
+  left: 10px;
+}
+
+.cloud-two {
+  bottom: 40px;
+  right: 5px;
+
+  font-size: 35px;
+
+  animation-delay: 1.5s;
+}
+
+.travel-star {
+  position: absolute;
+
+  color: #f0a72d;
+
+  font-size: 30px;
+
+  font-weight: 900;
+}
+
+.star-one {
+  top: 130px;
+  right: 5px;
+
+  transform: rotate(15deg);
+}
+
+.star-two {
+  top: 35px;
+  left: 130px;
+
+  font-size: 22px;
+}
+
+.star-three {
+  bottom: 115px;
+  left: 5px;
+
+  font-size: 24px;
+}
+
+.travel-doodle {
+  position: absolute;
+
+  bottom: 20px;
+  right: 100px;
+
+  color: #102d50;
+
+  font-family: "Kalam", cursive;
+
+  font-size: 24px;
+
+  transform: rotate(-8deg);
+}
+
+/* =========================================================
+   STORY SECTION
+   ========================================================= */
+
+.about-story {
+  padding: 105px 0;
+
+  background: #fff;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+
+  align-items: center;
+
+  gap: 90px;
+}
+
+/* =========================================================
+   STORY VISUAL
+   ========================================================= */
+
+.story-visual {
+  position: relative;
+
+  min-height: 420px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.story-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(330px, 85%);
+
+  overflow: hidden;
+
+  border: 3px solid #102d50;
+  border-radius: 22px;
+
+  background: #f7efe0;
+
+  box-shadow: 12px 12px 0 #ffc43d;
+
+  transform: rotate(-4deg);
+}
+
+.story-card-top,
+.story-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 18px 20px;
+
+  background: #102d50;
+
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.story-card-middle {
+  min-height: 230px;
+
+  display: grid;
+  place-items: center;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 255, 255, 0.7),
+      transparent 20%
+    ),
+    #f7efe0;
+
+  font-size: 110px;
+}
+
+.story-plane {
+  position: absolute;
+
+  top: 35px;
+  right: 45px;
+
+  color: #f0a72d;
+
+  font-size: 50px;
+
+  transform: rotate(-20deg);
+}
+
+.story-dots {
+  position: absolute;
+
+  bottom: 45px;
+  left: 35px;
+
+  color: #102d50;
+
+  font-size: 25px;
+
+  letter-spacing: 7px;
+}
+
+/* =========================================================
+   STORY CONTENT
+   ========================================================= */
+
+.story-content h2,
+.about-section-heading h2,
+.mission-content h2,
+.vision-content h2 {
+  margin: 15px 0 22px;
+
+  color: #102d50;
+
+  font-size: clamp(38px, 4vw, 56px);
+
+  line-height: 1.05;
+
+  letter-spacing: -2px;
+
+  font-weight: 900;
+}
+
+.story-content h2 span,
+.about-section-heading h2 span,
+.mission-content h2 span,
+.vision-content h2 span {
+  color: #f0a72d;
+
+  font-family: "Kalam", cursive;
+}
+
+.story-content p,
+.vision-content p {
+  max-width: 650px;
+
+  margin: 0 0 18px;
+
+  color: #5c6979;
+
+  font-size: 16px;
+
+  line-height: 1.8;
+}
+
+.story-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 10px;
+
+  color: #102d50;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  text-decoration: none;
+}
+
+.story-link span {
+  transition: transform 0.2s ease;
+}
+
+.story-link:hover span {
+  transform: translateX(5px);
+}
+
+/* =========================================================
+   WHY SECTION
+   ========================================================= */
+
+.about-why {
+  padding: 105px 0;
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(255, 196, 61, 0.16),
+      transparent 25%
+    ),
+    #f8f5ed;
+}
+
+.about-section-heading {
+  max-width: 700px;
+
+  margin: 0 auto 55px;
+
+  text-align: center;
+}
+
+.about-section-heading p {
+  max-width: 580px;
+
+  margin: 0 auto;
+
+  color: #657284;
+
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   WHY CARDS
+   ========================================================= */
+
+.why-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+}
+
+.why-card {
+  position: relative;
+
+  min-height: 270px;
+
+  padding: 28px;
+
+  overflow: hidden;
+
+  border: 2px solid #102d50;
+  border-radius: 20px;
+
+  background: #fff;
+
+  box-shadow: 6px 7px 0 rgba(16, 45, 80, 0.1);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.why-card:hover {
+  transform: translateY(-7px) rotate(-1deg);
+
+  box-shadow: 9px 11px 0 rgba(16, 45, 80, 0.13);
+}
+
+.why-card-two {
+  transform: rotate(1deg);
+}
+
+.why-card-three {
+  transform: rotate(-1deg);
+}
+
+.why-card-four {
+  transform: rotate(1deg);
+}
+
+.why-card:hover {
+  transform: translateY(-7px) rotate(0deg);
+}
+
+.why-icon {
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  margin-bottom: 22px;
+
+  border-radius: 16px;
+
+  background: #fff2c9;
+
+  font-size: 28px;
+}
+
+.why-card-two .why-icon {
+  background: #e4eef8;
+}
+
+.why-card-three .why-icon {
+  background: #eaf2df;
+}
+
+.why-card-four .why-icon {
+  background: #f9e4e2;
+}
+
+.why-card h3 {
+  margin: 0 0 10px;
+
+  color: #102d50;
+
+  font-size: 20px;
+  font-weight: 900;
+}
+
+.why-card p {
+  margin: 0;
+
+  color: #647182;
+
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.card-number {
+  position: absolute;
+
+  right: 18px;
+  bottom: 10px;
+
+  color: rgba(16, 45, 80, 0.08);
+
+  font-size: 54px;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+/* =========================================================
+   MISSION
+   ========================================================= */
+
+.about-mission {
+  padding: 85px 0;
+
+  background: #fff;
+}
+
+.mission-card {
+  position: relative;
+
+  overflow: hidden;
+
+  display: grid;
+
+  grid-template-columns: 100px 1fr 100px;
+
+  align-items: center;
+
+  gap: 30px;
+
+  padding: 55px 60px;
+
+  border: 3px solid #102d50;
+  border-radius: 28px;
+
+  background: #ffc43d;
+
+  box-shadow: 10px 10px 0 #102d50;
+}
+
+.mission-content {
+  text-align: center;
+}
+
+.mission-content .section-label {
+  justify-content: center;
+}
+
+.mission-content h2 {
+  margin-bottom: 18px;
+}
+
+.mission-content p {
+  max-width: 700px;
+
+  margin: 0 auto;
+
+  color: #3d4a5b;
+
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.mission-decoration {
+  font-size: 60px;
+
+  text-align: center;
+}
+
+.mission-left {
+  transform: rotate(-12deg);
+}
+
+.mission-right {
+  transform: rotate(10deg);
+}
+
+/* =========================================================
+   VISION
+   ========================================================= */
+
+.about-vision {
+  padding: 105px 0;
+
+  background: #f8f5ed;
+}
+
+.vision-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 0.9fr;
+
+  align-items: center;
+
+  gap: 80px;
+}
+
+.vision-illustration {
+  position: relative;
+
+  min-height: 360px;
+
+  overflow: hidden;
+
+  border-radius: 30px;
+
+  background: linear-gradient(to bottom, #e9f4fa 0%, #f8f5ed 75%);
+}
+
+.vision-sun {
+  position: absolute;
+
+  top: 30px;
+  right: 40px;
+
+  font-size: 55px;
+}
+
+.vision-cloud {
+  position: absolute;
+
+  top: 70px;
+  left: 45px;
+
+  font-size: 50px;
+}
+
+.vision-world {
+  position: absolute;
+
+  left: 50%;
+  top: 48%;
+
+  transform: translate(-50%, -50%);
+
+  font-size: 125px;
+
+  z-index: 2;
+}
+
+.vision-road {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 70px;
+
+  color: #102d50;
+
+  font-size: 35px;
+
+  text-align: center;
+
+  letter-spacing: 10px;
+}
+
+.vision-car {
+  position: absolute;
+
+  bottom: 105px;
+  left: 20%;
+
+  font-size: 58px;
+
+  transform: rotate(-3deg);
+
+  animation: carMove 4s ease-in-out infinite;
+}
+
+.vision-flag {
+  position: absolute;
+
+  right: 20%;
+  bottom: 90px;
+
+  font-size: 50px;
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.about-cta {
+  padding: 100px 0;
+
+  background: #fff;
+}
+
+.about-cta-card {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 75px 40px;
+
+  border-radius: 30px;
+
+  background: #102d50;
+
+  box-shadow: 10px 10px 0 #ffc43d;
+
+  text-align: center;
+}
+
+.about-cta-card::before,
+.about-cta-card::after {
+  content: "";
+
+  position: absolute;
+
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+
+  border-radius: 50%;
+}
+
+.about-cta-card::before {
+  width: 260px;
+  height: 260px;
+
+  left: -100px;
+  top: -120px;
+}
+
+.about-cta-card::after {
+  width: 340px;
+  height: 340px;
+
+  right: -140px;
+  bottom: -190px;
+}
+
+.about-cta .section-label {
+  color: #ffc43d;
+
+  justify-content: center;
+}
+
+.about-cta-card h2 {
+  position: relative;
+  z-index: 2;
+
+  margin: 15px auto 18px;
+
+  max-width: 750px;
+
+  color: #fff;
+
+  font-size: clamp(40px, 5vw, 62px);
+
+  line-height: 1;
+
+  letter-spacing: -2px;
+
+  font-weight: 900;
+}
+
+.about-cta-card h2 span {
+  display: block;
+
+  color: #ffc43d;
+
+  font-family: "Kalam", cursive;
+}
+
+.about-cta-card p {
+  position: relative;
+  z-index: 2;
+
+  margin: 0 auto 30px;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  font-size: 16px;
+}
+
+.cta-buttons {
+  position: relative;
+  z-index: 3;
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 14px;
+}
+
+.cta-primary,
+.cta-secondary {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  min-height: 52px;
+
+  padding: 0 24px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  font-size: 15px;
+  font-weight: 900;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cta-primary {
+  background: #ffc43d;
+
+  color: #102d50;
+}
+
+.cta-primary:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 5px 5px 0 #fff;
+}
+
+.cta-secondary {
+  border: 2px solid rgba(255, 255, 255, 0.8);
+
+  color: #fff;
+
+  background: transparent;
+}
+
+.cta-secondary:hover {
+  transform: translateY(-3px);
+
+  background: #fff;
+
+  color: #102d50;
+}
+
+.cta-doodle {
+  position: absolute;
+
+  z-index: 1;
+
+  color: rgba(255, 255, 255, 0.3);
+
+  font-size: 45px;
+}
+
+.cta-doodle-one {
+  left: 9%;
+  bottom: 25%;
+
+  transform: rotate(-15deg);
+}
+
+.cta-doodle-two {
+  right: 10%;
+  top: 20%;
+
+  transform: rotate(15deg);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes aboutFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes cloudMove {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(12px);
+  }
+}
+
+@keyframes carMove {
+  0%,
+  100% {
+    transform: translateX(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateX(18px) rotate(-3deg);
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .about-hero {
+    padding: 70px 0 80px;
+  }
+
+  .about-hero-grid {
+    grid-template-columns: 1fr;
+
+    gap: 45px;
+  }
+
+  .about-hero-content {
+    text-align: center;
+  }
+
+  .about-hero-content > p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .about-hero-buttons,
+  .about-trust-points {
+    justify-content: center;
+  }
+
+  .about-hero-visual {
+    min-height: 390px;
+  }
+
+  .about-story-grid {
+    grid-template-columns: 1fr;
+
+    gap: 55px;
+  }
+
+  .story-visual {
+    min-height: 360px;
+  }
+
+  .story-content {
+    text-align: center;
+  }
+
+  .story-content p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mission-card {
+    grid-template-columns: 70px 1fr 70px;
+
+    padding: 45px 35px;
+  }
+
+  .vision-grid {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .about-container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .about-hero {
+    padding: 55px 0 65px;
+  }
+
+  .about-hero-content h1 {
+    font-size: clamp(43px, 13vw, 60px);
+
+    letter-spacing: -2px;
+  }
+
+  .about-hero-content > p {
+    font-size: 16px;
+  }
+
+  .about-hero-buttons {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .about-primary-btn,
+  .about-secondary-btn {
+    width: 100%;
+  }
+
+  .about-trust-points {
+    flex-direction: column;
+
+    align-items: center;
+
+    gap: 10px;
+  }
+
+  .about-hero-visual {
+    min-height: 320px;
+  }
+
+  .travel-circle {
+    width: 240px;
+    height: 240px;
+  }
+
+  .travel-globe {
+    width: 135px;
+    height: 135px;
+
+    font-size: 75px;
+  }
+
+  .travel-plane {
+    top: 20px;
+    right: 15px;
+
+    width: 60px;
+    height: 60px;
+
+    font-size: 32px;
+  }
+
+  .travel-suitcase {
+    bottom: 20px;
+    left: 15px;
+
+    width: 65px;
+    height: 65px;
+
+    font-size: 32px;
+  }
+
+  .travel-passport {
+    bottom: 25px;
+    right: 15px;
+
+    width: 60px;
+    height: 60px;
+
+    font-size: 30px;
+  }
+
+  .sky-sun {
+    top: 10px;
+    left: 15px;
+
+    font-size: 38px;
+  }
+
+  .cloud-one {
+    top: 65px;
+  }
+
+  .travel-doodle {
+    right: 50px;
+    bottom: 5px;
+  }
+
+  /* STORY */
+
+  .about-story,
+  .about-why,
+  .about-vision {
+    padding: 70px 0;
+  }
+
+  .story-visual {
+    min-height: 300px;
+  }
+
+  .story-card {
+    width: 270px;
+  }
+
+  .story-card-middle {
+    min-height: 180px;
+
+    font-size: 80px;
+  }
+
+  .story-content h2,
+  .about-section-heading h2,
+  .mission-content h2,
+  .vision-content h2 {
+    font-size: 40px;
+
+    letter-spacing: -1.5px;
+  }
+
+  /* WHY */
+
+  .about-section-heading {
+    margin-bottom: 38px;
+  }
+
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .why-card {
+    min-height: auto;
+  }
+
+  /* MISSION */
+
+  .about-mission {
+    padding: 70px 0;
+  }
+
+  .mission-card {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    padding: 45px 25px;
+
+    box-shadow: 7px 7px 0 #102d50;
+  }
+
+  .mission-decoration {
+    font-size: 40px;
+  }
+
+  .mission-left {
+    display: none;
+  }
+
+  .mission-right {
+    margin-top: 10px;
+  }
+
+  /* VISION */
+
+  .vision-illustration {
+    min-height: 300px;
+  }
+
+  .vision-world {
+    font-size: 90px;
+  }
+
+  .vision-road {
+    bottom: 55px;
+
+    font-size: 24px;
+  }
+
+  .vision-car {
+    bottom: 82px;
+
+    font-size: 43px;
+  }
+
+  .vision-flag {
+    bottom: 70px;
+
+    font-size: 38px;
+  }
+
+  /* CTA */
+
+  .about-cta {
+    padding: 70px 0;
+  }
+
+  .about-cta-card {
+    padding: 55px 20px;
+
+    border-radius: 22px;
+
+    box-shadow: 7px 7px 0 #ffc43d;
+  }
+
+  .about-cta-card h2 {
+    font-size: 42px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+
+    align-items: stretch;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .about-hero-content h1 {
+    font-size: 42px;
+  }
+
+  .about-badge {
+    font-size: 12px;
+
+    padding: 8px 13px;
+  }
+
+  .about-hero-visual {
+    min-height: 285px;
+  }
+
+  .travel-circle {
+    width: 215px;
+    height: 215px;
+  }
+
+  .travel-globe {
+    width: 120px;
+    height: 120px;
+
+    font-size: 65px;
+  }
+
+  .story-card {
+    width: 245px;
+  }
+
+  .story-card-top,
+  .story-card-bottom {
+    padding: 14px;
+  }
+
+  .story-card-middle {
+    min-height: 160px;
+
+    font-size: 70px;
+  }
+
+  .story-content h2,
+  .about-section-heading h2,
+  .mission-content h2,
+  .vision-content h2 {
+    font-size: 35px;
+  }
+
+  .about-cta-card h2 {
+    font-size: 35px;
+  }
+}

@@ -1,0 +1,1964 @@
+<%
+function formatUpdatedAt(value) {
+if (!value) {
+return "Not updated yet";
+}
+
+return new Date(value).toLocaleString("en-IN", {
+  dateStyle: "medium",
+  timeStyle: "short"
+});
+
+}
+%>
+
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Edit Country | VisaMaster Admin</title> <link rel="stylesheet" href="/css/global.css"> <link rel="stylesheet" href="/css/navbar.css"> <link rel="stylesheet" href="/css/admin-country.css"> </head> <body> <div class="admin-page"> <header class="admin-header"> <div class="admin-header-inner">
+  <div>
+    <span class="admin-label">VISAMASTER ADMIN</span>
+
+    <h1>Edit Country</h1>
+
+    <p>
+      Update country, visa and travel information.
+    </p>
+  </div>
+
+  <a href="/admin/countries" class="back-button">
+    ← Back to Countries
+  </a>
+
+</div>
+</header> <main class="admin-container">
+<form
+  id="countryEditForm"
+  action="/admin/countries/<%= country.slug %>/edit"
+  method="POST"
+>
+
+
+  <!-- =========================================
+       BASIC INFORMATION
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">01</span>
+
+        <h2>Basic Information</h2>
+
+        <p>
+          Main information about the country.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label for="name">
+          Country Name
+        </label>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value="<%= country.name || '' %>"
+          required
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.name) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="slug">
+          Slug
+        </label>
+
+        <input
+          type="text"
+          id="slug"
+          name="slug"
+          value="<%= country.slug || '' %>"
+          required
+        >
+
+        <small>
+          Example: united-arab-emirates
+        </small>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.slug) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="countryCode">
+          Country Code
+        </label>
+
+        <input
+          type="text"
+          id="countryCode"
+          name="countryCode"
+          value="<%= country.countryCode || '' %>"
+          placeholder="AE"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.countryCode) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="flag">
+          Flag
+        </label>
+
+        <input
+          type="text"
+          id="flag"
+          name="flag"
+          value="<%= country.flag || '' %>"
+          placeholder="🇦🇪"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.flag) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label for="image">
+          Country Image
+        </label>
+
+        <input
+          type="text"
+          id="image"
+          name="image"
+          value="<%= country.image || '' %>"
+          placeholder="/images/countries/uae.jpg"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.image) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label for="shortDescription">
+          Short Description
+        </label>
+
+        <textarea
+          id="shortDescription"
+          name="shortDescription"
+          rows="3"
+        ><%= country.shortDescription || '' %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.shortDescription) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label for="description">
+          Full Description
+        </label>
+
+        <textarea
+          id="description"
+          name="description"
+          rows="5"
+        ><%= country.description || '' %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.description) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="startingFee">
+          Starting Fee
+        </label>
+
+        <input
+          type="text"
+          id="startingFee"
+          name="startingFee"
+          value="<%= country.startingFee || '' %>"
+          placeholder="₹7,500*"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.startingFee) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label for="startingProcessingTime">
+          Starting Processing Time
+        </label>
+
+        <input
+          type="text"
+          id="startingProcessingTime"
+          name="startingProcessingTime"
+          value="<%= country.startingProcessingTime || '' %>"
+          placeholder="3–5 Working Days*"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.startingProcessingTime) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label for="heroBadge">
+          Hero Badge
+        </label>
+
+        <input
+          type="text"
+          id="heroBadge"
+          name="heroBadge"
+          value="<%= country.heroBadge || '' %>"
+          placeholder="Popular Travel Destination"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.heroBadge) %>
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       VISA TYPES
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">02</span>
+
+        <h2>Visa Types</h2>
+
+        <p>
+          Add or edit visa categories for this country.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        onclick="addVisaType()"
+      >
+        + Add Visa
+      </button>
+
+    </div>
+
+
+    <div id="visaTypesContainer">
+
+      <% (country.visaTypes || []).forEach((visa, index) => { %>
+
+        <div class="dynamic-card visa-card">
+
+          <div class="dynamic-card-header">
+
+            <h3>
+              Visa Type
+              <span class="visa-number">
+                <%= index + 1 %>
+              </span>
+            </h3>
+
+            <button
+              type="button"
+              class="remove-button"
+              onclick="removeCard(this)"
+            >
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>Visa Name</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][name]"
+                value="<%= visa.name || '' %>"
+              >
+
+              <small class="field-updated">
+                Last updated:
+                <%= formatUpdatedAt(country.fieldUpdatedAt?.visaTypes) %>
+              </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Visa Slug</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][slug]"
+                value="<%= visa.slug || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Purpose</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][purpose]"
+                value="<%= visa.purpose || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Stay Duration</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][stayDuration]"
+                value="<%= visa.stayDuration || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Validity</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][validity]"
+                value="<%= visa.validity || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Processing Time</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][processingTime]"
+                value="<%= visa.processingTime || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Entry Type</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][entryType]"
+                value="<%= visa.entryType || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Government Fee</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][governmentFee]"
+                value="<%= visa.governmentFee || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Service Fee</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][serviceFee]"
+                value="<%= visa.serviceFee || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Total Fee</label>
+
+              <input
+                type="text"
+                name="visaTypes[<%= index %>][totalFee]"
+                value="<%= visa.totalFee || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Description</label>
+
+              <textarea
+                name="visaTypes[<%= index %>][description]"
+                rows="3"
+              ><%= visa.description || '' %></textarea>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Eligibility</label>
+
+              <textarea
+                name="visaTypes[<%= index %>][eligibility]"
+                rows="4"
+                placeholder="One item per line"
+              ><%= Array.isArray(visa.eligibility) ? visa.eligibility.join("\n") : "" %></textarea>
+
+              <small>
+                Write one requirement per line.
+              </small>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Documents</label>
+
+              <textarea
+                name="visaTypes[<%= index %>][documents]"
+                rows="4"
+                placeholder="One document per line"
+              ><%= Array.isArray(visa.documents) ? visa.documents.join("\n") : "" %></textarea>
+
+              <small>
+                Write one document per line.
+              </small>
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label class="checkbox-label">
+
+                <input
+                  type="checkbox"
+                  name="visaTypes[<%= index %>][isActive]"
+                  value="true"
+                  <%= visa.isActive !== false ? "checked" : "" %>
+                >
+
+                Visa is Active
+
+              </label>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       REQUIREMENTS
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">03</span>
+
+        <h2>Requirements</h2>
+
+        <p>
+          Documents and requirements for this country.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        onclick="addRequirement()"
+      >
+        + Add Requirement
+      </button>
+
+    </div>
+
+
+    <div id="requirementsContainer">
+
+      <% (country.requirements || []).forEach((item, index) => { %>
+
+        <div class="dynamic-card">
+
+          <div class="dynamic-card-header">
+
+            <h3>
+              Requirement <%= index + 1 %>
+            </h3>
+
+            <button
+              type="button"
+              class="remove-button"
+              onclick="removeCard(this)"
+            >
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>Title</label>
+
+              <input
+                type="text"
+                name="requirements[<%= index %>][title]"
+                value="<%= item.title || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Icon</label>
+
+              <input
+                type="text"
+                name="requirements[<%= index %>][icon]"
+                value="<%= item.icon || '' %>"
+                placeholder="📄"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Description</label>
+
+              <textarea
+                name="requirements[<%= index %>][description]"
+                rows="3"
+              ><%= item.description || '' %></textarea>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Items</label>
+
+              <textarea
+                name="requirements[<%= index %>][items]"
+                rows="5"
+                placeholder="One item per line"
+              ><%= Array.isArray(item.items) ? item.items.join("\n") : "" %></textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       ELIGIBILITY
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">04</span>
+
+        <h2>Eligibility</h2>
+
+        <p>
+          Eligibility information for applicants.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        onclick="addEligibility()"
+      >
+        + Add Eligibility
+      </button>
+
+    </div>
+
+
+    <div id="eligibilityContainer">
+
+      <% (country.eligibility || []).forEach((item, index) => { %>
+
+        <div class="dynamic-card">
+
+          <div class="dynamic-card-header">
+
+            <h3>
+              Eligibility <%= index + 1 %>
+            </h3>
+
+            <button
+              type="button"
+              class="remove-button"
+              onclick="removeCard(this)"
+            >
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>Title</label>
+
+              <input
+                type="text"
+                name="eligibility[<%= index %>][title]"
+                value="<%= item.title || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Icon</label>
+
+              <input
+                type="text"
+                name="eligibility[<%= index %>][icon]"
+                value="<%= item.icon || '' %>"
+                placeholder="✓"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Description</label>
+
+              <textarea
+                name="eligibility[<%= index %>][description]"
+                rows="3"
+              ><%= item.description || '' %></textarea>
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Items</label>
+
+              <textarea
+                name="eligibility[<%= index %>][items]"
+                rows="5"
+                placeholder="One item per line"
+              ><%= Array.isArray(item.items) ? item.items.join("\n") : "" %></textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       APPLICATION PROCESS
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">05</span>
+
+        <h2>Application Process</h2>
+
+        <p>
+          Steps applicants need to follow.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        onclick="addProcessStep()"
+      >
+        + Add Step
+      </button>
+
+    </div>
+
+
+    <div id="processContainer">
+
+      <% (country.applicationProcess || []).forEach((item, index) => { %>
+
+        <div class="dynamic-card">
+
+          <div class="dynamic-card-header">
+
+            <h3>
+              Step <%= index + 1 %>
+            </h3>
+
+            <button
+              type="button"
+              class="remove-button"
+              onclick="removeCard(this)"
+            >
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group">
+
+              <label>Step Number</label>
+
+              <input
+                type="number"
+                name="applicationProcess[<%= index %>][step]"
+                value="<%= item.step || index + 1 %>"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label>Icon</label>
+
+              <input
+                type="text"
+                name="applicationProcess[<%= index %>][icon]"
+                value="<%= item.icon || '' %>"
+                placeholder="📝"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Title</label>
+
+              <input
+                type="text"
+                name="applicationProcess[<%= index %>][title]"
+                value="<%= item.title || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Description</label>
+
+              <textarea
+                name="applicationProcess[<%= index %>][description]"
+                rows="4"
+              ><%= item.description || '' %></textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       FEES
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">06</span>
+
+        <h2>Fees</h2>
+
+        <p>
+          Country visa fee information.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>Government Fee</label>
+
+        <input
+          type="text"
+          name="fees[governmentFee]"
+          value="<%= country.fees?.governmentFee || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.governmentFee) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Service Fee</label>
+
+        <input
+          type="text"
+          name="fees[serviceFee]"
+          value="<%= country.fees?.serviceFee || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.serviceFee) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Other Charges</label>
+
+        <input
+          type="text"
+          name="fees[otherCharges]"
+          value="<%= country.fees?.otherCharges || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.otherCharges) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Total Estimated Fee</label>
+
+        <input
+          type="text"
+          name="fees[totalEstimatedFee]"
+          value="<%= country.fees?.totalEstimatedFee || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.totalEstimatedFee) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Currency</label>
+
+        <input
+          type="text"
+          name="fees[currency]"
+          value="<%= country.fees?.currency || '' %>"
+          placeholder="INR"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.currency) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Fee Notes</label>
+
+        <textarea
+          name="fees[notes]"
+          rows="5"
+          placeholder="One note per line"
+        ><%= Array.isArray(country.fees?.notes) ? country.fees.notes.join("\n") : "" %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.fees?.notes) %>
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       PROCESSING
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">07</span>
+
+        <h2>Processing Information</h2>
+
+        <p>
+          Visa processing timelines and possible delays.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>Normal Processing</label>
+
+        <input
+          type="text"
+          name="processing[normalProcessing]"
+          value="<%= country.processing?.normalProcessing || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.processing?.normalProcessing) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Express Processing</label>
+
+        <input
+          type="text"
+          name="processing[expressProcessing]"
+          value="<%= country.processing?.expressProcessing || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.processing?.expressProcessing) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Urgent Processing</label>
+
+        <input
+          type="text"
+          name="processing[urgentProcessing]"
+          value="<%= country.processing?.urgentProcessing || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.processing?.urgentProcessing) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Possible Delays</label>
+
+        <textarea
+          name="processing[possibleDelays]"
+          rows="5"
+          placeholder="One delay per line"
+        ><%= Array.isArray(country.processing?.possibleDelays) ? country.processing.possibleDelays.join("\n") : "" %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.processing?.possibleDelays) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Processing Notes</label>
+
+        <textarea
+          name="processing[processingNotes]"
+          rows="5"
+          placeholder="One note per line"
+        ><%= Array.isArray(country.processing?.processingNotes) ? country.processing.processingNotes.join("\n") : "" %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.processing?.processingNotes) %>
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       TRAVEL INFORMATION
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">08</span>
+
+        <h2>Travel Information</h2>
+
+        <p>
+          Useful information for travellers.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-grid">
+
+
+      <div class="form-group">
+
+        <label>Best Time To Visit</label>
+
+        <input
+          type="text"
+          name="travelInfo[bestTimeToVisit]"
+          value="<%= country.travelInfo?.bestTimeToVisit || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.bestTimeToVisit) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Currency</label>
+
+        <input
+          type="text"
+          name="travelInfo[currency]"
+          value="<%= country.travelInfo?.currency || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.currency) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Language</label>
+
+        <input
+          type="text"
+          name="travelInfo[language]"
+          value="<%= country.travelInfo?.language || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.language) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Timezone</label>
+
+        <input
+          type="text"
+          name="travelInfo[timezone]"
+          value="<%= country.travelInfo?.timezone || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.timezone) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Capital</label>
+
+        <input
+          type="text"
+          name="travelInfo[capital]"
+          value="<%= country.travelInfo?.capital || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.capital) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Flight Duration</label>
+
+        <input
+          type="text"
+          name="travelInfo[flightDuration]"
+          value="<%= country.travelInfo?.flightDuration || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.flightDuration) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group">
+
+        <label>Time Difference</label>
+
+        <input
+          type="text"
+          name="travelInfo[timeDifference]"
+          value="<%= country.travelInfo?.timeDifference || '' %>"
+        >
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.timeDifference) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Major Cities</label>
+
+        <textarea
+          name="travelInfo[majorCities]"
+          rows="3"
+          placeholder="One city per line"
+        ><%= Array.isArray(country.travelInfo?.majorCities) ? country.travelInfo.majorCities.join("\n") : "" %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.majorCities) %>
+        </small>
+
+      </div>
+
+
+      <div class="form-group full-width">
+
+        <label>Airport Information</label>
+
+        <textarea
+          name="travelInfo[airportInformation]"
+          rows="4"
+        ><%= country.travelInfo?.airportInformation || '' %></textarea>
+
+        <small class="field-updated">
+          Last updated:
+          <%= formatUpdatedAt(country.fieldUpdatedAt?.travelInfo?.airportInformation) %>
+        </small>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       TRAVEL TIPS
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">09</span>
+
+        <h2>Travel Tips</h2>
+
+        <p>
+          Helpful tips displayed to travellers.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-group full-width">
+
+      <label>Travel Tips</label>
+
+      <textarea
+        name="travelTips"
+        rows="7"
+        placeholder="Write one tip per line"
+      ><%= Array.isArray(country.travelTips) ? country.travelTips.join("\n") : "" %></textarea>
+
+      <small>
+        One travel tip per line.
+      </small>
+
+      <small class="field-updated">
+        Last updated:
+        <%= formatUpdatedAt(country.fieldUpdatedAt?.travelTips) %>
+      </small>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       IMPORTANT NOTES
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">10</span>
+
+        <h2>Important Notes</h2>
+
+        <p>
+          Important information users should know.
+        </p>
+      </div>
+
+    </div>
+
+
+    <div class="form-group full-width">
+
+      <label>Important Notes</label>
+
+      <textarea
+        name="importantNotes"
+        rows="7"
+        placeholder="Write one note per line"
+      ><%= Array.isArray(country.importantNotes) ? country.importantNotes.join("\n") : "" %></textarea>
+
+      <small>
+        One note per line.
+      </small>
+
+      <small class="field-updated">
+        Last updated:
+        <%= formatUpdatedAt(country.fieldUpdatedAt?.importantNotes) %>
+      </small>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       FAQS
+  ========================================== -->
+
+  <section class="admin-card">
+
+    <div class="section-heading">
+
+      <div>
+        <span class="section-number">11</span>
+
+        <h2>Frequently Asked Questions</h2>
+
+        <p>
+          Manage FAQs for this country.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        class="add-button"
+        onclick="addFAQ()"
+      >
+        + Add FAQ
+      </button>
+
+    </div>
+
+
+    <div id="faqContainer">
+
+      <% (country.faqs || []).forEach((faq, index) => { %>
+
+        <div class="dynamic-card">
+
+          <div class="dynamic-card-header">
+
+            <h3>
+              FAQ <%= index + 1 %>
+            </h3>
+
+            <button
+              type="button"
+              class="remove-button"
+              onclick="removeCard(this)"
+            >
+              Remove
+            </button>
+
+          </div>
+
+
+          <div class="form-grid">
+
+
+            <div class="form-group full-width">
+
+              <label>Question</label>
+
+              <input
+                type="text"
+                name="faqs[<%= index %>][question]"
+                value="<%= faq.question || '' %>"
+              >
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label>Answer</label>
+
+              <textarea
+                name="faqs[<%= index %>][answer]"
+                rows="5"
+              ><%= faq.answer || '' %></textarea>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================================
+       ACTIVE STATUS
+  ========================================== -->
+
+  <section class="admin-card status-card">
+
+    <div>
+
+      <span class="section-number">12</span>
+
+      <h2>Country Status</h2>
+
+      <p>
+        Control whether this country is visible on the website.
+      </p>
+
+    </div>
+
+
+    <label class="switch-label">
+
+      <input
+        type="checkbox"
+        name="isActive"
+        value="true"
+        <%= country.isActive !== false ? "checked" : "" %>
+      >
+
+      <span>
+        Country is Active
+      </span>
+
+    </label>
+
+
+    <small class="field-updated">
+      Last updated:
+      <%= formatUpdatedAt(country.fieldUpdatedAt?.isActive) %>
+    </small>
+
+  </section>
+
+
+
+  <!-- =========================================
+       SAVE AREA
+  ========================================== -->
+
+  <div class="save-area">
+
+    <div class="save-info">
+
+      <strong>
+        Ready to update?
+      </strong>
+
+      <span>
+        Your changes will be reviewed before they are saved.
+      </span>
+
+    </div>
+
+
+    <button
+      type="submit"
+      class="save-button"
+    >
+      Review & Update Country
+    </button>
+
+  </div>
+
+</form>
+</main> </div> <!-- ========================================= CONFIRMATION MODAL ========================================== --> <div class="confirm-overlay" id="confirmModal" > <div class="confirm-modal">
+<div class="confirm-icon">
+  ✓
+</div>
+
+<h2>
+  Confirm Update
+</h2>
+
+<p>
+  Are you sure you want to update this country?
+</p>
+
+<p class="confirm-country">
+
+  <%= country.flag || '' %>
+
+  <%= country.name || 'Country' %>
+
+</p>
+
+
+<div class="confirm-actions">
+
+  <button
+    type="button"
+    class="cancel-button"
+    id="cancelUpdate"
+  >
+    Cancel
+  </button>
+
+  <button
+    type="button"
+    class="confirm-button"
+    id="confirmUpdate"
+  >
+    Yes, Update
+  </button>
+
+</div>
+</div> </div> <script> const form = document.getElementById("countryEditForm"); const modal = document.getElementById("confirmModal"); const cancelButton = document.getElementById("cancelUpdate"); const confirmButton = document.getElementById("confirmUpdate"); let allowSubmit = false; /* ========================================================= CONFIRMATION ========================================================= */ form.addEventListener("submit", function(event) { if (allowSubmit) { return; } event.preventDefault(); modal.classList.add("show"); }); cancelButton.addEventListener("click", function() { modal.classList.remove("show"); }); confirmButton.addEventListener("click", function() { allowSubmit = true; modal.classList.remove("show"); form.submit(); }); modal.addEventListener("click", function(event) { if (event.target === modal) { modal.classList.remove("show"); } }); /* ========================================================= REMOVE CARD ========================================================= */ function removeCard(button) { const card = button.closest(".dynamic-card"); if (card) { card.remove(); } } /* ========================================================= ADD VISA TYPE ========================================================= */ function addVisaType() { const container = document.getElementById("visaTypesContainer"); const index = container.children.length; const card = document.createElement("div"); card.className = "dynamic-card visa-card"; card.innerHTML = '<div class="dynamic-card-header">' + '<h3>New Visa Type</h3>' + '<button type="button" class="remove-button" onclick="removeCard(this)">Remove</button>' + '</div>' + '<div class="form-grid">' + '<div class="form-group">' + '<label>Visa Name</label>' + '<input type="text" name="visaTypes[' + index + '][name]">' + '</div>' + '<div class="form-group">' + '<label>Visa Slug</label>' + '<input type="text" name="visaTypes[' + index + '][slug]">' + '</div>' + '<div class="form-group">' + '<label>Purpose</label>' + '<input type="text" name="visaTypes[' + index + '][purpose]">' + '</div>' + '<div class="form-group">' + '<label>Stay Duration</label>' + '<input type="text" name="visaTypes[' + index + '][stayDuration]">' + '</div>' + '<div class="form-group">' + '<label>Validity</label>' + '<input type="text" name="visaTypes[' + index + '][validity]">' + '</div>' + '<div class="form-group">' + '<label>Processing Time</label>' + '<input type="text" name="visaTypes[' + index + '][processingTime]">' + '</div>' + '<div class="form-group">' + '<label>Entry Type</label>' + '<input type="text" name="visaTypes[' + index + '][entryType]">' + '</div>' + '<div class="form-group">' + '<label>Government Fee</label>' + '<input type="text" name="visaTypes[' + index + '][governmentFee]">' + '</div>' + '<div class="form-group">' + '<label>Service Fee</label>' + '<input type="text" name="visaTypes[' + index + '][serviceFee]">' + '</div>' + '<div class="form-group">' + '<label>Total Fee</label>' + '<input type="text" name="visaTypes[' + index + '][totalFee]">' + '</div>' + '<div class="form-group full-width">' + '<label>Description</label>' + '<textarea name="visaTypes[' + index + '][description]" rows="3"></textarea>' +
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Eligibility</label>' +
+
+    '<textarea name="visaTypes[' + index + '][eligibility]" rows="4" placeholder="One item per line"></textarea>' +
+
+    '<small>Write one requirement per line.</small>' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Documents</label>' +
+
+    '<textarea name="visaTypes[' + index + '][documents]" rows="4" placeholder="One document per line"></textarea>' +
+
+    '<small>Write one document per line.</small>' +
+
+  '</div>' +
+
+
+  '<div class="form-group">' +
+
+    '<label class="checkbox-label">' +
+
+      '<input type="checkbox" name="visaTypes[' + index + '][isActive]" value="true" checked>' +
+
+      ' Visa is Active' +
+
+    '</label>' +
+
+  '</div>' +
+
+'</div>';
+
+container.appendChild(card);
+
+}
+
+/* =========================================================
+ADD REQUIREMENT
+========================================================= */
+
+function addRequirement() {
+
+const container =
+document.getElementById("requirementsContainer");
+
+const index =
+container.children.length;
+
+const card =
+document.createElement("div");
+
+card.className =
+"dynamic-card";
+
+card.innerHTML =
+
+'<div class="dynamic-card-header">' +
+
+  '<h3>New Requirement</h3>' +
+
+  '<button type="button" class="remove-button" onclick="removeCard(this)">Remove</button>' +
+
+'</div>' +
+
+'<div class="form-grid">' +
+
+  '<div class="form-group">' +
+
+    '<label>Title</label>' +
+
+    '<input type="text" name="requirements[' + index + '][title]">' +
+
+  '</div>' +
+
+
+  '<div class="form-group">' +
+
+    '<label>Icon</label>' +
+
+    '<input type="text" name="requirements[' + index + '][icon]" placeholder="📄">' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Description</label>' +
+
+    '<textarea name="requirements[' + index + '][description]" rows="3"></textarea>' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Items</label>' +
+
+    '<textarea name="requirements[' + index + '][items]" rows="5" placeholder="One item per line"></textarea>' +
+
+  '</div>' +
+
+'</div>';
+
+container.appendChild(card);
+
+}
+
+/* =========================================================
+ADD ELIGIBILITY
+========================================================= */
+
+function addEligibility() {
+
+const container =
+document.getElementById("eligibilityContainer");
+
+const index =
+container.children.length;
+
+const card =
+document.createElement("div");
+
+card.className =
+"dynamic-card";
+
+card.innerHTML =
+
+'<div class="dynamic-card-header">' +
+
+  '<h3>New Eligibility</h3>' +
+
+  '<button type="button" class="remove-button" onclick="removeCard(this)">Remove</button>' +
+
+'</div>' +
+
+'<div class="form-grid">' +
+
+  '<div class="form-group">' +
+
+    '<label>Title</label>' +
+
+    '<input type="text" name="eligibility[' + index + '][title]">' +
+
+  '</div>' +
+
+
+  '<div class="form-group">' +
+
+    '<label>Icon</label>' +
+
+    '<input type="text" name="eligibility[' + index + '][icon]" placeholder="✓">' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Description</label>' +
+
+    '<textarea name="eligibility[' + index + '][description]" rows="3"></textarea>' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Items</label>' +
+
+    '<textarea name="eligibility[' + index + '][items]" rows="5" placeholder="One item per line"></textarea>' +
+
+  '</div>' +
+
+'</div>';
+
+container.appendChild(card);
+
+}
+
+/* =========================================================
+ADD PROCESS STEP
+========================================================= */
+
+function addProcessStep() {
+
+const container =
+document.getElementById("processContainer");
+
+const index =
+container.children.length;
+
+const card =
+document.createElement("div");
+
+card.className =
+"dynamic-card";
+
+card.innerHTML =
+
+'<div class="dynamic-card-header">' +
+
+  '<h3>New Step</h3>' +
+
+  '<button type="button" class="remove-button" onclick="removeCard(this)">Remove</button>' +
+
+'</div>' +
+
+'<div class="form-grid">' +
+
+  '<div class="form-group">' +
+
+    '<label>Step Number</label>' +
+
+    '<input type="number" name="applicationProcess[' + index + '][step]" value="' + (index + 1) + '">' +
+
+  '</div>' +
+
+
+  '<div class="form-group">' +
+
+    '<label>Icon</label>' +
+
+    '<input type="text" name="applicationProcess[' + index + '][icon]" placeholder="📝">' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Title</label>' +
+
+    '<input type="text" name="applicationProcess[' + index + '][title]">' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Description</label>' +
+
+    '<textarea name="applicationProcess[' + index + '][description]" rows="4"></textarea>' +
+
+  '</div>' +
+
+'</div>';
+
+container.appendChild(card);
+
+}
+
+/* =========================================================
+ADD FAQ
+========================================================= */
+
+function addFAQ() {
+
+const container =
+document.getElementById("faqContainer");
+
+const index =
+container.children.length;
+
+const card =
+document.createElement("div");
+
+card.className =
+"dynamic-card";
+
+card.innerHTML =
+
+'<div class="dynamic-card-header">' +
+
+  '<h3>New FAQ</h3>' +
+
+  '<button type="button" class="remove-button" onclick="removeCard(this)">Remove</button>' +
+
+'</div>' +
+
+'<div class="form-grid">' +
+
+  '<div class="form-group full-width">' +
+
+    '<label>Question</label>' +
+
+    '<input type="text" name="faqs[' + index + '][question]">' +
+
+  '</div>' +
+
+
+  '<div class="form-group full-width">' +
+
+    '<label>Answer</label>' +
+
+    '<textarea name="faqs[' + index + '][answer]" rows="5"></textarea>' +
+
+  '</div>' +
+
+'</div>';
+
+container.appendChild(card);
+
+}
+
+</script>

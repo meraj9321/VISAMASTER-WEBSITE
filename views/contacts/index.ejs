@@ -1,0 +1,1575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Contact Us | VisaMaster</title>
+
+  <!-- GLOBAL CSS -->
+  <link rel="stylesheet" href="/css/global.css" />
+
+  <!-- NAVBAR CSS -->
+  <link rel="stylesheet" href="/css/navbar.css" />
+
+  <!-- CONTACT PAGE CSS -->
+  <link rel="stylesheet" href="/css/contact.css" />
+
+  <!-- FOOTER CSS -->
+  <link rel="stylesheet" href="/css/footer.css" />
+</head>
+
+
+<body>
+
+  <!-- =========================================================
+       NAVBAR
+  ========================================================= -->
+
+  <%- include("../partials/navbar") %>
+
+
+  <main>
+
+    <!-- =========================================================
+         TOP SECTION
+         HERO + ENQUIRY FORM
+    ========================================================= -->
+
+    <section class="contact-top-section">
+
+
+      <!-- =====================================================
+           HERO
+      ====================================================== -->
+
+      <div class="contact-hero">
+
+        <!-- Decorative doodles -->
+
+        <div class="contact-doodle contact-doodle-plane">
+          ✈
+        </div>
+
+        <div class="contact-doodle contact-doodle-globe">
+          🌍
+        </div>
+
+        <div class="contact-doodle contact-doodle-passport">
+          🛂
+        </div>
+
+
+        <div class="contact-hero-content">
+
+          <span class="contact-eyebrow">
+            ✈ Let's Plan Your Journey
+          </span>
+
+
+          <h1>
+            Let's Talk About
+            <span>Your Visa Journey</span>
+          </h1>
+
+
+          <p>
+            Planning your next international journey?
+            Whether it's a tourist visa, business trip,
+            student visa or something completely different,
+            our VisaMaster team is here to guide you.
+          </p>
+
+
+          <!-- Small trust points -->
+
+          <div class="contact-hero-points">
+
+            <div class="contact-hero-point">
+              Expert Visa Guidance
+            </div>
+
+            <div class="contact-hero-point">
+              Document Assistance
+            </div>
+
+            <div class="contact-hero-point">
+              Personal Support
+            </div>
+
+          </div>
+
+
+          <!-- CTA -->
+
+          <a
+            href="#contact-form"
+            class="contact-hero-btn"
+          >
+            Start Your Enquiry →
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- =====================================================
+           ENQUIRY FORM
+      ====================================================== -->
+
+      <div
+        class="contact-form-card"
+        id="contact-form"
+      >
+
+        <div class="contact-section-heading">
+
+          <span class="contact-eyebrow">
+            📝 Quick Enquiry
+          </span>
+
+
+          <h2>
+            Tell Us What
+            <span>You Need</span>
+          </h2>
+
+
+          <p>
+            Share your requirement and our team
+            will get in touch with you.
+          </p>
+
+        </div>
+
+
+        <!-- =================================================
+             SERVER VALIDATION ERROR
+        ================================================== -->
+
+        <% if (typeof error !== "undefined" && error) { %>
+
+          <div class="enquiry-error-message">
+
+            <span>⚠</span>
+
+            <p>
+              <%= error %>
+            </p>
+
+          </div>
+
+        <% } %>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+          action="/contact"
+          method="POST"
+          class="visa-contact-form"
+        >
+
+          <!-- NAME + PHONE -->
+
+          <div class="contact-form-row">
+
+            <div class="form-group">
+
+              <label for="name">
+                Full Name
+              </label>
+
+
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Your name"
+                autocomplete="name"
+                value="<%= typeof formData !== 'undefined' && formData.name ? formData.name : '' %>"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="phone">
+                Phone
+              </label>
+
+
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Your phone number"
+                autocomplete="tel"
+                value="<%= typeof formData !== 'undefined' && formData.phone ? formData.phone : '' %>"
+                required
+              />
+
+            </div>
+
+          </div>
+
+
+          <!-- EMAIL + DESTINATION -->
+
+          <div class="contact-form-row">
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Your email"
+                autocomplete="email"
+                value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="destination">
+                Destination
+              </label>
+
+
+              <select
+                id="destination"
+                name="destination"
+                required
+              >
+
+                <option value="">
+                  Select destination
+                </option>
+
+
+                <!-- =================================================
+                     MONGODB DESTINATIONS
+                ================================================== -->
+
+                <% if (
+                  typeof destinations !== "undefined" &&
+                  destinations.length > 0
+                ) { %>
+
+                  <% destinations.forEach(destination => { %>
+
+                    <option
+                      value="<%= destination.slug || destination.name %>"
+                      <%= (
+                        typeof formData !== "undefined" &&
+                        formData.destination === (
+                          destination.slug || destination.name
+                        )
+                      ) ? "selected" : "" %>
+                    >
+                      <%= destination.name %>
+                    </option>
+
+                  <% }) %>
+
+
+                <% } else { %>
+
+
+                  <option
+                    value="dubai"
+                    <%= typeof formData !== "undefined" && formData.destination === "dubai" ? "selected" : "" %>
+                  >
+                    Dubai
+                  </option>
+
+
+                  <option
+                    value="usa"
+                    <%= typeof formData !== "undefined" && formData.destination === "usa" ? "selected" : "" %>
+                  >
+                    USA
+                  </option>
+
+
+                  <option
+                    value="canada"
+                    <%= typeof formData !== "undefined" && formData.destination === "canada" ? "selected" : "" %>
+                  >
+                    Canada
+                  </option>
+
+
+                  <option
+                    value="uk"
+                    <%= typeof formData !== "undefined" && formData.destination === "uk" ? "selected" : "" %>
+                  >
+                    United Kingdom
+                  </option>
+
+
+                  <option
+                    value="australia"
+                    <%= typeof formData !== "undefined" && formData.destination === "australia" ? "selected" : "" %>
+                  >
+                    Australia
+                  </option>
+
+
+                <% } %>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <!-- VISA TYPE -->
+
+          <div class="form-group">
+
+            <label for="visaType">
+              Visa Type
+            </label>
+
+
+            <select
+              id="visaType"
+              name="visaType"
+              required
+            >
+
+              <option value="">
+                Select visa type
+              </option>
+
+
+              <option
+                value="tourist"
+                <%= typeof formData !== "undefined" && formData.visaType === "tourist" ? "selected" : "" %>
+              >
+                Tourist Visa
+              </option>
+
+
+              <option
+                value="business"
+                <%= typeof formData !== "undefined" && formData.visaType === "business" ? "selected" : "" %>
+              >
+                Business Visa
+              </option>
+
+
+              <option
+                value="student"
+                <%= typeof formData !== "undefined" && formData.visaType === "student" ? "selected" : "" %>
+              >
+                Student Visa
+              </option>
+
+
+              <option
+                value="transit"
+                <%= typeof formData !== "undefined" && formData.visaType === "transit" ? "selected" : "" %>
+              >
+                Transit Visa
+              </option>
+
+
+              <option
+                value="family"
+                <%= typeof formData !== "undefined" && formData.visaType === "family" ? "selected" : "" %>
+              >
+                Family / Visit Visa
+              </option>
+
+
+              <option
+                value="other"
+                <%= typeof formData !== "undefined" && formData.visaType === "other" ? "selected" : "" %>
+              >
+                Other
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- MESSAGE -->
+
+          <div class="form-group">
+
+            <label for="message">
+              Your Message
+            </label>
+
+
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              placeholder="Tell us about your requirement..."
+              required
+            ><%= typeof formData !== "undefined" && formData.message ? formData.message : "" %></textarea>
+
+          </div>
+
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            class="contact-submit-btn"
+          >
+            Send Enquiry →
+          </button>
+
+
+          <p class="contact-form-note">
+            🔒 Your information is kept private
+            and used only to assist with your enquiry.
+          </p>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         VISAMASTER TEAM
+    ========================================================= -->
+
+    <section class="contact-team-section">
+
+      <div class="contact-container">
+
+
+        <!-- TEAM HEADER -->
+
+        <div class="contact-team-heading">
+
+          <span class="contact-eyebrow">
+            👋 Meet Our Team
+          </span>
+
+
+          <h2>
+            The People Behind
+            <span>VisaMaster</span>
+          </h2>
+
+
+          <p>
+            Our dedicated team works together to make
+            your visa journey simpler, clearer and smoother.
+          </p>
+
+        </div>
+
+
+        <!-- =====================================================
+             PARTNERS / BOSSES
+        ====================================================== -->
+
+        <div class="team-group">
+
+          <div class="team-group-heading">
+
+            <span class="team-group-icon">
+              👔
+            </span>
+
+
+            <div>
+
+              <h3>
+                Partners
+              </h3>
+
+              <p>
+                Leadership &amp; Business Partners
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="team-grid team-partners">
+
+            <% if (
+              typeof partners !== "undefined" &&
+              partners.length > 0
+            ) { %>
+
+
+              <% partners.forEach((partner, index) => { %>
+
+                <div class="team-card">
+
+
+                  <!-- CARD NUMBER -->
+
+                  <div class="team-card-number">
+                    <%= String(index + 1).padStart(2, "0") %>
+                  </div>
+
+
+                  <!-- IMAGE -->
+
+                  <div class="team-image-wrapper">
+
+                    <% if (partner.image) { %>
+
+                      <img
+                        src="<%= partner.image %>"
+                        alt="<%= partner.name %>"
+                        loading="lazy"
+                      />
+
+                    <% } else { %>
+
+                      <div class="team-placeholder">
+                        👤
+                      </div>
+
+                    <% } %>
+
+                  </div>
+
+
+                  <!-- CONTENT -->
+
+                  <div class="team-card-content">
+
+                    <span class="team-role">
+                      Partner
+                    </span>
+
+
+                    <h4>
+                      <%= partner.name %>
+                    </h4>
+
+
+                    <% if (partner.designation) { %>
+
+                      <p>
+                        <%= partner.designation %>
+                      </p>
+
+                    <% } %>
+
+
+                    <!-- CONTACT DETAILS -->
+
+                    <div class="team-contact-list">
+
+                      <% if (partner.phone) { %>
+
+                        <a
+                          href="tel:<%= partner.phone %>"
+                          class="team-contact-link"
+                          title="Call <%= partner.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            📞
+                          </span>
+
+                          <span>
+                            <%= partner.phone %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (partner.email) { %>
+
+                        <a
+                          href="mailto:<%= partner.email %>"
+                          class="team-contact-link"
+                          title="Email <%= partner.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            ✉️
+                          </span>
+
+                          <span>
+                            <%= partner.email %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+                    </div>
+
+
+                    <!-- ACTION BUTTONS -->
+
+                    <div class="team-contact-actions">
+
+
+                      <% if (partner.phone) { %>
+
+                        <a
+                          href="tel:<%= partner.phone %>"
+                          class="team-action-btn team-call-btn"
+                          title="Call <%= partner.name %>"
+                        >
+
+                          <span>📞</span>
+                          <span>Call</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (partner.whatsapp || partner.phone) { %>
+
+                        <%
+                          const partnerWhatsApp =
+                            partner.whatsapp || partner.phone;
+                        %>
+
+                        <a
+                          href="https://wa.me/<%= String(partnerWhatsApp).replace(/\D/g, '') %>"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="team-action-btn team-whatsapp-btn"
+                          title="WhatsApp <%= partner.name %>"
+                        >
+
+                          <span>💬</span>
+                          <span>WhatsApp</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (partner.email) { %>
+
+                        <a
+                          href="mailto:<%= partner.email %>"
+                          class="team-action-btn team-email-btn"
+                          title="Email <%= partner.name %>"
+                        >
+
+                          <span>✉️</span>
+                          <span>Email</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              <% }) %>
+
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             ACCOUNTANTS
+        ====================================================== -->
+
+        <div class="team-group">
+
+          <div class="team-group-heading">
+
+            <span class="team-group-icon">
+              🧮
+            </span>
+
+
+            <div>
+
+              <h3>
+                Accounts Team
+              </h3>
+
+              <p>
+                Finance &amp; Accounts
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="team-grid team-accountants">
+
+            <% if (
+              typeof accountants !== "undefined" &&
+              accountants.length > 0
+            ) { %>
+
+
+              <% accountants.forEach((accountant, index) => { %>
+
+                <div class="team-card">
+
+
+                  <div class="team-card-number">
+                    <%= String(index + 1).padStart(2, "0") %>
+                  </div>
+
+
+                  <!-- IMAGE -->
+
+                  <div class="team-image-wrapper">
+
+                    <% if (accountant.image) { %>
+
+                      <img
+                        src="<%= accountant.image %>"
+                        alt="<%= accountant.name %>"
+                        loading="lazy"
+                      />
+
+                    <% } else { %>
+
+                      <div class="team-placeholder">
+                        👤
+                      </div>
+
+                    <% } %>
+
+                  </div>
+
+
+                  <!-- CONTENT -->
+
+                  <div class="team-card-content">
+
+                    <span class="team-role">
+                      Accountant
+                    </span>
+
+
+                    <h4>
+                      <%= accountant.name %>
+                    </h4>
+
+
+                    <% if (accountant.designation) { %>
+
+                      <p>
+                        <%= accountant.designation %>
+                      </p>
+
+                    <% } %>
+
+
+                    <div class="team-contact-list">
+
+
+                      <% if (accountant.phone) { %>
+
+                        <a
+                          href="tel:<%= accountant.phone %>"
+                          class="team-contact-link"
+                          title="Call <%= accountant.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            📞
+                          </span>
+
+                          <span>
+                            <%= accountant.phone %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (accountant.email) { %>
+
+                        <a
+                          href="mailto:<%= accountant.email %>"
+                          class="team-contact-link"
+                          title="Email <%= accountant.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            ✉️
+                          </span>
+
+                          <span>
+                            <%= accountant.email %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+                    </div>
+
+
+                    <div class="team-contact-actions">
+
+
+                      <% if (accountant.phone) { %>
+
+                        <a
+                          href="tel:<%= accountant.phone %>"
+                          class="team-action-btn team-call-btn"
+                          title="Call <%= accountant.name %>"
+                        >
+
+                          <span>📞</span>
+                          <span>Call</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (
+                        accountant.whatsapp ||
+                        accountant.phone
+                      ) { %>
+
+                        <%
+                          const accountantWhatsApp =
+                            accountant.whatsapp ||
+                            accountant.phone;
+                        %>
+
+                        <a
+                          href="https://wa.me/<%= String(accountantWhatsApp).replace(/\D/g, '') %>"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="team-action-btn team-whatsapp-btn"
+                          title="WhatsApp <%= accountant.name %>"
+                        >
+
+                          <span>💬</span>
+                          <span>WhatsApp</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (accountant.email) { %>
+
+                        <a
+                          href="mailto:<%= accountant.email %>"
+                          class="team-action-btn team-email-btn"
+                          title="Email <%= accountant.name %>"
+                        >
+
+                          <span>✉️</span>
+                          <span>Email</span>
+
+                        </a>
+
+                      <% } %>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              <% }) %>
+
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+
+        <!-- =====================================================
+             VISA EXECUTIVES
+        ====================================================== -->
+
+        <div class="team-group">
+
+          <div class="team-group-heading">
+
+            <span class="team-group-icon">
+              🌍
+            </span>
+
+
+            <div>
+
+              <h3>
+                Visa Executives
+              </h3>
+
+              <p>
+                Visa Processing &amp; Customer Support
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <div class="team-grid team-executives">
+
+            <% if (
+              typeof executives !== "undefined" &&
+              executives.length > 0
+            ) { %>
+
+
+              <% executives.forEach((executive, index) => { %>
+
+                <div class="team-card">
+
+
+                  <div class="team-card-number">
+                    <%= String(index + 1).padStart(2, "0") %>
+                  </div>
+
+
+                  <!-- IMAGE -->
+
+                  <div class="team-image-wrapper">
+
+                    <% if (executive.image) { %>
+
+                      <img
+                        src="<%= executive.image %>"
+                        alt="<%= executive.name %>"
+                        loading="lazy"
+                      />
+
+                    <% } else { %>
+
+                      <div class="team-placeholder">
+                        👤
+                      </div>
+
+                    <% } %>
+
+                  </div>
+
+
+                  <!-- CONTENT -->
+
+                  <div class="team-card-content">
+
+                    <span class="team-role">
+                      Visa Executive
+                    </span>
+
+
+                    <h4>
+                      <%= executive.name %>
+                    </h4>
+
+
+                    <% if (executive.designation) { %>
+
+                      <p>
+                        <%= executive.designation %>
+                      </p>
+
+                    <% } %>
+
+
+                    <div class="team-contact-list">
+
+
+                      <% if (executive.phone) { %>
+
+                        <a
+                          href="tel:<%= executive.phone %>"
+                          class="team-contact-link"
+                          title="Call <%= executive.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            📞
+                          </span>
+
+                          <span>
+                            <%= executive.phone %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (executive.email) { %>
+
+                        <a
+                          href="mailto:<%= executive.email %>"
+                          class="team-contact-link"
+                          title="Email <%= executive.name %>"
+                        >
+
+                          <span class="team-contact-icon">
+                            ✉️
+                          </span>
+
+                          <span>
+                            <%= executive.email %>
+                          </span>
+
+                        </a>
+
+                      <% } %>
+
+                    </div>
+
+
+                    <div class="team-contact-actions">
+
+
+                      <% if (executive.phone) { %>
+
+                        <a
+                          href="tel:<%= executive.phone %>"
+                          class="team-action-btn team-call-btn"
+                          title="Call <%= executive.name %>"
+                        >
+
+                          <span>📞</span>
+                          <span>Call</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (
+                        executive.whatsapp ||
+                        executive.phone
+                      ) { %>
+
+                        <%
+                          const executiveWhatsApp =
+                            executive.whatsapp ||
+                            executive.phone;
+                        %>
+
+                        <a
+                          href="https://wa.me/<%= String(executiveWhatsApp).replace(/\D/g, '') %>"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="team-action-btn team-whatsapp-btn"
+                          title="WhatsApp <%= executive.name %>"
+                        >
+
+                          <span>💬</span>
+                          <span>WhatsApp</span>
+
+                        </a>
+
+                      <% } %>
+
+
+                      <% if (executive.email) { %>
+
+                        <a
+                          href="mailto:<%= executive.email %>"
+                          class="team-action-btn team-email-btn"
+                          title="Email <%= executive.name %>"
+                        >
+
+                          <span>✉️</span>
+                          <span>Email</span>
+
+                        </a>
+
+                      <% } %>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+              <% }) %>
+
+
+            <% } %>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         CONTACT INFORMATION
+    ========================================================= -->
+
+    <section class="contact-info-section">
+
+      <div class="contact-container">
+
+        <div class="contact-info-card">
+
+
+          <span class="contact-eyebrow">
+            📍 Contact VisaMaster
+          </span>
+
+
+          <h2>
+            We're Here
+            <span>To Help</span>
+          </h2>
+
+
+          <p>
+            Whether you are planning a holiday,
+            business trip, study journey or your next
+            international adventure, our team is ready
+            to assist you.
+          </p>
+
+
+          <div class="contact-info-list">
+
+
+            <!-- PHONE -->
+
+            <div class="contact-info-item">
+
+              <div class="contact-info-icon">
+                📞
+              </div>
+
+
+              <div>
+
+                <small>
+                  Call Us
+                </small>
+
+                <strong>
+                  +91 9321325098
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="contact-info-item">
+
+              <div class="contact-info-icon">
+                ✉️
+              </div>
+
+
+              <div>
+
+                <small>
+                  Email Us
+                </small>
+
+                <strong>
+                  info@visamaster.in
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- ADDRESS -->
+
+            <div class="contact-info-item">
+
+              <div class="contact-info-icon">
+                📍
+              </div>
+
+
+              <div>
+
+                <small>
+                  Visit Us
+                </small>
+
+                <strong>
+                  VisaMaster Office
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <!-- HOURS -->
+
+            <div class="contact-info-item">
+
+              <div class="contact-info-icon">
+                🕐
+              </div>
+
+
+              <div>
+
+                <small>
+                  Working Hours
+                </small>
+
+                <strong>
+                  Mon – Sat · 10 AM – 7 PM
+                </strong>
+
+              </div>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================================================
+         FINAL CTA
+    ========================================================= -->
+
+    <section class="contact-final-cta">
+
+      <div class="contact-container">
+
+        <div class="contact-cta-content">
+
+
+          <span class="contact-eyebrow">
+            ✈ Your Journey Starts Here
+          </span>
+
+
+          <h2>
+            Ready to Take the
+            <span>Next Step?</span>
+          </h2>
+
+
+          <p>
+            Tell us where you want to go.
+            We'll help you understand the visa process
+            and what comes next.
+          </p>
+
+
+          <a
+            href="#contact-form"
+            class="contact-cta-btn"
+          >
+            Send Your Enquiry →
+          </a>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- =========================================================
+       FOOTER
+  ========================================================= -->
+
+  <%- include("../partials/footer") %>
+
+
+  <!-- =========================================================
+       SUCCESS POPUP
+  ========================================================= -->
+
+  <% if (
+    typeof success !== "undefined" &&
+    success
+  ) { %>
+
+    <div
+      class="enquiry-success-overlay"
+      id="enquirySuccessPopup"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="enquirySuccessTitle"
+    >
+
+      <div class="enquiry-success-popup">
+
+
+        <!-- CLOSE BUTTON -->
+
+        <button
+          type="button"
+          class="enquiry-success-close"
+          id="closeSuccessPopup"
+          aria-label="Close success message"
+        >
+          &times;
+        </button>
+
+
+        <!-- SUCCESS ICON -->
+
+        <div
+          class="enquiry-success-icon"
+          aria-hidden="true"
+        >
+          ✓
+        </div>
+
+
+        <!-- HEADING -->
+
+        <h2 id="enquirySuccessTitle">
+          Application Submitted Successfully!
+        </h2>
+
+
+        <!-- MESSAGE -->
+
+        <p>
+          Thank you for contacting VisaMaster.
+          Our team will get back to you shortly.
+        </p>
+
+
+        <!-- OK BUTTON -->
+
+        <button
+          type="button"
+          class="enquiry-success-button"
+          id="successPopupOk"
+        >
+          OK
+        </button>
+
+
+      </div>
+
+    </div>
+
+  <% } %>
+
+
+  <!-- =========================================================
+       MAIN JAVASCRIPT
+  ========================================================= -->
+
+  <script src="/js/main.js"></script>
+
+
+  <!-- =========================================================
+       SUCCESS POPUP JAVASCRIPT
+  ========================================================= -->
+
+  <script>
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        const popup =
+          document.getElementById(
+            "enquirySuccessPopup"
+          );
+
+        const closeButton =
+          document.getElementById(
+            "closeSuccessPopup"
+          );
+
+        const okButton =
+          document.getElementById(
+            "successPopupOk"
+          );
+
+
+        // -----------------------------------------------
+        // CLOSE POPUP
+        // -----------------------------------------------
+
+        function closeSuccessPopup() {
+
+          if (!popup) {
+            return;
+          }
+
+
+          popup.style.opacity = "0";
+
+
+          setTimeout(function () {
+
+            popup.remove();
+
+
+            // =================================================
+            // IMPORTANT
+            // Remove ?success=1 from the browser URL.
+            //
+            // This prevents the success popup from appearing
+            // again when the user refreshes the page.
+            // =================================================
+
+            const url =
+              new URL(window.location.href);
+
+
+            url.searchParams.delete("success");
+
+
+            window.history.replaceState(
+              {},
+              document.title,
+              url.pathname +
+              url.search +
+              url.hash
+            );
+
+          }, 200);
+
+        }
+
+
+        // -----------------------------------------------
+        // CLOSE BUTTON
+        // -----------------------------------------------
+
+        if (closeButton) {
+
+          closeButton.addEventListener(
+            "click",
+            closeSuccessPopup
+          );
+
+        }
+
+
+        // -----------------------------------------------
+        // OK BUTTON
+        // -----------------------------------------------
+
+        if (okButton) {
+
+          okButton.addEventListener(
+            "click",
+            closeSuccessPopup
+          );
+
+        }
+
+
+        // -----------------------------------------------
+        // CLICK OUTSIDE POPUP
+        // -----------------------------------------------
+
+        if (popup) {
+
+          popup.addEventListener(
+            "click",
+            function (event) {
+
+              if (
+                event.target === popup
+              ) {
+
+                closeSuccessPopup();
+
+              }
+
+            }
+          );
+
+        }
+
+
+        // -----------------------------------------------
+        // ESC KEY
+        // -----------------------------------------------
+
+        document.addEventListener(
+          "keydown",
+          function (event) {
+
+            if (
+              event.key === "Escape" &&
+              popup
+            ) {
+
+              closeSuccessPopup();
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+  </script>
+
+
+</body>
+
+</html>

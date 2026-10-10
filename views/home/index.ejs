@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>VisaMaster | Your Visa, Our Mission</title>
+
+
+  <!-- =========================
+       GOOGLE FONTS
+  ========================== -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+
+  <!-- =========================
+       VISAMASTER CSS
+  ========================== -->
+
+  <link rel="stylesheet" href="/css/global.css">
+
+  <link rel="stylesheet" href="/css/navbar.css">
+
+  <link rel="stylesheet" href="/css/home.css">
+
+  <link rel="stylesheet" href="/css/footer.css">
+
+</head>
+
+
+<body>
+
+
+  <!-- =========================
+       NAVBAR
+  ========================== -->
+
+  <%- include("../partials/navbar") %>
+
+
+
+  <!-- =========================
+       MAIN CONTENT
+  ========================== -->
+
+  <main>
+
+
+    <!-- =========================
+         HERO SECTION
+    ========================== -->
+
+    <section class="hero">
+
+      <div class="container hero-grid">
+
+
+        <!-- =========================
+             LEFT SIDE
+        ========================== -->
+
+        <div class="hero-content">
+
+
+          <div class="hero-small-text">
+            ✦ YOUR JOURNEY STARTS HERE
+          </div>
+
+
+          <h1>
+            Go beyond<br>
+            your <span>limits.</span>
+          </h1>
+
+
+          <div class="yellow-line"></div>
+
+
+          <h2>
+            Travel. Explore. Experience.
+          </h2>
+
+
+          <p>
+            VisaMaster makes your dream destinations closer
+            with simple, fast and reliable visa solutions.
+          </p>
+
+
+          <!-- =========================
+               DESTINATION SEARCH
+          ========================== -->
+
+          <div class="country-search">
+  <form class="country-search-form" action="/countries" method="GET">
+    <div class="search-input-wrapper">
+      <span class="search-icon">⌕</span>
+
+      <input
+        type="text"
+        id="countrySearchInput"
+        name="q"
+        autocomplete="off"
+        placeholder="Search your destination..."
+      />
+
+      <button type="submit" class="search-button">
+        Search
+      </button>
+
+      <div
+        id="countrySuggestions"
+        class="country-suggestions"
+      ></div>
+    </div>
+  </form>
+</div>
+
+          <!-- =========================
+               TRUST ITEMS
+          ========================== -->
+
+          <div class="trust-items">
+
+
+            <div class="trust-item">
+
+              <strong>✈</strong>
+
+              <span>
+                Global<br>
+                Destinations
+              </span>
+
+            </div>
+
+
+            <div class="trust-divider"></div>
+
+
+            <div class="trust-item">
+
+              <strong>♢</strong>
+
+              <span>
+                Trusted<br>
+                &amp; Secure
+              </span>
+
+            </div>
+
+
+            <div class="trust-divider"></div>
+
+
+            <div class="trust-item">
+
+              <strong>♡</strong>
+
+              <span>
+                Happy<br>
+                Travelers
+              </span>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             RIGHT SIDE
+             TRAVEL ILLUSTRATION
+        ========================== -->
+
+        <div class="hero-illustration">
+
+          <svg
+            viewBox="0 0 620 500"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+
+
+            <!-- =========================
+                 GLOBE
+            ========================== -->
+
+            <circle
+              cx="365"
+              cy="300"
+              r="145"
+              fill="#dff5ff"
+              stroke="#102d50"
+              stroke-width="4"
+            />
+
+
+            <!-- Globe Lines -->
+
+            <path
+              d="M245 295
+                 C315 245 405 233 485 273"
+              fill="none"
+              stroke="#7fb8cf"
+              stroke-width="3"
+            />
+
+
+            <path
+              d="M270 365
+                 C340 330 425 330 485 360"
+              fill="none"
+              stroke="#7fb8cf"
+              stroke-width="3"
+            />
+
+
+            <path
+              d="M340 160
+                 C305 225 305 330 350 410"
+              fill="none"
+              stroke="#7fb8cf"
+              stroke-width="3"
+            />
+
+
+            <path
+              d="M420 165
+                 C465 230 465 335 420 410"
+              fill="none"
+              stroke="#7fb8cf"
+              stroke-width="3"
+            />
+
+
+
+            <!-- =========================
+                 GREEN LAND
+            ========================== -->
+
+            <path
+              d="
+                M245 275
+                C300 250 325 210 370 210
+                C405 210 405 248 450 248
+                C478 248 492 230 510 218
+              "
+              fill="none"
+              stroke="#76a95f"
+              stroke-width="24"
+              stroke-linecap="round"
+            />
+
+
+            <path
+              d="
+                M285 340
+                C325 325 343 335 363 356
+                C381 375 401 377 421 362
+                C439 349 463 352 488 366
+              "
+              fill="none"
+              stroke="#78a864"
+              stroke-width="23"
+              stroke-linecap="round"
+            />
+
+
+
+            <!-- =========================
+                 EIFFEL TOWER
+            ========================== -->
+
+            <path
+              d="
+                M175 260
+                L205 100
+                L235 260
+
+                M188 185
+                H222
+
+                M182 220
+                H228
+
+                M198 100
+                L205 75
+                L213 100
+              "
+              fill="none"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+
+            <!-- =========================
+                 BIG BEN
+            ========================== -->
+
+            <path
+              d="
+                M455 270
+                V100
+                H507
+                V270
+
+                M447 100
+                H515
+
+                M463 82
+                H499
+                L507 100
+                H455
+                Z
+              "
+              fill="#d8b77a"
+              stroke="#102d50"
+              stroke-width="4"
+            />
+
+
+            <circle
+              cx="481"
+              cy="125"
+              r="13"
+              fill="#f7e9bb"
+              stroke="#102d50"
+              stroke-width="3"
+            />
+
+
+
+            <!-- =========================
+                 STATUE
+            ========================== -->
+
+            <path
+              d="
+                M120 285
+                V205
+
+                M105 205
+                H135
+
+                M112 185
+                H128
+                L133 205
+                H107
+                Z
+
+                M112 205
+                L92 189
+
+                M128 205
+                L148 189
+              "
+              fill="#7d9a9b"
+              stroke="#102d50"
+              stroke-width="4"
+            />
+
+
+
+            <!-- =========================
+                 SUITCASE
+            ========================== -->
+
+            <rect
+              x="435"
+              y="355"
+              width="90"
+              height="110"
+              rx="12"
+              fill="#e9a83a"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+            <path
+              d="
+                M462 355
+                V337
+                C462 323 470 315 480 315
+                C490 315 498 323 498 337
+                V355
+              "
+              fill="none"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+
+            <!-- =========================
+                 TRAVELER HEAD
+            ========================== -->
+
+            <circle
+              cx="350"
+              cy="205"
+              r="31"
+              fill="#d59a72"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+            <!-- Hat -->
+
+            <path
+              d="
+                M316 198
+                C326 160 386 156 394 205
+                C376 196 356 190 316 198
+                Z
+              "
+              fill="#d99f45"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+
+            <!-- =========================
+                 BODY
+            ========================== -->
+
+            <path
+              d="
+                M322 230
+                C337 252 367 257 384 235
+                L406 357
+                L331 372
+                Z
+              "
+              fill="#eaa12f"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+
+            <!-- =========================
+                 ARMS
+            ========================== -->
+
+            <path
+              d="
+                M333 257
+                L315 332
+
+                M382 250
+                L408 315
+              "
+              fill="none"
+              stroke="#102d50"
+              stroke-width="12"
+              stroke-linecap="round"
+            />
+
+
+
+            <!-- =========================
+                 LEGS
+            ========================== -->
+
+            <path
+              d="
+                M345 360
+                L333 430
+
+                M385 354
+                L395 426
+              "
+              fill="none"
+              stroke="#102d50"
+              stroke-width="12"
+              stroke-linecap="round"
+            />
+
+
+
+            <!-- =========================
+                 BACKPACK
+            ========================== -->
+
+            <rect
+              x="384"
+              y="225"
+              width="70"
+              height="130"
+              rx="20"
+              fill="#214c72"
+              stroke="#102d50"
+              stroke-width="5"
+            />
+
+
+            <path
+              d="
+                M394 250
+                H444
+
+                M394 290
+                H444
+              "
+              stroke="#5d91b6"
+              stroke-width="5"
+            />
+
+
+
+            <!-- =========================
+                 PASSPORT
+            ========================== -->
+
+            <rect
+              x="308"
+              y="275"
+              width="44"
+              height="58"
+              rx="5"
+              fill="#143b63"
+              stroke="#102d50"
+              stroke-width="4"
+              transform="rotate(-20 330 300)"
+            />
+
+
+
+            <!-- =========================
+                 FLIGHT PATH
+            ========================== -->
+
+            <path
+              d="
+                M80 150
+                C155 75 230 65 300 105
+                C330 122 360 115 385 88
+              "
+              fill="none"
+              stroke="#102d50"
+              stroke-width="3"
+              stroke-dasharray="9 10"
+            />
+
+
+
+            <!-- =========================
+                 AIRPLANE
+            ========================== -->
+
+            <path
+              d="
+                M375 78
+                L410 60
+                L397 91
+                L385 83
+                L367 91
+                Z
+              "
+              fill="white"
+              stroke="#102d50"
+              stroke-width="3"
+            />
+
+
+
+            <!-- =========================
+                 CLOUDS
+            ========================== -->
+
+            <path
+              d="
+                M95 125
+                C103 105 127 101 140 119
+                C153 102 179 112 179 132
+                H95
+                Z
+              "
+              fill="white"
+              stroke="#6fa6c0"
+              stroke-width="3"
+            />
+
+
+            <path
+              d="
+                M510 190
+                C518 170 542 166 555 184
+                C568 167 594 177 594 197
+                H510
+                Z
+              "
+              fill="white"
+              stroke="#6fa6c0"
+              stroke-width="3"
+            />
+
+
+
+            <!-- =========================
+                 SUN
+            ========================== -->
+
+            <circle
+              cx="540"
+              cy="75"
+              r="25"
+              fill="#ffc43d"
+            />
+
+
+          </svg>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         WHY CHOOSE VISAMASTER
+    ========================== -->
+
+    <section class="why-us">
+
+      <div class="container">
+
+
+        <div class="section-title">
+
+          <h2>
+            Why Choose VisaMaster?
+          </h2>
+
+          <div class="heading-line"></div>
+
+        </div>
+
+
+        <div class="benefits">
+
+
+          <div class="benefit">
+
+            <div class="benefit-icon">
+              ▣
+            </div>
+
+            <h3>
+              Easy Process
+            </h3>
+
+            <p>
+              Simple steps, less stress.<br>
+              We make it easy for you.
+            </p>
+
+          </div>
+
+
+
+          <div class="benefit">
+
+            <div class="benefit-icon">
+              ϟ
+            </div>
+
+            <h3>
+              Fast Processing
+            </h3>
+
+            <p>
+              Save time with our<br>
+              streamlined process.
+            </p>
+
+          </div>
+
+
+
+          <div class="benefit">
+
+            <div class="benefit-icon">
+              ♧
+            </div>
+
+            <h3>
+              Expert Support
+            </h3>
+
+            <p>
+              Our team is always here<br>
+              to help you.
+            </p>
+
+          </div>
+
+
+
+          <div class="benefit">
+
+            <div class="benefit-icon">
+              ▤
+            </div>
+
+            <h3>
+              Simple Documentation
+            </h3>
+
+            <p>
+              Minimal paperwork,<br>
+              maximum convenience.
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         B2B PARTNER BANNER
+    ========================== -->
+
+    <section class="container b2b-section">
+
+      <div class="b2b-banner">
+
+
+        <div class="b2b-handshake">
+          🤝
+        </div>
+
+
+        <div class="b2b-content">
+
+          <div class="b2b-label">
+            FOR TRAVEL AGENTS &amp; BUSINESS PARTNERS
+          </div>
+
+
+          <h2>
+            Grow Your Travel<br>
+            Business With Us
+          </h2>
+
+
+          <p>
+            Partner with VisaMaster and offer
+            visa &amp; travel solutions to your clients.
+          </p>
+
+
+          <a
+            href="/contact?type=partner"
+            class="dark-button"
+          >
+            Become a Partner →
+          </a>
+
+        </div>
+
+
+        <div class="b2b-visual">
+
+          <div class="stronger">
+            ✦ Stronger<br>
+            <span>Together</span> ✦
+          </div>
+
+
+          <div class="b2b-globe">
+            🌍
+          </div>
+
+
+          <div class="b2b-plane">
+            ✈
+          </div>
+
+
+          <div class="b2b-suitcase">
+            🧳
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         LATEST NEWS
+    ========================== -->
+
+    <section class="news-section">
+
+      <div class="container">
+
+
+        <div class="news-heading-row">
+
+
+          <div class="section-title left">
+
+            <h2>
+              📣 Latest News
+            </h2>
+
+            <div class="heading-line"></div>
+
+          </div>
+
+
+          <div class="news-tabs">
+
+            <button
+              class="active"
+              type="button"
+              data-filter="all"
+            >
+              All
+            </button>
+
+
+            <button
+              type="button"
+              data-filter="Visa Updates"
+            >
+              Visa Updates
+            </button>
+
+
+            <button
+              type="button"
+              data-filter="Travel Updates"
+            >
+              Travel Updates
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="news-grid">
+
+
+          <!-- =========================
+               DEMO NEWS
+          ========================== -->
+
+          <% const demoNews = [
+
+            {
+              title: "UAE Announces New Visa Rules",
+              category: "Visa Updates",
+              date: "12 May 2025",
+              image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+              excerpt: "The UAE has introduced updated visa regulations, making travel easier for tourists..."
+            },
+
+            {
+              title: "Top 10 Countries for Indian Travelers",
+              category: "Travel Updates",
+              date: "10 May 2025",
+              image: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEisb7aZPLipheF_j0RZG_2RxC8xzo2KFoIt36F3cMfHt3fisp8Ppqfh23kfKqA5PMmVblKxooJSLxQ6IkMaeI1N7yQAheBmMUwzNS8ynCU_AK871e4NhNxXNtMILWYf0VLX3Zj9ovl0uLeCFgI3GNMyj-dPCLch3IZNyVqnfbHRL0U4ld5Ar9I0rCSfuw/w1600/largest%20country%20top%2010%20.png",
+              excerpt: "From stunning landscapes to rich cultures, these are popular destinations for Indian travelers..."
+            },
+
+            {
+              title: "Schengen Visa Processing Time Reduced",
+              category: "Visa Updates",
+              date: "08 May 2025",
+              image: "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=80",
+              excerpt: "Good news for travelers! Processing time information has been updated for applicants..."
+            }
+
+          ]; %>
+
+
+          <% const newsItems =
+            (typeof news !== "undefined" && news.length)
+              ? news.slice(0, 3)
+              : demoNews;
+          %>
+
+
+
+          <% newsItems.forEach(item => { %>
+
+
+            <article
+              class="news-card"
+              data-category="<%= item.category %>"
+            >
+
+
+              <div class="news-image">
+
+                <img
+                  src="<%= item.image %>"
+                  alt="<%= item.title %>"
+                >
+
+
+                <span>
+                  <%= item.category %>
+                </span>
+
+              </div>
+
+
+              <div class="news-content">
+
+
+                <h3>
+                  <%= item.title %>
+                </h3>
+
+
+                <p>
+                  <%= item.excerpt %>
+                </p>
+
+
+                <div class="news-meta">
+
+                  <span>
+                    ▣ <%= item.date %>
+                  </span>
+
+
+                  <a
+                    href="/news/<%= item.slug || '#' %>"
+                  >
+                    Read More →
+                  </a>
+
+                </div>
+
+              </div>
+
+            </article>
+
+
+          <% }) %>
+
+
+        </div>
+
+
+        <div class="view-news">
+
+          <a
+            href="/news"
+            class="outline-button"
+          >
+            View All News →
+          </a>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         FINAL CTA
+    ========================== -->
+
+    <section class="final-cta">
+
+
+      <div class="mountain mountain-left">
+        ⛰️
+      </div>
+
+
+      <div class="cta-content">
+
+        <h2>
+          Ready for your next journey?
+        </h2>
+
+
+        <p>
+          Let’s make it happen.
+          Get your visa today and explore the world.
+        </p>
+
+
+        <a
+          href="/contact"
+          class="yellow-button"
+        >
+          Get Started →
+        </a>
+
+      </div>
+
+
+      <div class="mountain mountain-right">
+        ⛰️
+      </div>
+
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- =========================
+       FOOTER
+  ========================== -->
+
+  <%- include("../partials/footer") %>
+
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
+  <script src="/js/main.js"></script>
+
+
+</body>
+
+</html>

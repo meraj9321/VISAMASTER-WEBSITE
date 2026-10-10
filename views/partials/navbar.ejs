@@ -1,0 +1,71 @@
+<header class="site-header">
+  <div class="container navbar">
+    <a href="/" class="logo">
+      <img
+        src="/images/logo/visamaster-logo.png"
+        alt="VisaMaster Logo"
+        class="logo-image"
+      />
+
+      <div class="logo-text">
+        <div class="logo-name">Visa<span>Master</span></div>
+
+        <div class="logo-tagline">WhoEver WhenEver Wherever</div>
+      </div>
+    </a>
+
+    <nav class="nav-links">
+      <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">
+        Home
+      </a>
+
+      <a href="/visas" class="<%= currentPage === 'visas' ? 'active' : '' %>">
+        Visas
+      </a>
+
+      <a
+        href="/services"
+        class="<%= currentPage === 'services' ? 'active' : '' %>"
+      >
+        Services
+      </a>
+
+      <a
+        href="/destinations"
+        class="<%= currentPage === 'destinations' ? 'active' : '' %>"
+      >
+        Destinations
+      </a>
+
+      <a href="/about" class="<%= currentPage === 'about' ? 'active' : '' %>">
+        About
+      </a>
+
+      <a
+        href="/contact"
+        class="<%= currentPage === 'contact' ? 'active' : '' %>"
+      >
+        Contact
+      </a>
+
+      <a href="/contact" class="mobile-nav-button">
+        Get Started
+        <span>→</span>
+      </a>
+    </nav>
+
+    <a href="/contact" class="nav-button">
+      Get Started
+      <span>→</span>
+    </a>
+
+    <button
+      class="mobile-menu-button"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+    >
+      ☰
+    </button>
+  </div>
+</header>

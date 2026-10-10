@@ -1,0 +1,637 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Kalam:wght@400;700&display=swap");
+
+/* =========================================================
+   VISAMASTER — GLOBAL CSS
+   Common / Base Styles
+   IMPORTANT:
+   Navbar CSS is NOT included here.
+   Navbar styling is handled only by navbar.css.
+   ========================================================= */
+
+/* =========================================================
+   1. DESIGN VARIABLES
+   ========================================================= */
+
+:root {
+  --vm-bg: #fffdf7;
+  --vm-white: #ffffff;
+
+  --vm-navy: #102d50;
+  --vm-navy-soft: #234568;
+
+  --vm-yellow: #ffc43d;
+  --vm-yellow-dark: #f0a72d;
+
+  --vm-text: #26384a;
+  --vm-muted: #66778a;
+  --vm-light-text: #8a98a7;
+
+  --vm-border: #e7e1d5;
+
+  --vm-light-blue: #eef6ff;
+  --vm-light-yellow: #fff6d9;
+  --vm-light-green: #d9f0df;
+
+  --vm-container: 1180px;
+
+  --vm-radius-sm: 10px;
+  --vm-radius-md: 16px;
+  --vm-radius-lg: 24px;
+  --vm-radius-xl: 32px;
+
+  --vm-shadow-sm: 0 6px 18px rgba(16, 45, 80, 0.08);
+  --vm-shadow-md: 0 14px 35px rgba(16, 45, 80, 0.11);
+  --vm-shadow-lg: 0 22px 55px rgba(16, 45, 80, 0.14);
+
+  --vm-transition: 0.25s ease;
+}
+
+/* =========================================================
+   2. RESET
+   ========================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   3. HTML
+   ========================================================= */
+
+html {
+  margin: 0;
+  padding: 0;
+
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+
+  /*
+    Keeps the page width stable when vertical scrollbar
+    appears/disappears between pages.
+  */
+  scrollbar-gutter: stable;
+}
+
+/* =========================================================
+   4. BODY
+   ========================================================= */
+
+body {
+  margin: 0;
+  padding: 0;
+
+  min-width: 320px;
+
+  background: var(--vm-bg);
+  color: var(--vm-text);
+
+  font-family: "DM Sans", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+
+  /*
+    Prevent accidental horizontal overflow.
+  */
+  overflow-x: hidden;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* =========================================================
+   5. FONT
+   ========================================================= */
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+.kalam,
+.handwritten {
+  font-family: "Kalam", cursive;
+}
+
+/* =========================================================
+   6. ELEMENT NORMALIZATION
+   ========================================================= */
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+ul,
+ol {
+  margin-top: 0;
+}
+
+figure,
+blockquote {
+  margin: 0;
+}
+
+/* =========================================================
+   7. MAIN CONTAINER
+   ========================================================= */
+
+.container {
+  width: min(var(--vm-container), 92%);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   8. COMMON SECTION
+   ========================================================= */
+
+.section {
+  width: 100%;
+  padding: 90px 0;
+}
+
+.section-sm {
+  width: 100%;
+  padding: 60px 0;
+}
+
+/* =========================================================
+   9. COMMON SECTION HEADING
+   ========================================================= */
+
+.section-heading {
+  max-width: 760px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin: 0 0 14px;
+
+  color: var(--vm-navy);
+
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.12;
+
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.section-heading p {
+  margin: 0;
+
+  color: var(--vm-muted);
+
+  font-size: 17px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   10. COMMON EYEBROW / LABEL
+   ========================================================= */
+
+.eyebrow,
+.section-label {
+  display: inline-flex;
+
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+  color: var(--vm-yellow-dark);
+
+  font-size: 13px;
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+
+  text-transform: uppercase;
+}
+
+.eyebrow::before,
+.section-label::before {
+  content: "";
+
+  width: 28px;
+  height: 2px;
+
+  background: var(--vm-yellow);
+
+  border-radius: 999px;
+}
+
+/* =========================================================
+   11. COMMON BUTTONS
+   ========================================================= */
+
+.btn,
+.primary-btn,
+.secondary-btn {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 46px;
+
+  padding: 11px 20px;
+
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  text-align: center;
+
+  transition:
+    transform var(--vm-transition),
+    background-color var(--vm-transition),
+    border-color var(--vm-transition),
+    color var(--vm-transition),
+    box-shadow var(--vm-transition);
+}
+
+.btn:hover,
+.primary-btn:hover,
+.secondary-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+   12. PRIMARY BUTTON
+   ========================================================= */
+
+.btn-primary,
+.primary-btn {
+  background: var(--vm-yellow);
+  color: var(--vm-navy);
+
+  box-shadow: 0 8px 18px rgba(240, 167, 45, 0.2);
+}
+
+.btn-primary:hover,
+.primary-btn:hover {
+  background: var(--vm-yellow-dark);
+}
+
+/* =========================================================
+   13. SECONDARY BUTTON
+   ========================================================= */
+
+.btn-secondary,
+.secondary-btn {
+  background: var(--vm-white);
+  color: var(--vm-navy);
+
+  border-color: var(--vm-border);
+}
+
+.btn-secondary:hover,
+.secondary-btn:hover {
+  border-color: var(--vm-yellow-dark);
+}
+
+/* =========================================================
+   14. COMMON CARD
+   ========================================================= */
+
+.card {
+  background: var(--vm-white);
+
+  border: 1px solid var(--vm-border);
+  border-radius: var(--vm-radius-md);
+
+  box-shadow: var(--vm-shadow-sm);
+}
+
+.card-hover {
+  transition:
+    transform var(--vm-transition),
+    box-shadow var(--vm-transition);
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--vm-shadow-md);
+}
+
+/* =========================================================
+   15. FORM BASE
+   ========================================================= */
+
+input,
+select,
+textarea {
+  width: 100%;
+
+  border: 1px solid var(--vm-border);
+  border-radius: 10px;
+
+  background: var(--vm-white);
+  color: var(--vm-text);
+
+  outline: none;
+
+  font-size: 15px;
+  line-height: 1.4;
+
+  transition:
+    border-color var(--vm-transition),
+    box-shadow var(--vm-transition);
+}
+
+input,
+select {
+  min-height: 46px;
+  padding: 11px 14px;
+}
+
+textarea {
+  min-height: 130px;
+
+  padding: 12px 14px;
+
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9aa6b2;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--vm-yellow-dark);
+
+  box-shadow: 0 0 0 3px rgba(255, 196, 61, 0.18);
+}
+
+label {
+  color: var(--vm-navy);
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   16. COMMON COLOR UTILITIES
+   ========================================================= */
+
+.text-navy {
+  color: var(--vm-navy);
+}
+
+.text-muted {
+  color: var(--vm-muted);
+}
+
+.text-yellow {
+  color: var(--vm-yellow-dark);
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* =========================================================
+   17. COMMON BACKGROUNDS
+   ========================================================= */
+
+.bg-white {
+  background: var(--vm-white);
+}
+
+.bg-light {
+  background: var(--vm-bg);
+}
+
+.bg-blue {
+  background: var(--vm-light-blue);
+}
+
+.bg-yellow {
+  background: var(--vm-light-yellow);
+}
+
+/* =========================================================
+   18. FLEX UTILITIES
+   ========================================================= */
+
+.flex {
+  display: flex;
+}
+
+.flex-center {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* =========================================================
+   19. GRID UTILITY
+   ========================================================= */
+
+.grid {
+  display: grid;
+}
+
+/* =========================================================
+   20. WIDTH UTILITIES
+   ========================================================= */
+
+.w-full {
+  width: 100%;
+}
+
+/* =========================================================
+   21. VISIBILITY
+   ========================================================= */
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================
+   22. ACCESSIBILITY
+   ========================================================= */
+
+:focus-visible {
+  outline: 3px solid rgba(255, 196, 61, 0.65);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   23. TEXT SELECTION
+   ========================================================= */
+
+::selection {
+  background: var(--vm-yellow);
+  color: var(--vm-navy);
+}
+
+/* =========================================================
+   24. RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .section {
+    padding: 80px 0;
+  }
+
+  .section-sm {
+    padding: 55px 0;
+  }
+}
+
+/* =========================================================
+   25. RESPONSIVE — TABLET CONTENT
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .section {
+    padding: 72px 0;
+  }
+
+  .section-sm {
+    padding: 50px 0;
+  }
+
+  .section-heading {
+    margin-bottom: 35px;
+  }
+
+  .section-heading h2 {
+    font-size: clamp(30px, 5vw, 42px);
+  }
+}
+
+/* =========================================================
+   26. RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  html {
+    scroll-padding-top: 75px;
+  }
+
+  body {
+    font-size: 15px;
+  }
+
+  .container {
+    width: 94%;
+  }
+
+  .section {
+    padding: 58px 0;
+  }
+
+  .section-sm {
+    padding: 42px 0;
+  }
+
+  .section-heading {
+    margin-bottom: 28px;
+  }
+
+  .section-heading h2 {
+    font-size: 30px;
+  }
+
+  .section-heading p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .btn,
+  .primary-btn,
+  .secondary-btn {
+    min-height: 44px;
+
+    padding: 10px 17px;
+
+    font-size: 14px;
+  }
+}
+
+/* =========================================================
+   27. RESPONSIVE — SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .container {
+    width: 92%;
+  }
+
+  .section {
+    padding: 50px 0;
+  }
+
+  .section-sm {
+    padding: 36px 0;
+  }
+
+  .section-heading h2 {
+    font-size: 27px;
+  }
+
+  .section-heading p {
+    font-size: 14px;
+  }
+}

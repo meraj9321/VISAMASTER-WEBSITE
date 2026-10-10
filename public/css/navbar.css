@@ -1,0 +1,368 @@
+/* =========================================================
+VISAMASTER - NAVBAR
+Clean + Stable + Responsive
+========================================================= */
+
+.site-header {
+  width: 100%;
+  position: relative;
+  z-index: 1000;
+  background: #fffdf7;
+  border-bottom: 1px solid #e7e1d5;
+}
+
+.site-header .navbar {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  position: relative;
+}
+
+.site-header .logo {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.site-header .logo-image {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
+}
+
+.site-header .logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+}
+
+.site-header .logo-name {
+  color: #102d50;
+  font-family: "DM Sans", sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+  white-space: nowrap;
+}
+
+.site-header .logo-name span {
+  color: #f0a72d;
+}
+
+.site-header .logo-tagline {
+  margin-top: 4px;
+  color: #66778a;
+  font-family: "Kalam", cursive;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-header .nav-links {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 27px;
+  flex-shrink: 1;
+  position: relative;
+}
+
+.site-header .nav-links > a:not(.mobile-nav-button) {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  color: #102d50;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  text-decoration: none;
+  transition:
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.site-header .nav-links > a:not(.mobile-nav-button):hover {
+  color: #f0a72d;
+  transform: translateY(-1px);
+}
+
+.site-header .nav-links > a:not(.mobile-nav-button).active {
+  color: #f0a72d;
+}
+
+.site-header .nav-links > a:not(.mobile-nav-button).active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 22px;
+  height: 2px;
+  border-radius: 20px;
+  background: #ffc43d;
+  transform: translateX(-50%);
+}
+
+.site-header .nav-button {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 17px;
+  border-radius: 10px;
+  background: #102d50;
+  color: #ffffff;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 3px 3px 0 #ffc43d;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.site-header .nav-button span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.site-header .nav-button:hover {
+  background: #234568;
+  color: #ffffff;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 4px 0 #ffc43d;
+}
+
+.site-header .mobile-nav-button {
+  display: none;
+}
+
+.site-header .mobile-menu-button {
+  width: 44px;
+  height: 44px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #102d50;
+  border-radius: 10px;
+  background: #fffdf7;
+  color: #102d50;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 1050px) {
+  .site-header .navbar {
+    gap: 18px;
+  }
+
+  .site-header .nav-links {
+    gap: 20px;
+  }
+
+  .site-header .nav-links > a:not(.mobile-nav-button) {
+    font-size: 14px;
+  }
+
+  .site-header .nav-button {
+    padding: 9px 14px;
+    font-size: 13px;
+  }
+
+  .site-header .logo-image {
+    width: 44px;
+    height: 44px;
+  }
+
+  .site-header .logo-name {
+    font-size: 27px;
+  }
+
+  .site-header .logo-tagline {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 850px) {
+  .site-header .navbar {
+    min-height: 72px;
+  }
+
+  .site-header .logo-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .site-header .logo-name {
+    font-size: 24px;
+  }
+
+  .site-header .logo-tagline {
+    font-size: 10px;
+  }
+
+  .site-header .nav-button {
+    display: none;
+  }
+
+  .site-header .mobile-menu-button {
+    margin-left: auto;
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .site-header .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    margin-left: 0;
+    padding: 14px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    background: #ffffff;
+    border: 1px solid #e7e1d5;
+    border-radius: 16px;
+    box-shadow: 0 12px 30px rgba(16, 45, 80, 0.12);
+  }
+
+  .site-header .nav-links.mobile-open {
+    display: flex;
+  }
+
+  .site-header .nav-links > a:not(.mobile-nav-button) {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 14px;
+    border-radius: 10px;
+  }
+
+  .site-header .nav-links > a:not(.mobile-nav-button):hover {
+    background: #fff6d9;
+    transform: none;
+  }
+
+  .site-header .nav-links > a:not(.mobile-nav-button).active {
+    background: #fff6d9;
+  }
+
+  .site-header .nav-links > a:not(.mobile-nav-button).active::after {
+    left: auto;
+    right: 14px;
+    bottom: 50%;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    transform: translateY(50%);
+  }
+
+  .site-header .mobile-nav-button {
+    width: 100%;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 6px;
+    padding: 11px 16px;
+    border-radius: 10px;
+    background: #102d50;
+    color: #ffffff;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    box-shadow: 3px 3px 0 #ffc43d;
+  }
+
+  .site-header .mobile-nav-button span {
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .site-header .mobile-nav-button:hover {
+    background: #234568;
+    color: #ffffff;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-header .navbar {
+    min-height: 68px;
+  }
+
+  .site-header .logo {
+    gap: 8px;
+  }
+
+  .site-header .logo-image {
+    width: 36px;
+    height: 36px;
+  }
+
+  .site-header .logo-name {
+    font-size: 22px;
+    letter-spacing: -0.7px;
+  }
+
+  .site-header .logo-tagline {
+    margin-top: 3px;
+    font-size: 9px;
+  }
+
+  .site-header .mobile-menu-button {
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-header .logo-image {
+    width: 33px;
+    height: 33px;
+  }
+
+  .site-header .logo-name {
+    font-size: 20px;
+  }
+
+  .site-header .logo-tagline {
+    font-size: 8px;
+  }
+
+  .site-header .mobile-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .site-header .nav-links {
+    padding: 10px;
+  }
+}

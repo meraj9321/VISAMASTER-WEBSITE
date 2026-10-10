@@ -1,0 +1,571 @@
+/* =========================================================
+   ADMIN TEAM MANAGEMENT
+   SIMPLE + CLEAN UI
+========================================================= */
+
+.team-add-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 18px;
+  background: #ffc43d;
+  color: #102d50;
+  border: 1px solid #ffc43d;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.team-add-button:hover {
+  background: #f0a72d;
+  border-color: #f0a72d;
+}
+
+.team-back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: #ffffff;
+  color: #102d50;
+  border: 1px solid #dfe5eb;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.team-back-button:hover {
+  border-color: #102d50;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.team-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.team-summary-box {
+  background: #ffffff;
+  border: 1px solid #e4e8ed;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.team-summary-label {
+  display: block;
+  color: #718096;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.team-summary-box strong {
+  display: block;
+  color: #102d50;
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* =========================================================
+   TABLE CARD
+========================================================= */
+
+.team-table-card {
+  background: #ffffff;
+  border: 1px solid #e4e8ed;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.team-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 22px;
+  border-bottom: 1px solid #e4e8ed;
+}
+
+.team-table-header h2 {
+  margin: 0 0 5px;
+  color: #102d50;
+  font-size: 18px;
+}
+
+.team-table-header p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.team-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.team-table {
+  width: 100%;
+  min-width: 950px;
+  border-collapse: collapse;
+}
+
+.team-table th {
+  padding: 13px 18px;
+  background: #f8fafc;
+  color: #5d6875;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: left;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid #e4e8ed;
+}
+
+.team-table td {
+  padding: 15px 18px;
+  color: #273444;
+  font-size: 14px;
+  border-bottom: 1px solid #edf0f3;
+  vertical-align: middle;
+}
+
+.team-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.team-table tbody tr:hover {
+  background: #fcfdff;
+}
+
+/* =========================================================
+   MEMBER CELL
+========================================================= */
+
+.team-member-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 220px;
+}
+
+.team-member-image,
+.team-member-placeholder {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  border-radius: 50%;
+}
+
+.team-member-image {
+  display: block;
+  object-fit: cover;
+  border: 1px solid #e1e6eb;
+}
+
+.team-member-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f4f7;
+  border: 1px solid #e1e6eb;
+  font-size: 18px;
+}
+
+.team-member-info {
+  min-width: 0;
+}
+
+.team-member-info strong {
+  display: block;
+  color: #102d50;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 3px;
+}
+
+.team-member-info span {
+  display: block;
+  color: #718096;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ROLE
+========================================================= */
+
+.team-role {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.team-role.partner {
+  background: #fff4d2;
+  color: #8a6200;
+}
+
+.team-role.accountant {
+  background: #edf3fa;
+  color: #315b84;
+}
+
+.team-role.executive {
+  background: #edf7f1;
+  color: #28724a;
+}
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.team-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.team-contact span {
+  color: #4a5563;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ORDER
+========================================================= */
+
+.team-order {
+  color: #5f6b78;
+  font-weight: 600;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.team-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.team-status.active {
+  background: #eaf7ef;
+  color: #28734a;
+}
+
+.team-status.inactive {
+  background: #f4f5f6;
+  color: #6b7280;
+}
+
+/* =========================================================
+   ACTIONS
+========================================================= */
+
+.team-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.team-actions form {
+  margin: 0;
+}
+
+.team-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 5px 9px;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.team-action.edit {
+  color: #315b84;
+  background: #edf3fa;
+  border: 1px solid #dce7f1;
+}
+
+.team-action.edit:hover {
+  background: #e2edf7;
+}
+
+.team-action.toggle {
+  color: #6a5a13;
+  background: #fff8df;
+  border: 1px solid #f1e4b1;
+}
+
+.team-action.toggle:hover {
+  background: #fff2bd;
+}
+
+.team-action.delete {
+  color: #a43c3c;
+  background: #fff0f0;
+  border: 1px solid #f2d6d6;
+}
+
+.team-action.delete:hover {
+  background: #ffe5e5;
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.team-empty {
+  padding: 55px 20px;
+  text-align: center;
+}
+
+.team-empty-icon {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 14px;
+  background: #f3f6f9;
+  border-radius: 50%;
+  font-size: 22px;
+}
+
+.team-empty h3 {
+  margin: 0 0 7px;
+  color: #102d50;
+  font-size: 17px;
+}
+
+.team-empty p {
+  margin: 0 0 18px;
+  color: #718096;
+  font-size: 13px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.team-form-card {
+  max-width: 850px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #e4e8ed;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.team-form-header {
+  padding: 21px 24px;
+  border-bottom: 1px solid #e4e8ed;
+}
+
+.team-form-header h2 {
+  margin: 0 0 5px;
+  color: #102d50;
+  font-size: 18px;
+}
+
+.team-form-header p {
+  margin: 0;
+  color: #718096;
+  font-size: 13px;
+}
+
+.team-form {
+  padding: 24px;
+}
+
+.team-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 19px;
+}
+
+.team-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.team-form-group label {
+  color: #273444;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.team-form-group input,
+.team-form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: #273444;
+  border: 1px solid #d9e0e7;
+  border-radius: 6px;
+  outline: none;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.team-form-group input:focus,
+.team-form-group select:focus {
+  border-color: #102d50;
+  box-shadow: 0 0 0 2px rgba(16, 45, 80, 0.08);
+}
+
+.team-form-group small {
+  color: #718096;
+  font-size: 11px;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.team-checkbox {
+  min-height: 40px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 9px;
+  padding: 0 12px;
+  background: #f8fafc;
+  border: 1px solid #d9e0e7;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.team-checkbox input {
+  width: auto;
+  margin: 0;
+  accent-color: #102d50;
+}
+
+.team-checkbox span {
+  color: #273444;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   FORM ACTIONS
+========================================================= */
+
+.team-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid #edf0f3;
+}
+
+.team-cancel-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 17px;
+  background: #ffffff;
+  color: #4a5563;
+  border: 1px solid #d9e0e7;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.team-cancel-button:hover {
+  background: #f7f9fb;
+}
+
+.team-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 18px;
+  background: #102d50;
+  color: #ffffff;
+  border: 1px solid #102d50;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.team-save-button:hover {
+  background: #0b2039;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .team-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .team-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .team-add-button,
+  .team-back-button {
+    width: 100%;
+  }
+
+  .team-form {
+    padding: 18px;
+  }
+
+  .team-form-header {
+    padding: 18px;
+  }
+
+  .team-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .team-save-button,
+  .team-cancel-button {
+    width: 100%;
+  }
+}

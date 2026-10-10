@@ -1,0 +1,1142 @@
+/* =========================================================
+   VISAMASTER - DESTINATIONS PAGE
+   ========================================================= */
+
+/* =========================================================
+   COMMON CONTAINER
+   ========================================================= */
+
+.destination-container {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+/* =========================================================
+   DESTINATION HERO
+   ========================================================= */
+
+.destination-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 90px 0 80px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(255, 196, 61, 0.22),
+      transparent 25%
+    ),
+    #fffdf7;
+}
+
+.destination-hero-top {
+  display: grid;
+  grid-template-columns: 1fr 0.9fr;
+  align-items: center;
+  gap: 60px;
+}
+
+/* =========================================================
+   HERO COPY
+   ========================================================= */
+
+.destination-hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.passport-label,
+.destination-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Kalam", cursive;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #f0a72d;
+}
+
+.passport-label {
+  margin-bottom: 18px;
+  font-size: 17px;
+}
+
+.destination-hero-copy h1 {
+  margin: 0;
+  max-width: 650px;
+  color: #102d50;
+  font-size: clamp(48px, 6vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -3px;
+  font-weight: 800;
+}
+
+.destination-hero-copy h1 span {
+  display: block;
+  color: #f0a72d;
+  font-family: "Kalam", cursive;
+  letter-spacing: -1px;
+}
+
+.destination-hero-copy > p {
+  max-width: 600px;
+  margin: 25px 0 28px;
+  color: #536477;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   DESTINATION SEARCH
+   ========================================================= */
+
+.destination-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: min(600px, 100%);
+  padding: 7px;
+  background: #ffffff;
+  border: 2px solid #102d50;
+  border-radius: 18px;
+  box-shadow: 6px 6px 0 #102d50;
+  z-index: 20;
+}
+
+.destination-search > span {
+  padding-left: 15px;
+  font-size: 20px;
+}
+
+.destination-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 12px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #102d50;
+  font: inherit;
+}
+
+.destination-search input::placeholder {
+  color: #91a0ae;
+}
+
+.destination-search button {
+  border: 0;
+  border-radius: 13px;
+  padding: 14px 22px;
+  background: #ffc43d;
+  color: #102d50;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+
+.destination-search button:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  background: #f0a72d;
+}
+
+/* =========================================================
+   DESTINATION SEARCH SUGGESTIONS
+   ========================================================= */
+
+.destination-suggestions {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 100%;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 2px solid #102d50;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 6px 6px 0 #102d50;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  pointer-events: none;
+
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease,
+    transform 0.2s ease;
+
+  z-index: 100;
+}
+
+.destination-suggestions.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Individual suggestion */
+
+.destination-suggestion {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 12px;
+  padding: 12px 13px;
+  border: 0;
+  border-radius: 11px;
+  background: transparent;
+  color: #102d50;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    transform 0.18s ease;
+}
+
+.destination-suggestion:hover {
+  background: #fff4c9;
+  transform: translateX(3px);
+}
+
+.destination-suggestion-flag {
+  flex: 0 0 auto;
+  width: 32px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.destination-suggestion-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.destination-suggestion-name {
+  font-size: 15px;
+  font-weight: 800;
+  color: #102d50;
+}
+
+.destination-suggestion-action {
+  margin-top: 2px;
+  color: #7a8896;
+  font-size: 12px;
+}
+
+/* No result / helper message */
+
+.destination-search-empty,
+.destination-search-message {
+  padding: 14px;
+  color: #687787;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* =========================================================
+   DESTINATION CARD HIGHLIGHT
+   ========================================================= */
+
+.destination-card {
+  scroll-margin-top: 120px;
+}
+
+.destination-card.destination-highlight {
+  animation: destinationCardHighlight 1.6s ease;
+}
+
+@keyframes destinationCardHighlight {
+  0% {
+    transform: translateY(-5px) rotate(-1deg);
+    box-shadow:
+      0 0 0 5px #ffc43d,
+      10px 10px 0 #102d50;
+  }
+
+  45% {
+    transform: translateY(-8px) rotate(0.5deg);
+    box-shadow:
+      0 0 0 7px #ffc43d,
+      10px 10px 0 #102d50;
+  }
+
+  100% {
+    transform: translateY(0) rotate(0);
+    box-shadow: 7px 7px 0 #102d50;
+  }
+}
+
+/* =========================================================
+   HERO MINI INFO
+   ========================================================= */
+
+.destination-mini-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.destination-mini-info span {
+  color: #536477;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   PASSPORT SCENE
+   ========================================================= */
+
+.passport-scene {
+  position: relative;
+  min-height: 500px;
+}
+
+.passport-sun {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 55px;
+}
+
+.passport-cloud {
+  position: absolute;
+  color: #d8e5ed;
+  font-size: 60px;
+}
+
+.cloud-one {
+  top: 70px;
+  left: 5px;
+}
+
+.cloud-two {
+  right: 5px;
+  bottom: 80px;
+  font-size: 45px;
+}
+
+.passport-globe {
+  position: absolute;
+  top: 55px;
+  left: 25%;
+  font-size: 90px;
+  transform: rotate(-8deg);
+}
+
+/* =========================================================
+   PASSPORT CARD
+   ========================================================= */
+
+.passport-card {
+  position: absolute;
+  top: 125px;
+  left: 50%;
+  width: min(390px, 82%);
+  min-height: 245px;
+  padding: 25px;
+  transform: translateX(-50%) rotate(-5deg);
+  border: 3px solid #102d50;
+  border-radius: 22px;
+  background: #102d50;
+  color: #ffffff;
+  box-shadow: 13px 13px 0 #ffc43d;
+  z-index: 3;
+}
+
+.passport-card-top,
+.passport-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.passport-card-middle {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 45px 0;
+}
+
+.passport-chip {
+  display: grid;
+  width: 52px;
+  height: 38px;
+  place-items: center;
+  border: 2px solid #ffc43d;
+  border-radius: 8px;
+  color: #ffc43d;
+  font-size: 25px;
+}
+
+.passport-card-middle small,
+.passport-card-middle strong {
+  display: block;
+}
+
+.passport-card-middle small {
+  color: #aebccc;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.passport-card-middle strong {
+  margin-top: 4px;
+  font-size: 23px;
+  color: #ffc43d;
+}
+
+/* =========================================================
+   PASSPORT STAMPS
+   ========================================================= */
+
+.passport-stamp {
+  position: absolute;
+  display: grid;
+  width: 85px;
+  height: 85px;
+  place-items: center;
+  border: 3px dashed #102d50;
+  border-radius: 50%;
+  color: #102d50;
+  background: rgba(255, 196, 61, 0.9);
+  font-family: "Kalam", cursive;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  z-index: 4;
+}
+
+.stamp-one {
+  top: 105px;
+  right: 0;
+  transform: rotate(12deg);
+}
+
+.stamp-two {
+  bottom: 95px;
+  left: 15px;
+  background: #ffffff;
+  transform: rotate(-10deg);
+}
+
+/* =========================================================
+   BOARDING TICKET
+   ========================================================= */
+
+.passport-ticket {
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  width: 235px;
+  padding: 17px;
+  border: 2px solid #102d50;
+  background: #ffffff;
+  color: #102d50;
+  transform: rotate(5deg);
+  box-shadow: 6px 6px 0 #f0a72d;
+  z-index: 5;
+}
+
+.passport-ticket span,
+.passport-ticket strong,
+.passport-ticket small {
+  display: block;
+}
+
+.passport-ticket span {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  font-weight: 800;
+}
+
+.passport-ticket strong {
+  margin-top: 7px;
+  font-size: 14px;
+}
+
+.ticket-line {
+  margin: 12px 0;
+  border-top: 2px dashed #102d50;
+}
+
+.passport-ticket small {
+  font-size: 10px;
+}
+
+.passport-plane {
+  position: absolute;
+  top: 25px;
+  left: 5px;
+  color: #102d50;
+  font-size: 35px;
+  transform: rotate(-20deg);
+}
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
+.destination-section-heading {
+  max-width: 760px;
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.destination-label {
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.destination-section-heading h2 {
+  margin: 0;
+  color: #102d50;
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.05;
+  letter-spacing: -2px;
+}
+
+.destination-section-heading h2 span {
+  color: #f0a72d;
+  font-family: "Kalam", cursive;
+}
+
+.destination-section-heading p {
+  margin: 16px auto 0;
+  max-width: 600px;
+  color: #687787;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   POPULAR DESTINATIONS
+   ========================================================= */
+
+.popular-destinations {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.destination-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.destination-card {
+  overflow: hidden;
+  border: 2px solid #102d50;
+  border-radius: 22px;
+  background: #fffdf7;
+  box-shadow: 7px 7px 0 #102d50;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.destination-card:hover {
+  transform: translateY(-7px) rotate(-0.5deg);
+  box-shadow: 10px 10px 0 #ffc43d;
+}
+
+.destination-card > img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.destination-content {
+  padding: 22px;
+}
+
+.country-flag {
+  font-size: 30px;
+}
+
+.destination-content h3 {
+  margin: 8px 0 10px;
+  color: #102d50;
+  font-size: 27px;
+}
+
+.destination-content p {
+  min-height: 75px;
+  margin: 0 0 18px;
+  color: #667587;
+  line-height: 1.6;
+}
+
+.destination-content a {
+  display: inline-flex;
+  color: #102d50;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.destination-content a:hover {
+  color: #f0a72d;
+}
+
+/* =========================================================
+   TRAVEL MAP
+   ========================================================= */
+
+.travel-map-section {
+  padding: 90px 0;
+  background: #fffdf7;
+}
+
+.travel-map {
+  position: relative;
+  min-height: 480px;
+  overflow: hidden;
+  border: 3px solid #102d50;
+  border-radius: 35px;
+  background:
+    radial-gradient(circle, rgba(16, 45, 80, 0.08) 1px, transparent 1px),
+    #f6f0df;
+  background-size: 25px 25px;
+  box-shadow: 10px 10px 0 #ffc43d;
+}
+
+.map-doodles {
+  position: absolute;
+  top: 25px;
+  right: 40px;
+  color: #f0a72d;
+  font-size: 40px;
+}
+
+.map-plane {
+  position: absolute;
+  top: 110px;
+  left: 47%;
+  font-size: 40px;
+  transform: rotate(-20deg);
+}
+
+.map-route {
+  position: absolute;
+  color: #102d50;
+  font-size: 24px;
+  letter-spacing: 5px;
+  white-space: nowrap;
+  opacity: 0.55;
+}
+
+.route-one {
+  top: 175px;
+  left: 15%;
+  transform: rotate(-12deg);
+}
+
+.route-two {
+  top: 275px;
+  left: 38%;
+  transform: rotate(12deg);
+}
+
+.route-three {
+  top: 360px;
+  left: 18%;
+  transform: rotate(-5deg);
+}
+
+/* =========================================================
+   MAP PINS
+   ========================================================= */
+
+.map-pin {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: #102d50;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.map-pin span {
+  padding: 4px 9px;
+  border: 2px solid #102d50;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.pin-india {
+  top: 105px;
+  left: 15%;
+}
+
+.pin-dubai {
+  top: 180px;
+  left: 30%;
+}
+
+.pin-usa {
+  top: 130px;
+  right: 16%;
+}
+
+.pin-canada {
+  top: 55px;
+  right: 30%;
+}
+
+.pin-australia {
+  right: 15%;
+  bottom: 80px;
+}
+
+/* =========================================================
+   MAP CENTER
+   ========================================================= */
+
+.map-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -50%) rotate(-2deg);
+  text-align: center;
+}
+
+.map-center span {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.map-center strong {
+  color: #f0a72d;
+  font-family: "Kalam", cursive;
+  font-size: clamp(42px, 5vw, 65px);
+  line-height: 0.9;
+}
+
+.map-center small {
+  margin-top: 12px;
+  font-weight: 800;
+}
+
+/* =========================================================
+   TRAVEL PACKAGES
+   ========================================================= */
+
+.travel-packages {
+  padding: 100px 0;
+  background: #ffffff;
+}
+
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.package-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 18px;
+  min-height: 190px;
+  padding: 25px;
+  border: 2px solid #102d50;
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 7px 7px 0 #102d50;
+}
+
+.package-card-yellow {
+  background: #fff4c9;
+  transform: rotate(1deg);
+}
+
+.package-card-green {
+  background: #e8f4e9;
+  transform: rotate(-1deg);
+}
+
+.package-icon {
+  font-size: 42px;
+}
+
+.package-card small {
+  color: #f0a72d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+}
+
+.package-card h3 {
+  margin: 5px 0;
+  color: #102d50;
+  font-size: 24px;
+}
+
+.package-card p {
+  margin: 0;
+  color: #637386;
+  line-height: 1.5;
+}
+
+.package-card > a {
+  grid-column: 1 / -1;
+  align-self: end;
+  color: #102d50;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.package-card > a:hover {
+  color: #f0a72d;
+}
+
+/* =========================================================
+   CTA
+   ========================================================= */
+
+.destination-cta {
+  padding: 80px 0 100px;
+  background: #ffffff;
+}
+
+.destination-cta-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  padding: 60px;
+  border: 3px solid #102d50;
+  border-radius: 35px;
+  background: #102d50;
+  box-shadow: 12px 12px 0 #ffc43d;
+}
+
+.destination-cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.destination-cta-content .destination-label {
+  justify-content: flex-start;
+}
+
+.destination-cta-content h2 {
+  margin: 10px 0 15px;
+  color: #ffffff;
+  font-size: clamp(38px, 5vw, 60px);
+  line-height: 1;
+}
+
+.destination-cta-content h2 span {
+  color: #ffc43d;
+  font-family: "Kalam", cursive;
+}
+
+.destination-cta-content p {
+  max-width: 580px;
+  color: #d9e1e8;
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.destination-cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.destination-main-btn,
+.destination-outline-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 22px;
+  border-radius: 12px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.destination-main-btn {
+  background: #ffc43d;
+  color: #102d50;
+}
+
+.destination-outline-btn {
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+.destination-main-btn:hover,
+.destination-outline-btn:hover {
+  transform: translateY(-3px);
+}
+
+.cta-cloud {
+  position: absolute;
+  top: 30px;
+  right: 90px;
+  color: rgba(255, 255, 255, 0.12);
+  font-size: 100px;
+}
+
+.cta-plane {
+  position: absolute;
+  right: 55px;
+  bottom: 30px;
+  color: #ffc43d;
+  font-size: 75px;
+  transform: rotate(-12deg);
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .destination-hero-top {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .destination-hero-copy {
+    text-align: center;
+  }
+
+  .destination-hero-copy > p,
+  .destination-search {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .destination-mini-info {
+    justify-content: center;
+  }
+
+  .passport-scene {
+    width: min(600px, 100%);
+    margin: 0 auto;
+  }
+
+  .destination-grid,
+  .package-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+  .destination-container {
+    width: min(100% - 28px, 560px);
+  }
+
+  .destination-hero {
+    padding: 65px 0 60px;
+  }
+
+  .destination-hero-copy h1 {
+    font-size: 48px;
+    letter-spacing: -2px;
+  }
+
+  .destination-hero-copy > p {
+    font-size: 16px;
+  }
+
+  .destination-search {
+    box-shadow: 4px 4px 0 #102d50;
+  }
+
+  .destination-search input {
+    font-size: 14px;
+  }
+
+  .destination-search button {
+    padding: 12px 15px;
+  }
+
+  .destination-suggestions {
+    box-shadow: 4px 4px 0 #102d50;
+    max-height: 260px;
+  }
+
+  .destination-suggestion {
+    padding: 11px 10px;
+  }
+
+  .destination-mini-info {
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .passport-scene {
+    min-height: 400px;
+    transform: scale(0.88);
+    transform-origin: center top;
+    margin-bottom: -45px;
+  }
+
+  .passport-card {
+    width: 340px;
+  }
+
+  .passport-ticket {
+    right: 0;
+  }
+
+  .popular-destinations,
+  .travel-packages {
+    padding: 70px 0;
+  }
+
+  .destination-grid,
+  .package-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .destination-section-heading h2 {
+    font-size: 39px;
+  }
+
+  .travel-map {
+    min-height: 400px;
+  }
+
+  .map-pin {
+    font-size: 20px;
+  }
+
+  .map-pin span {
+    font-size: 9px;
+  }
+
+  .pin-india {
+    left: 8%;
+  }
+
+  .pin-dubai {
+    left: 20%;
+  }
+
+  .pin-usa {
+    right: 8%;
+  }
+
+  .pin-canada {
+    right: 18%;
+  }
+
+  .pin-australia {
+    right: 7%;
+    bottom: 45px;
+  }
+
+  .route-one,
+  .route-two,
+  .route-three {
+    font-size: 16px;
+  }
+
+  .destination-cta {
+    padding: 60px 0 75px;
+  }
+
+  .destination-cta-card {
+    padding: 45px 25px;
+    min-height: 390px;
+    box-shadow: 7px 7px 0 #ffc43d;
+  }
+
+  .destination-cta-content h2 {
+    font-size: 40px;
+  }
+
+  .cta-cloud {
+    right: 15px;
+    top: 10px;
+  }
+
+  .cta-plane {
+    right: 20px;
+    bottom: 10px;
+    font-size: 55px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+  .destination-hero-copy h1 {
+    font-size: 42px;
+  }
+
+  .destination-search {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px;
+  }
+
+  .destination-search button {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .destination-suggestions {
+    top: calc(100% + 8px);
+  }
+
+  .passport-scene {
+    transform: scale(0.72);
+    margin-left: -14%;
+    margin-right: -14%;
+    margin-bottom: -95px;
+  }
+
+  .destination-section-heading h2 {
+    font-size: 34px;
+  }
+
+  .travel-map {
+    min-height: 350px;
+  }
+
+  .map-center strong {
+    font-size: 42px;
+  }
+
+  .destination-cta-content h2 {
+    font-size: 34px;
+  }
+
+  .destination-cta-buttons {
+    flex-direction: column;
+  }
+
+  .destination-main-btn,
+  .destination-outline-btn {
+    width: 100%;
+  }
+}

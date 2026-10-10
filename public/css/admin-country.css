@@ -1,0 +1,809 @@
+:root {
+  --admin-navy: #102d50;
+  --admin-navy-light: #193f6c;
+  --admin-yellow: #ffc43d;
+  --admin-yellow-dark: #f0a72d;
+  --admin-cream: #fffdf7;
+  --admin-white: #ffffff;
+  --admin-border: #e5e7eb;
+  --admin-text: #1f2937;
+  --admin-muted: #6b7280;
+  --admin-danger: #dc3545;
+  --admin-danger-light: #fff1f2;
+  --admin-success: #198754;
+  --admin-shadow: 0 10px 35px rgba(16, 45, 80, 0.08);
+}
+
+/* =========================================================
+PAGE
+========================================================= */
+
+.admin-page {
+  min-height: 100vh;
+  background: var(--admin-cream);
+  color: var(--admin-text);
+  padding-bottom: 80px;
+}
+
+/* =========================================================
+HEADER
+========================================================= */
+
+.admin-header {
+  background: var(--admin-navy);
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-header::before {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  border: 2px dashed rgba(255, 196, 61, 0.3);
+  border-radius: 50%;
+  right: -100px;
+  top: -180px;
+}
+
+.admin-header::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border: 2px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  left: -100px;
+  bottom: -150px;
+}
+
+.admin-header-inner {
+  width: min(1400px, calc(100% - 40px));
+  margin: 0 auto;
+  min-height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+.admin-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--admin-yellow);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.admin-label::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: var(--admin-yellow);
+}
+
+.admin-header h1 {
+  margin: 0 0 8px;
+  color: #ffffff;
+  font-size: clamp(34px, 5vw, 56px);
+  line-height: 1;
+  font-weight: 800;
+}
+
+.admin-header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 15px;
+}
+
+/* =========================================================
+BACK BUTTON
+========================================================= */
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 12px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.back-button:hover {
+  background: var(--admin-yellow);
+  color: var(--admin-navy);
+  border-color: var(--admin-yellow);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+MAIN CONTAINER
+========================================================= */
+
+.admin-container {
+  width: min(1400px, calc(100% - 40px));
+  margin: 40px auto 0;
+}
+
+/* =========================================================
+ADMIN CARD
+========================================================= */
+
+.admin-card {
+  background: var(--admin-white);
+  border: 1px solid var(--admin-border);
+  border-radius: 22px;
+  box-shadow: var(--admin-shadow);
+  padding: 34px;
+  margin-bottom: 28px;
+}
+
+.admin-card:hover {
+  box-shadow: 0 14px 40px rgba(16, 45, 80, 0.1);
+}
+
+/* =========================================================
+SECTION HEADING
+========================================================= */
+
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 25px;
+  margin-bottom: 30px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.section-heading > div:first-child {
+  position: relative;
+  padding-left: 55px;
+}
+
+.section-number {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--admin-yellow);
+  color: var(--admin-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.section-heading h2,
+.status-card h2 {
+  margin: 0 0 5px;
+  color: var(--admin-navy);
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.section-heading p,
+.status-card p {
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+FORM GRID
+========================================================= */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.form-group {
+  min-width: 0;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+LABELS
+========================================================= */
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--admin-navy);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.checkbox-label {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* =========================================================
+INPUTS
+========================================================= */
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="url"],
+.form-group input[type="email"],
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d9dee5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--admin-text);
+  padding: 13px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+  line-height: 1.6;
+}
+
+.form-group input[type="text"]:hover,
+.form-group input[type="number"]:hover,
+.form-group input[type="url"]:hover,
+.form-group input[type="email"]:hover,
+.form-group textarea:hover,
+.form-group select:hover {
+  border-color: #b9c3cf;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group input[type="url"]:focus,
+.form-group input[type="email"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--admin-yellow-dark);
+  box-shadow: 0 0 0 4px rgba(255, 196, 61, 0.16);
+}
+
+/* =========================================================
+SMALL HELP TEXT
+========================================================= */
+
+.form-group small {
+  display: block;
+  margin-top: 7px;
+  color: var(--admin-muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+CHECKBOX
+========================================================= */
+
+.form-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--admin-navy);
+  cursor: pointer;
+}
+
+/* =========================================================
+ADD BUTTON
+========================================================= */
+
+.add-button {
+  flex-shrink: 0;
+  border: 0;
+  border-radius: 11px;
+  background: var(--admin-yellow);
+  color: var(--admin-navy);
+  min-height: 42px;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.add-button:hover {
+  background: var(--admin-yellow-dark);
+  transform: translateY(-2px);
+}
+
+/* =========================================================
+DYNAMIC CARD
+========================================================= */
+
+.dynamic-card {
+  background: #fbfcfe;
+  border: 1px solid var(--admin-border);
+  border-radius: 17px;
+  padding: 24px;
+  margin-bottom: 18px;
+  position: relative;
+}
+
+.dynamic-card:last-child {
+  margin-bottom: 0;
+}
+
+.dynamic-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  margin-bottom: 22px;
+  padding-bottom: 15px;
+  border-bottom: 1px dashed #d9dee5;
+}
+
+.dynamic-card-header h3 {
+  margin: 0;
+  color: var(--admin-navy);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+/* =========================================================
+VISA CARD
+========================================================= */
+
+.visa-card {
+  border-left: 4px solid var(--admin-yellow);
+}
+
+.visa-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  height: 25px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: var(--admin-navy);
+  color: #ffffff;
+  font-size: 11px;
+}
+
+/* =========================================================
+REMOVE BUTTON
+========================================================= */
+
+.remove-button {
+  border: 1px solid #f1c4ca;
+  background: var(--admin-danger-light);
+  color: var(--admin-danger);
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.remove-button:hover {
+  background: var(--admin-danger);
+  color: #ffffff;
+  border-color: var(--admin-danger);
+}
+
+/* =========================================================
+STATUS CARD
+========================================================= */
+
+.status-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  background: #f8fbff;
+  border-color: #dbe8f5;
+}
+
+.status-card > div {
+  position: relative;
+  padding-left: 55px;
+}
+
+.status-card .section-number {
+  top: 0;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+  color: var(--admin-navy);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.switch-label input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--admin-success);
+  cursor: pointer;
+}
+
+/* =========================================================
+SAVE AREA
+========================================================= */
+
+.save-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  background: var(--admin-navy);
+  border-radius: 20px;
+  padding: 25px 28px;
+  box-shadow: 0 15px 40px rgba(16, 45, 80, 0.15);
+}
+
+.save-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.save-info strong {
+  color: #ffffff;
+  font-size: 17px;
+}
+
+.save-info span {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 13px;
+}
+
+.save-button {
+  min-height: 50px;
+  border: 0;
+  border-radius: 12px;
+  padding: 0 24px;
+  background: var(--admin-yellow);
+  color: var(--admin-navy);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  transition: 0.25s ease;
+  white-space: nowrap;
+}
+
+.save-button:hover {
+  background: var(--admin-yellow-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 196, 61, 0.25);
+}
+
+/* =========================================================
+CONFIRMATION OVERLAY
+========================================================= */
+
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(10, 25, 45, 0.65);
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.confirm-overlay.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* =========================================================
+CONFIRM MODAL
+========================================================= */
+
+.confirm-modal {
+  width: min(450px, 100%);
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 35px;
+  text-align: center;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.22);
+  transform: translateY(15px) scale(0.97);
+  transition: 0.25s ease;
+}
+
+.confirm-overlay.show .confirm-modal {
+  transform: translateY(0) scale(1);
+}
+
+.confirm-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: rgba(255, 196, 61, 0.18);
+  color: var(--admin-yellow-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.confirm-modal h2 {
+  margin: 0 0 10px;
+  color: var(--admin-navy);
+  font-size: 25px;
+}
+
+.confirm-modal p {
+  margin: 0 0 8px;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.confirm-country {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px !important;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: #f5f7fa;
+  color: var(--admin-navy) !important;
+  font-weight: 800;
+}
+
+/* =========================================================
+CONFIRM ACTIONS
+========================================================= */
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.cancel-button,
+.confirm-button {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.cancel-button {
+  border: 1px solid var(--admin-border);
+  background: #ffffff;
+  color: var(--admin-text);
+}
+
+.cancel-button:hover {
+  background: #f3f4f6;
+}
+
+.confirm-button {
+  border: 0;
+  background: var(--admin-navy);
+  color: #ffffff;
+}
+
+.confirm-button:hover {
+  background: var(--admin-navy-light);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .admin-header-inner {
+    min-height: 210px;
+  }
+
+  .admin-card {
+    padding: 28px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-group.full-width {
+    grid-column: auto;
+  }
+
+  .save-area {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .save-button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+  .admin-page {
+    padding-bottom: 50px;
+  }
+
+  .admin-header-inner {
+    width: min(100% - 28px, 1400px);
+    min-height: auto;
+    padding: 45px 0;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-header h1 {
+    font-size: 38px;
+  }
+
+  .admin-header p {
+    font-size: 13px;
+  }
+
+  .back-button {
+    width: 100%;
+  }
+
+  .admin-container {
+    width: min(100% - 28px, 1400px);
+    margin-top: 20px;
+  }
+
+  .admin-card {
+    border-radius: 17px;
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+
+  .section-heading {
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 24px;
+  }
+
+  .section-heading > div:first-child {
+    padding-left: 50px;
+  }
+
+  .section-heading h2,
+  .status-card h2 {
+    font-size: 20px;
+  }
+
+  .add-button {
+    width: 100%;
+  }
+
+  .dynamic-card {
+    padding: 17px;
+    border-radius: 14px;
+  }
+
+  .dynamic-card-header {
+    align-items: flex-start;
+  }
+
+  .dynamic-card-header h3 {
+    font-size: 15px;
+  }
+
+  .remove-button {
+    flex-shrink: 0;
+  }
+
+  .status-card {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 22px 20px;
+  }
+
+  .status-card > div {
+    padding-left: 50px;
+  }
+
+  .switch-label {
+    width: 100%;
+  }
+
+  .save-area {
+    border-radius: 17px;
+    padding: 20px;
+  }
+
+  .save-info strong {
+    font-size: 15px;
+  }
+
+  .save-info span {
+    font-size: 12px;
+  }
+
+  .confirm-modal {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+  .confirm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .confirm-button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+  .admin-header h1 {
+    font-size: 32px;
+  }
+
+  .admin-card {
+    padding: 16px;
+  }
+
+  .dynamic-card {
+    padding: 14px;
+  }
+
+  .form-group input[type="text"],
+  .form-group input[type="number"],
+  .form-group textarea {
+    font-size: 13px;
+  }
+}

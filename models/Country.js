@@ -1,0 +1,291 @@
+const mongoose = require("mongoose");
+
+/* =========================================================
+VISA TYPE SCHEMA
+========================================================= */
+
+const visaTypeSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    slug: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    purpose: {
+      type: String,
+      trim: true,
+    },
+
+    stayDuration: {
+      type: String,
+      trim: true,
+    },
+
+    validity: {
+      type: String,
+      trim: true,
+    },
+
+    processingTime: {
+      type: String,
+      trim: true,
+    },
+
+    entryType: {
+      type: String,
+      trim: true,
+    },
+
+    governmentFee: {
+      type: String,
+      trim: true,
+    },
+
+    serviceFee: {
+      type: String,
+      trim: true,
+    },
+
+    totalFee: {
+      type: String,
+      trim: true,
+    },
+
+    eligibility: {
+      type: [String],
+      default: [],
+    },
+
+    documents: {
+      type: [String],
+      default: [],
+    },
+
+    description: {
+      type: String,
+      trim: true,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+/* =========================================================
+COUNTRY SCHEMA
+========================================================= */
+
+const countrySchema = new mongoose.Schema(
+  {
+    /* =====================================================
+BASIC INFORMATION
+===================================================== */
+
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+    },
+
+    countryCode: {
+      type: String,
+      trim: true,
+      uppercase: true,
+    },
+
+    flag: {
+      type: String,
+      trim: true,
+    },
+
+    image: {
+      type: String,
+      trim: true,
+    },
+
+    shortDescription: {
+      type: String,
+      trim: true,
+    },
+
+    description: {
+      type: String,
+      trim: true,
+    },
+
+    startingFee: {
+      type: String,
+      trim: true,
+    },
+
+    startingProcessingTime: {
+      type: String,
+      trim: true,
+    },
+
+    heroBadge: {
+      type: String,
+      trim: true,
+    },
+
+    /* =====================================================
+   VISA TYPES
+===================================================== */
+
+    visaTypes: {
+      type: [visaTypeSchema],
+      default: [],
+    },
+
+    /* =====================================================
+   REQUIREMENTS
+===================================================== */
+
+    requirements: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   ELIGIBILITY
+===================================================== */
+
+    eligibility: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   APPLICATION PROCESS
+===================================================== */
+
+    applicationProcess: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   ENTRY REQUIREMENTS
+===================================================== */
+
+    entryRequirements: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   RESTRICTIONS
+===================================================== */
+
+    restrictions: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   FEES
+===================================================== */
+
+    fees: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+
+    /* =====================================================
+   PROCESSING
+===================================================== */
+
+    processing: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+
+    /* =====================================================
+   TRAVEL INFORMATION
+===================================================== */
+
+    travelInfo: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+
+    /* =====================================================
+   TRAVEL TIPS
+===================================================== */
+
+    travelTips: {
+      type: [String],
+      default: [],
+    },
+
+    /* =====================================================
+   IMPORTANT NOTES
+===================================================== */
+
+    importantNotes: {
+      type: [String],
+      default: [],
+    },
+
+    /* =====================================================
+   FAQS
+===================================================== */
+
+    faqs: {
+      type: [mongoose.Schema.Types.Mixed],
+      default: [],
+    },
+
+    /* =====================================================
+   COUNTRY STATUS
+===================================================== */
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    /* =====================================================
+   FIELD LEVEL UPDATE TIMESTAMPS
+===================================================== */
+
+    fieldUpdatedAt: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
+  },
+
+  /* =======================================================
+AUTOMATIC DOCUMENT TIMESTAMPS
+======================================================= */
+
+  {
+    timestamps: true,
+  },
+);
+
+/* =========================================================
+MODEL
+========================================================= */
+
+module.exports = mongoose.model("Country", countrySchema);

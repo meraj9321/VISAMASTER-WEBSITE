@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Enquiries | VisaMaster</title>
+
+    <meta
+        name="description"
+        content="VisaMaster customer enquiries"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/admin-enquiries.css"
+    >
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+        <div class="admin-brand">
+
+            <div class="admin-logo">
+                V
+            </div>
+
+            <div>
+
+                <h2>
+                    VisaMaster
+                </h2>
+
+                <span>
+                    Admin Panel
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="admin-nav">
+
+            <a
+                href="/admin"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/countries"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    🌍
+                </span>
+
+                <span>
+                    Countries
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/destinations"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📍
+                </span>
+
+                <span>
+                    Destinations
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/news"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📰
+                </span>
+
+                <span>
+                    News
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/team"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    👥
+                </span>
+
+                <span>
+                    Team
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/enquiries"
+                class="admin-nav-link active"
+            >
+
+                <span class="nav-icon">
+                    📩
+                </span>
+
+                <span>
+                    Enquiries
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="admin-sidebar-footer">
+
+            <a
+                href="/"
+                class="admin-nav-link"
+                target="_blank"
+            >
+
+                <span class="nav-icon">
+                    🌐
+                </span>
+
+                <span>
+                    View Website
+                </span>
+
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <div class="admin-eyebrow">
+                    CUSTOMER ENQUIRIES
+                </div>
+
+                <h1>
+                    Enquiries
+                </h1>
+
+                <p>
+                    Recent visa enquiries received from customers.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a
+                    href="/admin"
+                    class="view-site-button"
+                >
+                    ← Dashboard
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             ENQUIRY SUMMARY
+        ================================================== -->
+
+        <section class="admin-content">
+
+
+            <div class="enquiry-summary">
+
+                <div>
+
+                    <span>
+                        TOTAL ENQUIRIES
+                    </span>
+
+                    <strong>
+                        <%= enquiries.length %>
+                    </strong>
+
+                </div>
+
+                <div class="enquiry-summary-icon">
+                    📩
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 ENQUIRY LIST
+            ================================================== -->
+
+            <div class="enquiries-list">
+
+                <% if (enquiries.length > 0) { %>
+
+
+                    <% enquiries.forEach(function(enquiry) { %>
+
+                        <article class="enquiry-card">
+
+
+                            <!-- HEADER -->
+
+                            <div class="enquiry-card-header">
+
+                                <div class="enquiry-person">
+
+                                    <div class="enquiry-avatar">
+                                        <%= (enquiry.name || "U")
+                                            .charAt(0)
+                                            .toUpperCase() %>
+                                    </div>
+
+                                    <div>
+
+                                        <h2>
+                                            <%= enquiry.name || "Unknown" %>
+                                        </h2>
+
+                                        <span>
+                                            <%= enquiry.createdAt
+                                                ? new Date(enquiry.createdAt).toLocaleString("en-IN", {
+                                                    dateStyle: "medium",
+                                                    timeStyle: "short"
+                                                })
+                                                : "Date unavailable"
+                                            %>
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <span class="enquiry-status">
+                                    <%= enquiry.status || "new" %>
+                                </span>
+
+                            </div>
+
+
+                            <!-- CONTACT INFORMATION -->
+
+                            <div class="enquiry-info-grid">
+
+
+                                <div class="enquiry-info">
+
+                                    <span>
+                                        PHONE
+                                    </span>
+
+                                    <a
+                                        href="tel:<%= enquiry.phone %>"
+                                    >
+                                        <%= enquiry.phone %>
+                                    </a>
+
+                                </div>
+
+
+                                <div class="enquiry-info">
+
+                                    <span>
+                                        EMAIL
+                                    </span>
+
+                                    <a
+                                        href="mailto:<%= enquiry.email %>"
+                                    >
+                                        <%= enquiry.email %>
+                                    </a>
+
+                                </div>
+
+
+                                <div class="enquiry-info">
+
+                                    <span>
+                                        DESTINATION
+                                    </span>
+
+                                    <strong>
+                                        🌍 <%= enquiry.destination %>
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="enquiry-info">
+
+                                    <span>
+                                        VISA TYPE
+                                    </span>
+
+                                    <strong>
+                                        🛂 <%= enquiry.visaType %>
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- MESSAGE -->
+
+                            <div class="enquiry-message">
+
+                                <span>
+                                    MESSAGE
+                                </span>
+
+                                <p>
+                                    <%= enquiry.message %>
+                                </p>
+
+                            </div>
+
+
+                        </article>
+
+                    <% }); %>
+
+
+                <% } else { %>
+
+
+                    <div class="enquiries-empty">
+
+                        <div class="empty-enquiry-icon">
+                            📩
+                        </div>
+
+                        <h2>
+                            No Enquiries Yet
+                        </h2>
+
+                        <p>
+                            Customer enquiries will appear here when someone submits the contact form.
+                        </p>
+
+                    </div>
+
+
+                <% } %>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+</div>
+
+</body>
+
+</html>

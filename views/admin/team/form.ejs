@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <%= pageTitle %> | VisaMaster
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/admin.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/admin-team.css"
+    >
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+    <div class="admin-brand">
+
+        <div class="admin-logo">VM</div>
+
+        <div>
+            <h2>VisaMaster</h2>
+            <span>Admin Panel</span>
+        </div>
+
+    </div>
+
+    <nav class="admin-nav">
+
+        <a href="/admin" class="admin-nav-link">
+            <span class="nav-icon">⌂</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/admin/countries" class="admin-nav-link">
+            <span class="nav-icon">🌍</span>
+            <span>Countries</span>
+        </a>
+
+        <a href="/admin/news" class="admin-nav-link">
+            <span class="nav-icon">📰</span>
+            <span>News</span>
+        </a>
+
+        <a href="/admin/team" class="admin-nav-link active">
+            <span class="nav-icon">👥</span>
+            <span>Team Members</span>
+        </a>
+
+        <a href="/admin/destinations" class="admin-nav-link">
+            <span class="nav-icon">📍</span>
+            <span>Destinations</span>
+        </a>
+
+        <a href="/admin/enquiries" class="admin-nav-link">
+            <span class="nav-icon">✉️</span>
+            <span>Enquiries</span>
+        </a>
+
+        <div class="admin-nav-divider"></div>
+
+        <a
+            href="/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="admin-nav-link"
+        >
+            <span class="nav-icon">↗</span>
+            <span>View Website</span>
+        </a>
+
+    </nav>
+
+    <div class="admin-sidebar-footer">
+        <span class="admin-status-dot"></span>
+        <span>Admin System Online</span>
+    </div>
+
+</aside>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <h1>
+                    <%= pageTitle %>
+                </h1>
+
+                <p>
+                    Add or update VisaMaster team information.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/admin/team"
+                class="team-back-button"
+            >
+                ← Back to Team
+            </a>
+
+        </header>
+
+
+        <!-- CONTENT -->
+
+        <section class="admin-content">
+
+
+            <div class="team-form-card">
+
+                <div class="team-form-header">
+
+                    <h2>
+                        Team Member Details
+                    </h2>
+
+                    <p>
+                        Fill in the information below.
+                    </p>
+
+                </div>
+
+
+                <form
+                    action="<%= formAction %>"
+                    method="POST"
+                    class="team-form"
+                >
+
+
+                    <!-- NAME -->
+
+                    <div class="team-form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="<%= teamMember ? teamMember.name : '' %>"
+                            placeholder="Enter full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- ROLE -->
+
+                    <div class="team-form-row">
+
+                        <div class="team-form-group">
+
+                            <label for="role">
+                                Role
+                            </label>
+
+                            <select
+                                id="role"
+                                name="role"
+                                required
+                            >
+
+                                <option
+                                    value=""
+                                    disabled
+                                    <%= !teamMember ? "selected" : "" %>
+                                >
+                                    Select role
+                                </option>
+
+                                <option
+                                    value="partner"
+                                    <%= teamMember && teamMember.role === "partner" ? "selected" : "" %>
+                                >
+                                    Partner
+                                </option>
+
+                                <option
+                                    value="accountant"
+                                    <%= teamMember && teamMember.role === "accountant" ? "selected" : "" %>
+                                >
+                                    Accountant
+                                </option>
+
+                                <option
+                                    value="executive"
+                                    <%= teamMember && teamMember.role === "executive" ? "selected" : "" %>
+                                >
+                                    Visa Executive
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- DESIGNATION -->
+
+                        <div class="team-form-group">
+
+                            <label for="designation">
+                                Designation
+                            </label>
+
+                            <input
+                                type="text"
+                                id="designation"
+                                name="designation"
+                                value="<%= teamMember ? teamMember.designation : '' %>"
+                                placeholder="e.g. Managing Partner"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- PHONE -->
+
+                    <div class="team-form-row">
+
+                        <div class="team-form-group">
+
+                            <label for="phone">
+                                Phone
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                value="<%= teamMember ? teamMember.phone : '' %>"
+                                placeholder="Enter phone number"
+                                required
+                            >
+
+                        </div>
+
+
+                        <!-- WHATSAPP -->
+
+                        <div class="team-form-group">
+
+                            <label for="whatsapp">
+                                WhatsApp
+                            </label>
+
+                            <input
+                                type="tel"
+                                id="whatsapp"
+                                name="whatsapp"
+                                value="<%= teamMember ? teamMember.whatsapp : '' %>"
+                                placeholder="Enter WhatsApp number"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+
+                    <div class="team-form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="<%= teamMember ? teamMember.email : '' %>"
+                            placeholder="Enter email address"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- IMAGE -->
+
+                    <div class="team-form-group">
+
+                        <label for="image">
+                            Image URL
+                        </label>
+
+                        <input
+                            type="text"
+                            id="image"
+                            name="image"
+                            value="<%= teamMember ? teamMember.image : '' %>"
+                            placeholder="/images/team/member.jpg"
+                        >
+
+                        <small>
+                            Enter the image URL/path. Leave blank if no image.
+                        </small>
+
+                    </div>
+
+
+                    <!-- ORDER -->
+
+                    <div class="team-form-row">
+
+                        <div class="team-form-group">
+
+                            <label for="order">
+                                Display Order
+                            </label>
+
+                            <input
+                                type="number"
+                                id="order"
+                                name="order"
+                                value="<%= teamMember ? teamMember.order : 0 %>"
+                                min="0"
+                                step="1"
+                            >
+
+                            <small>
+                                Lower number appears first.
+                            </small>
+
+                        </div>
+
+
+                        <!-- ACTIVE -->
+
+                        <div class="team-form-group">
+
+                            <label>
+                                Status
+                            </label>
+
+                            <label class="team-checkbox">
+
+                                <input
+                                    type="checkbox"
+                                    name="active"
+                                    <%= !teamMember || teamMember.active ? "checked" : "" %>
+                                >
+
+                                <span>
+                                    Active Member
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="team-form-actions">
+
+                        <a
+                            href="/admin/team"
+                            class="team-cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="team-save-button"
+                        >
+                            <%= teamMember ? "Update Team Member" : "Add Team Member" %>
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>

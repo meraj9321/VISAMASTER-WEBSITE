@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Manage Countries | VisaMaster</title>
+
+<meta
+    name="description"
+    content="Manage VisaMaster countries and visa information"
+>
+
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/admin-countries.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="admin-sidebar">
+
+
+        <!-- BRAND / LOGO -->
+
+        <div class="admin-brand">
+
+            <div class="admin-logo">
+                V
+            </div>
+
+            <div>
+
+                <h2>
+                    VisaMaster
+                </h2>
+
+                <span>
+                    Admin Panel
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="admin-nav">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="/admin"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📊
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <!-- COUNTRIES -->
+
+            <a
+                href="/admin/countries"
+                class="admin-nav-link active"
+            >
+
+                <span class="nav-icon">
+                    🌍
+                </span>
+
+                <span>
+                    Countries
+                </span>
+
+            </a>
+
+
+            <!-- DESTINATIONS -->
+
+            <a
+                href="/admin/destinations"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📍
+                </span>
+
+                <span>
+                    Destinations
+                </span>
+
+            </a>
+
+
+            <!-- NEWS -->
+
+            <a
+                href="/admin/news"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📰
+                </span>
+
+                <span>
+                    News
+                </span>
+
+            </a>
+
+
+            <!-- TEAM -->
+
+            <a
+                href="/admin/team"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    👥
+                </span>
+
+                <span>
+                    Team
+                </span>
+
+            </a>
+
+
+            <!-- ENQUIRIES -->
+
+            <a
+                href="/admin/enquiries"
+                class="admin-nav-link"
+            >
+
+                <span class="nav-icon">
+                    📩
+                </span>
+
+                <span>
+                    Enquiries
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="admin-sidebar-footer">
+
+            <a
+                href="/"
+                class="admin-nav-link"
+                target="_blank"
+            >
+
+                <span class="nav-icon">
+                    🌐
+                </span>
+
+                <span>
+                    View Website
+                </span>
+
+            </a>
+
+        </div>
+
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- TOPBAR -->
+
+        <header class="admin-topbar">
+
+            <div>
+
+                <div class="admin-eyebrow">
+                    COUNTRY MANAGEMENT
+                </div>
+
+                <h1>
+                    Manage Countries
+                </h1>
+
+                <p>
+                    View and update visa information for all countries.
+                </p>
+
+            </div>
+
+
+            <div class="admin-topbar-actions">
+
+                <a
+                    href="/admin"
+                    class="view-site-button"
+                >
+                    ← Dashboard
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+        ================================================== -->
+
+        <section class="admin-content">
+
+
+            <!-- =================================================
+                 SUMMARY
+            ================================================== -->
+
+            <div class="admin-card">
+
+
+                <div>
+
+                    <span class="admin-card-label">
+                        Total Countries
+                    </span>
+
+
+                    <h2>
+                        <%= countries.length %>
+                    </h2>
+
+
+                    <p>
+                        Countries available in your visa database.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 SEARCH
+            ================================================== -->
+
+            <div class="admin-card">
+
+
+                <div class="countries-search">
+
+
+                    <label for="countrySearch">
+                        Search Countries
+                    </label>
+
+
+                    <input
+                        type="text"
+                        id="countrySearch"
+                        placeholder="Search by country name or code..."
+                        autocomplete="off"
+                    >
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 COUNTRY LIST
+            ================================================== -->
+
+            <div class="admin-card">
+
+
+                <div class="admin-card-header">
+
+
+                    <div>
+
+                        <h2>
+                            All Countries
+                        </h2>
+
+                        <p>
+                            Select a country to edit its visa information.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+
+                <% if (countries.length > 0) { %>
+
+
+                    <div class="countries-table-wrapper">
+
+
+                        <table
+                            class="countries-table"
+                            id="countriesTable"
+                        >
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Country
+                                    </th>
+
+                                    <th>
+                                        Code
+                                    </th>
+
+                                    <th>
+                                        Visa Types
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <% countries.forEach(function(country) { %>
+
+
+                                    <tr
+                                        class="country-row"
+                                        data-name="<%= country.name || '' %>"
+                                        data-code="<%= country.countryCode || '' %>"
+                                    >
+
+
+                                        <!-- COUNTRY -->
+
+                                        <td>
+
+
+                                            <div class="country-table-country">
+
+
+                                                <%
+    const countryImage = country.image || country.flag;
+%>
+
+<% if (countryImage) { %>
+
+    <img
+        src="<%= countryImage %>"
+        alt="<%= country.name || 'Country' %>"
+        class="country-table-flag"
+        loading="lazy"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    >
+
+    <div
+        class="country-table-flag-placeholder"
+        style="display: none;"
+    >
+        🌍
+    </div>
+
+<% } else { %>
+
+    <div class="country-table-flag-placeholder">
+        🌍
+    </div>
+
+<% } %> 
+
+
+                                                <div>
+
+
+                                                    <strong>
+                                                        <%= country.name || 'Unnamed Country' %>
+                                                    </strong>
+
+
+                                                    <% if (country.slug) { %>
+
+                                                        <span>
+                                                            /<%= country.slug %>
+                                                        </span>
+
+                                                    <% } %>
+
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                        <!-- CODE -->
+
+                                        <td>
+
+                                            <%= country.countryCode || '—' %>
+
+                                        </td>
+
+
+                                        <!-- VISA TYPES -->
+
+                                        <td>
+
+                                            <%= Array.isArray(country.visaTypes)
+                                                ? country.visaTypes.length
+                                                : 0
+                                            %>
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+
+                                            <% if (country.isActive === false) { %>
+
+
+                                                <span class="status-badge status-inactive">
+                                                    Inactive
+                                                </span>
+
+
+                                            <% } else { %>
+
+
+                                                <span class="status-badge status-active">
+                                                    Active
+                                                </span>
+
+
+                                            <% } %>
+
+
+                                        </td>
+
+
+                                        <!-- ACTION -->
+
+                                        <td>
+
+
+                                            <% if (country.slug) { %>
+
+
+                                                <a
+                                                    href="/admin/countries/<%= country.slug %>/edit"
+                                                    class="country-edit-button"
+                                                >
+                                                    ✏️ Edit
+                                                </a>
+
+
+                                            <% } else { %>
+
+
+                                                <span>
+                                                    No slug
+                                                </span>
+
+
+                                            <% } %>
+
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                <% }); %>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                <% } else { %>
+
+
+                    <!-- =================================================
+                         EMPTY STATE
+                    ================================================== -->
+
+                    <div class="countries-empty-state">
+
+
+                        <div class="empty-state-icon">
+                            🌍
+                        </div>
+
+
+                        <h3>
+                            No countries available
+                        </h3>
+
+
+                        <p>
+                            There are currently no countries in your database.
+                        </p>
+
+
+                    </div>
+
+
+                <% } %>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+</div>
+
+
+<!-- =========================================================
+     COUNTRY SEARCH
+========================================================== -->
+
+<script>
+
+    const searchInput =
+        document.getElementById("countrySearch");
+
+    const countryRows =
+        document.querySelectorAll(".country-row");
+
+
+    if (searchInput) {
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                const searchText =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                countryRows.forEach(
+                    function (row) {
+
+                        const name =
+                            (row.dataset.name || "")
+                                .toLowerCase();
+
+
+                        const code =
+                            (row.dataset.code || "")
+                                .toLowerCase();
+
+
+                        if (
+                            name.includes(searchText) ||
+                            code.includes(searchText)
+                        ) {
+
+                            row.style.display = "";
+
+                        } else {
+
+                            row.style.display = "none";
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+</script>
+
+</body>
+
+</html>

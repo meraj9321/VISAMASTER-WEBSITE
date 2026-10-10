@@ -1,0 +1,478 @@
+/* =========================================================
+   VISAMASTER ADMIN — COUNTRIES MANAGEMENT
+   File: public/css/admin-countries.css
+========================================================= */
+
+:root {
+  --countries-navy: #102d50;
+  --countries-navy-dark: #0b2039;
+  --countries-yellow: #ffc43d;
+  --countries-orange: #f0a72d;
+  --countries-cream: #fffdf7;
+  --countries-white: #ffffff;
+  --countries-text: #1f2937;
+  --countries-muted: #6b7280;
+  --countries-border: #e5e7eb;
+  --countries-success: #198754;
+  --countries-success-light: #ecfdf3;
+  --countries-danger: #dc3545;
+  --countries-danger-light: #fff1f2;
+  --countries-shadow: 0 10px 30px rgba(16, 45, 80, 0.08);
+}
+
+/* =========================================================
+   PAGE CONTENT
+========================================================= */
+
+.admin-content {
+  padding: 30px;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.admin-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.admin-topbar h1 {
+  margin: 0;
+  color: var(--countries-navy);
+}
+
+.admin-topbar p {
+  margin: 6px 0 0;
+  color: var(--countries-muted);
+}
+
+/* =========================================================
+   TOPBAR BUTTON
+========================================================= */
+
+.admin-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.admin-button-secondary {
+  background: var(--countries-white);
+  color: var(--countries-navy);
+  border: 1px solid var(--countries-border);
+}
+
+.admin-button-secondary:hover {
+  background: var(--countries-cream);
+  border-color: var(--countries-yellow);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   ADMIN CARD
+========================================================= */
+
+.admin-card {
+  background: var(--countries-white);
+  border: 1px solid var(--countries-border);
+  border-radius: 16px;
+  box-shadow: var(--countries-shadow);
+}
+
+/* =========================================================
+   COUNTRY COUNT CARD
+========================================================= */
+
+.admin-content > .admin-card:first-child {
+  margin-bottom: 20px;
+}
+
+.admin-content > .admin-card:first-child > div {
+  padding: 24px 28px;
+}
+
+.admin-card-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: var(--countries-muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.admin-content > .admin-card:first-child h2 {
+  margin: 0;
+  color: var(--countries-navy);
+  font-size: 34px;
+  line-height: 1;
+}
+
+.admin-content > .admin-card:first-child p {
+  margin: 10px 0 0;
+  color: var(--countries-muted);
+  font-size: 14px;
+}
+
+/* =========================================================
+   SEARCH CARD
+========================================================= */
+
+.countries-search {
+  padding: 22px 26px;
+}
+
+.countries-search label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--countries-text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.countries-search input {
+  width: 100%;
+  height: 46px;
+  padding: 0 15px;
+  box-sizing: border-box;
+  border: 1px solid var(--countries-border);
+  border-radius: 10px;
+  outline: none;
+  background: var(--countries-white);
+  color: var(--countries-text);
+  font-family: inherit;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.countries-search input::placeholder {
+  color: #9ca3af;
+}
+
+.countries-search input:focus {
+  border-color: var(--countries-yellow);
+  box-shadow: 0 0 0 3px rgba(255, 196, 61, 0.18);
+}
+
+/* =========================================================
+   COUNTRIES TABLE CARD
+========================================================= */
+
+.admin-content > .admin-card:last-child {
+  overflow: hidden;
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px 26px;
+  border-bottom: 1px solid var(--countries-border);
+}
+
+.admin-card-header h2 {
+  margin: 0;
+  color: var(--countries-navy);
+  font-size: 20px;
+}
+
+.admin-card-header p {
+  margin: 6px 0 0;
+  color: var(--countries-muted);
+  font-size: 14px;
+}
+
+/* =========================================================
+   TABLE WRAPPER
+========================================================= */
+
+.countries-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.countries-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.countries-table thead {
+  background: #f8fafc;
+}
+
+.countries-table th {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--countries-border);
+  color: var(--countries-muted);
+  text-align: left;
+  font-size: 12px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.countries-table td {
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf0f3;
+  color: var(--countries-text);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.countries-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.country-row {
+  transition: background 0.2s ease;
+}
+
+.country-row:hover {
+  background: #fffdf7;
+}
+
+/* =========================================================
+   COUNTRY NAME + FLAG
+========================================================= */
+
+.country-table-country {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 210px;
+}
+
+.country-table-country > div:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.country-table-country strong {
+  color: var(--countries-navy);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.country-table-country span {
+  color: var(--countries-muted);
+  font-size: 12px;
+}
+
+.country-table-flag,
+.country-table-flag-placeholder {
+  width: 42px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--countries-border);
+}
+
+.country-table-flag-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  font-size: 17px;
+}
+
+/* =========================================================
+   STATUS BADGES
+========================================================= */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.status-active {
+  background: var(--countries-success-light);
+  color: var(--countries-success);
+}
+
+.status-inactive {
+  background: var(--countries-danger-light);
+  color: var(--countries-danger);
+}
+
+/* =========================================================
+   EDIT BUTTON
+========================================================= */
+
+.country-edit-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 0 12px;
+  border-radius: 8px;
+  background: var(--countries-navy);
+  color: var(--countries-white);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.country-edit-button:hover {
+  background: var(--countries-navy-dark);
+  color: var(--countries-white);
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(16, 45, 80, 0.18);
+}
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.countries-empty-state {
+  padding: 70px 25px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #fff8df;
+  font-size: 32px;
+}
+
+.countries-empty-state h3 {
+  margin: 0;
+  color: var(--countries-navy);
+  font-size: 20px;
+}
+
+.countries-empty-state p {
+  margin: 8px 0 0;
+  color: var(--countries-muted);
+  font-size: 14px;
+}
+
+/* =========================================================
+   TABLE SEARCH — NO RESULT STATE
+========================================================= */
+
+.country-row.country-hidden {
+  display: none;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+  .admin-content {
+    padding: 24px 20px;
+  }
+
+  .admin-topbar {
+    align-items: flex-start;
+  }
+
+  .countries-table {
+    min-width: 700px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+  .admin-content {
+    padding: 18px 14px;
+  }
+
+  .admin-topbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+  }
+
+  .admin-topbar h1 {
+    font-size: 24px;
+  }
+
+  .admin-topbar p {
+    font-size: 13px;
+  }
+
+  .admin-topbar-actions {
+    width: 100%;
+  }
+
+  .admin-button {
+    width: 100%;
+  }
+
+  .admin-content > .admin-card:first-child > div {
+    padding: 20px;
+  }
+
+  .admin-content > .admin-card:first-child h2 {
+    font-size: 30px;
+  }
+
+  .countries-search {
+    padding: 18px;
+  }
+
+  .admin-card-header {
+    padding: 20px 18px;
+  }
+
+  .admin-card-header h2 {
+    font-size: 18px;
+  }
+
+  .admin-card-header p {
+    font-size: 13px;
+  }
+
+  .countries-table th,
+  .countries-table td {
+    padding: 13px 14px;
+  }
+
+  .country-table-country {
+    min-width: 190px;
+  }
+}

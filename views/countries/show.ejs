@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    <%= country.name %> Visa | VisaMaster
+  </title>
+
+  <meta
+    name="description"
+    content="<%= country.shortDescription || country.description || '' %>"
+  >
+
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+  >
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <!-- COMMON CSS -->
+  <link rel="stylesheet" href="/css/global.css">
+
+  <!-- NAVBAR CSS -->
+  <link rel="stylesheet" href="/css/navbar.css">
+
+  <!-- COUNTRY DETAIL CSS -->
+  <link rel="stylesheet" href="/css/country-detail.css">
+
+  <!-- FOOTER CSS -->
+  <link rel="stylesheet" href="/css/footer.css">
+
+</head>
+
+
+<body>
+
+  <!-- =========================================
+       NAVBAR
+  ========================================== -->
+
+  <%- include("../partials/navbar") %>
+
+
+  <!-- =========================================
+       COUNTRY HERO
+  ========================================== -->
+
+  <section class="country-detail-hero">
+
+    <div class="container country-hero-grid">
+
+      <!-- LEFT CONTENT -->
+
+      <div class="country-hero-content">
+
+        <% if (country.heroBadge) { %>
+
+          <div class="country-hero-badge">
+            <span>✈</span>
+            <%= country.heroBadge %>
+          </div>
+
+        <% } %>
+
+
+        <div class="country-title-row">
+
+          <% if (country.flag) { %>
+
+            <span class="country-flag">
+              <%= country.flag %>
+            </span>
+
+          <% } %>
+
+
+          <span class="country-code">
+            <%= country.countryCode %>
+          </span>
+
+        </div>
+
+
+        <h1>
+          <%= country.name %> Visa
+        </h1>
+
+
+        <p class="country-hero-description">
+          <%= country.description || country.shortDescription || "" %>
+        </p>
+
+
+        <div class="country-hero-actions">
+
+          <a
+            href="/contact"
+            class="primary-btn"
+          >
+            Apply Now
+            <span>→</span>
+          </a>
+
+
+          <a
+            href="#visa-options"
+            class="secondary-btn"
+          >
+            Explore Visa Options
+          </a>
+
+        </div>
+
+
+        <!-- HERO QUICK STATS -->
+
+        <div class="hero-mini-stats">
+
+          <% if (country.startingFee) { %>
+
+            <div class="hero-stat">
+
+              <span>💰</span>
+
+              <div>
+                <small>Starting From</small>
+                <strong><%= country.startingFee %></strong>
+              </div>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.startingProcessingTime) { %>
+
+            <div class="hero-stat">
+
+              <span>⏱️</span>
+
+              <div>
+                <small>Processing</small>
+                <strong><%= country.startingProcessingTime %></strong>
+              </div>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+
+      <!-- RIGHT IMAGE -->
+
+      <div class="country-hero-visual">
+
+        <% if (country.image) { %>
+
+          <div class="country-image-card">
+
+            <img
+              src="<%= country.image %>"
+              alt="<%= country.name %> visa"
+            >
+
+            <div class="image-overlay-card">
+
+              <span>
+                <%= country.flag || "🌍" %>
+              </span>
+
+              <div>
+                <strong>
+                  <%= country.name %>
+                </strong>
+
+                <small>
+                  Visa Information
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+        <% } else { %>
+
+          <div class="country-image-fallback">
+
+            <span>
+              <%= country.flag || "🌍" %>
+            </span>
+
+            <strong>
+              <%= country.name %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <div class="travel-doodle doodle-plane">
+          ✈️
+        </div>
+
+        <div class="travel-doodle doodle-pin">
+          📍
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       QUICK INFORMATION
+  ========================================== -->
+
+  <section class="country-section quick-info-section">
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <span class="section-kicker">
+          QUICK INFO
+        </span>
+
+        <h2>
+          <%= country.name %> Visa at a Glance
+        </h2>
+
+        <p>
+          Important information to know before starting your application.
+        </p>
+
+      </div>
+
+
+      <div class="quick-info-grid">
+
+
+        <% if (country.startingFee) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              💰
+            </div>
+
+            <span>
+              Starting Fee
+            </span>
+
+            <strong>
+              <%= country.startingFee %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.startingProcessingTime) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              ⏱️
+            </div>
+
+            <span>
+              Processing Time
+            </span>
+
+            <strong>
+              <%= country.startingProcessingTime %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.countryCode) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              🌍
+            </div>
+
+            <span>
+              Country Code
+            </span>
+
+            <strong>
+              <%= country.countryCode %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.travelInfo && country.travelInfo.capital) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              📍
+            </div>
+
+            <span>
+              Capital
+            </span>
+
+            <strong>
+              <%= country.travelInfo.capital %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.travelInfo && country.travelInfo.currency) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              💳
+            </div>
+
+            <span>
+              Currency
+            </span>
+
+            <strong>
+              <%= country.travelInfo.currency %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.travelInfo && country.travelInfo.language) { %>
+
+          <div class="quick-info-card">
+
+            <div class="quick-icon">
+              🗣️
+            </div>
+
+            <span>
+              Language
+            </span>
+
+            <strong>
+              <%= country.travelInfo.language %>
+            </strong>
+
+          </div>
+
+        <% } %>
+
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       VISA TYPES
+  ========================================== -->
+
+  <section
+    class="country-section visa-options-section"
+    id="visa-options"
+  >
+
+    <div class="container">
+
+      <div class="section-heading">
+
+        <span class="section-kicker">
+          VISA OPTIONS
+        </span>
+
+        <h2>
+          Choose the Right Visa
+        </h2>
+
+        <p>
+          Explore visa categories available for
+          <%= country.name %>.
+        </p>
+
+      </div>
+
+
+      <% if (country.visaTypes && country.visaTypes.length > 0) { %>
+
+        <div class="visa-types-grid">
+
+          <% country.visaTypes.forEach((visa, index) => { %>
+
+            <% if (visa.isActive !== false) { %>
+
+              <article class="visa-type-card">
+
+                <div class="visa-card-top">
+
+                  <span class="visa-number">
+                    <%= String(index + 1).padStart(2, "0") %>
+                  </span>
+
+                  <span class="visa-active-badge">
+                    Available
+                  </span>
+
+                </div>
+
+
+                <div class="visa-card-icon">
+                  <%= visa.slug === "business" ? "💼" : "✈️" %>
+                </div>
+
+
+                <h3>
+                  <%= visa.name %>
+                </h3>
+
+
+                <% if (visa.purpose) { %>
+
+                  <span class="visa-purpose">
+                    <%= visa.purpose %>
+                  </span>
+
+                <% } %>
+
+
+                <% if (visa.description) { %>
+
+                  <p>
+                    <%= visa.description %>
+                  </p>
+
+                <% } %>
+
+
+                <div class="visa-details">
+
+                  <% if (visa.stayDuration) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Stay Duration
+                      </span>
+
+                      <strong>
+                        <%= visa.stayDuration %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.validity) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Validity
+                      </span>
+
+                      <strong>
+                        <%= visa.validity %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.processingTime) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Processing
+                      </span>
+
+                      <strong>
+                        <%= visa.processingTime %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.entryType) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Entry Type
+                      </span>
+
+                      <strong>
+                        <%= visa.entryType %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.governmentFee) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Government Fee
+                      </span>
+
+                      <strong>
+                        <%= visa.governmentFee %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.serviceFee) { %>
+
+                    <div class="visa-detail-row">
+
+                      <span>
+                        Service Fee
+                      </span>
+
+                      <strong>
+                        <%= visa.serviceFee %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+
+                  <% if (visa.totalFee) { %>
+
+                    <div class="visa-detail-row visa-total-row">
+
+                      <span>
+                        Total Fee
+                      </span>
+
+                      <strong>
+                        <%= visa.totalFee %>
+                      </strong>
+
+                    </div>
+
+                  <% } %>
+
+                </div>
+
+
+                <!-- VISA ELIGIBILITY -->
+
+                <% if (visa.eligibility && visa.eligibility.length > 0) { %>
+
+                  <div class="visa-small-section">
+
+                    <h4>
+                      Eligibility
+                    </h4>
+
+                    <ul>
+
+                      <% visa.eligibility.forEach(item => { %>
+
+                        <li>
+                          <span>✓</span>
+                          <%= item %>
+                        </li>
+
+                      <% }) %>
+
+                    </ul>
+
+                  </div>
+
+                <% } %>
+
+
+                <!-- VISA DOCUMENTS -->
+
+                <% if (visa.documents && visa.documents.length > 0) { %>
+
+                  <div class="visa-small-section">
+
+                    <h4>
+                      Required Documents
+                    </h4>
+
+                    <ul>
+
+                      <% visa.documents.forEach(document => { %>
+
+                        <li>
+                          <span>✓</span>
+                          <%= document %>
+                        </li>
+
+                      <% }) %>
+
+                    </ul>
+
+                  </div>
+
+                <% } %>
+
+
+                <a
+                  href="/contact"
+                  class="visa-apply-btn"
+                >
+                  Apply for this Visa
+                  <span>→</span>
+                </a>
+
+              </article>
+
+            <% } %>
+
+          <% }) %>
+
+        </div>
+
+      <% } else { %>
+
+        <div class="empty-message">
+          Visa information will be available soon.
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       REQUIREMENTS
+  ========================================== -->
+
+  <% if (country.requirements && country.requirements.length > 0) { %>
+
+    <section class="country-section requirements-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            DOCUMENTS
+          </span>
+
+          <h2>
+            Detailed Requirements
+          </h2>
+
+          <p>
+            Prepare the documents required for your application.
+          </p>
+
+        </div>
+
+
+        <div class="requirements-grid">
+
+          <% country.requirements.forEach((section, index) => { %>
+
+            <article class="requirement-card">
+
+              <div class="requirement-number">
+                <%= String(index + 1).padStart(2, "0") %>
+              </div>
+
+
+              <div class="requirement-icon">
+                <%= section.icon || "📄" %>
+              </div>
+
+
+              <h3>
+                <%= section.title %>
+              </h3>
+
+
+              <% if (section.description) { %>
+
+                <p>
+                  <%= section.description %>
+                </p>
+
+              <% } %>
+
+
+              <% if (section.items && section.items.length > 0) { %>
+
+                <ul class="check-list">
+
+                  <% section.items.forEach(item => { %>
+
+                    <li>
+
+                      <span class="check-icon">
+                        ✓
+                      </span>
+
+                      <span>
+                        <%= item %>
+                      </span>
+
+                    </li>
+
+                  <% }) %>
+
+                </ul>
+
+              <% } %>
+
+            </article>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       ELIGIBILITY
+  ========================================== -->
+
+  <% if (country.eligibility && country.eligibility.length > 0) { %>
+
+    <section class="country-section eligibility-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            ELIGIBILITY
+          </span>
+
+          <h2>
+            Who Can Apply?
+          </h2>
+
+          <p>
+            General eligibility information for
+            <%= country.name %> visa applicants.
+          </p>
+
+        </div>
+
+
+        <div class="eligibility-grid">
+
+          <% country.eligibility.forEach(section => { %>
+
+            <article class="eligibility-card">
+
+              <div class="eligibility-icon">
+                <%= section.icon || "✓" %>
+              </div>
+
+
+              <h3>
+                <%= section.title %>
+              </h3>
+
+
+              <% if (section.description) { %>
+
+                <p>
+                  <%= section.description %>
+                </p>
+
+              <% } %>
+
+
+              <% if (section.items && section.items.length > 0) { %>
+
+                <ul>
+
+                  <% section.items.forEach(item => { %>
+
+                    <li>
+                      <span>✓</span>
+                      <%= item %>
+                    </li>
+
+                  <% }) %>
+
+                </ul>
+
+              <% } %>
+
+            </article>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       APPLICATION PROCESS
+  ========================================== -->
+
+  <% if (country.applicationProcess && country.applicationProcess.length > 0) { %>
+
+    <section class="country-section process-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            HOW IT WORKS
+          </span>
+
+          <h2>
+            Application Process
+          </h2>
+
+          <p>
+            Follow these simple steps to get started.
+          </p>
+
+        </div>
+
+
+        <div class="process-timeline">
+
+          <% country.applicationProcess.forEach((step, index) => { %>
+
+            <div class="process-step">
+
+              <div class="process-number">
+                <%= step.step || index + 1 %>
+              </div>
+
+
+              <div class="process-line"></div>
+
+
+              <div class="process-content">
+
+                <% if (step.icon) { %>
+
+                  <div class="process-icon">
+                    <%= step.icon %>
+                  </div>
+
+                <% } %>
+
+
+                <h3>
+                  <%= step.title %>
+                </h3>
+
+
+                <% if (step.description) { %>
+
+                  <p>
+                    <%= step.description %>
+                  </p>
+
+                <% } %>
+
+              </div>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       FEES
+  ========================================== -->
+
+  <% if (country.fees) { %>
+
+    <section class="country-section fees-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            VISA FEES
+          </span>
+
+          <h2>
+            Fee Information
+          </h2>
+
+          <p>
+            Understand the different costs associated with the application.
+          </p>
+
+        </div>
+
+
+        <div class="fees-layout">
+
+          <div class="fee-box">
+
+            <% if (country.fees.governmentFee) { %>
+
+              <div class="fee-row">
+
+                <span>
+                  Government Fee
+                </span>
+
+                <strong>
+                  <%= country.fees.governmentFee %>
+                </strong>
+
+              </div>
+
+            <% } %>
+
+
+            <% if (country.fees.serviceFee) { %>
+
+              <div class="fee-row">
+
+                <span>
+                  VisaMaster Service Fee
+                </span>
+
+                <strong>
+                  <%= country.fees.serviceFee %>
+                </strong>
+
+              </div>
+
+            <% } %>
+
+
+            <% if (country.fees.otherCharges) { %>
+
+              <div class="fee-row">
+
+                <span>
+                  Other Charges
+                </span>
+
+                <strong>
+                  <%= country.fees.otherCharges %>
+                </strong>
+
+              </div>
+
+            <% } %>
+
+
+            <% if (country.fees.totalEstimatedFee) { %>
+
+              <div class="fee-row fee-total">
+
+                <span>
+                  Total Estimated Fee
+                </span>
+
+                <strong>
+                  <%= country.fees.totalEstimatedFee %>
+                </strong>
+
+              </div>
+
+            <% } %>
+
+
+            <% if (country.fees.currency) { %>
+
+              <div class="fee-currency">
+
+                Currency:
+                <strong>
+                  <%= country.fees.currency %>
+                </strong>
+
+              </div>
+
+            <% } %>
+
+          </div>
+
+
+          <% if (country.fees.notes && country.fees.notes.length > 0) { %>
+
+            <div class="fee-notes-box">
+
+              <h3>
+                Important Fee Notes
+              </h3>
+
+              <ul>
+
+                <% country.fees.notes.forEach(note => { %>
+
+                  <li>
+                    <span>!</span>
+                    <%= note %>
+                  </li>
+
+                <% }) %>
+
+              </ul>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       PROCESSING
+  ========================================== -->
+
+  <% if (country.processing) { %>
+
+    <section class="country-section processing-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            PROCESSING
+          </span>
+
+          <h2>
+            Processing Information
+          </h2>
+
+        </div>
+
+
+        <div class="processing-grid">
+
+          <% if (country.processing.normalProcessing) { %>
+
+            <div class="processing-card">
+
+              <div class="processing-icon">
+                🕐
+              </div>
+
+              <span>
+                Normal
+              </span>
+
+              <h3>
+                <%= country.processing.normalProcessing %>
+              </h3>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.processing.expressProcessing) { %>
+
+            <div class="processing-card">
+
+              <div class="processing-icon">
+                ⚡
+              </div>
+
+              <span>
+                Express
+              </span>
+
+              <h3>
+                <%= country.processing.expressProcessing %>
+              </h3>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.processing.urgentProcessing) { %>
+
+            <div class="processing-card">
+
+              <div class="processing-icon">
+                🚀
+              </div>
+
+              <span>
+                Urgent
+              </span>
+
+              <h3>
+                <%= country.processing.urgentProcessing %>
+              </h3>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+
+        <% if (
+          country.processing.possibleDelays &&
+          country.processing.possibleDelays.length > 0
+        ) { %>
+
+          <div class="processing-warning">
+
+            <div class="warning-icon">
+              ⚠️
+            </div>
+
+            <div>
+
+              <h3>
+                Possible Delays
+              </h3>
+
+              <ul>
+
+                <% country.processing.possibleDelays.forEach(delay => { %>
+
+                  <li>
+                    <%= delay %>
+                  </li>
+
+                <% }) %>
+
+              </ul>
+
+            </div>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (
+          country.processing.processingNotes &&
+          country.processing.processingNotes.length > 0
+        ) { %>
+
+          <div class="processing-notes">
+
+            <% country.processing.processingNotes.forEach(note => { %>
+
+              <p>
+                <span>ℹ</span>
+                <%= note %>
+              </p>
+
+            <% }) %>
+
+          </div>
+
+        <% } %>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       ENTRY REQUIREMENTS
+  ========================================== -->
+
+  <% if (
+    country.entryRequirements &&
+    country.entryRequirements.length > 0
+  ) { %>
+
+    <section class="country-section entry-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            ARRIVAL
+          </span>
+
+          <h2>
+            Entry Requirements
+          </h2>
+
+          <p>
+            Keep these documents and conditions in mind while travelling.
+          </p>
+
+        </div>
+
+
+        <div class="entry-grid">
+
+          <% country.entryRequirements.forEach(section => { %>
+
+            <article class="entry-card">
+
+              <div class="entry-icon">
+                <%= section.icon || "🛂" %>
+              </div>
+
+
+              <h3>
+                <%= section.title %>
+              </h3>
+
+
+              <% if (section.description) { %>
+
+                <p>
+                  <%= section.description %>
+                </p>
+
+              <% } %>
+
+
+              <% if (section.items && section.items.length > 0) { %>
+
+                <ul>
+
+                  <% section.items.forEach(item => { %>
+
+                    <li>
+                      <span>✓</span>
+                      <%= item %>
+                    </li>
+
+                  <% }) %>
+
+                </ul>
+
+              <% } %>
+
+            </article>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       RESTRICTIONS
+  ========================================== -->
+
+  <% if (
+    country.restrictions &&
+    country.restrictions.length > 0
+  ) { %>
+
+    <section class="country-section restrictions-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            IMPORTANT
+          </span>
+
+          <h2>
+            Travel Restrictions & Conditions
+          </h2>
+
+        </div>
+
+
+        <div class="restrictions-grid">
+
+          <% country.restrictions.forEach(section => { %>
+
+            <article class="restriction-card">
+
+              <div class="restriction-icon">
+                <%= section.icon || "⚠️" %>
+              </div>
+
+
+              <div>
+
+                <h3>
+                  <%= section.title %>
+                </h3>
+
+
+                <% if (section.description) { %>
+
+                  <p>
+                    <%= section.description %>
+                  </p>
+
+                <% } %>
+
+
+                <% if (section.items && section.items.length > 0) { %>
+
+                  <ul>
+
+                    <% section.items.forEach(item => { %>
+
+                      <li>
+                        <span>•</span>
+                        <%= item %>
+                      </li>
+
+                    <% }) %>
+
+                  </ul>
+
+                <% } %>
+
+              </div>
+
+            </article>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       TRAVEL INFORMATION
+  ========================================== -->
+
+  <% if (country.travelInfo) { %>
+
+    <section class="country-section travel-info-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            TRAVEL
+          </span>
+
+          <h2>
+            Travel Information
+          </h2>
+
+          <p>
+            Useful information for planning your trip to
+            <%= country.name %>.
+          </p>
+
+        </div>
+
+
+        <div class="travel-info-grid">
+
+          <% if (country.travelInfo.bestTimeToVisit) { %>
+
+            <div class="travel-info-card">
+
+              <span>🌤️</span>
+
+              <small>
+                Best Time to Visit
+              </small>
+
+              <strong>
+                <%= country.travelInfo.bestTimeToVisit %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.currency) { %>
+
+            <div class="travel-info-card">
+
+              <span>💰</span>
+
+              <small>
+                Currency
+              </small>
+
+              <strong>
+                <%= country.travelInfo.currency %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.language) { %>
+
+            <div class="travel-info-card">
+
+              <span>🗣️</span>
+
+              <small>
+                Language
+              </small>
+
+              <strong>
+                <%= country.travelInfo.language %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.timezone) { %>
+
+            <div class="travel-info-card">
+
+              <span>🕐</span>
+
+              <small>
+                Timezone
+              </small>
+
+              <strong>
+                <%= country.travelInfo.timezone %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.capital) { %>
+
+            <div class="travel-info-card">
+
+              <span>📍</span>
+
+              <small>
+                Capital
+              </small>
+
+              <strong>
+                <%= country.travelInfo.capital %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.flightDuration) { %>
+
+            <div class="travel-info-card">
+
+              <span>✈️</span>
+
+              <small>
+                Flight Duration
+              </small>
+
+              <strong>
+                <%= country.travelInfo.flightDuration %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+
+          <% if (country.travelInfo.timeDifference) { %>
+
+            <div class="travel-info-card">
+
+              <span>🌍</span>
+
+              <small>
+                Time Difference
+              </small>
+
+              <strong>
+                <%= country.travelInfo.timeDifference %>
+              </strong>
+
+            </div>
+
+          <% } %>
+
+        </div>
+
+
+        <% if (
+          country.travelInfo.majorCities &&
+          country.travelInfo.majorCities.length > 0
+        ) { %>
+
+          <div class="major-cities-box">
+
+            <h3>
+              Major Cities
+            </h3>
+
+            <div class="city-tags">
+
+              <% country.travelInfo.majorCities.forEach(city => { %>
+
+                <span>
+                  <%= city %>
+                </span>
+
+              <% }) %>
+
+            </div>
+
+          </div>
+
+        <% } %>
+
+
+        <% if (country.travelInfo.airportInformation) { %>
+
+          <div class="airport-info-box">
+
+            <div class="airport-icon">
+              ✈️
+            </div>
+
+            <div>
+
+              <h3>
+                Airport Information
+              </h3>
+
+              <p>
+                <%= country.travelInfo.airportInformation %>
+              </p>
+
+            </div>
+
+          </div>
+
+        <% } %>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       TRAVEL TIPS
+  ========================================== -->
+
+  <% if (
+    country.travelTips &&
+    country.travelTips.length > 0
+  ) { %>
+
+    <section class="country-section travel-tips-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            TRAVEL SMART
+          </span>
+
+          <h2>
+            Helpful Travel Tips
+          </h2>
+
+        </div>
+
+
+        <div class="travel-tips-grid">
+
+          <% country.travelTips.forEach((tip, index) => { %>
+
+            <div class="travel-tip-card">
+
+              <div class="tip-number">
+                <%= String(index + 1).padStart(2, "0") %>
+              </div>
+
+              <div class="tip-icon">
+                💡
+              </div>
+
+              <p>
+                <%= tip %>
+              </p>
+
+            </div>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       IMPORTANT NOTES
+  ========================================== -->
+
+  <% if (
+    country.importantNotes &&
+    country.importantNotes.length > 0
+  ) { %>
+
+    <section class="country-section important-notes-section">
+
+      <div class="container">
+
+        <div class="important-notes-box">
+
+          <div class="important-notes-heading">
+
+            <span>
+              !
+            </span>
+
+            <div>
+
+              <small>
+                PLEASE NOTE
+              </small>
+
+              <h2>
+                Important Information
+              </h2>
+
+            </div>
+
+          </div>
+
+
+          <div class="important-notes-list">
+
+            <% country.importantNotes.forEach(note => { %>
+
+              <div class="important-note">
+
+                <span>
+                  ✓
+                </span>
+
+                <p>
+                  <%= note %>
+                </p>
+
+              </div>
+
+            <% }) %>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       FAQ
+  ========================================== -->
+
+  <% if (
+    country.faqs &&
+    country.faqs.length > 0
+  ) { %>
+
+    <section class="country-section faq-section">
+
+      <div class="container faq-container">
+
+        <div class="section-heading">
+
+          <span class="section-kicker">
+            FAQ
+          </span>
+
+          <h2>
+            Frequently Asked Questions
+          </h2>
+
+          <p>
+            Common questions about
+            <%= country.name %> visa applications.
+          </p>
+
+        </div>
+
+
+        <div class="faq-list">
+
+          <% country.faqs.forEach((faq, index) => { %>
+
+            <details class="faq-item">
+
+              <summary>
+
+                <span class="faq-number">
+                  <%= String(index + 1).padStart(2, "0") %>
+                </span>
+
+                <span class="faq-question">
+                  <%= faq.question %>
+                </span>
+
+                <span class="faq-plus">
+                  +
+                </span>
+
+              </summary>
+
+
+              <div class="faq-answer">
+
+                <p>
+                  <%= faq.answer %>
+                </p>
+
+              </div>
+
+            </details>
+
+          <% }) %>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  <% } %>
+
+
+  <!-- =========================================
+       FINAL CTA
+  ========================================== -->
+
+  <section class="country-final-cta">
+
+    <div class="container">
+
+      <div class="country-cta-box">
+
+        <div class="cta-decoration cta-plane">
+          ✈️
+        </div>
+
+        <div class="cta-decoration cta-globe">
+          🌍
+        </div>
+
+
+        <span class="cta-kicker">
+          READY TO TRAVEL?
+        </span>
+
+
+        <h2>
+          Start Your <%= country.name %> Visa Journey
+        </h2>
+
+
+        <p>
+          Talk to the VisaMaster team and get guidance
+          with your visa application.
+        </p>
+
+
+        <a
+          href="/contact"
+          class="primary-btn"
+        >
+          Get Started
+          <span>→</span>
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================================
+       FOOTER
+  ========================================== -->
+
+  <%- include("../partials/footer") %>
+
+
+  <!-- MAIN JS -->
+
+  <script src="/js/main.js"></script>
+
+</body>
+
+</html>
