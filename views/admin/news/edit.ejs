@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Edit News | VisaMaster Admin</title>
+
+<link rel="stylesheet" href="/css/admin.css"> <link rel="stylesheet" href="/css/admin-news.css"> </head>
+
+<body> <div class="admin-layout">
+
+<aside class="admin-sidebar"> <div class="admin-brand"> <div class="admin-logo">VM</div> <div> <h2>VisaMaster</h2> <span>Admin Panel</span> </div> </div>
+
+<nav class="admin-nav">
+  <a href="/admin" class="admin-nav-link"><span class="nav-icon">⌂</span><span>Dashboard</span></a>
+  <a href="/admin/countries" class="admin-nav-link"><span class="nav-icon">🌍</span><span>Countries</span></a>
+  <a href="/admin/news" class="admin-nav-link active"><span class="nav-icon">📰</span><span>News</span></a>
+  <a href="/admin/team" class="admin-nav-link"><span class="nav-icon">👥</span><span>Team Members</span></a>
+  <a href="/admin/destinations" class="admin-nav-link"><span class="nav-icon">📍</span><span>Destinations</span></a>
+  <a href="/admin/enquiries" class="admin-nav-link"><span class="nav-icon">✉️</span><span>Enquiries</span></a>
+  <div class="admin-nav-divider"></div>
+  <a href="/" target="_blank" rel="noopener noreferrer" class="admin-nav-link"><span class="nav-icon">↗</span><span>View Website</span></a>
+</nav>
+
+<div class="admin-sidebar-footer">
+  <span class="admin-status-dot"></span>
+  <span>Admin System Online</span>
+</div>
+
+</aside>
+
+<main class="admin-main">
+
+<header class="admin-topbar">
+  <div>
+    <p class="admin-eyebrow">CONTENT MANAGEMENT</p>
+    <h1>Edit News Article</h1>
+  </div>
+
+  <a href="/admin/news" class="news-secondary-button">← Back to News</a>
+</header>
+
+<section class="news-form-panel">
+
+  <div class="news-form-heading">
+    <span class="news-label">EDIT EXISTING ARTICLE</span>
+    <h2>Update your story ✏️</h2>
+    <p>Make your changes and save them to MongoDB Atlas.</p>
+  </div>
+
+  <% if (errors && errors.length) { %>
+    <div class="news-alert error">
+      <strong>Please fix these issues:</strong>
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <form
+    action="/admin/news/<%= news._id %>/edit"
+    method="POST"
+    class="news-form"
+  >
+
+    <div class="news-form-grid">
+
+      <div class="news-field news-field-full">
+        <label for="title">Article Title *</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value="<%= news.title || '' %>"
+          required
+        >
+      </div>
+
+      <div class="news-field">
+        <label for="slug">Slug *</label>
+        <input
+          type="text"
+          id="slug"
+          name="slug"
+          value="<%= news.slug || '' %>"
+          pattern="[a-z0-9]+(-[a-z0-9]+)*"
+          required
+        >
+        <small>Changing the slug changes the article URL.</small>
+      </div>
+
+      <div class="news-field">
+        <label for="category">Category *</label>
+        <select id="category" name="category" required>
+          <% categories.forEach(item => { %>
+            <option value="<%= item %>" <%= news.category === item ? "selected" : "" %>>
+              <%= item %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="news-field news-field-full">
+        <label for="image">Image URL</label>
+        <input
+          type="url"
+          id="image"
+          name="image"
+          value="<%= news.image || '' %>"
+          placeholder="https://example.com/image.jpg"
+        >
+
+        <div class="news-image-preview">
+          <img
+            id="newsImagePreview"
+            src="<%= news.image || '' %>"
+            alt="Article image preview"
+            <%= news.image ? "" : "hidden" %>
+          >
+          <span id="newsImagePlaceholder" <%= news.image ? "hidden" : "" %>>
+            Image preview will appear here.
+          </span>
+        </div>
+      </div>
+
+      <div class="news-field news-field-full">
+        <label for="excerpt">Short Excerpt *</label>
+        <textarea
+          id="excerpt"
+          name="excerpt"
+          rows="4"
+          required
+        ><%= news.excerpt || '' %></textarea>
+      </div>
+
+      <div class="news-field news-field-full">
+        <label for="content">Full Article Content</label>
+        <textarea
+          id="content"
+          name="content"
+          rows="12"
+        ><%= news.content || '' %></textarea>
+      </div>
+
+      <div class="news-field">
+        <label for="date">Publication Date *</label>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          value="<%= dateValue %>"
+          required
+        >
+      </div>
+
+    </div>
+
+    <div class="news-form-actions">
+
+      <a href="/admin/news" class="news-secondary-button">
+        Cancel
+      </a>
+
+      <button type="submit" class="news-primary-button">
+        Save Changes
+      </button>
+
+    </div>
+
+  </form>
+</section>
+
+<footer class="admin-footer">
+  <span>© <%= new Date().getFullYear() %> VisaMaster</span>
+  <span>News Management</span>
+</footer>
+
+</main> </div>
+
+<script> const imageInput = document.getElementById("image"); const imagePreview = document.getElementById("newsImagePreview"); const imagePlaceholder = document.getElementById("newsImagePlaceholder"); imageInput.addEventListener("input", function () { const url = this.value.trim(); if (!url) { imagePreview.hidden = true; imagePreview.removeAttribute("src"); imagePlaceholder.hidden = false; imagePlaceholder.textContent = "Image preview will appear here."; return; } imagePreview.src = url; imagePreview.hidden = false; imagePlaceholder.hidden = true; }); imagePreview.addEventListener("error", function () { this.hidden = true; imagePlaceholder.hidden = false; imagePlaceholder.textContent = "Unable to load image. Check the URL."; }); imagePreview.addEventListener("load", function () { this.hidden = false; imagePlaceholder.hidden = true; }); </script>
+
+</body> </html>

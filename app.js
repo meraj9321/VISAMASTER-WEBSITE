@@ -83,6 +83,8 @@ const adminRoutes = require("./routes/adminRoutes");
 const adminEnquiryRoutes = require("./routes/adminEnquiryRoutes");
 const adminTeamRoutes = require("./routes/adminTeamRoutes");
 const adminAuthRoutes = require("./routes/adminAuthRoutes");
+const newsRoutes = require("./routes/newsRoutes");
+const adminNewsRoutes = require("./routes/adminNewsRoutes");
 
 // =========================================================
 // ADMIN AUTH MIDDLEWARE
@@ -107,6 +109,7 @@ app.use("/contact", contactRoutes);
 app.use("/visas", visasRoutes);
 
 app.use("/countries", countryRoutes);
+app.use("/news", newsRoutes);
 
 // =========================================================
 // ADMIN LOGIN / LOGOUT
@@ -126,6 +129,7 @@ app.use("/admin", adminAuth, adminCountryRoutes);
 app.use("/admin", adminAuth, adminEnquiryRoutes);
 
 app.use("/admin", adminAuth, adminTeamRoutes);
+app.use("/admin", adminAuth, adminNewsRoutes);
 
 // =========================================================
 // 404 PAGE

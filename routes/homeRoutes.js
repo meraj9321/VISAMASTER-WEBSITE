@@ -2,11 +2,9 @@ const express = require("express");
 
 const router = express.Router();
 
+const { showHomePage } = require("../controllers/homeController");
+
 // HOME PAGE
-router.get("/", (req, res) => {
-  res.render("home/index", {
-    currentPage: "home",
-  });
-});
+router.get("/", showHomePage);
 
 module.exports = router;

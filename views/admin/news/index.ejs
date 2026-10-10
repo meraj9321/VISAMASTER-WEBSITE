@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage News | VisaMaster Admin</title>
+
+<link rel="stylesheet" href="/css/admin.css"> <link rel="stylesheet" href="/css/admin-news.css"> </head>
+
+<body> <div class="admin-layout">
+
+<aside class="admin-sidebar"> <div class="admin-brand"> <div class="admin-logo">VM</div> <div> <h2>VisaMaster</h2> <span>Admin Panel</span> </div> </div>
+
+<nav class="admin-nav">
+  <a href="/admin" class="admin-nav-link">
+    <span class="nav-icon">⌂</span>
+    <span>Dashboard</span>
+  </a>
+
+  <a href="/admin/countries" class="admin-nav-link">
+    <span class="nav-icon">🌍</span>
+    <span>Countries</span>
+  </a>
+
+  <a href="/admin/news" class="admin-nav-link active">
+    <span class="nav-icon">📰</span>
+    <span>News</span>
+  </a>
+
+  <a href="/admin/team" class="admin-nav-link">
+    <span class="nav-icon">👥</span>
+    <span>Team Members</span>
+  </a>
+
+  <a href="/admin/destinations" class="admin-nav-link">
+    <span class="nav-icon">📍</span>
+    <span>Destinations</span>
+  </a>
+
+  <a href="/admin/enquiries" class="admin-nav-link">
+    <span class="nav-icon">✉️</span>
+    <span>Enquiries</span>
+  </a>
+
+  <div class="admin-nav-divider"></div>
+
+  <a href="/" target="_blank" rel="noopener noreferrer" class="admin-nav-link">
+    <span class="nav-icon">↗</span>
+    <span>View Website</span>
+  </a>
+</nav>
+
+<div class="admin-sidebar-footer">
+  <span class="admin-status-dot"></span>
+  <span>Admin System Online</span>
+</div>
+
+</aside>
+
+<main class="admin-main">
+
+<header class="admin-topbar">
+  <div>
+    <p class="admin-eyebrow">CONTENT MANAGEMENT</p>
+    <h1>News & Updates</h1>
+  </div>
+
+  <a href="/admin/news/new" class="news-primary-button">
+    + Add New Article
+  </a>
+</header>
+
+<section class="news-welcome">
+  <div>
+    <span class="news-label">VISAMASTER NEWSROOM</span>
+    <h2>Manage your stories ✍️</h2>
+    <p>Edit your existing articles or publish new visa and travel updates.</p>
+  </div>
+
+  <div class="news-welcome-icon">📰</div>
+</section>
+
+<% if (success === "created") { %>
+  <div class="news-alert success">News article created successfully.</div>
+<% } %>
+
+<% if (success === "updated") { %>
+  <div class="news-alert success">News article updated successfully.</div>
+<% } %>
+
+<% if (success === "deleted") { %>
+  <div class="news-alert success">News article deleted successfully.</div>
+<% } %>
+
+<% if (error === "invalid") { %>
+  <div class="news-alert error">Invalid news article ID.</div>
+<% } %>
+
+<% if (error === "notfound") { %>
+  <div class="news-alert error">News article was not found.</div>
+<% } %>
+
+<section class="news-stats">
+  <article class="news-stat-card">
+    <span>Total Articles</span>
+    <strong><%= news.length %></strong>
+  </article>
+
+  <article class="news-stat-card">
+    <span>Visa Updates</span>
+    <strong><%= news.filter(item => item.category === "Visa Updates").length %></strong>
+  </article>
+
+  <article class="news-stat-card">
+    <span>Travel Updates</span>
+    <strong><%= news.filter(item => item.category === "Travel Updates").length %></strong>
+  </article>
+</section>
+
+<section class="news-panel">
+
+  <div class="news-panel-heading">
+    <div>
+      <h2>All Articles</h2>
+      <p>Search, filter, edit or delete your content.</p>
+    </div>
+  </div>
+
+  <form action="/admin/news" method="GET" class="news-filter-form">
+
+    <input
+      type="search"
+      name="search"
+      placeholder="Search by title or slug..."
+      value="<%= search %>"
+    >
+
+    <select name="category">
+      <option value="">All Categories</option>
+
+      <% categories = ["Visa Updates", "Travel Updates"] %>
+      <% categories.forEach(item => { %>
+        <option value="<%= item %>" <%= category === item ? "selected" : "" %>>
+          <%= item %>
+        </option>
+      <% }) %>
+    </select>
+
+    <button type="submit" class="news-primary-button">Search</button>
+    <a href="/admin/news" class="news-secondary-button">Reset</a>
+
+  </form>
+
+  <% if (news.length === 0) { %>
+
+    <div class="news-empty-state">
+      <span>📭</span>
+      <h3>No articles found</h3>
+      <p>Try changing your search or create a new article.</p>
+      <a href="/admin/news/new" class="news-primary-button">Create Article</a>
+    </div>
+
+  <% } else { %>
+
+    <div class="news-table-wrapper">
+      <table class="news-table">
+
+        <thead>
+          <tr>
+            <th>Article</th>
+            <th>Category</th>
+            <th>Published Date</th>
+            <th>Slug</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% news.forEach(article => { %>
+            <tr>
+
+              <td>
+                <div class="news-article-cell">
+
+                  <% if (article.image) { %>
+                    <img
+                      src="<%= article.image %>"
+                      alt=""
+                      class="news-table-image"
+                      loading="lazy"
+                      referrerpolicy="no-referrer"
+                    >
+                  <% } else { %>
+                    <div class="news-image-placeholder">📰</div>
+                  <% } %>
+
+                  <div>
+                    <strong><%= article.title %></strong>
+                    <small><%= article.excerpt %></small>
+                  </div>
+
+                </div>
+              </td>
+
+              <td>
+                <span class="news-category-badge <%= article.category === 'Visa Updates' ? 'visa-category' : 'travel-category' %>">
+                  <%= article.category %>
+                </span>
+              </td>
+
+              <td>
+                <%= article.date ? new Date(article.date).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }) : "—" %>
+              </td>
+
+              <td>
+                <code><%= article.slug %></code>
+              </td>
+
+              <td>
+                <div class="news-action-buttons">
+
+                  <a
+                    href="/admin/news/<%= article._id %>/edit"
+                    class="news-edit-button"
+                  >
+                    Edit
+                  </a>
+
+                  <form
+                    action="/admin/news/<%= article._id %>/delete"
+                    method="POST"
+                    class="news-delete-form"
+                    onsubmit="return confirm('Are you sure you want to permanently delete this article?');"
+                  >
+                    <button type="submit" class="news-delete-button">
+                      Delete
+                    </button>
+                  </form>
+
+                  <a
+                    href="/news/<%= article.slug %>"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="news-view-button"
+                  >
+                    View
+                  </a>
+
+                </div>
+              </td>
+
+            </tr>
+          <% }) %>
+        </tbody>
+
+      </table>
+    </div>
+
+  <% } %>
+
+</section>
+
+<footer class="admin-footer">
+  <span>© <%= new Date().getFullYear() %> VisaMaster</span>
+  <span>News Management</span>
+</footer>
+
+</main> </div> </body> </html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title><%= article.title %> | VisaMaster News</title>
+
+<meta name="description" content="<%= article.excerpt %>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" >
+
+<link rel="stylesheet" href="/css/global.css"> <link rel="stylesheet" href="/css/navbar.css"> <link rel="stylesheet" href="/css/news.css"> <link rel="stylesheet" href="/css/footer.css"> </head>
+
+<body>
+
+<%- include("../partials/navbar", { currentPage: "news" }) %>
+
+<main class="single-news-page">
+
+<section class="single-news-hero">
+  <div class="news-container">
+
+    <a href="/news" class="news-back-link">
+      <span aria-hidden="true">←</span> All News
+    </a>
+
+    <div class="single-news-heading">
+
+      <span class="single-news-category">
+        <%= article.category %>
+      </span>
+
+      <h1><%= article.title %></h1>
+
+      <div class="single-news-meta">
+        <span>VisaMaster Editorial</span>
+
+        <span class="meta-divider">•</span>
+
+        <time datetime="<%= new Date(article.date || article.createdAt).toISOString() %>">
+          <%= new Date(article.date || article.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+          }) %>
+        </time>
+      </div>
+
+    </div>
+
+    <% if (article.image) { %>
+
+      <div class="single-news-featured-image">
+        <img src="<%= article.image %>" alt="<%= article.title %>">
+      </div>
+
+    <% } %>
+
+  </div>
+</section>
+
+<section class="single-news-content-section">
+  <div class="news-container">
+
+    <article class="single-news-article">
+
+      <p class="single-news-excerpt"><%= article.excerpt %></p>
+
+      <div class="single-news-content">
+        <% if (article.content && article.content.trim()) { %>
+
+          <% article.content.split(/\r?\n/).forEach((paragraph) => { %>
+
+            <% if (paragraph.trim()) { %>
+              <p><%= paragraph %></p>
+            <% } %>
+
+          <% }) %>
+
+        <% } else { %>
+
+          <p>
+            The complete article is not available yet.
+            Please check back later for more information.
+          </p>
+
+        <% } %>
+      </div>
+
+      <div class="single-news-disclaimer">
+        <strong>Travel reminder</strong>
+        <p>
+          Visa rules and entry requirements can change.
+          Always verify the latest requirements with the
+          relevant embassy or official immigration authority
+          before making travel arrangements.
+        </p>
+      </div>
+
+      <div class="single-news-bottom">
+        <a href="/news" class="news-primary-button">
+          <span aria-hidden="true">←</span> Explore All News
+        </a>
+
+        <a href="/" class="news-secondary-button">
+          Back to Home
+        </a>
+      </div>
+
+    </article>
+
+  </div>
+</section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<script src="/js/main.js"></script>
+
+</body> </html>

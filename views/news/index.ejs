@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Travel & Visa News | VisaMaster</title>
+
+<meta
+name="description"
+content="Explore the latest visa updates, travel news, and destination information from VisaMaster."
+
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com"> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Kalam:wght@400;700&display=swap" rel="stylesheet" >
+
+<link rel="stylesheet" href="/css/global.css"> <link rel="stylesheet" href="/css/navbar.css"> <link rel="stylesheet" href="/css/news.css"> <link rel="stylesheet" href="/css/footer.css"> </head>
+
+<body>
+
+<%- include("../partials/navbar", { currentPage: "news" }) %>
+
+<main>
+
+<section class="news-page-hero">
+  <div class="news-container">
+    <span class="news-eyebrow">THE WORLD, UPDATED ✈</span>
+
+    <h1>
+      Travel news.<br>
+      <span>Visa updates.</span>
+    </h1>
+
+    <p>
+      Stay informed with the latest visa updates, travel news,
+      and helpful information for your next journey.
+    </p>
+
+    <div class="news-hero-decoration" aria-hidden="true">
+      <span>✈</span>
+      <span>🌍</span>
+      <span>↗</span>
+    </div>
+  </div>
+</section>
+
+<section class="all-news-section">
+  <div class="news-container">
+
+    <div class="all-news-heading">
+      <div>
+        <span class="news-section-label">THE LATEST</span>
+        <h2>Explore our news</h2>
+        <p>Useful updates for your next big adventure.</p>
+      </div>
+
+      <div class="news-count">
+        <strong><%= news.length %></strong>
+        <span>Articles</span>
+      </div>
+    </div>
+
+    <div class="news-filter-bar" aria-label="Filter news by category">
+      <button class="news-filter active" type="button" data-filter="all">
+        All News
+      </button>
+
+      <button class="news-filter" type="button" data-filter="Visa Updates">
+        Visa Updates
+      </button>
+
+      <button class="news-filter" type="button" data-filter="Travel Updates">
+        Travel Updates
+      </button>
+    </div>
+
+    <% if (news.length > 0) { %>
+
+      <div class="all-news-grid">
+
+        <% news.forEach((item, index) => { %>
+
+          <article
+            class="all-news-card"
+            data-category="<%= item.category %>"
+            style="--card-index: <%= index %>"
+          >
+
+            <a
+              class="all-news-image"
+              href="/news/<%= encodeURIComponent(item.slug) %>"
+              aria-label="Read <%= item.title %>"
+            >
+
+              <% if (item.image) { %>
+                <img
+                  src="<%= item.image %>"
+                  alt="<%= item.title %>"
+                  loading="lazy"
+                >
+              <% } else { %>
+                <div class="news-image-placeholder">
+                  <span>✈</span>
+                  <span>VisaMaster</span>
+                </div>
+              <% } %>
+
+              <span class="all-news-category">
+                <%= item.category %>
+              </span>
+
+            </a>
+
+            <div class="all-news-body">
+
+              <div class="all-news-date">
+                <span aria-hidden="true">◷</span>
+
+                <time datetime="<%= new Date(item.date || item.createdAt).toISOString() %>">
+                  <%= new Date(item.date || item.createdAt).toLocaleDateString("en-IN", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric"
+                  }) %>
+                </time>
+              </div>
+
+              <h3>
+                <a href="/news/<%= encodeURIComponent(item.slug) %>">
+                  <%= item.title %>
+                </a>
+              </h3>
+
+              <p><%= item.excerpt %></p>
+
+              <a
+                class="news-read-link"
+                href="/news/<%= encodeURIComponent(item.slug) %>"
+              >
+                Read Full Story <span aria-hidden="true">→</span>
+              </a>
+
+            </div>
+
+          </article>
+
+        <% }) %>
+
+      </div>
+
+      <div class="news-empty-filter" hidden>
+        <span>🔎</span>
+        <h3>No articles in this category</h3>
+        <p>Try another category to explore more news.</p>
+      </div>
+
+    <% } else { %>
+
+      <div class="news-no-articles">
+        <span class="news-no-articles-icon">📰</span>
+        <h3>Fresh updates are on their way!</h3>
+        <p>
+          We are preparing helpful travel and visa updates.
+          Please check back soon.
+        </p>
+        <a href="/" class="news-primary-button">
+          Back to Home <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+    <% } %>
+
+    <div class="news-back-home">
+      <a href="/">← Back to Home</a>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<%- include("../partials/footer") %>
+
+<script src="/js/main.js"></script>
+
+<script> document.addEventListener("DOMContentLoaded", () => { const filterButtons = document.querySelectorAll(".news-filter"); const cards = document.querySelectorAll(".all-news-card"); const emptyMessage = document.querySelector(".news-empty-filter"); filterButtons.forEach((button) => { button.addEventListener("click", () => { filterButtons.forEach((item) => { item.classList.remove("active"); }); button.classList.add("active"); const selectedCategory = button.dataset.filter; let visibleCards = 0; cards.forEach((card) => { const matches = selectedCategory === "all" || card.dataset.category === selectedCategory; card.hidden = !matches; if (matches) { visibleCards++; } }); if (emptyMessage) { emptyMessage.hidden = visibleCards > 0; } }); }); }); </script>
+
+</body> </html>
