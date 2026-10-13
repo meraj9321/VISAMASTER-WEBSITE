@@ -1,3 +1,12 @@
+/* =========================================================
+   VISAMASTER ADMIN — COMMON CSS
+   Global styles, sidebar, navigation, logout and layout
+========================================================= */
+
+/* =========================================================
+   CSS VARIABLES
+========================================================= */
+
 :root {
   --admin-navy: #102d50;
   --admin-navy-dark: #0b2039;
@@ -13,7 +22,13 @@
   --admin-shadow: 0 14px 35px rgba(16, 45, 80, 0.08);
 }
 
-* {
+/* =========================================================
+   GLOBAL RESET
+========================================================= */
+
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -29,13 +44,21 @@ body {
   color: var(--admin-text);
   min-height: 100vh;
 }
+
 a {
   text-decoration: none;
   color: inherit;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
 /* =========================================================
-MAIN LAYOUT
+   MAIN ADMIN LAYOUT
 ========================================================= */
 
 .admin-layout {
@@ -44,14 +67,14 @@ MAIN LAYOUT
 }
 
 /* =========================================================
-SIDEBAR
+   COMMON ADMIN SIDEBAR
 ========================================================= */
 
 .admin-sidebar {
   width: 255px;
   min-height: 100vh;
   background: var(--admin-navy);
-  color: #ffffff;
+  color: var(--admin-white);
   padding: 26px 16px;
   display: flex;
   flex-direction: column;
@@ -59,19 +82,27 @@ SIDEBAR
   left: 0;
   top: 0;
   bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
   z-index: 100;
 }
+
+/* =========================================================
+   SIDEBAR BRAND / LOGO
+========================================================= */
 
 .admin-brand {
   display: flex;
   align-items: center;
   gap: 12px;
   padding: 6px 10px 28px;
+  flex-shrink: 0;
 }
 
 .admin-logo {
   width: 43px;
   height: 43px;
+  flex-shrink: 0;
   border-radius: 13px;
   background: var(--admin-yellow);
   color: var(--admin-navy);
@@ -96,7 +127,7 @@ SIDEBAR
 }
 
 /* =========================================================
-NAVIGATION
+   SIDEBAR NAVIGATION
 ========================================================= */
 
 .admin-nav {
@@ -109,17 +140,21 @@ NAVIGATION
   display: flex;
   align-items: center;
   gap: 13px;
+  width: 100%;
   padding: 12px 13px;
   border-radius: 11px;
   color: rgba(255, 255, 255, 0.72);
   font-size: 14px;
   font-weight: 600;
-  transition: 0.25s ease;
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .admin-nav-link:hover {
   background: rgba(255, 255, 255, 0.08);
-  color: #ffffff;
+  color: var(--admin-white);
   transform: translateX(2px);
 }
 
@@ -128,17 +163,35 @@ NAVIGATION
   color: var(--admin-navy);
 }
 
+.admin-nav-link:focus-visible {
+  outline: 2px solid var(--admin-yellow);
+  outline-offset: 3px;
+}
+
 .nav-icon {
   width: 24px;
+  min-width: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   font-size: 16px;
 }
 
+/* =========================================================
+   SIDEBAR DIVIDER
+========================================================= */
+
 .admin-nav-divider {
   height: 1px;
+  flex-shrink: 0;
   background: rgba(255, 255, 255, 0.1);
   margin: 14px 7px;
 }
+
+/* =========================================================
+   SIDEBAR STATUS FOOTER
+========================================================= */
 
 .admin-sidebar-footer {
   margin-top: auto;
@@ -148,18 +201,64 @@ NAVIGATION
   gap: 8px;
   color: rgba(255, 255, 255, 0.55);
   font-size: 11px;
+  flex-shrink: 0;
 }
 
 .admin-status-dot {
   width: 8px;
   height: 8px;
+  min-width: 8px;
   background: #55d88a;
   border-radius: 50%;
   box-shadow: 0 0 0 4px rgba(85, 216, 138, 0.12);
 }
 
 /* =========================================================
-MAIN CONTENT
+   SIDEBAR LOGOUT BUTTON
+========================================================= */
+
+.admin-logout-form {
+  margin: 16px 14px 20px;
+  flex-shrink: 0;
+}
+
+.admin-logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  background: var(--admin-yellow);
+  color: var(--admin-navy);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.admin-logout-btn:hover {
+  background: var(--admin-orange);
+  transform: translateY(-1px);
+}
+
+.admin-logout-btn:focus-visible {
+  outline: 3px solid var(--admin-white);
+  outline-offset: 3px;
+}
+
+.logout-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+/* =========================================================
+   MAIN CONTENT AREA
 ========================================================= */
 
 .admin-main {
@@ -167,10 +266,12 @@ MAIN CONTENT
   width: calc(100% - 255px);
   padding: 35px 45px 30px;
   min-width: 0;
+  min-height: 100vh;
 }
 
 /* =========================================================
-TOPBAR
+   COMMON ADMIN TOPBAR
+   Used by dashboard and other admin pages
 ========================================================= */
 
 .admin-topbar {
@@ -198,14 +299,17 @@ TOPBAR
 .view-site-button {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   background: var(--admin-navy);
-  color: #ffffff;
+  color: var(--admin-white);
   padding: 11px 17px;
   border-radius: 10px;
   font-size: 13px;
   font-weight: 700;
-  transition: 0.25s ease;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
 }
 
 .view-site-button:hover {
@@ -213,341 +317,13 @@ TOPBAR
   transform: translateY(-2px);
 }
 
-/* =========================================================
-WELCOME
-========================================================= */
-
-.admin-welcome {
-  position: relative;
-  overflow: hidden;
-  min-height: 205px;
-  background: var(--admin-navy);
-  border-radius: 22px;
-  padding: 35px 40px;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 25px;
-  box-shadow: var(--admin-shadow);
-}
-
-.welcome-content {
-  max-width: 650px;
-  position: relative;
-  z-index: 2;
-}
-
-.welcome-badge {
-  display: inline-flex;
-  padding: 7px 11px;
-  background: rgba(255, 196, 61, 0.14);
-  border: 1px solid rgba(255, 196, 61, 0.25);
-  color: var(--admin-yellow);
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.welcome-content h2 {
-  font-size: 29px;
-  margin-bottom: 10px;
-}
-
-.welcome-content p {
-  max-width: 610px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.welcome-illustration {
-  width: 180px;
-  height: 150px;
-  position: relative;
-  flex-shrink: 0;
-}
-
-.illustration-circle {
-  width: 125px;
-  height: 125px;
-  border-radius: 50%;
-  background: var(--admin-yellow);
-  color: var(--admin-navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 60px;
-  transform: rotate(-7deg);
-  position: absolute;
-  right: 15px;
-  top: 10px;
-}
-
-.illustration-doodle {
-  position: absolute;
-  color: rgba(255, 255, 255, 0.3);
-  font-size: 20px;
-}
-
-.doodle-one {
-  top: 0;
-  right: 0;
-  letter-spacing: 5px;
-}
-
-.doodle-two {
-  bottom: 3px;
-  left: 10px;
-  color: var(--admin-yellow);
+.view-site-button:focus-visible {
+  outline: 2px solid var(--admin-orange);
+  outline-offset: 3px;
 }
 
 /* =========================================================
-STATS
-========================================================= */
-
-.admin-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 17px;
-  margin-bottom: 38px;
-}
-
-.stat-card {
-  background: var(--admin-white);
-  border: 1px solid var(--admin-border);
-  border-radius: 16px;
-  padding: 19px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  box-shadow: 0 7px 25px rgba(16, 45, 80, 0.04);
-}
-
-.stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 21px;
-  background: var(--admin-soft);
-  flex-shrink: 0;
-}
-
-.stat-content {
-  min-width: 0;
-}
-
-.stat-content span {
-  display: block;
-  color: var(--admin-muted);
-  font-size: 11px;
-  margin-bottom: 4px;
-  white-space: nowrap;
-}
-
-.stat-content strong {
-  display: block;
-  color: var(--admin-navy);
-  font-size: 25px;
-  line-height: 1;
-}
-
-/* =========================================================
-SECTION HEADINGS
-========================================================= */
-
-.section-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 18px;
-}
-
-.section-label {
-  color: var(--admin-orange);
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 1.6px;
-  margin-bottom: 5px;
-}
-
-.section-heading h2 {
-  color: var(--admin-navy);
-  font-size: 23px;
-}
-
-.section-heading > p {
-  color: var(--admin-muted);
-  font-size: 13px;
-}
-
-/* =========================================================
-MANAGEMENT GRID
-========================================================= */
-
-.management-section {
-  margin-bottom: 42px;
-}
-
-.management-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-}
-
-.management-card {
-  background: #ffffff;
-  border: 1px solid var(--admin-border);
-  border-radius: 18px;
-  padding: 22px;
-  transition: 0.25s ease;
-  box-shadow: 0 7px 25px rgba(16, 45, 80, 0.035);
-}
-
-.management-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 196, 61, 0.65);
-  box-shadow: var(--admin-shadow);
-}
-
-.management-card-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-
-.management-icon {
-  width: 49px;
-  height: 49px;
-  background: var(--admin-soft);
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-}
-
-.card-arrow {
-  width: 31px;
-  height: 31px;
-  border-radius: 50%;
-  background: #f5f2eb;
-  color: var(--admin-navy);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 17px;
-}
-
-.management-card h3 {
-  color: var(--admin-navy);
-  font-size: 17px;
-  margin-bottom: 8px;
-}
-
-.management-card p {
-  color: var(--admin-muted);
-  font-size: 12.5px;
-  line-height: 1.65;
-  min-height: 62px;
-  margin-bottom: 18px;
-}
-
-.manage-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  padding: 10px 13px;
-  background: var(--admin-navy);
-  color: #ffffff;
-  border-radius: 9px;
-  font-size: 12px;
-  font-weight: 700;
-  transition: 0.25s ease;
-}
-
-.manage-button:hover {
-  background: var(--admin-yellow);
-  color: var(--admin-navy);
-}
-
-.manage-button.disabled {
-  background: #ece8df;
-  color: #99958c;
-  pointer-events: none;
-}
-
-/* =========================================================
-QUICK ACTIONS
-========================================================= */
-
-.quick-actions {
-  margin-bottom: 25px;
-}
-
-.quick-action-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.quick-action {
-  background: #ffffff;
-  border: 1px solid var(--admin-border);
-  border-radius: 13px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  transition: 0.25s ease;
-}
-
-.quick-action:hover {
-  border-color: var(--admin-yellow);
-  transform: translateY(-2px);
-}
-
-.quick-action-icon {
-  width: 39px;
-  height: 39px;
-  background: var(--admin-soft);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.quick-action div {
-  flex: 1;
-}
-
-.quick-action strong {
-  display: block;
-  color: var(--admin-navy);
-  font-size: 13px;
-  margin-bottom: 3px;
-}
-
-.quick-action small {
-  color: var(--admin-muted);
-  font-size: 11px;
-}
-
-.quick-arrow {
-  color: var(--admin-navy);
-  font-size: 17px;
-}
-
-/* =========================================================
-FOOTER
+   COMMON ADMIN PAGE FOOTER
 ========================================================= */
 
 .admin-footer {
@@ -557,12 +333,13 @@ FOOTER
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
   color: var(--admin-muted);
   font-size: 11px;
 }
 
 /* =========================================================
-TABLET
+   TABLET RESPONSIVE
 ========================================================= */
 
 @media (max-width: 1100px) {
@@ -576,17 +353,13 @@ TABLET
     padding: 30px;
   }
 
-  .admin-stats {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .management-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .admin-topbar h1 {
+    font-size: 30px;
   }
 }
 
 /* =========================================================
-MOBILE
+   MOBILE RESPONSIVE
 ========================================================= */
 
 @media (max-width: 800px) {
@@ -595,10 +368,14 @@ MOBILE
   }
 
   .admin-sidebar {
-    position: static;
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
     width: 100%;
     min-height: auto;
     padding: 15px;
+    overflow: visible;
   }
 
   .admin-brand {
@@ -607,13 +384,26 @@ MOBILE
 
   .admin-nav {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 5px;
   }
 
   .admin-nav-link {
+    min-width: 0;
     padding: 10px;
     font-size: 12px;
+    gap: 8px;
+    transform: none;
+  }
+
+  .admin-nav-link:hover {
+    transform: none;
+  }
+
+  .nav-icon {
+    width: 20px;
+    min-width: 20px;
+    font-size: 15px;
   }
 
   .admin-nav-divider,
@@ -621,9 +411,18 @@ MOBILE
     display: none;
   }
 
+  .admin-logout-form {
+    margin: 12px 0 0;
+  }
+
+  .admin-logout-btn {
+    padding: 10px 14px;
+  }
+
   .admin-main {
     margin-left: 0;
     width: 100%;
+    min-height: auto;
     padding: 25px 18px;
   }
 
@@ -640,34 +439,13 @@ MOBILE
     font-size: 11px;
   }
 
-  .admin-welcome {
-    padding: 27px 24px;
-    min-height: 190px;
-  }
-
-  .welcome-content h2 {
-    font-size: 23px;
-  }
-
-  .welcome-content p {
-    font-size: 12px;
-  }
-
-  .welcome-illustration {
-    display: none;
-  }
-
-  .management-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .quick-action-grid {
-    grid-template-columns: 1fr;
+  .admin-footer {
+    margin-top: 30px;
   }
 }
 
 /* =========================================================
-SMALL MOBILE
+   SMALL MOBILE
 ========================================================= */
 
 @media (max-width: 480px) {
@@ -677,35 +455,16 @@ SMALL MOBILE
 
   .admin-topbar {
     flex-direction: column;
+    align-items: stretch;
     margin-bottom: 22px;
+  }
+
+  .admin-topbar h1 {
+    font-size: 26px;
   }
 
   .view-site-button {
     width: 100%;
-    justify-content: center;
-  }
-
-  .admin-stats {
-    grid-template-columns: 1fr;
-  }
-
-  .admin-welcome {
-    border-radius: 17px;
-    padding: 23px 20px;
-  }
-
-  .welcome-content h2 {
-    font-size: 21px;
-  }
-
-  .section-heading {
-    align-items: flex-start;
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .management-card {
-    padding: 19px;
   }
 
   .admin-footer {
@@ -714,45 +473,18 @@ SMALL MOBILE
     gap: 7px;
   }
 }
-/* =========================================
-ADMIN SIDEBAR LOGOUT BUTTON
-========================================= */
 
-.admin-logout-form {
-  margin: 16px 14px 20px;
-}
+/* =========================================================
+   ACCESSIBILITY: REDUCED MOTION
+========================================================= */
 
-.admin-logout-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 12px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 10px;
-  background: #ffc43d;
-  color: #102d50;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
-}
-
-.admin-logout-btn:hover {
-  background: #f0a72d;
-  transform: translateY(-1px);
-}
-
-.admin-logout-btn:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 3px;
-}
-
-.logout-icon {
-  font-size: 20px;
-  line-height: 1;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
 }

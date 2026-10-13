@@ -1,0 +1,88 @@
+<aside class="admin-sidebar">
+  <!-- ADMIN BRAND -->
+  <div class="admin-brand">
+    <div class="admin-logo">VM</div>
+
+    <div>
+      <h2>VisaMaster</h2>
+      <span>ADMIN PANEL</span>
+    </div>
+  </div>
+
+  <!-- SIDEBAR NAVIGATION -->
+  <nav class="admin-nav">
+    <a
+      href="/admin"
+      class="admin-nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">⌂</span>
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      href="/admin/countries"
+      class="admin-nav-link <%= currentPage === 'countries' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">🌍</span>
+      <span>Countries</span>
+    </a>
+
+    <a
+      href="/admin/news"
+      class="admin-nav-link <%= currentPage === 'news' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">📰</span>
+      <span>News</span>
+    </a>
+
+    <a
+      href="/admin/team"
+      class="admin-nav-link <%= currentPage === 'team' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">👥</span>
+      <span>Team Members</span>
+    </a>
+
+    <a
+      href="/admin/client_status"
+      class="admin-nav-link <%= currentPage === 'destinations' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">✈</span>
+      <span>Client_Status</span>
+    </a>
+
+    <a
+      href="/admin/enquiries"
+      class="admin-nav-link <%= currentPage === 'enquiries' ? 'active' : '' %>"
+    >
+      <span class="nav-icon">✉</span>
+      <span>Enquiries</span>
+    </a>
+
+    <div class="admin-nav-divider"></div>
+
+    <a
+      href="/"
+      class="admin-nav-link"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <span class="nav-icon">↗</span>
+      <span>View Website</span>
+    </a>
+  </nav>
+
+  <!-- SIDEBAR STATUS -->
+  <div class="admin-sidebar-footer">
+    <span class="admin-status-dot"></span>
+    <span>System Online</span>
+  </div>
+
+  <!-- LOGOUT -->
+  <form action="/admin/logout" method="POST" class="admin-logout-form">
+    <button type="submit" class="admin-logout-btn">
+      <span class="logout-icon">↪</span>
+      <span>Logout</span>
+    </button>
+  </form>
+</aside>

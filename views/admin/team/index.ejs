@@ -26,72 +26,7 @@
          SIDEBAR
     ====================================================== -->
 
-    <aside class="admin-sidebar">
-
-    <div class="admin-brand">
-
-        <div class="admin-logo">VM</div>
-
-        <div>
-            <h2>VisaMaster</h2>
-            <span>Admin Panel</span>
-        </div>
-
-    </div>
-
-    <nav class="admin-nav">
-
-        <a href="/admin" class="admin-nav-link">
-            <span class="nav-icon">⌂</span>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/admin/countries" class="admin-nav-link">
-            <span class="nav-icon">🌍</span>
-            <span>Countries</span>
-        </a>
-
-        <a href="/admin/news" class="admin-nav-link">
-            <span class="nav-icon">📰</span>
-            <span>News</span>
-        </a>
-
-        <a href="/admin/team" class="admin-nav-link active">
-            <span class="nav-icon">👥</span>
-            <span>Team Members</span>
-        </a>
-
-        <a href="/admin/destinations" class="admin-nav-link">
-            <span class="nav-icon">📍</span>
-            <span>Destinations</span>
-        </a>
-
-        <a href="/admin/enquiries" class="admin-nav-link">
-            <span class="nav-icon">✉️</span>
-            <span>Enquiries</span>
-        </a>
-
-        <div class="admin-nav-divider"></div>
-
-        <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="admin-nav-link"
-        >
-            <span class="nav-icon">↗</span>
-            <span>View Website</span>
-        </a>
-
-    </nav>
-
-    <div class="admin-sidebar-footer">
-        <span class="admin-status-dot"></span>
-        <span>Admin System Online</span>
-    </div>
-
-</aside>
-
+    <%- include('../../partials/admin-sidebar', { currentPage: 'countries' }) %>
     <!-- =====================================================
          MAIN
     ====================================================== -->

@@ -2,89 +2,28 @@
 
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+  <meta charset="UTF-8" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Admin Dashboard | VisaMaster</title>
+  <title>Admin Dashboard | VisaMaster</title>
 
-    <meta name="description" content="VisaMaster administration dashboard" />
+  <meta
+    name="description"
+    content="VisaMaster administration dashboard"
+  />
 
-    <link rel="stylesheet" href="/css/admin.css" />
+  <!-- Common Admin CSS: Sidebar, Layout and Navigation -->
+  <link rel="stylesheet" href="/css/admin.css" />
 
-    <link rel="stylesheet" href="/css/admin-countries.css" />
-  </head>
-
+  <!-- Dashboard-specific CSS -->
+  <link rel="stylesheet" href="/css/admin-dashboard.css" />
+</head>
   <body>
     <div class="admin-layout">
       <!-- SIDEBAR -->
 
-      <aside class="admin-sidebar">
-        <div class="admin-brand">
-          <div class="admin-logo">VM</div>
-
-          <div>
-            <h2>VisaMaster</h2>
-            <span>Admin Panel</span>
-          </div>
-        </div>
-
-        <nav class="admin-nav">
-          <a href="/admin" class="admin-nav-link active">
-            <span class="nav-icon">⌂</span>
-            <span>Dashboard</span>
-          </a>
-
-          <a href="/admin/countries" class="admin-nav-link">
-            <span class="nav-icon">🌍</span>
-            <span>Countries</span>
-          </a>
-
-          <a href="/admin/news" class="admin-nav-link">
-            <span class="nav-icon">📰</span>
-            <span>News</span>
-          </a>
-
-          <a href="/admin/team" class="admin-nav-link">
-            <span class="nav-icon">👥</span>
-            <span>Team Members</span>
-          </a>
-
-          <a href="/admin/destinations" class="admin-nav-link">
-            <span class="nav-icon">📍</span>
-            <span>Destinations</span>
-          </a>
-
-          <a href="/admin/enquiries" class="admin-nav-link">
-            <span class="nav-icon">✉️</span>
-            <span>Enquiries</span>
-          </a>
-
-          <div class="admin-nav-divider"></div>
-
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="admin-nav-link"
-          >
-            <span class="nav-icon">↗</span>
-            <span>View Website</span>
-          </a>
-        </nav>
-
-        <div class="admin-sidebar-footer">
-          <span class="admin-status-dot"></span>
-
-          <span>Admin System Online</span>
-        </div>
-        <form action="/admin/logout" method="POST" class="admin-logout-form">
-          <button type="submit" class="admin-logout-btn">
-            <span class="logout-icon" aria-hidden="true">↪</span>
-            <span>Logout</span>
-          </button>
-        </form>
-      </aside>
+      <%- include('../partials/admin-sidebar', { currentPage: 'dashboard' }) %>
 
       <!-- MAIN CONTENT -->
 
@@ -268,15 +207,15 @@
                 <span class="card-arrow"> → </span>
               </div>
 
-              <h3>Destinations</h3>
+              <h3>Client_Status</h3>
 
               <p>
                 Manage popular travel destinations and destination-specific
                 website information.
               </p>
 
-              <a href="/admin/destinations" class="manage-button">
-                Manage Destinations
+              <a href="/admin/client_status" class="manage-button">
+                Manage clients application status
               </a>
             </article>
 
