@@ -1,343 +1,363 @@
 <!DOCTYPE html>
-
 <html lang="en">
-  <head>
-  <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | VisaMaster</title>
 
-  <title>Admin Dashboard | VisaMaster</title>
+    <meta
+        name="description"
+        content="VisaMaster administration dashboard"
+    />
 
-  <meta
-    name="description"
-    content="VisaMaster administration dashboard"
-  />
+    <!-- Common Admin CSS -->
+    <link rel="stylesheet" href="/css/admin.css" />
 
-  <!-- Common Admin CSS: Sidebar, Layout and Navigation -->
-  <link rel="stylesheet" href="/css/admin.css" />
-
-  <!-- Dashboard-specific CSS -->
-  <link rel="stylesheet" href="/css/admin-dashboard.css" />
+    <!-- Dashboard-specific CSS -->
+    <link rel="stylesheet" href="/css/admin-dashboard.css" />
 </head>
-  <body>
+
+<body>
     <div class="admin-layout">
-      <!-- SIDEBAR -->
 
-      <%- include('../partials/admin-sidebar', { currentPage: 'dashboard' }) %>
-
-      <!-- MAIN CONTENT -->
-
-      <main class="admin-main">
-        <!-- TOP BAR -->
-
-        <header class="admin-topbar">
-          <div>
-            <p class="admin-eyebrow">VISAMASTER ADMIN</p>
-
-            <h1>Dashboard</h1>
-          </div>
-
-          <a
-            href="/"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="view-site-button"
-          >
-            View Website
-            <span>↗</span>
-          </a>
-        </header>
-
-        <!-- WELCOME -->
-
-        <section class="admin-welcome">
-          <div class="welcome-content">
-            <span class="welcome-badge"> ✦ Control Center </span>
-
-            <h2>Welcome to VisaMaster Admin 👋</h2>
-
-            <p>
-              Manage your countries, visa information, news, team members,
-              destinations and customer enquiries from one place.
-            </p>
-          </div>
-
-          <div class="welcome-illustration">
-            <div class="illustration-circle">
-              <span>✈</span>
-            </div>
-
-            <div class="illustration-doodle doodle-one">• • •</div>
-
-            <div class="illustration-doodle doodle-two">✦</div>
-          </div>
-        </section>
-
-        <!-- QUICK STATS -->
-
-        <section class="admin-stats">
-          <!-- COUNTRIES -->
-
-          <div class="stat-card">
-            <div class="stat-icon country-icon">🌍</div>
-
-            <div class="stat-content">
-              <span> Total Countries </span>
-
-              <strong> <%= countryCount %> </strong>
-            </div>
-          </div>
-
-          <!-- NEWS -->
-
-          <div class="stat-card">
-            <div class="stat-icon news-icon">📰</div>
-
-            <div class="stat-content">
-              <span> News Articles </span>
-
-              <strong> — </strong>
-            </div>
-          </div>
-
-          <!-- TEAM -->
-
-          <div class="stat-card">
-            <div class="stat-icon team-icon">👥</div>
-
-            <div class="stat-content">
-              <span> Team Members </span>
-
-              <strong> — </strong>
-            </div>
-          </div>
-
-          <!-- ENQUIRIES -->
-
-          <div class="stat-card">
-            <div class="stat-icon enquiry-icon">✉️</div>
-
-            <div class="stat-content">
-              <span> Enquiries </span>
-
-              <strong> — </strong>
-            </div>
-          </div>
-        </section>
-
-        <!-- MANAGEMENT -->
-
-        <section class="management-section">
-          <div class="section-heading">
-            <div>
-              <p class="section-label">CONTENT MANAGEMENT</p>
-
-              <h2>Manage Website</h2>
-            </div>
-
-            <p>Choose what you want to update.</p>
-          </div>
-
-          <div class="management-grid">
-            <!-- COUNTRIES -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">🌍</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>Countries & Visas</h3>
-
-              <p>
-                Add countries, edit visa types, fees, requirements, processing
-                time and travel information.
-              </p>
-
-              <a href="/admin/countries" class="manage-button">
-                Manage Countries
-              </a>
-            </article>
-
-            <!-- NEWS -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">📰</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>News & Updates</h3>
-
-              <p>
-                Publish visa updates, travel news, announcements and useful
-                information.
-              </p>
-
-              <a href="/admin/news" class="manage-button"> Manage News </a>
-            </article>
-
-            <!-- TEAM -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">👥</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>Team Members</h3>
-
-              <p>
-                Manage partners, accountants and visa executives displayed on
-                the website.
-              </p>
-
-              <a href="/admin/team" class="manage-button"> Manage Team </a>
-            </article>
-
-            <!-- DESTINATIONS -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">📍</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>Client_Status</h3>
-
-              <p>
-                Manage popular travel destinations and destination-specific
-                website information.
-              </p>
-
-              <a href="/admin/client_status" class="manage-button">
-                Manage clients application status
-              </a>
-            </article>
-
-            <!-- ENQUIRIES -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">✉️</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>Customer Enquiries</h3>
-
-              <p>
-                View customer visa enquiries submitted through the VisaMaster
-                contact form.
-              </p>
-
-              <a href="/admin/enquiries" class="manage-button">
-                View Enquiries
-              </a>
-            </article>
-
-            <!-- SETTINGS -->
-
-            <article class="management-card">
-              <div class="management-card-top">
-                <div class="management-icon">⚙️</div>
-
-                <span class="card-arrow"> → </span>
-              </div>
-
-              <h3>Settings</h3>
-
-              <p>
-                Manage admin settings and website configuration in one place.
-              </p>
-
-              <a href="#" class="manage-button disabled"> Coming Soon </a>
-            </article>
-          </div>
-        </section>
-
-        <!-- QUICK ACTIONS -->
-
-        <section class="quick-actions">
-          <div class="section-heading">
-            <div>
-              <p class="section-label">QUICK ACTIONS</p>
-
-              <h2>Frequently Used</h2>
-            </div>
-          </div>
-
-          <div class="quick-action-grid">
-            <!-- EDIT COUNTRIES -->
-
-            <a href="/admin/countries" class="quick-action">
-              <span class="quick-action-icon"> ✏️ </span>
-
-              <div>
-                <strong> Edit Countries </strong>
-
-                <small> Update visa information </small>
-              </div>
-
-              <span class="quick-arrow"> → </span>
-            </a>
-
-            <!-- ADD NEWS -->
-
-            <a href="/admin/news" class="quick-action">
-              <span class="quick-action-icon"> ✍️ </span>
-
-              <div>
-                <strong> Add News </strong>
-
-                <small> Publish a new article </small>
-              </div>
-
-              <span class="quick-arrow"> → </span>
-            </a>
-
-            <!-- MANAGE TEAM -->
-
-            <a href="/admin/team" class="quick-action">
-              <span class="quick-action-icon"> 👤 </span>
-
-              <div>
-                <strong> Manage Team </strong>
-
-                <small> Update team members </small>
-              </div>
-
-              <span class="quick-arrow"> → </span>
-            </a>
-
-            <!-- CHECK ENQUIRIES -->
-
-            <a href="/admin/enquiries" class="quick-action">
-              <span class="quick-action-icon"> 📩 </span>
-
-              <div>
-                <strong> Check Enquiries </strong>
-
-                <small> View customer requests </small>
-              </div>
-
-              <span class="quick-arrow"> → </span>
-            </a>
-          </div>
-        </section>
-
-        <!-- FOOTER -->
-
-        <footer class="admin-footer">
-          <span> © <%= new Date().getFullYear() %> VisaMaster </span>
-
-          <span> Admin Control Panel </span>
-        </footer>
-      </main>
+        <!-- SIDEBAR -->
+        <%- include('../partials/admin-sidebar', {
+            currentPage: 'dashboard'
+        }) %>
+
+        <!-- MAIN CONTENT -->
+        <main class="admin-main">
+
+            <!-- TOP BAR -->
+            <header class="admin-topbar">
+                <div>
+                    <p class="admin-eyebrow">VISAMASTER ADMIN</p>
+                    <h1>Dashboard</h1>
+                </div>
+
+                <a
+                    href="/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="view-site-button"
+                >
+                    View Website
+                    <span>↗</span>
+                </a>
+            </header>
+
+            <!-- WELCOME -->
+            <section class="admin-welcome">
+                <div class="welcome-content">
+                    <span class="welcome-badge">
+                        ✦ Control Center
+                    </span>
+
+                    <h2>Welcome to VisaMaster Admin 👋</h2>
+
+                    <p>
+                        Manage your countries, visa information, news,
+                        team members, destinations and customer enquiries
+                        from one place.
+                    </p>
+                </div>
+
+                <div class="welcome-illustration">
+                    <div class="illustration-circle">
+                        <span>✈</span>
+                    </div>
+
+                    <div class="illustration-doodle doodle-one">
+                        • • •
+                    </div>
+
+                    <div class="illustration-doodle doodle-two">
+                        ✦
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUICK STATS -->
+            <section class="admin-stats">
+
+                <!-- COUNTRIES -->
+                <div class="stat-card">
+                    <div class="stat-icon country-icon">🌍</div>
+
+                    <div class="stat-content">
+                        <span>Total Countries</span>
+                        <strong><%= countryCount %></strong>
+                    </div>
+                </div>
+
+                <!-- NEWS -->
+                <div class="stat-card">
+                    <div class="stat-icon news-icon">📰</div>
+
+                    <div class="stat-content">
+                        <span>News Articles</span>
+                        <strong><%= newsCount %></strong>
+                    </div>
+                </div>
+
+                <!-- TEAM -->
+                <div class="stat-card">
+                    <div class="stat-icon team-icon">👥</div>
+
+                    <div class="stat-content">
+                        <span>Team Members</span>
+                        <strong><%= teamMemberCount %></strong>
+                    </div>
+                </div>
+
+                <!-- ENQUIRIES -->
+                <div class="stat-card">
+                    <div class="stat-icon enquiry-icon">✉️</div>
+
+                    <div class="stat-content">
+                        <span>Enquiries</span>
+                        <strong><%= enquiryCount %></strong>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- MANAGEMENT -->
+            <section class="management-section">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">CONTENT MANAGEMENT</p>
+                        <h2>Manage Website</h2>
+                    </div>
+
+                    <p>Choose what you want to update.</p>
+                </div>
+
+                <div class="management-grid">
+
+                    <!-- COUNTRIES -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">🌍</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>Countries &amp; Visas</h3>
+
+                        <p>
+                            Add countries, edit visa types, fees,
+                            requirements, processing time and travel
+                            information.
+                        </p>
+
+                        <a
+                            href="/admin/countries"
+                            class="manage-button"
+                        >
+                            Manage Countries
+                        </a>
+                    </article>
+
+                    <!-- NEWS -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">📰</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>News &amp; Updates</h3>
+
+                        <p>
+                            Publish visa updates, travel news,
+                            announcements and useful information.
+                        </p>
+
+                        <a
+                            href="/admin/news"
+                            class="manage-button"
+                        >
+                            Manage News
+                        </a>
+                    </article>
+
+                    <!-- TEAM -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">👥</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>Team Members</h3>
+
+                        <p>
+                            Manage partners, accountants and visa
+                            executives displayed on the website.
+                        </p>
+
+                        <a
+                            href="/admin/team"
+                            class="manage-button"
+                        >
+                            Manage Team
+                        </a>
+                    </article>
+
+                    <!-- CLIENT STATUS -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">📍</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>Client Status</h3>
+
+                        <p>
+                            Track client applications and monitor
+                            visa application progress.
+                        </p>
+
+                        <a
+                            href="/admin/client_status"
+                            class="manage-button"
+                        >
+                            Manage Client Status
+                        </a>
+                    </article>
+
+                    <!-- ENQUIRIES -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">✉️</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>Customer Enquiries</h3>
+
+                        <p>
+                            View customer visa enquiries submitted
+                            through the VisaMaster contact form.
+                        </p>
+
+                        <a
+                            href="/admin/enquiries"
+                            class="manage-button"
+                        >
+                            View Enquiries
+                        </a>
+                    </article>
+
+                    <!-- SETTINGS -->
+                    <article class="management-card">
+                        <div class="management-card-top">
+                            <div class="management-icon">⚙️</div>
+                            <span class="card-arrow">→</span>
+                        </div>
+
+                        <h3>Settings</h3>
+
+                        <p>
+                            Manage admin settings and website
+                            configuration in one place.
+                        </p>
+
+                        <a
+                            href="#"
+                            class="manage-button disabled"
+                        >
+                            Coming Soon
+                        </a>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- QUICK ACTIONS -->
+            <section class="quick-actions">
+
+                <div class="section-heading">
+                    <div>
+                        <p class="section-label">QUICK ACTIONS</p>
+                        <h2>Frequently Used</h2>
+                    </div>
+                </div>
+
+                <div class="quick-action-grid">
+
+                    <!-- EDIT COUNTRIES -->
+                    <a
+                        href="/admin/countries"
+                        class="quick-action"
+                    >
+                        <span class="quick-action-icon">✏️</span>
+
+                        <div>
+                            <strong>Edit Countries</strong>
+                            <small>Update visa information</small>
+                        </div>
+
+                        <span class="quick-arrow">→</span>
+                    </a>
+
+                    <!-- ADD NEWS -->
+                    <a
+                        href="/admin/news"
+                        class="quick-action"
+                    >
+                        <span class="quick-action-icon">✍️</span>
+
+                        <div>
+                            <strong>Add News</strong>
+                            <small>Publish a new article</small>
+                        </div>
+
+                        <span class="quick-arrow">→</span>
+                    </a>
+
+                    <!-- MANAGE TEAM -->
+                    <a
+                        href="/admin/team"
+                        class="quick-action"
+                    >
+                        <span class="quick-action-icon">👤</span>
+
+                        <div>
+                            <strong>Manage Team</strong>
+                            <small>Update team members</small>
+                        </div>
+
+                        <span class="quick-arrow">→</span>
+                    </a>
+
+                    <!-- CHECK ENQUIRIES -->
+                    <a
+                        href="/admin/enquiries"
+                        class="quick-action"
+                    >
+                        <span class="quick-action-icon">📩</span>
+
+                        <div>
+                            <strong>Check Enquiries</strong>
+                            <small>View customer requests</small>
+                        </div>
+
+                        <span class="quick-arrow">→</span>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="admin-footer">
+                <span>
+                    &copy; <%= new Date().getFullYear() %> VisaMaster
+                </span>
+
+                <span>Admin Control Panel</span>
+            </footer>
+
+        </main>
     </div>
-  </body>
+</body>
 </html>

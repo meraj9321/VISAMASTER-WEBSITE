@@ -1,0 +1,398 @@
+/* =====================================================
+CLIENT STATUS — COMING SOON
+===================================================== */
+
+.client-status-coming-soon {
+  min-height: 650px;
+  padding: 45px 25px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #eee9df;
+  border-radius: 22px;
+  box-shadow: 0 8px 30px rgba(16, 45, 80, 0.04);
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.client-status-coming-soon::before {
+  content: "";
+  position: absolute;
+  width: 350px;
+  height: 350px;
+  top: -230px;
+  right: -120px;
+  border-radius: 50%;
+  background: rgba(255, 196, 61, 0.12);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.client-status-coming-soon::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  bottom: -220px;
+  left: -100px;
+  border-radius: 50%;
+  background: rgba(16, 45, 80, 0.05);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* =====================================================
+ILLUSTRATION
+===================================================== */
+
+.coming-soon-illustration {
+  width: 210px;
+  height: 180px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.illustration-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.circle-one {
+  width: 145px;
+  height: 145px;
+  background: #fff6d9;
+}
+
+.circle-two {
+  width: 110px;
+  height: 110px;
+  border: 2px dashed #f0c45a;
+}
+
+/* PASSPORT */
+
+.passport-card {
+  width: 85px;
+  height: 115px;
+  position: relative;
+  z-index: 2;
+  background: #102d50;
+  border: 4px solid #173b64;
+  border-radius: 9px;
+  box-shadow: 0 12px 25px rgba(16, 45, 80, 0.2);
+  transform: rotate(-8deg);
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.passport-top {
+  color: #ffc43d;
+  font-size: 18px;
+  margin-bottom: 2px;
+}
+
+.passport-globe {
+  color: #ffc43d;
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.passport-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.passport-lines span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.passport-lines span:nth-child(2) {
+  width: 75%;
+}
+
+.passport-lines span:nth-child(3) {
+  width: 55%;
+}
+/* =====================================================
+FLOATING ICONS
+===================================================== */
+
+.floating-icon {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  box-shadow: 0 7px 18px rgba(16, 45, 80, 0.1);
+  font-size: 19px;
+}
+
+.icon-plane {
+  top: 23px;
+  right: 22px;
+  background: #ffc43d;
+  color: #102d50;
+  transform: rotate(-12deg);
+}
+
+.icon-check {
+  bottom: 25px;
+  right: 16px;
+  background: #e1f7e9;
+  color: #16834a;
+  font-weight: 800;
+}
+
+.icon-clock {
+  bottom: 22px;
+  left: 20px;
+  background: #eaf1fb;
+  color: #102d50;
+  font-size: 26px;
+}
+
+/* =====================================================
+STATUS BADGE
+===================================================== */
+
+.coming-soon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 9px 15px;
+  border: 1px solid #f2df9f;
+  border-radius: 30px;
+  background: #fff9e7;
+  color: #8c6810;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.1px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  display: inline-block;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #f0a72d;
+  box-shadow: 0 0 0 4px rgba(240, 167, 45, 0.14);
+}
+
+/* =====================================================
+HEADING
+===================================================== */
+
+.client-status-coming-soon h2 {
+  margin: 22px 0 12px;
+  color: #102d50;
+  font-size: clamp(29px, 4vw, 43px);
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+}
+
+.client-status-coming-soon h2 span {
+  display: block;
+  margin-top: 5px;
+  color: #e6a51d;
+}
+
+.coming-soon-description {
+  max-width: 600px;
+  margin: 0 auto;
+  color: #718096;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* =====================================================
+FEATURE PREVIEW
+===================================================== */
+
+.feature-preview {
+  width: min(100%, 850px);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  margin: 35px 0 30px;
+}
+
+.feature-item {
+  min-width: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 15px;
+  text-align: left;
+  background: #fffdf7;
+  border: 1px solid #f0eadc;
+  border-radius: 14px;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.feature-item {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(16, 45, 80, 0.07);
+}
+
+.feature-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff0bd;
+  border-radius: 11px;
+  font-size: 19px;
+}
+
+.feature-item h3 {
+  margin: 2px 0 6px;
+  color: #102d50;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.feature-item p {
+  margin: 0;
+  color: #718096;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =====================================================
+DASHBOARD BUTTON
+===================================================== */
+
+.back-dashboard-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 23px;
+  color: #ffffff;
+  background: #102d50;
+  border: 1px solid #102d50;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background 0.25s ease,
+    transform 0.25s ease;
+}
+
+.back-dashboard-button {
+  background: #183f6b;
+  transform: translateY(-2px);
+}
+
+/* =====================================================
+FOOTER
+===================================================== */
+
+.coming-soon-footer {
+  margin: 27px 0 0;
+  color: #98a2b3;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.coming-soon-footer span {
+  margin: 0 6px;
+  color: #e6a51d;
+}
+
+.admin-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-top: 25px;
+  padding: 18px 5px;
+  color: #718096;
+  font-size: 12px;
+}
+
+.admin-footer p {
+  margin: 0;
+}
+
+/* =====================================================
+RESPONSIVE — TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+  .feature-preview {
+    grid-template-columns: 1fr;
+    max-width: 450px;
+  }
+
+  .feature-item {
+    padding: 15px;
+  }
+
+  .client-status-coming-soon {
+    min-height: auto;
+    padding: 40px 20px;
+  }
+}
+
+/* =====================================================
+RESPONSIVE — MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+  .coming-soon-illustration {
+    transform: scale(0.9);
+    margin-bottom: 10px;
+  }
+
+  .client-status-coming-soon h2 {
+    font-size: 30px;
+    letter-spacing: -0.7px;
+  }
+
+  .coming-soon-description {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+
+  .coming-soon-badge {
+    font-size: 9px;
+    letter-spacing: 0.7px;
+  }
+
+  .feature-preview {
+    gap: 12px;
+    margin-top: 28px;
+  }
+
+  .admin-footer {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

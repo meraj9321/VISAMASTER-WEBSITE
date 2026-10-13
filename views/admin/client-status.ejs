@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Client Status | VisaMaster Admin</title>
+
+<meta
+    name="description"
+    content="VisaMaster Admin Client Status - Coming Soon"
+>
+
+<link rel="stylesheet" href="/css/admin.css">
+<link rel="stylesheet" href="/css/admin-client-status.css">
+
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- SHARED ADMIN SIDEBAR -->
+    <%- include('../partials/admin-sidebar', {
+        currentPage: 'client_status'
+    }) %>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <!-- TOPBAR -->
+        <header class="admin-topbar">
+            <div class="topbar-left">
+                <p class="admin-breadcrumb">
+                    Admin <span>/</span> Client Status
+                </p>
+
+                <h1>Client Status</h1>
+            </div>
+
+            <a
+                href="/"
+                class="view-site-button"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                View Website ↗
+            </a>
+        </header>
+
+        <!-- COMING SOON SECTION -->
+        <section class="client-status-coming-soon">
+
+            <div class="coming-soon-illustration">
+
+                <div class="illustration-circle circle-one"></div>
+                <div class="illustration-circle circle-two"></div>
+
+                <div class="passport-card">
+                    <div class="passport-top">
+                        <span>✈</span>
+                    </div>
+
+                    <div class="passport-globe">◎</div>
+
+                    <div class="passport-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="floating-icon icon-plane">✈</div>
+                <div class="floating-icon icon-check">✓</div>
+                <div class="floating-icon icon-clock">◷</div>
+
+            </div>
+
+            <div class="coming-soon-badge">
+                <span class="status-dot"></span>
+                FEATURE IN DEVELOPMENT
+            </div>
+
+            <h2>
+                Client Status
+                <span>Coming Soon!</span>
+            </h2>
+
+            <p class="coming-soon-description">
+                We're working on something useful. Soon, you'll be able
+                to manage client applications, track visa progress,
+                and check application status directly from your
+                VisaMaster admin dashboard.
+            </p>
+
+            <div class="feature-preview">
+
+                <div class="feature-item">
+                    <span class="feature-icon">📋</span>
+                    <div>
+                        <h3>Application Tracking</h3>
+                        <p>Track client visa applications.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span class="feature-icon">🔄</span>
+                    <div>
+                        <h3>Status Updates</h3>
+                        <p>Manage application progress.</p>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span class="feature-icon">🔔</span>
+                    <div>
+                        <h3>Client Notifications</h3>
+                        <p>Keep clients informed.</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <a href="/admin" class="back-dashboard-button">
+                ← Back to Dashboard
+            </a>
+
+            <p class="coming-soon-footer">
+                VisaMaster Admin Panel
+                <span>•</span>
+                Making visa management simpler
+            </p>
+
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="admin-footer">
+            <p>
+                © <%= new Date().getFullYear() %> VisaMaster.
+                All rights reserved.
+            </p>
+
+            <p>Admin Panel</p>
+        </footer>
+
+    </main>
+
+</div>
+
+</body> </html>
