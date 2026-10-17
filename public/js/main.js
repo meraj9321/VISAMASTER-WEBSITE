@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const firstResult = results[0];
 
         if (firstResult.slug) {
-          window.location.href = `/countries/${encodeURIComponent(firstResult.slug)}`;
+          window.location.href = `/countries/${encodeURIComponent(firstResult.slug)}/requirements`;
 
           return;
         }
@@ -286,7 +286,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    window.location.href = `/countries/${encodeURIComponent(slug)}`;
+    window.location.href = `/countries/${encodeURIComponent(slug)}/requirements`;
   });
 
   /* =======================================================

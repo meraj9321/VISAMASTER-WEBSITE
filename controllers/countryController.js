@@ -1,5 +1,9 @@
 const Country = require("../models/Country");
 
+/* =========================================================
+   GET ALL COUNTRIES
+========================================================= */
+
 const getAllCountries = async (req, res) => {
   try {
     const countries = await Country.find({
@@ -14,9 +18,15 @@ const getAllCountries = async (req, res) => {
     });
   } catch (error) {
     console.error("Get countries error:", error);
+
     res.status(500).render("errors/500");
   }
 };
+
+/* =========================================================
+   GET COUNTRY DETAIL PAGE
+   EXISTING FUNCTION - PRESERVED
+========================================================= */
 
 const getCountryBySlug = async (req, res) => {
   try {
@@ -39,9 +49,54 @@ const getCountryBySlug = async (req, res) => {
     });
   } catch (error) {
     console.error("Get country error:", error);
+
     res.status(500).render("errors/500");
   }
 };
+
+/* =========================================================
+   GET COUNTRY REQUIREMENTS PAGE
+   NEW FUNCTION
+========================================================= */
+
+const getCountryRequirements = async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "")
+      .trim()
+      .toLowerCase();
+
+    const country = await Country.findOne({
+      slug,
+      isActive: true,
+    })
+      .select("name slug flag visaTypes")
+      .lean();
+
+    if (!country) {
+      return res.status(404).render("errors/404");
+    }
+
+    // Get active visa categories from MongoDB
+    const visaTypes = (country.visaTypes || []).filter(
+      (visa) => visa && visa.isActive !== false,
+    );
+
+    // Send visaTypes to requirements.ejs
+    return res.render("countries/requirements", {
+      country,
+      visaTypes,
+      currentPage: "countries",
+    });
+  } catch (error) {
+    console.error("Get country requirements error:", error);
+
+    return res.status(500).render("errors/500");
+  }
+};
+/* =========================================================
+   SEARCH COUNTRIES
+   EXISTING FUNCTION PRESERVED
+========================================================= */
 
 const searchCountries = async (req, res) => {
   try {
@@ -65,18 +120,23 @@ const searchCountries = async (req, res) => {
       .limit(8)
       .lean();
 
-    res.json(countries);
+    return res.json(countries);
   } catch (error) {
     console.error("Country search error:", error);
 
-    res.status(500).json({
+    return res.status(500).json({
       message: "Unable to search countries",
     });
   }
 };
 
+/* =========================================================
+   EXPORT CONTROLLERS
+========================================================= */
+
 module.exports = {
   getAllCountries,
   getCountryBySlug,
+  getCountryRequirements,
   searchCountries,
 };

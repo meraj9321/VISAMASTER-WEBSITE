@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= country.name %> Visa Requirements | VisaMaster</title>
+  <meta name="description" content="Check visa categories, required documents and eligibility for <%= country.name %>." />
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/requirements.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+</head>
+<body>
+  <%- include("../partials/navbar") %>
+
+  <main class="requirements-page">
+    <section class="requirements-hero">
+      <div class="requirements-container">
+        <a href="/destinations" class="requirements-back">← Back to Destinations</a>
+
+        <div class="requirements-country">
+          <span class="requirements-country-flag"><%= country.flag || "🌍" %></span>
+          <div>
+            <span class="requirements-eyebrow">VISA DOCUMENT CHECKLIST</span>
+            <h1><%= country.name %> Visa Requirements</h1>
+            <p>Select the visa category that matches your travel purpose and check its document requirements.</p>
+          </div>
+        </div>
+
+        <div class="requirements-summary">
+          <span>📄 Document Checklist</span>
+          <span><%= visaTypes.length %> Visa Categories</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="requirements-content">
+      <div class="requirements-container">
+        <div class="requirements-section-heading">
+          <span class="requirements-eyebrow">PREPARE YOUR DOCUMENTS</span>
+          <h2>Choose Your Visa Category</h2>
+          <p>Tap a category to view its requirements. Swipe the category bar horizontally on mobile to see more visa types.</p>
+        </div>
+
+        <% if (visaTypes.length > 0) { %>
+          <div class="visa-category-tabs-wrap">
+            <div class="visa-category-tabs" role="tablist" aria-label="<%= country.name %> visa categories">
+              <% visaTypes.forEach((visa, index) => { %>
+                <button
+                  type="button"
+                  class="visa-category-tab"
+                  id="visa-tab-<%= index %>"
+                  role="tab"
+                  aria-controls="visa-panel-<%= index %>"
+                  aria-selected="<%= index === 0 ? 'true' : 'false' %>"
+                  tabindex="<%= index === 0 ? '0' : '-1' %>"
+                  data-visa-tab="<%= index %>"
+                >
+                  <span class="visa-category-tab-number"><%= String(index + 1).padStart(2, "0") %></span>
+                  <span class="visa-category-tab-name"><%= visa.name || "Visa Category" %></span>
+                </button>
+              <% }) %>
+            </div>
+            <p class="visa-category-slider-status" aria-live="polite">
+              Showing category 1 of <%= visaTypes.length %>
+            </p>
+          </div>
+
+          <div class="visa-requirements-list visa-tab-panels">
+            <% visaTypes.forEach((visa, index) => { %>
+              <section
+                class="visa-tab-panel <%= index === 0 ? 'is-active' : '' %>"
+                id="visa-panel-<%= index %>"
+                role="tabpanel"
+                aria-labelledby="visa-tab-<%= index %>"
+                data-visa-panel="<%= index %>"
+                <%= index === 0 ? '' : 'hidden' %>
+              >
+                <article class="visa-requirement-card" id="visa-<%= visa.slug || index %>">
+                  <div class="visa-requirement-header">
+                    <div class="visa-category-number"><%= String(index + 1).padStart(2, "0") %></div>
+                    <div class="visa-category-info">
+                      <h3><%= visa.name || "Visa Category" %></h3>
+                      <% if (visa.purpose) { %>
+                        <p><%= visa.purpose %></p>
+                      <% } %>
+                    </div>
+                    <% if (visa.entryType) { %>
+                      <span class="visa-entry-badge"><%= visa.entryType %></span>
+                    <% } %>
+                  </div>
+
+                  <div class="visa-requirement-details">
+                    <% if (visa.stayDuration || visa.processingTime) { %>
+                      <div class="visa-quick-details">
+                        <% if (visa.stayDuration) { %>
+                          <div>
+                            <span>Stay Duration</span>
+                            <strong><%= visa.stayDuration %></strong>
+                          </div>
+                        <% } %>
+                        <% if (visa.processingTime) { %>
+                          <div>
+                            <span>Processing Time</span>
+                            <strong><%= visa.processingTime %></strong>
+                          </div>
+                        <% } %>
+                      </div>
+                    <% } %>
+
+                    <div class="visa-document-section">
+                      <h4><span>📄</span> Documents Required</h4>
+                      <% if (Array.isArray(visa.documents) && visa.documents.some((document) => typeof document === "string" && document.trim())) { %>
+                        <ul class="visa-document-list">
+                          <% visa.documents.forEach((document) => { %>
+                            <% if (typeof document === "string" && document.trim()) { %>
+                              <li><span class="requirement-check">✓</span><span><%= document %></span></li>
+                            <% } %>
+                          <% }) %>
+                        </ul>
+                      <% } else { %>
+                        <p class="requirements-unavailable">Please contact VisaMaster to confirm the documents required for this visa category.</p>
+                      <% } %>
+                    </div>
+
+                    <div class="visa-document-section">
+                      <h4><span>✓</span> Eligibility Requirements</h4>
+                      <% if (Array.isArray(visa.eligibility) && visa.eligibility.some((item) => typeof item === "string" && item.trim())) { %>
+                        <ul class="visa-document-list">
+                          <% visa.eligibility.forEach((item) => { %>
+                            <% if (typeof item === "string" && item.trim()) { %>
+                              <li><span class="requirement-check">✓</span><span><%= item %></span></li>
+                            <% } %>
+                          <% }) %>
+                        </ul>
+                      <% } else { %>
+                        <p class="requirements-unavailable">Eligibility details are not currently available. Contact VisaMaster for assistance.</p>
+                      <% } %>
+                    </div>
+
+                    <div class="visa-requirement-footer">
+                      <p>Need help preparing your documents?</p>
+                      <a href="/contact" class="visa-requirement-cta">Get Assistance →</a>
+                    </div>
+                  </div>
+                </article>
+              </section>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="requirements-empty">
+            <span>📋</span>
+            <h3>Visa Requirements Coming Soon</h3>
+            <p>Visa category requirements for <%= country.name %> are not currently available online.</p>
+            <a href="/contact" class="visa-requirement-cta">Contact VisaMaster →</a>
+          </div>
+        <% } %>
+
+        <div class="requirements-important-note">
+          <span class="requirements-note-icon">ℹ️</span>
+          <div>
+            <h3>Important Information</h3>
+            <p>Required documents may vary according to the applicant's circumstances, visa category and applicable immigration rules. Additional documents may be requested by the relevant authority. Confirm the latest requirements before applying.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/main.js"></script>
+  <script src="/js/requirements.js"></script>
+</body>
+</html>

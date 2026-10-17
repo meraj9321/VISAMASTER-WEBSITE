@@ -1,805 +1,542 @@
-                                    <!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
 
-                                    <html lang="en">
+<head>
+  <meta charset="UTF-8" />
 
-                                    <head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-                                        <meta charset="UTF-8" />
+  <meta
+    name="description"
+    content="Explore popular travel destinations with VisaMaster and find the right visa assistance for your next journey."
+  />
 
-                                        <meta
-                                            name="viewport"
-                                            content="width=device-width, initial-scale=1.0"
-                                        />
+  <meta name="robots" content="index, follow" />
 
-                                        <meta
-                                            name="description"
-                                            content="Explore popular travel destinations with VisaMaster and find the right visa assistance for your next journey."
-                                        />
+  <title>Destinations | VisaMaster</title>
 
-                                        <meta
-                                            name="robots"
-                                            content="index, follow"
-                                        />
+  <!-- GLOBAL + SHARED CSS -->
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
 
-                                        <title>Destinations | VisaMaster</title>
+  <!-- DESTINATIONS PAGE CSS -->
+  <link rel="stylesheet" href="/css/destinations.css" />
 
+  <!-- FOOTER CSS -->
+  <link rel="stylesheet" href="/css/footer.css" />
+</head>
 
-                                        <!-- =========================================
-                                            GLOBAL + SHARED CSS
-                                        ========================================== -->
+<body>
 
-                                        <link rel="stylesheet" href="/css/global.css" />
+  <!-- NAVBAR -->
+  <%- include("../partials/navbar") %>
 
-                                        <link rel="stylesheet" href="/css/navbar.css" />
+  <main>
 
+    <!-- =========================================
+         DESTINATION HERO
+    ========================================== -->
 
-                                        <!-- =========================================
-                                            DESTINATIONS PAGE CSS
-                                        ========================================== -->
+    <section class="destination-hero">
 
-                                        <link rel="stylesheet" href="/css/destinations.css" />
+      <div class="destination-container">
 
+        <div class="destination-hero-top">
 
-                                        <!-- =========================================
-                                            FOOTER CSS
-                                        ========================================== -->
+          <!-- HERO CONTENT -->
 
-                                        <link rel="stylesheet" href="/css/footer.css" />
+          <div class="destination-hero-copy">
 
-                                    </head>
+            <div class="passport-label">
+              🌍 PASSPORT TO THE WORLD
+            </div>
 
+            <h1>
+              Want to know
+              <span>requirements?</span>
+            </h1>
 
-                                    <body>
+            <p>
+              From dream beaches to busy city streets,
+              discover destinations and find the right
+              visa for your next adventure.
+            </p>
 
+            <!-- DESTINATION SEARCH -->
 
-                                        <!-- =========================================
-                                            NAVBAR
-                                        ========================================== -->
+            <div
+              class="destination-search"
+              id="destinationSearchBox"
+            >
 
-                                        <%- include("../partials/navbar") %>
+              <span class="destination-search-icon">
+                🔍
+              </span>
 
+              <input
+                type="text"
+                id="destinationSearchInput"
+                placeholder="Search your dream destination..."
+                autocomplete="off"
+                aria-label="Search destination"
+              />
 
-                                        <main>
+              <button
+                type="button"
+                id="destinationSearchButton"
+              >
+                See-Requirements
+              </button>
 
+              <!-- SEARCH SUGGESTIONS -->
 
-                                            <!-- =========================================
-                                                DESTINATION HERO
-                                            ========================================== -->
+              <div
+                id="destinationSuggestions"
+                class="destination-suggestions"
+                role="listbox"
+                aria-label="Destination suggestions"
+              ></div>
 
-                                            <section class="destination-hero">
+            </div>
 
-                                                <div class="destination-container">
+            <div class="destination-mini-info">
 
-                                                    <div class="destination-hero-top">
+              <span>✈️ 50+ Destinations</span>
 
+              <span>🛂 Visa Assistance</span>
 
-                                                        <!-- HERO CONTENT -->
+              <span>🌎 Worldwide Travel</span>
 
-                                                        <div class="destination-hero-copy">
+            </div>
 
-                                                            <div class="passport-label">
+          </div>
 
-                                                                🌍 PASSPORT TO THE WORLD
+          <!-- PASSPORT VISUAL -->
 
-                                                            </div>
+          <div class="passport-scene">
 
+            <div class="passport-sun">
+              ☀
+            </div>
 
-                                                            <h1>
+            <div class="passport-cloud cloud-one">
+              ☁
+            </div>
 
-                                                                Where Will
+            <div class="passport-cloud cloud-two">
+              ☁
+            </div>
 
-                                                                <span>You Go?</span>
+            <div class="passport-globe">
+              🌍
+            </div>
 
-                                                            </h1>
+            <div class="passport-card">
 
+              <div class="passport-card-top">
+                <span>VISA</span>
+                <span>VISAMASTER</span>
+              </div>
 
-                                                            <p>
+              <div class="passport-card-middle">
 
-                                                                From dream beaches to busy city streets,
-                                                                discover destinations and find the right
-                                                                visa for your next adventure.
+                <div class="passport-chip">
+                  ▦
+                </div>
 
-                                                            </p>
+                <div>
+                  <small>TRAVEL DOCUMENT</small>
+                  <strong>EXPLORE</strong>
+                </div>
 
+              </div>
 
-                                                            <!-- =====================================
-                                                                DESTINATION SEARCH
-                                                            ====================================== -->
+              <div class="passport-card-bottom">
+                <span>✈ INDIA</span>
+                <span>VM • 2026</span>
+              </div>
 
-                                                            <div
-                                                                class="destination-search"
-                                                                id="destinationSearchBox"
-                                                            >
+            </div>
 
-                                                                <span class="destination-search-icon">
-                                                                    🔍
-                                                                </span>
+            <div class="passport-stamp stamp-one">
+              VISA
+              <br />
+              READY
+            </div>
 
+            <div class="passport-stamp stamp-two">
+              GO! ✈
+            </div>
 
-                                                                <input
-                                                                    type="text"
-                                                                    id="destinationSearchInput"
-                                                                    placeholder="Search your dream destination..."
-                                                                    autocomplete="off"
-                                                                    aria-label="Search destination"
-                                                                />
+            <div class="passport-ticket">
 
+              <span>BOARDING PASS</span>
 
-                                                                <button
-                                                                    type="button"
-                                                                    id="destinationSearchButton"
-                                                                >
-                                                                    Explore
-                                                                </button>
+              <strong>YOUR NEXT ADVENTURE</strong>
 
+              <div class="ticket-line"></div>
 
-                                                                <!-- =================================
-                                                                    SEARCH SUGGESTIONS
-                                                                ================================== -->
+              <small>DREAM → DESTINATION</small>
 
-                                                                <div
-                                                                    id="destinationSuggestions"
-                                                                    class="destination-suggestions"
-                                                                    role="listbox"
-                                                                    aria-label="Destination suggestions"
-                                                                ></div>
+            </div>
 
-                                                            </div>
+            <div class="passport-plane">
+              ✈
+            </div>
 
+          </div>
 
-                                                            <div class="destination-mini-info">
+        </div>
 
-                                                                <span>
-                                                                    ✈️ 50+ Destinations
-                                                                </span>
+      </div>
 
-                                                                <span>
-                                                                    🛂 Visa Assistance
-                                                                </span>
+    </section>
 
-                                                                <span>
-                                                                    🌎 Worldwide Travel
-                                                                </span>
 
-                                                            </div>
+    <!-- =========================================
+         POPULAR DESTINATIONS
+    ========================================== -->
 
-                                                        </div>
+    <section class="popular-destinations">
 
+      <div class="destination-container">
 
+        <!-- SECTION HEADING -->
 
-                                                        <!-- =====================================
-                                                            PASSPORT VISUAL
-                                                        ====================================== -->
+        <div class="destination-section-heading">
 
-                                                        <div class="passport-scene">
+          <div class="destination-label">
+            ✦ POPULAR PICKS
+          </div>
 
-                                                            <div class="passport-sun">
-                                                                ☀
-                                                            </div>
+          <h2>
+            Start With
+            <span>Somewhere Amazing.</span>
+          </h2>
 
+          <p>
+            A few places travellers love.
+            Your next destination might be here.
+          </p>
 
-                                                            <div class="passport-cloud cloud-one">
-                                                                ☁
-                                                            </div>
+        </div>
 
 
-                                                            <div class="passport-cloud cloud-two">
-                                                                ☁
-                                                            </div>
+        <!-- =========================================
+             COUNTRY REQUIREMENTS CARDS
+        ========================================== -->
 
+        <div class="destination-grid" id="destinationGrid">
 
-                                                            <div class="passport-globe">
-                                                                🌍
-                                                            </div>
+          <% countries.forEach(country => { %>
 
+            <div
+              class="destination-card"
+              id="destination-<%= country.slug %>"
+              data-destination-name="<%= country.name %>"
+              data-destination-slug="<%= country.slug %>"
+            >
 
+              <div class="destination-content">
 
-                                                            <div class="passport-card">
+                <!-- COUNTRY IMAGE -->
 
-                                                                <div class="passport-card-top">
+                <div class="country-flag-image">
 
-                                                                    <span>
-                                                                        VISA
-                                                                    </span>
+                  <img
+                    src="<%= country.image || '/images/countries/default.jpg' %>"
+                    alt="<%= country.name %>"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='/images/countries/default.jpg';"
+                  />
 
-                                                                    <span>
-                                                                        VISAMASTER
-                                                                    </span>
+                </div>
 
-                                                                </div>
+                <!-- COUNTRY NAME -->
 
+                <h3 class="country-name">
+                  <%= country.name %>
+                </h3>
 
+                <!-- SEE REQUIREMENTS BUTTON -->
 
-                                                                <div class="passport-card-middle">
+                <a
+                  href="/countries/<%= country.slug %>/requirements"
+                  class="see-requirements-btn"
+                >
+                  See Requirements
+                </a>
 
-                                                                    <div class="passport-chip">
-                                                                        ▦
-                                                                    </div>
+              </div>
 
-                                                                    <div>
+            </div>
 
-                                                                        <small>
-                                                                            TRAVEL DOCUMENT
-                                                                        </small>
+          <% }) %>
 
-                                                                        <strong>
-                                                                            EXPLORE
-                                                                        </strong>
+        </div>
 
-                                                                    </div>
+      </div>
 
-                                                                </div>
+    </section>
 
 
+    <!-- =========================================
+         TRAVEL MAP SECTION
+    ========================================== -->
 
-                                                                <div class="passport-card-bottom">
+    <section class="travel-map-section">
 
-                                                                    <span>
-                                                                        ✈ INDIA
-                                                                    </span>
+      <div class="destination-container">
 
-                                                                    <span>
-                                                                        VM • 2026
-                                                                    </span>
+        <div class="travel-map">
 
-                                                                </div>
+          <div class="map-doodles">
+            ✦
+          </div>
 
-                                                            </div>
+          <div class="map-plane">
+            ✈
+          </div>
 
+          <div class="map-route route-one">
+            • • • • • • •
+          </div>
 
+          <div class="map-route route-two">
+            • • • • • • • •
+          </div>
 
-                                                            <div class="passport-stamp stamp-one">
+          <div class="map-route route-three">
+            • • • • •
+          </div>
 
-                                                                VISA
-                                                                <br />
-                                                                READY
+          <div class="map-pin pin-india">
+            📍
+            <span>INDIA</span>
+          </div>
 
-                                                            </div>
+          <div class="map-pin pin-dubai">
+            📍
+            <span>DUBAI</span>
+          </div>
 
+          <div class="map-pin pin-usa">
+            📍
+            <span>USA</span>
+          </div>
 
+          <div class="map-pin pin-canada">
+            📍
+            <span>CANADA</span>
+          </div>
 
-                                                            <div class="passport-stamp stamp-two">
+          <div class="map-pin pin-australia">
+            📍
+            <span>AUSTRALIA</span>
+          </div>
 
-                                                                GO! ✈
+          <div class="map-center">
 
-                                                            </div>
+            <span>YOUR</span>
 
+            <strong>JOURNEY</strong>
 
+            <small>STARTS HERE ✈</small>
 
-                                                            <div class="passport-ticket">
+          </div>
 
-                                                                <span>
-                                                                    BOARDING PASS
-                                                                </span>
+        </div>
 
-                                                                <strong>
-                                                                    YOUR NEXT ADVENTURE
-                                                                </strong>
+      </div>
 
-                                                                <div class="ticket-line"></div>
+    </section>
 
-                                                                <small>
-                                                                    DREAM → DESTINATION
-                                                                </small>
 
-                                                            </div>
+    <!-- =========================================
+         TRAVEL PACKAGES
+    ========================================== -->
 
+    <section class="travel-packages">
 
+      <div class="destination-container">
 
-                                                            <div class="passport-plane">
-                                                                ✈
-                                                            </div>
+        <div class="destination-section-heading">
 
-                                                        </div>
+          <div class="destination-label">
+            🎒 TRAVEL IDEAS
+          </div>
 
-                                                    </div>
+          <h2>
+            Maybe Your Next Trip
+            <span>Looks Like This.</span>
+          </h2>
 
-                                                </div>
+        </div>
 
-                                            </section>
+        <div class="package-grid">
 
+          <!-- PACKAGE 1 -->
 
+          <div class="package-card">
 
-                                            <!-- =========================================
-                                                POPULAR DESTINATIONS
-                                            ========================================== -->
+            <div class="package-icon">
+              🌴
+            </div>
 
-                                            <section class="popular-destinations">
+            <div>
 
-                                                <div class="destination-container">
+              <small>RELAX</small>
 
+              <h3>Beach Escape</h3>
 
-                                                    <!-- SECTION HEADING -->
+              <p>
+                Sun, beaches and a little time away.
+              </p>
 
-                                                    <div class="destination-section-heading">
+            </div>
 
-                                                        <div class="destination-label">
+            <a href="/contact">
+              Plan It →
+            </a>
 
-                                                            ✦ POPULAR PICKS
+          </div>
 
-                                                        </div>
 
+          <!-- PACKAGE 2 -->
 
-                                                        <h2>
+          <div class="package-card package-card-yellow">
 
-                                                            Start With
+            <div class="package-icon">
+              🏙️
+            </div>
 
-                                                            <span>
-                                                                Somewhere Amazing.
-                                                            </span>
+            <div>
 
-                                                        </h2>
+              <small>EXPLORE</small>
 
+              <h3>City Adventure</h3>
 
-                                                        <p>
+              <p>
+                Discover new streets, cultures and experiences.
+              </p>
 
-                                                            A few places travellers love.
-                                                            Your next destination might be here.
+            </div>
 
-                                                        </p>
+            <a href="/contact">
+              Plan It →
+            </a>
 
-                                                    </div>
+          </div>
 
 
+          <!-- PACKAGE 3 -->
 
-                                                    <!-- =====================================
-                                                        DYNAMIC COUNTRY CARDS
-                                                        -------------------------------------
-                                                        These cards already come from MongoDB.
-                                                        Destination search will search THESE
-                                                        cards only. It will NOT call MongoDB.
-                                                    ====================================== -->
+          <div class="package-card package-card-green">
 
-                                                    <div
-                                                        class="destination-grid"
-                                                        id="destinationGrid"
-                                                    >
+            <div class="package-icon">
+              🏔️
+            </div>
 
-                                                        <% countries.forEach(country => { %>
+            <div>
 
+              <small>ADVENTURE</small>
 
-                                                            <div
-                                                                class="destination-card"
-                                                                id="destination-<%= country.slug %>"
-                                                                data-destination-name="<%= country.name %>"
-                                                                data-destination-slug="<%= country.slug %>"
-                                                            >
+              <h3>Wild Escape</h3>
 
+              <p>
+                Mountains, nature and something different.
+              </p>
 
-                                                                <!-- COUNTRY IMAGE -->
+            </div>
 
-                                                                <img
-                                                                    src="<%= country.image %>"
-                                                                    alt="<%= country.name %>"
-                                                                    loading="lazy"
-                                                                />
+            <a href="/contact">
+              Plan It →
+            </a>
 
+          </div>
 
+        </div>
 
-                                                                <div class="destination-content">
+      </div>
 
+    </section>
 
-                                                                    <!-- COUNTRY FLAG -->
 
-                                                                    <span class="country-flag">
+    <!-- =========================================
+         CTA
+    ========================================== -->
 
-                                                                        <%= country.flag %>
+    <section class="destination-cta">
 
-                                                                    </span>
+      <div class="destination-container">
 
+        <div class="destination-cta-card">
 
+          <div class="cta-cloud">
+            ☁
+          </div>
 
-                                                                    <!-- COUNTRY NAME -->
+          <div class="cta-plane">
+            ✈️
+          </div>
 
-                                                                    <h3>
+          <div class="destination-cta-content">
 
-                                                                        <%= country.name %>
+            <div class="destination-label">
+              🌎 NEXT STOP?
+            </div>
 
-                                                                    </h3>
+            <h2>
+              Your Dream
+              <span>Destination Is Waiting.</span>
+            </h2>
 
+            <p>
+              Tell us where you want to go.
+              We'll help you figure out the visa journey.
+            </p>
 
+            <div class="destination-cta-buttons">
 
-                                                                    <!-- COUNTRY DESCRIPTION -->
+              <a
+                href="/destinations"
+                class="destination-main-btn"
+              >
+                Find Your Visa →
+              </a>
 
-                                                                    <p>
+              <a
+                href="/contact"
+                class="destination-outline-btn"
+              >
+                Talk To Us 💬
+              </a>
 
-                                                                        <%= country.description %>
+            </div>
 
-                                                                    </p>
+          </div>
 
+        </div>
 
+      </div>
 
-                                                                    <!-- COUNTRY DETAIL PAGE -->
+    </section>
 
-                                                                    <a
-                                                                        href="/countries/<%= country.slug %>"
-                                                                    >
+  </main>
 
-                                                                        Explore Visa →
 
-                                                                    </a>
+  <!-- FOOTER -->
 
-                                                                </div>
+  <%- include("../partials/footer") %>
 
-                                                            </div>
 
+  <!-- MAIN JAVASCRIPT -->
 
-                                                        <% }) %>
+  <script src="/js/main.js"></script>
 
-                                                    </div>
+</body>
 
-                                                </div>
-
-                                            </section>
-
-
-
-                                            <!-- =========================================
-                                                TRAVEL MAP SECTION
-                                            ========================================== -->
-
-                                            <section class="travel-map-section">
-
-                                                <div class="destination-container">
-
-                                                    <div class="travel-map">
-
-                                                        <div class="map-doodles">
-                                                            ✦
-                                                        </div>
-
-
-                                                        <div class="map-plane">
-                                                            ✈
-                                                        </div>
-
-
-                                                        <div class="map-route route-one">
-                                                            • • • • • • •
-                                                        </div>
-
-
-                                                        <div class="map-route route-two">
-                                                            • • • • • • • •
-                                                        </div>
-
-
-                                                        <div class="map-route route-three">
-                                                            • • • • •
-                                                        </div>
-
-
-
-                                                        <div class="map-pin pin-india">
-
-                                                            📍
-
-                                                            <span>
-                                                                INDIA
-                                                            </span>
-
-                                                        </div>
-
-
-
-                                                        <div class="map-pin pin-dubai">
-
-                                                            📍
-
-                                                            <span>
-                                                                DUBAI
-                                                            </span>
-
-                                                        </div>
-
-
-
-                                                        <div class="map-pin pin-usa">
-
-                                                            📍
-
-                                                            <span>
-                                                                USA
-                                                            </span>
-
-                                                        </div>
-
-
-
-                                                        <div class="map-pin pin-canada">
-
-                                                            📍
-
-                                                            <span>
-                                                                CANADA
-                                                            </span>
-
-                                                        </div>
-
-
-
-                                                        <div class="map-pin pin-australia">
-
-                                                            📍
-
-                                                            <span>
-                                                                AUSTRALIA
-                                                            </span>
-
-                                                        </div>
-
-
-
-                                                        <div class="map-center">
-
-                                                            <span>
-                                                                YOUR
-                                                            </span>
-
-                                                            <strong>
-                                                                JOURNEY
-                                                            </strong>
-
-                                                            <small>
-                                                                STARTS HERE ✈
-                                                            </small>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </section>
-
-
-
-                                            <!-- =========================================
-                                                TRAVEL PACKAGES
-                                            ========================================== -->
-
-                                            <section class="travel-packages">
-
-                                                <div class="destination-container">
-
-
-                                                    <div class="destination-section-heading">
-
-                                                        <div class="destination-label">
-
-                                                            🎒 TRAVEL IDEAS
-
-                                                        </div>
-
-
-                                                        <h2>
-
-                                                            Maybe Your Next Trip
-
-                                                            <span>
-                                                                Looks Like This.
-                                                            </span>
-
-                                                        </h2>
-
-                                                    </div>
-
-
-
-                                                    <div class="package-grid">
-
-
-                                                        <!-- PACKAGE 1 -->
-
-                                                        <div class="package-card">
-
-                                                            <div class="package-icon">
-                                                                🌴
-                                                            </div>
-
-
-                                                            <div>
-
-                                                                <small>
-                                                                    RELAX
-                                                                </small>
-
-                                                                <h3>
-                                                                    Beach Escape
-                                                                </h3>
-
-                                                                <p>
-                                                                    Sun, beaches and a little time away.
-                                                                </p>
-
-                                                            </div>
-
-
-                                                            <a href="/contact">
-                                                                Plan It →
-                                                            </a>
-
-                                                        </div>
-
-
-
-                                                        <!-- PACKAGE 2 -->
-
-                                                        <div class="package-card package-card-yellow">
-
-                                                            <div class="package-icon">
-                                                                🏙️
-                                                            </div>
-
-
-                                                            <div>
-
-                                                                <small>
-                                                                    EXPLORE
-                                                                </small>
-
-                                                                <h3>
-                                                                    City Adventure
-                                                                </h3>
-
-                                                                <p>
-                                                                    Discover new streets, cultures and experiences.
-                                                                </p>
-
-                                                            </div>
-
-
-                                                            <a href="/contact">
-                                                                Plan It →
-                                                            </a>
-
-                                                        </div>
-
-
-
-                                                        <!-- PACKAGE 3 -->
-
-                                                        <div class="package-card package-card-green">
-
-                                                            <div class="package-icon">
-                                                                🏔️
-                                                            </div>
-
-
-                                                            <div>
-
-                                                                <small>
-                                                                    ADVENTURE
-                                                                </small>
-
-                                                                <h3>
-                                                                    Wild Escape
-                                                                </h3>
-
-                                                                <p>
-                                                                    Mountains, nature and something different.
-                                                                </p>
-
-                                                            </div>
-
-
-                                                            <a href="/contact">
-                                                                Plan It →
-                                                            </a>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </section>
-
-
-
-                                            <!-- =========================================
-                                                CTA
-                                            ========================================== -->
-
-                                            <section class="destination-cta">
-
-                                                <div class="destination-container">
-
-                                                    <div class="destination-cta-card">
-
-
-                                                        <div class="cta-cloud">
-                                                            ☁
-                                                        </div>
-
-
-                                                        <div class="cta-plane">
-                                                            ✈️
-                                                        </div>
-
-
-
-                                                        <div class="destination-cta-content">
-
-                                                            <div class="destination-label">
-
-                                                                🌎 NEXT STOP?
-
-                                                            </div>
-
-
-                                                            <h2>
-
-                                                                Your Dream
-
-                                                                <span>
-                                                                    Destination Is Waiting.
-                                                                </span>
-
-                                                            </h2>
-
-
-                                                            <p>
-
-                                                                Tell us where you want to go.
-                                                                We'll help you figure out the visa journey.
-
-                                                            </p>
-
-
-
-                                                            <div class="destination-cta-buttons">
-
-
-                                                                <a
-                                                                    href="/destinations"
-                                                                    class="destination-main-btn"
-                                                                >
-
-                                                                    Find Your Visa →
-
-                                                                </a>
-
-
-
-                                                                <a
-                                                                    href="/contact"
-                                                                    class="destination-outline-btn"
-                                                                >
-
-                                                                    Talk To Us 💬
-
-                                                                </a>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </section>
-
-                                        </main>
-
-
-
-                                        <!-- =========================================
-                                            FOOTER
-                                        ========================================== -->
-
-                                        <%- include("../partials/footer") %>
-
-
-
-                                        <!-- =========================================
-                                            MAIN JAVASCRIPT
-                                        ========================================== -->
-
-                                        <script src="/js/main.js"></script>
-
-
-                                    </body>
-
-                                    </html>
+</html>
