@@ -3,952 +3,186 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Visas | VisaMaster</title>
-
-  <meta
-    name="description"
-    content="Explore VisaMaster visa assistance, travel documentation and international visa services for destinations around the world."
-  />
-
+  <title>Visa Information Directory | VisaMaster</title>
+  <meta name="description" content="Explore visa options by category and country. Find E-Visa, Tourist Visa, Visa on Arrival, Business Visa, Stamping Visa and Sticker Visa requirements with VisaMaster." />
   <link rel="stylesheet" href="/css/global.css" />
   <link rel="stylesheet" href="/css/navbar.css" />
   <link rel="stylesheet" href="/css/visas.css" />
   <link rel="stylesheet" href="/css/footer.css" />
 </head>
-
 <body>
-
   <%- include("../partials/navbar", { currentPage: "visas" }) %>
 
-  <main>
+  <% const visaDirectoryCategories = [
+    { slug: "e-visa", name: "E-Visa", eyebrow: "ONLINE APPLICATION", icon: "↗", description: "Explore destinations where an electronic visa option is listed by VisaMaster." },
+    { slug: "tourist-visa", name: "Tourist Visa", eyebrow: "HOLIDAY & LEISURE", icon: "✈", description: "Find tourist visa options for holidays, sightseeing and leisure travel." },
+    { slug: "visa-on-arrival", name: "Visa on Arrival", eyebrow: "ARRIVAL PROCESS", icon: "⌁", description: "Check destinations where Visa on Arrival assistance is listed." },
+    { slug: "business-visa", name: "Business Visa", eyebrow: "BUSINESS TRAVEL", icon: "▣", description: "Explore business visa options for meetings, events and professional visits." },
+    { slug: "stamping-visa", name: "Stamping Visa", eyebrow: "PASSPORT SUBMISSION", icon: "▤", description: "Find visa options requiring passport submission or visa stamping, where configured." },
+    { slug: "sticker-visa", name: "Sticker Visa", eyebrow: "CONSULATE / EMBASSY", icon: "▧", description: "Explore sticker visa options and their country-specific requirements." }
+  ]; %>
 
-    <!-- =====================================================
-         HERO
-    ====================================================== -->
-
-    <section class="vm-visa-hero">
-
-      <div class="vm-hero-line"></div>
-      <div class="vm-hero-dot vm-dot-one"></div>
-      <div class="vm-hero-dot vm-dot-two"></div>
-
-      <div class="container">
-
-        <div class="vm-hero-layout">
-
-          <div class="vm-hero-copy">
-
-            <div class="vm-kicker">
-              <span>✦</span>
-              VISA SERVICES
-            </div>
-
-            <h1>
-              Your journey
-              <span>starts here.</span>
-            </h1>
-
-            <p>
-              From tourist trips to business travel, e-visas and special
-              travel documentation — VisaMaster helps make your international
-              journey simpler, clearer and more organised.
-            </p>
-
-            <div class="vm-hero-actions">
-
-              <a href="/contact" class="vm-btn vm-btn-primary">
-                Start Your Visa
-                <span>→</span>
-              </a>
-
-              <a href="#visa-categories" class="vm-btn vm-btn-light">
-                Explore Visa Types
-              </a>
-
-            </div>
-
-            <div class="vm-trust-row">
-
-              <div>
-                <strong>01</strong>
-                <span>Visa Guidance</span>
-              </div>
-
-              <div>
-                <strong>02</strong>
-                <span>Document Support</span>
-              </div>
-
-              <div>
-                <strong>03</strong>
-                <span>Application Assistance</span>
-              </div>
-
-            </div>
-
+  <main class="vm-directory-page">
+    <section class="vm-directory-hero">
+      <div class="vm-directory-hero-doodle vm-doodle-plane" aria-hidden="true">✈</div>
+      <div class="vm-directory-hero-doodle vm-doodle-globe" aria-hidden="true">◎</div>
+      <div class="container vm-directory-hero-inner">
+        <div class="vm-directory-hero-copy">
+          <span class="vm-directory-eyebrow"><span class="vm-eyebrow-dot"></span> VISAMASTER · VISA INFORMATION DIRECTORY</span>
+          <h1>Find the right visa<br /><span>for your next journey.</span></h1>
+          <p>Choose a visa category, select your destination and open the available requirements. Visa options depend on the destination, traveller's nationality and travel purpose.</p>
+          <div class="vm-directory-hero-actions">
+            <a class="vm-directory-btn vm-btn-primary" href="#visa-directory">Explore visa categories <span aria-hidden="true">↓</span></a>
+            <a class="vm-directory-text-link" href="/contact">Need help choosing? <span aria-hidden="true">→</span></a>
           </div>
-
-
-          <div class="vm-hero-visual">
-
-            <div class="vm-route route-one">
-              ─ ─ ─ ✈ ─ ─ ─
-            </div>
-
-            <div class="vm-visual-card vm-main-card">
-
-              <div class="vm-card-top">
-                <span>TRAVEL DOCUMENT</span>
-                <span>✦</span>
-              </div>
-
-              <div class="vm-card-globe">
-                ◎
-              </div>
-
-              <div class="vm-card-title">
-                VISA
-                <span>ASSISTANCE</span>
-              </div>
-
-              <div class="vm-card-bottom">
-                <span>VISAMASTER</span>
-                <span>READY TO GO</span>
-              </div>
-
-            </div>
-
-
-            <div class="vm-float-card vm-float-top">
-              <span class="vm-float-icon">✓</span>
-              <div>
-                <strong>Document Check</strong>
-                <small>Before submission</small>
-              </div>
-            </div>
-
-
-            <div class="vm-float-card vm-float-bottom">
-              <span class="vm-float-icon yellow">✈</span>
-              <div>
-                <strong>Multiple Destinations</strong>
-                <small>One trusted partner</small>
-              </div>
-            </div>
-
-
-            <div class="vm-destination destination-one">
-              🇦🇪 Dubai
-            </div>
-
-            <div class="vm-destination destination-two">
-              🇬🇧 UK
-            </div>
-
-            <div class="vm-destination destination-three">
-              🇨🇦 Canada
-            </div>
-
-            <div class="vm-destination destination-four">
-              🇺🇸 USA
-            </div>
-
+          <div class="vm-directory-trust-points">
+            <span><b>01</b> Browse by category</span>
+            <span><b>02</b> Select a country</span>
+            <span><b>03</b> Check requirements</span>
           </div>
-
         </div>
-
+        <div class="vm-directory-hero-art" aria-hidden="true">
+          <div class="vm-passport-card">
+            <div class="vm-passport-top"><span>VISAMASTER</span><span>✦</span></div>
+            <div class="vm-passport-globe">◎</div>
+            <div class="vm-passport-title">YOUR NEXT<br />DESTINATION</div>
+            <div class="vm-passport-bottom"><span>TRAVEL DOCUMENTS</span><span>✈</span></div>
+          </div>
+          <div class="vm-hero-sticker vm-sticker-yellow">Let's go! ↗</div>
+          <div class="vm-hero-sticker vm-sticker-white">Plan · Prepare · Travel</div>
+          <div class="vm-flight-path"></div>
+        </div>
       </div>
-
     </section>
 
-
-    <!-- =====================================================
-         INTRO STRIP
-    ====================================================== -->
-
-    <section class="vm-visa-intro">
-
+    <section class="vm-directory-section" id="visa-directory">
       <div class="container">
-
-        <div class="vm-intro-grid">
-
+        <div class="vm-directory-section-heading">
           <div>
-            <span class="vm-section-number">01 / VISA MASTER</span>
-
-            <h2>
-              One place for
-              <span>global travel.</span>
-            </h2>
+            <span class="vm-directory-section-number">01 / BROWSE VISAS</span>
+            <h2>Choose a <span>visa category.</span></h2>
           </div>
+          <p>Use the tabs below to find countries with visa types configured for that category. The country list is managed through the VisaMaster Admin Panel.</p>
+        </div>
 
+        <div class="vm-directory-tabs" role="tablist" aria-label="Visa categories">
+          <% visaDirectoryCategories.forEach((category, index) => { %>
+            <% const categoryCount = (countries || []).filter((country) => (country.visaTypes || []).some((visa) => visa.isActive !== false && visa.slug && Array.isArray(visa.categories) && visa.categories.includes(category.slug))).length; %>
+            <button type="button" class="vm-directory-tab <%= index === 0 ? 'is-active vm-directory-tab-featured' : '' %>" role="tab" aria-selected="<%= index === 0 ? 'true' : 'false' %>" tabindex="<%= index === 0 ? '0' : '-1' %>" data-visa-category="<%= category.slug %>">
+              <span class="vm-tab-icon" aria-hidden="true"><%= category.icon %></span>
+              <span class="vm-tab-name"><%= category.name %></span>
+              <span class="vm-tab-count"><%= categoryCount %></span>
+            </button>
+          <% }) %>
+        </div>
+
+        <div class="vm-directory-results-head">
           <div>
-
-            <p>
-              Every journey has different visa requirements. We help you
-              understand the process, prepare the required documents and
-              choose the right service for your travel purpose.
-            </p>
-
-            <p>
-              Whether you are travelling for tourism, business, study,
-              family visits, medical treatment or religious purposes,
-              our team is here to assist you.
-            </p>
-
+            <span class="vm-directory-results-kicker">SELECTED CATEGORY</span>
+            <h3 id="vmSelectedCategoryTitle">E-Visa <span>destinations</span></h3>
+            <p id="vmSelectedCategoryDescription">Choose a country to view the matching visa requirements.</p>
           </div>
-
+          <div class="vm-directory-result-count"><strong id="vmCountryCount">0</strong><span id="vmCountryCountLabel">countries found</span></div>
         </div>
 
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         VISA CATEGORIES
-    ====================================================== -->
-
-    <section class="vm-visa-categories" id="visa-categories">
-
-      <div class="container">
-
-        <div class="vm-section-head">
-
-          <div>
-            <span class="vm-section-number">02 / VISA TYPES</span>
-
-            <h2>
-              Choose your
-              <span>purpose.</span>
-            </h2>
-          </div>
-
-          <p>
-            Different journeys require different visas. Explore the
-            categories we assist with and speak with our team for
-            destination-specific requirements.
-          </p>
-
-        </div>
-
-
-        <div class="vm-visa-list">
-
-          <!-- TOURIST -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">01</div>
-
-            <div class="vm-visa-icon">✈</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Tourist Visa</h3>
-                <span>TRAVEL · HOLIDAY</span>
-              </div>
-
-              <p>
-                For holidays, sightseeing, vacations and leisure travel.
-                We assist with application guidance and required
-                documentation.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Holiday</span>
-                <span>Tourism</span>
-                <span>Family Trip</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- BUSINESS -->
-
-          <article class="vm-visa-card vm-card-highlight">
-
-            <div class="vm-visa-index">02</div>
-
-            <div class="vm-visa-icon">▣</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Business Visa</h3>
-                <span>MEETINGS · BUSINESS</span>
-              </div>
-
-              <p>
-                Assistance for business meetings, conferences, trade
-                visits, exhibitions and other professional travel purposes.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Meetings</span>
-                <span>Conference</span>
-                <span>Trade Visit</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- STUDENT -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">03</div>
-
-            <div class="vm-visa-icon">✦</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Student Visa</h3>
-                <span>EDUCATION · STUDY</span>
-              </div>
-
-              <p>
-                Guidance for students planning to study abroad, including
-                documentation preparation and application support.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Study</span>
-                <span>University</span>
-                <span>Education</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- TRANSIT -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">04</div>
-
-            <div class="vm-visa-icon">⇢</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Transit Visa</h3>
-                <span>LAYOVER · CONNECTION</span>
-              </div>
-
-              <p>
-                Support for travellers passing through another country
-                while connecting to their final destination.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Transit</span>
-                <span>Airport</span>
-                <span>Connection</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- VISIT / FAMILY -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">05</div>
-
-            <div class="vm-visa-icon">⌂</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Visit & Family Visa</h3>
-                <span>FAMILY · FRIENDS</span>
-              </div>
-
-              <p>
-                Assistance for travellers visiting relatives, friends or
-                other personal contacts abroad.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Family</span>
-                <span>Friends</span>
-                <span>Visit</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- E VISA -->
-
-          <article class="vm-visa-card vm-card-highlight">
-
-            <div class="vm-visa-index">06</div>
-
-            <div class="vm-visa-icon">⌁</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>E-Visa</h3>
-                <span>ONLINE · DIGITAL</span>
-              </div>
-
-              <p>
-                Assistance with eligible online visa applications and
-                electronic travel authorisations for supported destinations.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Online</span>
-                <span>Digital</span>
-                <span>Fast Process</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- MEDICAL -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">07</div>
-
-            <div class="vm-visa-icon">+</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Medical Visa</h3>
-                <span>TREATMENT · HEALTHCARE</span>
-              </div>
-
-              <p>
-                Assistance for travellers seeking medical treatment or
-                healthcare-related travel where applicable.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Treatment</span>
-                <span>Hospital</span>
-                <span>Medical Travel</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-
-          <!-- RELIGIOUS -->
-
-          <article class="vm-visa-card">
-
-            <div class="vm-visa-index">08</div>
-
-            <div class="vm-visa-icon">☾</div>
-
-            <div class="vm-visa-content">
-
-              <div class="vm-visa-heading">
-                <h3>Religious Travel</h3>
-                <span>UMRAH · RELIGIOUS</span>
-              </div>
-
-              <p>
-                Support for religious travel requirements, including
-                assistance related to Umrah travel.
-              </p>
-
-              <div class="vm-visa-tags">
-                <span>Umrah</span>
-                <span>Religious</span>
-                <span>Travel</span>
-              </div>
-
-            </div>
-
-            <a href="/contact" class="vm-arrow">
-              →
-            </a>
-
-          </article>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SPECIAL SERVICES
-    ====================================================== -->
-
-    <section class="vm-special-services">
-
-      <div class="container">
-
-        <div class="vm-special-layout">
-
-          <div class="vm-special-intro">
-
-            <span class="vm-section-number light">
-              03 / BEYOND VISAS
-            </span>
-
-            <h2>
-              More than
-              <span>just visas.</span>
-            </h2>
-
-            <p>
-              International travel often needs more than a visa.
-              VisaMaster also assists with important travel documentation
-              and destination-specific requirements.
-            </p>
-
-            <a href="/contact" class="vm-special-link">
-              Ask our team
-              <span>→</span>
-            </a>
-
-          </div>
-
-
-          <div class="vm-special-grid">
-
-            <div class="vm-special-card">
-
-              <div class="vm-special-icon">☾</div>
-
-              <div>
-                <span>01</span>
-                <h3>Umrah Visa</h3>
-                <p>
-                  Assistance for Umrah visa-related travel requirements.
-                </p>
-              </div>
-
-            </div>
-
-
-            <div class="vm-special-card">
-
-              <div class="vm-special-icon">✈</div>
-
-              <div>
-                <span>02</span>
-                <h3>OK to Board</h3>
-                <p>
-                  Support for OK to Board requirements, including
-                  Dubai-related travel cases.
-                </p>
-              </div>
-
-            </div>
-
-
-            <div class="vm-special-card">
-
-              <div class="vm-special-icon">✚</div>
-
-              <div>
-                <span>03</span>
-                <h3>Yellow Fever</h3>
-                <p>
-                  Assistance regarding yellow fever certificate
-                  requirements for applicable travel.
-                </p>
-              </div>
-
-            </div>
-
-
-            <div class="vm-special-card vm-special-yellow">
-
-              <div class="vm-special-icon">▤</div>
-
-              <div>
-                <span>04</span>
-                <h3>Arrival Card</h3>
-                <p>
-                  Support with destination-specific arrival card and
-                  travel information requirements.
-                </p>
-              </div>
-
-            </div>
-
-
-            <div class="vm-special-card">
-
-              <div class="vm-special-icon">✓</div>
-
-              <div>
-                <span>05</span>
-                <h3>Document Attestation</h3>
-                <p>
-                  Assistance with document attestation requirements for
-                  international purposes.
-                </p>
-              </div>
-
-            </div>
-
-
-            <div class="vm-special-card">
-
-              <div class="vm-special-icon">◎</div>
-
-              <div>
-                <span>06</span>
-                <h3>Travel Documentation</h3>
-                <p>
-                  Guidance for additional documents required for your
-                  destination and travel purpose.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         DESTINATION COVERAGE
-    ====================================================== -->
-
-    <section class="vm-destinations">
-
-      <div class="container">
-
-        <div class="vm-section-head vm-destination-head">
-
-          <div>
-            <span class="vm-section-number">04 / DESTINATIONS</span>
-
-            <h2>
-              Where will you
-              <span>go next?</span>
-            </h2>
-          </div>
-
-          <p>
-            We assist travellers with visa and travel documentation
-            requirements for destinations across different regions.
-          </p>
-
-        </div>
-
-
-        <div class="vm-destination-cloud">
-
-          <a href="/destinations" class="vm-country-pill">
-            🇦🇪 UAE
-          </a>
-
-          <a href="/destinations" class="vm-country-pill">
-            🇺🇸 USA
-          </a>
-
-          <a href="/destinations" class="vm-country-pill">
-            🇨🇦 Canada
-          </a>
-
-          <a href="/destinations" class="vm-country-pill">
-            🇬🇧 United Kingdom
-          </a>
-
-          <a href="/destinations" class="vm-country-pill">
-            🇦🇺 Australia
-          </a>
-
-          <% if (typeof countries !== "undefined" && countries.length) { %>
-
-            <% countries.forEach(function(country) { %>
-
-              <a
-                href="/countries/<%= country.slug %>"
-                class="vm-country-pill"
-              >
-                <%= country.name %>
-              </a>
-
+        <% if (loadError) { %>
+          <div class="vm-directory-message" role="status"><strong>Country directory is temporarily unavailable.</strong><span>Please refresh the page or contact VisaMaster for assistance.</span></div>
+        <% } else { %>
+          <div class="vm-country-grid" id="vmCountryGrid">
+            <% (countries || []).forEach((country) => { %>
+              <% const activeVisaTypes = (country.visaTypes || []).filter((visa) => visa.isActive !== false && visa.slug && Array.isArray(visa.categories) && visa.categories.length); %>
+              <% const categoryVisaMap = {}; %>
+              <% visaDirectoryCategories.forEach((category) => { const matchingVisa = activeVisaTypes.find((visa) => visa.categories.includes(category.slug)); if (matchingVisa) categoryVisaMap[category.slug] = matchingVisa.slug; }); %>
+              <% if (Object.keys(categoryVisaMap).length) { %>
+                <% const flagValue = String(country.flag || "").trim(); %>
+                <% const flagIsImage = /^https?:\/\//i.test(flagValue) || flagValue.startsWith("/"); %>
+                <article class="vm-visa-country-card" data-country-url="/countries/<%= country.slug %>" data-requirements-map="<%= JSON.stringify(categoryVisaMap) %>" <%= categoryVisaMap["e-visa"] ? "" : "hidden" %>>
+                  <div class="vm-country-card-main">
+                    <span class="vm-country-flag" aria-hidden="true">
+                      <% if (flagIsImage) { %><img src="<%= flagValue %>" alt="" loading="lazy" />
+                      <% } else { %><%= flagValue || "🌍" %><% } %>
+                    </span>
+                    <div class="vm-country-card-name"><h4><%= country.name %></h4><span>Visa requirements</span></div>
+                    <span class="vm-country-card-arrow" aria-hidden="true">↗</span>
+                  </div>
+                  <a class="vm-country-requirements-link" data-requirements-link href="/countries/<%= country.slug %>/requirements?visa=<%= encodeURIComponent(categoryVisaMap["e-visa"] || Object.values(categoryVisaMap)[0]) %>">See Requirements <span aria-hidden="true">→</span></a>
+                </article>
+              <% } %>
             <% }) %>
+          </div>
+          <div class="vm-directory-no-results" id="vmVisaNoResults" hidden>
+            <span class="vm-no-results-icon" aria-hidden="true">⌕</span>
+            <h3>No countries listed for this category yet</h3>
+            <p>Visa availability is added by the VisaMaster team. Please check another category or contact us for assistance.</p>
+            <a class="vm-directory-btn vm-btn-primary" href="/contact">Ask VisaMaster <span aria-hidden="true">→</span></a>
+          </div>
+        <% } %>
 
-          <% } %>
-
-        </div>
-
-
-        <div class="vm-destination-note">
-
-          <span>✦</span>
-
-          <p>
-            Looking for a destination not listed here?
-            Our team can help you understand the current requirements.
-          </p>
-
-          <a href="/contact">
-            Talk to us →
-          </a>
-
-        </div>
-
+        <p class="vm-directory-disclaimer"><span aria-hidden="true">ⓘ</span> Visa rules and application methods may vary by nationality and can change. A category listing is an information guide, not a guarantee of visa eligibility or entry.</p>
       </div>
-
     </section>
 
-
-    <!-- =====================================================
-         PROCESS
-    ====================================================== -->
-
-    <section class="vm-process">
-
+    <section class="vm-directory-process" aria-labelledby="vmDirectoryProcessTitle">
       <div class="container">
-
-        <div class="vm-section-head">
-
+        <div class="vm-directory-section-heading">
           <div>
-            <span class="vm-section-number">05 / HOW IT WORKS</span>
-
-            <h2>
-              Simple steps.
-              <span>Clear journey.</span>
-            </h2>
+            <span class="vm-directory-section-number">02 / HOW IT WORKS</span>
+            <h2 id="vmDirectoryProcessTitle">Three steps to get <span>started.</span></h2>
           </div>
-
-          <p>
-            We keep the process straightforward so you know what happens
-            at every stage of your visa journey.
-          </p>
-
+          <p>Use the directory to review the information available for your destination. If you need help, VisaMaster can guide you through the next steps.</p>
         </div>
-
-
         <div class="vm-process-grid">
-
-          <div class="vm-process-step">
-
-            <div class="vm-process-number">01</div>
-
-            <div class="vm-process-icon">
-              ☎
-            </div>
-
-            <h3>Tell Us Your Plan</h3>
-
-            <p>
-              Share your destination, travel purpose and basic details.
-            </p>
-
-          </div>
-
-
-          <div class="vm-process-line"></div>
-
-
-          <div class="vm-process-step">
-
-            <div class="vm-process-number">02</div>
-
-            <div class="vm-process-icon">
-              ◫
-            </div>
-
-            <h3>Check Documents</h3>
-
-            <p>
-              Our team helps you understand the documents required.
-            </p>
-
-          </div>
-
-
-          <div class="vm-process-line"></div>
-
-
-          <div class="vm-process-step">
-
-            <div class="vm-process-number">03</div>
-
-            <div class="vm-process-icon">
-              ✓
-            </div>
-
-            <h3>Application Support</h3>
-
-            <p>
-              Get assistance while preparing and processing your
-              application.
-            </p>
-
-          </div>
-
-
-          <div class="vm-process-line"></div>
-
-
-          <div class="vm-process-step">
-
-            <div class="vm-process-number">04</div>
-
-            <div class="vm-process-icon">
-              ✈
-            </div>
-
-            <h3>Travel Ready</h3>
-
-            <p>
-              Complete the required formalities and prepare for your
-              journey.
-            </p>
-
-          </div>
-
+          <article class="vm-process-card"><span class="vm-process-number">01</span><span class="vm-process-icon" aria-hidden="true">⌕</span><h3>Choose a category</h3><p>Select the visa category that best matches the option you want to explore.</p></article>
+          <article class="vm-process-card"><span class="vm-process-number">02</span><span class="vm-process-icon" aria-hidden="true">◎</span><h3>Select a country</h3><p>Open a destination to view the available visa types and their requirements.</p></article>
+          <article class="vm-process-card"><span class="vm-process-number">03</span><span class="vm-process-icon" aria-hidden="true">✓</span><h3>Review your checklist</h3><p>Check documents and eligibility information, or contact our team for assistance.</p></article>
         </div>
-
       </div>
-
     </section>
 
+    <section class="vm-special-services" id="travel-document-services">
+      <div class="container vm-special-layout">
+        <div class="vm-special-intro">
+          <span class="vm-directory-section-number vm-light-number">03 / BEYOND VISAS</span>
+          <h2>More than<br /><span>just visas.</span></h2>
+          <p>International travel can require additional documentation and destination-specific formalities. Ask our team for help with the services below.</p>
+          <a href="/contact" class="vm-special-link">Ask our team <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="vm-special-grid">
+          <article class="vm-special-card"><span class="vm-special-icon" aria-hidden="true">☾</span><div><span class="vm-special-index">01</span><h3>Umrah Visa</h3><p>Assistance with Umrah visa-related travel requirements.</p></div></article>
+          <article class="vm-special-card"><span class="vm-special-icon" aria-hidden="true">✈</span><div><span class="vm-special-index">02</span><h3>OK to Board (OKTB)</h3><p>Support with OK to Board requirements for applicable travel cases.</p></div></article>
+          <article class="vm-special-card"><span class="vm-special-icon" aria-hidden="true">✚</span><div><span class="vm-special-index">03</span><h3>Yellow Fever</h3><p>Guidance on yellow fever certificate requirements where applicable.</p></div></article>
+          <article class="vm-special-card vm-special-yellow"><span class="vm-special-icon" aria-hidden="true">▤</span><div><span class="vm-special-index">04</span><h3>Arrival Card</h3><p>Help with destination-specific arrival card requirements.</p></div></article>
+          <article class="vm-special-card"><span class="vm-special-icon" aria-hidden="true">✓</span><div><span class="vm-special-index">05</span><h3>Document Attestation</h3><p>Assistance with document attestation for international purposes.</p></div></article>
+          <article class="vm-special-card"><span class="vm-special-icon" aria-hidden="true">◎</span><div><span class="vm-special-index">06</span><h3>Document Assistance</h3><p>Guidance with supporting documents and travel paperwork.</p></div></article>
+        </div>
+      </div>
+    </section>
 
-    <!-- =====================================================
-         INFORMATION
-    ====================================================== -->
-
-    <section class="vm-visa-info">
-
+    <section class="vm-directory-note-section">
       <div class="container">
-
-        <div class="vm-info-box">
-
-          <div class="vm-info-symbol">
-            !
-          </div>
-
-          <div>
-
-            <span>IMPORTANT</span>
-
-            <h3>
-              Visa requirements can change.
-            </h3>
-
-            <p>
-              Visa eligibility, documents, processing times, fees and
-              entry requirements can vary by destination, nationality
-              and travel purpose. Always confirm the applicable
-              requirements before submitting an application.
-            </p>
-
-          </div>
-
+        <div class="vm-directory-note-card">
+          <span class="vm-note-icon" aria-hidden="true">!</span>
+          <div><span class="vm-directory-section-number">PLEASE NOTE</span><h2>Requirements can change.</h2><p>Visa eligibility, fees, processing times, documents and application methods can differ according to destination, nationality and travel purpose. Confirm the current rules before submitting an application.</p></div>
+          <a href="/contact" class="vm-directory-btn vm-btn-light">Talk to our team <span aria-hidden="true">→</span></a>
         </div>
-
       </div>
-
     </section>
 
-
-    <!-- =====================================================
-         CTA
-    ====================================================== -->
-
-    <section class="vm-visa-cta">
-
+    <section class="vm-directory-cta">
       <div class="container">
-
-        <div class="vm-cta-box">
-
-          <div class="vm-cta-decoration">
-            ✈
-          </div>
-
-          <div class="vm-cta-content">
-
-            <span class="vm-section-number light">
-              06 / LET'S PLAN
-            </span>
-
-            <h2>
-              Got a destination
-              <span>in mind?</span>
-            </h2>
-
-            <p>
-              Tell us where you want to go and what you need.
-              Our team will guide you through the next steps.
-            </p>
-
-            <a href="/contact" class="vm-btn vm-btn-yellow">
-              Get Started
-              <span>→</span>
-            </a>
-
-          </div>
-
+        <div class="vm-directory-cta-box">
+          <div class="vm-cta-decoration" aria-hidden="true">✈</div>
+          <span class="vm-directory-section-number vm-light-number">04 / LET'S PLAN</span>
+          <h2>Have a destination <span>in mind?</span></h2>
+          <p>Tell us where you plan to travel and what assistance you need. Our team will help you understand the next steps.</p>
+          <a href="/contact" class="vm-directory-btn vm-btn-yellow">Get Started <span aria-hidden="true">→</span></a>
         </div>
-
       </div>
-
     </section>
-
   </main>
-
 
   <%- include("../partials/footer") %>
   <script src="/js/main.js"></script>
-
+  <script src="/js/visas.js"></script>
 </body>
 </html>

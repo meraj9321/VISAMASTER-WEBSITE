@@ -1,14 +1,22 @@
 /* =========================================================
-   VISAMASTER VISA REQUIREMENTS CATEGORY TABS
-   ---------------------------------------------------------
-   Features:
-   1. Switch visa categories without page refresh
-   2. Smooth left-to-right slide animation
-   3. Mobile-friendly category navigation
-   4. Swipe left/right to change categories
-   5. Keyboard navigation with ArrowLeft, ArrowRight,
-      Home and End keys
-   6. Does not modify main.js
+VISAMASTER VISA REQUIREMENTS CATEGORY TABS
+------------------------------------------
+
+Features:
+
+1. Switch visa categories without page refresh
+2. Read selected visa category from URL
+3. Activate the correct tab after redirect
+4. Smooth tab navigation
+5. Mobile-friendly category navigation
+6. Swipe left/right to change categories
+7. Keyboard navigation with ArrowLeft, ArrowRight,
+   Home and End keys
+8. Does not modify main.js
+
+Example URLs:
+/countries/uae/requirements?visa=tourist
+/countries/uae/requirements?visa=business
 ========================================================= */
 
 (() => {
@@ -33,23 +41,57 @@
       return;
     }
 
-    // Find the initially selected tab.
-    let activeIndex = tabs.findIndex(
-      (tab) => tab.getAttribute("aria-selected") === "true",
-    );
-
-    if (activeIndex < 0) {
-      activeIndex = 0;
-    }
-
     // Respect the user's reduced-motion preference.
     const prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
 
     /* =====================================================
-       ACTIVATE SELECTED CATEGORY
-    ===================================================== */
+   FIND CATEGORY FROM URL
+===================================================== */
+
+    const params = new URLSearchParams(window.location.search);
+
+    const requestedVisa = (params.get("visa") || "").trim().toLowerCase();
+
+    /*
+  Match the URL category against the database visa slug.
+
+  Example:
+  ?visa=tourist
+  matches data-visa-slug="tourist"
+*/
+
+    let activeIndex = -1;
+
+    if (requestedVisa) {
+      activeIndex = tabs.findIndex((tab) => {
+        const slug = (tab.dataset.visaSlug || "").trim().toLowerCase();
+
+        return slug === requestedVisa;
+      });
+    }
+
+    /*
+  Backward compatibility:
+  If no matching URL category exists, retain the
+  category already marked as selected in the EJS.
+*/
+
+    if (activeIndex < 0) {
+      activeIndex = tabs.findIndex(
+        (tab) => tab.getAttribute("aria-selected") === "true",
+      );
+    }
+
+    // Final fallback.
+    if (activeIndex < 0) {
+      activeIndex = 0;
+    }
+
+    /* =====================================================
+   ACTIVATE SELECTED CATEGORY
+===================================================== */
 
     const activateTab = (index, options = {}) => {
       if (index < 0 || index >= tabs.length) {
@@ -67,7 +109,7 @@
         tab.setAttribute("tabindex", isSelected ? "0" : "-1");
       });
 
-      // Show only the selected visa requirements.
+      // Show only the selected requirements panel.
       panels.forEach((panel, panelIndex) => {
         const isSelected = panelIndex === index;
 
@@ -81,7 +123,7 @@
         status.textContent = `Showing category ${index + 1} of ${tabs.length}`;
       }
 
-      // Move the selected tab into view on mobile.
+      // Scroll the selected tab into view.
       if (options.scrollTab) {
         tabs[index].scrollIntoView({
           behavior: prefersReducedMotion.matches ? "auto" : "smooth",
@@ -90,15 +132,15 @@
         });
       }
 
-      // Move keyboard focus when navigating with the keyboard.
+      // Move keyboard focus when requested.
       if (options.focus) {
         tabs[index].focus();
       }
     };
 
     /* =====================================================
-       CATEGORY CLICK EVENTS
-    ===================================================== */
+   CATEGORY CLICK EVENTS
+===================================================== */
 
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => {
@@ -108,8 +150,8 @@
       });
 
       /* ===================================================
-         KEYBOARD NAVIGATION
-      =================================================== */
+     KEYBOARD NAVIGATION
+  =================================================== */
 
       tab.addEventListener("keydown", (event) => {
         let nextIndex = index;
@@ -145,10 +187,8 @@
     });
 
     /* =====================================================
-       MOBILE SWIPE NAVIGATION
-       Swipe the requirements panel left/right to change
-       the selected visa category.
-    ===================================================== */
+   MOBILE SWIPE NAVIGATION
+===================================================== */
 
     const panelsContainer = document.querySelector(".visa-tab-panels");
 
@@ -209,10 +249,12 @@
     }
 
     /* =====================================================
-       INITIALIZE DEFAULT CATEGORY
-    ===================================================== */
+   INITIALIZE SELECTED CATEGORY
+===================================================== */
 
-    activateTab(activeIndex);
+    activateTab(activeIndex, {
+      scrollTab: Boolean(requestedVisa && activeIndex >= 0),
+    });
   };
 
   // Initialize safely after the HTML has loaded.

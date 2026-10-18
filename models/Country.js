@@ -23,6 +23,23 @@ const visaTypeSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Directory categories are managed from the Admin Panel.
+    // A visa may belong to more than one category (for example, Tourist + E-Visa).
+    categories: {
+      type: [{
+        type: String,
+        enum: [
+          "e-visa",
+          "tourist-visa",
+          "visa-on-arrival",
+          "business-visa",
+          "stamping-visa",
+          "sticker-visa",
+        ],
+      }],
+      default: [],
+    },
+
     stayDuration: {
       type: String,
       trim: true,

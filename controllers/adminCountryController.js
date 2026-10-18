@@ -87,6 +87,16 @@ function cleanVisaTypes(value) {
       slug: item.slug || "",
       description: item.description || "",
       purpose: item.purpose || "",
+      categories: toArray(item.categories).filter((category) =>
+        [
+          "e-visa",
+          "tourist-visa",
+          "visa-on-arrival",
+          "business-visa",
+          "stamping-visa",
+          "sticker-visa",
+        ].includes(category),
+      ),
       stayDuration: item.stayDuration || "",
       validity: item.validity || "",
       processingTime: item.processingTime || "",
