@@ -140,6 +140,30 @@
 
         </div>
 
+        <!-- COUNTRY SEARCH: FILTERS THE CURRENTLY SELECTED CATEGORY -->
+        <div class="vm-country-search">
+          <label for="vmCountrySearch">Search country</label>
+
+          <div class="vm-country-search-input-wrap">
+            <input
+              type="search"
+              id="vmCountrySearch"
+              placeholder="Search by country name..."
+              autocomplete="off"
+              aria-label="Search countries in the selected visa category"
+            />
+
+            <button
+              type="button"
+              id="vmClearCountrySearch"
+              aria-label="Clear country search"
+              hidden
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+
         <!-- SELECTED CATEGORY INFORMATION -->
 
         <div class="vm-directory-results-head">
