@@ -1398,3 +1398,176 @@
   text-align: center;
   line-height: 1.4;
 }
+/* ==========================================
+   VISAMASTER — MODERN DESTINATION CARDS
+   Rounded • Premium • Gold & Emerald
+========================================== */
+
+.destination-grid .destination-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e1e8e2;
+  border-radius: 18px;
+  box-shadow: 0 5px 18px rgba(17, 45, 32, 0.08);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.destination-grid .destination-card:hover {
+  transform: translateY(-5px);
+  border-color: #d1ad4b;
+  box-shadow: 0 14px 30px rgba(17, 45, 32, 0.14);
+}
+
+.destination-grid .destination-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 12px;
+}
+
+/* Country flag area */
+.destination-grid .country-flag-image {
+  position: relative;
+  width: 100%;
+  height: 125px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #eaf3ed, #f8f4e7);
+  border-radius: 12px;
+}
+
+.destination-grid .country-flag-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.destination-grid .destination-card:hover .country-flag-image img {
+  transform: scale(1.045);
+}
+
+/* Gold destination badge */
+.destination-grid .country-flag-badge {
+  position: absolute;
+  left: 9px;
+  bottom: 9px;
+  padding: 6px 9px;
+  color: #ffffff;
+  background: rgba(17, 48, 36, 0.92);
+  border: 1px solid rgba(232, 197, 99, 0.75);
+  border-radius: 7px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+/* Country name */
+.destination-grid .country-name {
+  margin: 14px 3px 5px;
+  color: #173c2d;
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 800;
+}
+
+/* Supporting text */
+.destination-grid .destination-card-caption {
+  margin: 0 3px 15px;
+  color: #78867d;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* See Requirements button at card bottom */
+.destination-grid .see-requirements-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  margin-top: auto;
+  padding: 12px 13px;
+  color: #ffffff;
+  background: #194b36;
+  border: 1px solid #194b36;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.destination-grid .destination-requirements-arrow {
+  color: #f0ce68;
+  font-size: 19px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.destination-grid .see-requirements-btn:hover {
+  color: #17291e;
+  background: #e9c65b;
+  border-color: #d4ad3c;
+}
+
+.destination-grid .see-requirements-btn:hover .destination-requirements-arrow {
+  color: #17291e;
+  transform: translateX(4px);
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .destination-grid .destination-content {
+    padding: 10px;
+  }
+
+  .destination-grid .country-flag-image {
+    height: 105px;
+  }
+
+  .destination-grid .country-name {
+    font-size: 15px;
+  }
+
+  .destination-grid .destination-card-caption {
+    font-size: 11px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .destination-grid .destination-card {
+    border-radius: 14px;
+  }
+
+  .destination-grid .country-flag-image {
+    height: 100px;
+  }
+
+  .destination-grid .country-name {
+    font-size: 14px;
+  }
+
+  .destination-grid .see-requirements-btn {
+    padding: 10px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .destination-grid .destination-card,
+  .destination-grid .country-flag-image img,
+  .destination-grid .see-requirements-btn,
+  .destination-grid .destination-requirements-arrow {
+    transition: none;
+  }
+}
