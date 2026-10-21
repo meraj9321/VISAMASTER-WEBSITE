@@ -233,46 +233,39 @@
 
           <% countries.forEach(country => { %>
 
-            <div
+            <article
               class="destination-card"
               id="destination-<%= country.slug %>"
               data-destination-name="<%= country.name %>"
               data-destination-slug="<%= country.slug %>"
             >
-
               <div class="destination-content">
-
-                <!-- COUNTRY IMAGE -->
-
                 <div class="country-flag-image">
-
                   <img
                     src="<%= country.image || '/images/countries/default.jpg' %>"
-                    alt="<%= country.name %>"
+                    alt="<%= country.name %> flag"
                     loading="lazy"
                     onerror="this.onerror=null; this.src='/images/countries/default.jpg';"
                   />
-
+                  <span class="country-flag-badge">VISA DESTINATION</span>
                 </div>
 
-                <!-- COUNTRY NAME -->
+                <h3 class="country-name"><%= country.name %></h3>
 
-                <h3 class="country-name">
-                  <%= country.name %>
-                </h3>
-
-                <!-- SEE REQUIREMENTS BUTTON -->
+                <p class="destination-card-caption">
+                  Explore visa information and travel requirements
+                </p>
 
                 <a
                   href="/countries/<%= country.slug %>/requirements"
                   class="see-requirements-btn"
+                  aria-label="See requirements for <%= country.name %>"
                 >
-                  See Requirements
+                  <span>See Requirements</span>
+                  <span class="destination-requirements-arrow" aria-hidden="true">→</span>
                 </a>
-
               </div>
-
-            </div>
+            </article>
 
           <% }) %>
 
