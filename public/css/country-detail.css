@@ -2355,3 +2355,583 @@
     display: none;
   }
 }
+/* =========================================
+   VISA CARDS - COMPACT HORIZONTAL RECTANGLE
+   Reduced vertical spacing only
+========================================= */
+
+#visa-options .visa-types-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+/* Main horizontal card */
+#visa-options .visa-type-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.7fr);
+  gap: 20px;
+
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid #e1e8f0;
+
+  box-shadow: 0 5px 18px rgba(15, 42, 74, 0.05);
+
+  position: relative;
+  overflow: hidden;
+}
+
+#visa-options .visa-type-card::before,
+#visa-options .visa-type-card::after {
+  pointer-events: none;
+}
+
+/* =========================================
+   LEFT COLUMN
+========================================= */
+
+#visa-options .visa-card-top,
+#visa-options .visa-card-icon,
+#visa-options .visa-type-card > h3,
+#visa-options .visa-purpose,
+#visa-options .visa-type-card > p {
+  grid-column: 1;
+}
+
+#visa-options .visa-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+
+#visa-options .visa-card-icon {
+  margin: 0 0 6px;
+}
+
+#visa-options .visa-type-card > h3 {
+  margin: 0 0 4px;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+#visa-options .visa-purpose {
+  display: block;
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+
+#visa-options .visa-type-card > p {
+  margin: 0;
+  line-height: 1.35;
+}
+
+/* =========================================
+   RIGHT COLUMN: VISA DETAILS
+========================================= */
+
+#visa-options .visa-details {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  align-self: start;
+
+  display: flex;
+  flex-direction: column;
+
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+#visa-options .visa-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 18px;
+
+  padding: 5px 0;
+  line-height: 1.3;
+
+  border-bottom: 1px dashed #dce4ed;
+}
+
+#visa-options .visa-detail-row > span {
+  flex: 1;
+  min-width: 0;
+}
+
+#visa-options .visa-detail-row > strong {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+#visa-options .visa-detail-row.visa-total-row {
+  border-bottom: none;
+  padding-bottom: 6px;
+}
+
+/* =========================================
+   ELIGIBILITY AND DOCUMENTS
+========================================= */
+
+#visa-options .visa-small-section {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin-top: 8px;
+}
+
+#visa-options .visa-small-section h4 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+#visa-options .visa-small-section ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px 22px;
+
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#visa-options .visa-small-section li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+#visa-options .visa-small-section li > span {
+  flex-shrink: 0;
+}
+
+/* =========================================
+   APPLY BUTTON
+========================================= */
+
+#visa-options .visa-apply-btn {
+  grid-column: 1 / -1;
+  justify-self: end;
+
+  width: auto;
+  min-width: 220px;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  margin-top: 10px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+}
+
+/* =========================================
+   TABLET
+   Preserve responsive layout
+========================================= */
+
+@media (max-width: 768px) {
+  #visa-options .visa-type-card {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    padding: 12px 20px;
+  }
+
+  #visa-options .visa-card-top,
+  #visa-options .visa-card-icon,
+  #visa-options .visa-type-card > h3,
+  #visa-options .visa-purpose,
+  #visa-options .visa-type-card > p,
+  #visa-options .visa-details,
+  #visa-options .visa-small-section,
+  #visa-options .visa-apply-btn {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  #visa-options .visa-small-section ul {
+    grid-template-columns: 1fr;
+  }
+
+  #visa-options .visa-apply-btn {
+    justify-self: stretch;
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  #visa-options .visa-type-card {
+    padding: 10px 16px;
+    border-radius: 12px;
+  }
+
+  #visa-options .visa-type-card > h3 {
+    font-size: 19px;
+  }
+
+  #visa-options .visa-detail-row {
+    gap: 12px;
+  }
+}
+/* =========================================
+   VISAMASTER VISA CARDS
+   Navy Blue + Gold | Compact & Elegant
+========================================= */
+
+#visa-options .visa-type-card {
+  background: #ffffff;
+  border: 1px solid #dce4ee;
+  border-radius: 12px;
+
+  /* Preserve horizontal layout and compact height */
+  padding: 12px 24px;
+
+  /* Keep content visible inside rounded corners */
+  overflow: hidden;
+  isolation: isolate;
+
+  box-shadow: 0 4px 14px rgba(16, 43, 77, 0.06);
+}
+
+/* Remove decorative corner causing content overlap */
+#visa-options .visa-type-card::before,
+#visa-options .visa-type-card::after {
+  display: none !important;
+}
+
+/* Visa number */
+#visa-options .visa-number {
+  color: #c58b25;
+  font-weight: 800;
+}
+
+/* Available badge */
+#visa-options .visa-active-badge {
+  position: relative;
+  z-index: 2;
+
+  color: #173c32;
+  background: #eaf5ef;
+  border: 1px solid #d5e9dd;
+
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+/* Visa icon */
+#visa-options .visa-card-icon {
+  background: #102b4e;
+  color: #ffffff;
+  border-radius: 10px;
+}
+
+/* Visa title */
+#visa-options .visa-type-card > h3 {
+  color: #102b4e;
+}
+
+/* Visa purpose */
+#visa-options .visa-purpose {
+  color: #b7801e;
+  font-weight: 700;
+}
+
+/* Description */
+#visa-options .visa-type-card > p {
+  color: #64748b;
+}
+
+/* Visa details */
+#visa-options .visa-detail-row {
+  border-bottom: 1px solid #e5eaf1;
+}
+
+#visa-options .visa-detail-row > span {
+  color: #64748b;
+}
+
+#visa-options .visa-detail-row > strong {
+  color: #102b4e;
+  overflow-wrap: anywhere;
+}
+
+/* Total fee */
+#visa-options .visa-detail-row.visa-total-row > strong {
+  color: #b7801e;
+  font-weight: 800;
+}
+
+/* Eligibility and documents headings */
+#visa-options .visa-small-section h4 {
+  color: #102b4e;
+}
+
+/* Eligibility and document text */
+#visa-options .visa-small-section li {
+  color: #52647a;
+}
+
+/* Check icons */
+#visa-options .visa-small-section li > span {
+  color: #b7801e;
+  font-weight: 800;
+}
+
+/* Apply button */
+#visa-options .visa-apply-btn {
+  background: #102b4e;
+  color: #ffffff;
+
+  border: 1px solid #102b4e;
+  border-radius: 7px;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+/* Subtle gold hover */
+#visa-options .visa-apply-btn:hover {
+  background: #b7801e;
+  border-color: #b7801e;
+  color: #ffffff;
+}
+
+/* Visa card hover */
+#visa-options .visa-type-card:hover {
+  border-color: #c7a45f;
+  box-shadow: 0 7px 20px rgba(16, 43, 77, 0.09);
+}
+/* ============================================
+   VISAMASTER VISA CARDS
+   PREMIUM NAVY BLUE + GOLD THEME
+============================================ */
+
+#visa-options .visa-types-grid {
+  gap: 16px;
+}
+
+/* MAIN CARD BACKGROUND */
+#visa-options .visa-type-card {
+  background: #f4f7fb;
+  border: 1px solid #d6e0ec;
+  border-left: 5px solid #c69a45;
+  border-radius: 12px;
+
+  box-shadow: 0 5px 18px rgba(16, 43, 77, 0.08);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* REMOVE OLD DECORATIVE CORNER */
+#visa-options .visa-type-card::before,
+#visa-options .visa-type-card::after {
+  display: none !important;
+  content: none !important;
+}
+
+/* LEFT SECTION - NAVY BACKGROUND */
+#visa-options .visa-card-top,
+#visa-options .visa-card-icon,
+#visa-options .visa-type-card > h3,
+#visa-options .visa-purpose,
+#visa-options .visa-type-card > p {
+  position: relative;
+  z-index: 1;
+}
+
+#visa-options .visa-card-top {
+  background: transparent;
+}
+
+/* VISA NUMBER */
+#visa-options .visa-number {
+  color: #bd8b32;
+  font-weight: 800;
+}
+
+/* AVAILABLE BADGE */
+#visa-options .visa-active-badge {
+  background: #e3eee7;
+  color: #245c43;
+  border: 1px solid #c8dfd0;
+  border-radius: 20px;
+}
+
+/* ICON BOX */
+#visa-options .visa-card-icon {
+  background: #102b4e;
+  color: #ffffff;
+  border: 1px solid #29496d;
+  border-radius: 10px;
+}
+
+/* VISA TITLE */
+#visa-options .visa-type-card > h3 {
+  color: #102b4e;
+}
+
+/* PURPOSE - GOLD */
+#visa-options .visa-purpose {
+  color: #a87922;
+  font-weight: 700;
+}
+
+/* DESCRIPTION */
+#visa-options .visa-type-card > p {
+  color: #52647a;
+}
+
+/* ============================================
+   RIGHT SECTION - WHITE INFORMATION PANEL
+============================================ */
+
+#visa-options .visa-details {
+  background: #ffffff;
+  border: 1px solid #e0e6ef;
+  border-radius: 8px;
+  padding: 8px 14px;
+  align-self: start;
+}
+
+/* DETAIL ROWS */
+#visa-options .visa-detail-row {
+  border-bottom: 1px solid #e8edf4;
+  padding: 5px 0;
+  background: transparent;
+}
+
+#visa-options .visa-detail-row > span {
+  color: #687990;
+}
+
+#visa-options .visa-detail-row > strong {
+  color: #102b4e;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+/* TOTAL FEE - GOLD HIGHLIGHT */
+#visa-options .visa-detail-row.visa-total-row {
+  background: #fff9ec;
+  border-top: 1px solid #f0dfb8;
+  border-radius: 4px;
+  padding: 8px 6px;
+  margin-top: 3px;
+}
+
+#visa-options .visa-detail-row.visa-total-row > span {
+  color: #102b4e;
+  font-weight: 700;
+}
+
+#visa-options .visa-detail-row.visa-total-row > strong {
+  color: #a87922;
+  font-weight: 800;
+}
+
+/* ============================================
+   ELIGIBILITY & REQUIRED DOCUMENTS
+============================================ */
+
+#visa-options .visa-small-section {
+  background: #ffffff;
+  border: 1px solid #e0e6ef;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+
+/* SECTION HEADINGS */
+#visa-options .visa-small-section h4 {
+  color: #102b4e;
+  border-bottom: 1px solid #ead9b5;
+  padding-bottom: 6px;
+}
+
+/* LIST ITEMS */
+#visa-options .visa-small-section li {
+  color: #52647a;
+}
+
+/* GOLD CHECKMARKS */
+#visa-options .visa-small-section li > span {
+  color: #b78a36;
+  font-weight: 800;
+}
+
+/* ============================================
+   APPLY BUTTON - NAVY WITH GOLD ACCENT
+============================================ */
+
+#visa-options .visa-apply-btn {
+  background: #102b4e;
+  color: #ffffff;
+
+  border: 1px solid #102b4e;
+  border-bottom: 3px solid #c69a45;
+
+  border-radius: 7px;
+  padding: 9px 16px;
+
+  font-weight: 700;
+  text-decoration: none;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* HOVER */
+#visa-options .visa-apply-btn:hover {
+  background: #1b406b;
+  border-color: #c69a45;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* ============================================
+   CARD HOVER
+============================================ */
+
+#visa-options .visa-type-card:hover {
+  background: #edf2f8;
+  border-color: #c69a45;
+
+  box-shadow: 0 8px 24px rgba(16, 43, 77, 0.12);
+}
+
+/* ============================================
+   MOBILE - PRESERVE RESPONSIVENESS
+============================================ */
+
+@media (max-width: 768px) {
+  #visa-options .visa-details {
+    padding: 8px 12px;
+  }
+
+  #visa-options .visa-small-section {
+    padding: 10px 12px;
+  }
+}
