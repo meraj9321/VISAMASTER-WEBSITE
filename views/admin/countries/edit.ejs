@@ -12,7 +12,11 @@ return new Date(value).toLocaleString("en-IN", {
 }
 %>
 
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Edit Country | VisaMaster Admin</title> <link rel="stylesheet" href="/css/global.css"> <link rel="stylesheet" href="/css/navbar.css"> <link rel="stylesheet" href="/css/admin-country.css"> </head> <body> <div class="admin-page"> <header class="admin-header"> <div class="admin-header-inner">
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Edit Country | VisaMaster Admin</title> <link rel="stylesheet" href="/css/global.css"> <link rel="stylesheet" href="/css/navbar.css"> <link rel="stylesheet" href="/css/admin-country.css"> 
+<style>
+ .vm-rich-editor{border:1px solid #cbd5e1;border-radius:10px;overflow:hidden;background:#fff}.vm-editor-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;padding:9px;background:#f1f5f9;border-bottom:1px solid #cbd5e1}.vm-editor-toolbar button,.vm-editor-toolbar select,.vm-editor-toolbar input[type="color"]{border:1px solid #cbd5e1;border-radius:6px;background:#fff;min-height:32px;padding:5px 8px;cursor:pointer;color:#102d50}.vm-editor-toolbar button:hover{background:#e2e8f0}.vm-editor-toolbar .vm-tool-separator{width:1px;height:26px;background:#cbd5e1;margin:0 3px}.vm-editor-toolbar label{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#334155}.vm-editor-toolbar input[type="color"]{width:38px;padding:3px}.vm-editor-content{min-height:150px;padding:12px;outline:none;line-height:1.6;color:#1e293b;overflow-wrap:anywhere}.vm-editor-content:empty:before{content:attr(data-placeholder);color:#94a3b8}.vm-editor-content ul,.vm-editor-content ol{padding-left:26px}.vm-editor-content h1,.vm-editor-content h2,.vm-editor-content h3,.vm-editor-content h4{margin:8px 0;line-height:1.3}.vm-editor-content p{margin:0 0 8px}.vm-editor-content a{color:#2563eb;text-decoration:underline}
+</style>
+</head> <body> <div class="admin-page"> <header class="admin-header"> <div class="admin-header-inner">
   <div>
     <span class="admin-label">VISAMASTER ADMIN</span>
 
@@ -519,15 +523,46 @@ return new Date(value).toLocaleString("en-IN", {
 
               <label>Eligibility</label>
 
-              <textarea
-                name="visaTypes[<%= index %>][eligibility]"
-                rows="4"
-                placeholder="One item per line"
-              ><%= Array.isArray(visa.eligibility) ? visa.eligibility.join("\n") : "" %></textarea>
-
-              <small>
-                Write one requirement per line.
-              </small>
+              <input type="hidden" name="visaTypes[<%= index %>][eligibility]" value="">
+              <div class="vm-rich-editor" data-field="visaTypes[<%= index %>][eligibility]">
+                <div class="vm-editor-toolbar" role="toolbar" aria-label="Eligibility formatting">
+                  <button type="button" data-command="bold" title="Bold"><b>B</b></button>
+                  <button type="button" data-command="italic" title="Italic"><i>I</i></button>
+                  <button type="button" data-command="underline" title="Underline"><u>U</u></button>
+                  <button type="button" data-command="strikeThrough" title="Strikethrough"><s>S</s></button>
+                  <span class="vm-tool-separator"></span>
+                  <select data-command="fontName" aria-label="Font family" title="Font family">
+                    <option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Tahoma">Tahoma</option><option value="Courier New">Courier New</option>
+                  </select>
+                  <select data-command="fontSize" aria-label="Font size" title="Font size">
+                    <option value="2">Small</option><option value="3" selected>Normal</option><option value="4">Large</option><option value="5">X-Large</option><option value="6">XX-Large</option><option value="7">Huge</option>
+                  </select>
+                  <label title="Text colour">Text <input type="color" data-command="foreColor" value="#1e293b" aria-label="Text colour"></label>
+                  <label title="Highlight colour">Highlight <input type="color" data-command="hiliteColor" value="#fff176" aria-label="Highlight colour"></label>
+                  <span class="vm-tool-separator"></span>
+                  <button type="button" data-command="justifyLeft" title="Align left">⇤ Left</button>
+                  <button type="button" data-command="justifyCenter" title="Align center">☰ Center</button>
+                  <button type="button" data-command="justifyRight" title="Align right">⇥ Right</button>
+                  <button type="button" data-command="justifyFull" title="Justify">☷ Justify</button>
+                  <span class="vm-tool-separator"></span>
+                  <select data-command="formatBlock" aria-label="Text style" title="Paragraph / heading">
+                    <option value="p">Paragraph</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="h4">Heading 4</option><option value="blockquote">Quote</option>
+                  </select>
+                  <button type="button" data-command="insertUnorderedList" title="Bulleted list">• Bullets</button>
+                  <button type="button" data-command="insertOrderedList" title="Numbered list">1. Numbering</button>
+                  <button type="button" data-command="outdent" title="Decrease indent">← Indent</button>
+                  <button type="button" data-command="indent" title="Increase indent">Indent →</button>
+                  <button type="button" data-command="superscript" title="Superscript">x²</button>
+                  <button type="button" data-command="subscript" title="Subscript">x₂</button>
+                  <button type="button" data-command="createLink" data-prompt="link" title="Insert link">Link</button>
+                  <button type="button" data-command="unlink" title="Remove link">Unlink</button>
+                  <button type="button" data-command="undo" title="Undo">↶</button>
+                  <button type="button" data-command="redo" title="Redo">↷</button>
+                  <button type="button" data-command="removeFormat" title="Clear inline formatting">Clear format</button>
+                </div>
+                <div class="vm-editor-content" contenteditable="true" data-placeholder="Write eligibility requirements..."><%- (Array.isArray(visa.eligibility) ? visa.eligibility : [visa.eligibility || '']).filter(Boolean).map(v => /<\/?(p|br|b|strong|i|em|u|ul|ol|li|h[1-6])\b/i.test(v) ? v : '<p>' + String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>').join('') %></div>
+              </div>
+              <small>Use the toolbar to format text. It will be saved with the visa.</small>
 
             </div>
 
@@ -536,15 +571,46 @@ return new Date(value).toLocaleString("en-IN", {
 
               <label>Documents</label>
 
-              <textarea
-                name="visaTypes[<%= index %>][documents]"
-                rows="4"
-                placeholder="One document per line"
-              ><%= Array.isArray(visa.documents) ? visa.documents.join("\n") : "" %></textarea>
-
-              <small>
-                Write one document per line.
-              </small>
+              <input type="hidden" name="visaTypes[<%= index %>][documents]" value="">
+              <div class="vm-rich-editor" data-field="visaTypes[<%= index %>][documents]">
+                <div class="vm-editor-toolbar" role="toolbar" aria-label="Documents formatting">
+                  <button type="button" data-command="bold" title="Bold"><b>B</b></button>
+                  <button type="button" data-command="italic" title="Italic"><i>I</i></button>
+                  <button type="button" data-command="underline" title="Underline"><u>U</u></button>
+                  <button type="button" data-command="strikeThrough" title="Strikethrough"><s>S</s></button>
+                  <span class="vm-tool-separator"></span>
+                  <select data-command="fontName" aria-label="Font family" title="Font family">
+                    <option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Times New Roman">Times New Roman</option><option value="Verdana">Verdana</option><option value="Tahoma">Tahoma</option><option value="Courier New">Courier New</option>
+                  </select>
+                  <select data-command="fontSize" aria-label="Font size" title="Font size">
+                    <option value="2">Small</option><option value="3" selected>Normal</option><option value="4">Large</option><option value="5">X-Large</option><option value="6">XX-Large</option><option value="7">Huge</option>
+                  </select>
+                  <label title="Text colour">Text <input type="color" data-command="foreColor" value="#1e293b" aria-label="Text colour"></label>
+                  <label title="Highlight colour">Highlight <input type="color" data-command="hiliteColor" value="#fff176" aria-label="Highlight colour"></label>
+                  <span class="vm-tool-separator"></span>
+                  <button type="button" data-command="justifyLeft" title="Align left">⇤ Left</button>
+                  <button type="button" data-command="justifyCenter" title="Align center">☰ Center</button>
+                  <button type="button" data-command="justifyRight" title="Align right">⇥ Right</button>
+                  <button type="button" data-command="justifyFull" title="Justify">☷ Justify</button>
+                  <span class="vm-tool-separator"></span>
+                  <select data-command="formatBlock" aria-label="Text style" title="Paragraph / heading">
+                    <option value="p">Paragraph</option><option value="h1">Heading 1</option><option value="h2">Heading 2</option><option value="h3">Heading 3</option><option value="h4">Heading 4</option><option value="blockquote">Quote</option>
+                  </select>
+                  <button type="button" data-command="insertUnorderedList" title="Bulleted list">• Bullets</button>
+                  <button type="button" data-command="insertOrderedList" title="Numbered list">1. Numbering</button>
+                  <button type="button" data-command="outdent" title="Decrease indent">← Indent</button>
+                  <button type="button" data-command="indent" title="Increase indent">Indent →</button>
+                  <button type="button" data-command="superscript" title="Superscript">x²</button>
+                  <button type="button" data-command="subscript" title="Subscript">x₂</button>
+                  <button type="button" data-command="createLink" data-prompt="link" title="Insert link">Link</button>
+                  <button type="button" data-command="unlink" title="Remove link">Unlink</button>
+                  <button type="button" data-command="undo" title="Undo">↶</button>
+                  <button type="button" data-command="redo" title="Redo">↷</button>
+                  <button type="button" data-command="removeFormat" title="Clear inline formatting">Clear format</button>
+                </div>
+                <div class="vm-editor-content" contenteditable="true" data-placeholder="Write documents required..."><%- (Array.isArray(visa.documents) ? visa.documents : [visa.documents || '']).filter(Boolean).map(v => /<\/?(p|br|b|strong|i|em|u|ul|ol|li|h[1-6])\b/i.test(v) ? v : '<p>' + String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</p>').join('') %></div>
+              </div>
+              <small>Use the toolbar to format text. It will be saved with the visa.</small>
 
             </div>
 
@@ -1718,6 +1784,63 @@ return new Date(value).toLocaleString("en-IN", {
 
 container.appendChild(card);
 
+// Give newly added visa cards the same rich-text editors and formatting tools.
+card.querySelectorAll('textarea[name$="[eligibility]"], textarea[name$="[documents]"]').forEach(function(textarea) {
+  const fieldName = textarea.name;
+  const label = fieldName.endsWith('[eligibility]') ? 'Eligibility' : 'Documents';
+  const placeholder = label === 'Eligibility' ? 'Write eligibility requirements...' : 'Write documents required...';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'vm-rich-editor';
+  wrapper.dataset.field = fieldName;
+  const templateEditor = document.querySelector('.vm-rich-editor');
+  const toolbar = templateEditor ? templateEditor.querySelector('.vm-editor-toolbar').cloneNode(true) : document.createElement('div');
+  toolbar.classList.add('vm-editor-toolbar');
+  toolbar.setAttribute('role', 'toolbar');
+  toolbar.setAttribute('aria-label', label + ' formatting');
+  const content = document.createElement('div');
+  content.className = 'vm-editor-content';
+  content.contentEditable = 'true';
+  content.dataset.placeholder = placeholder;
+  content.innerHTML = textarea.value.split(/\\r?\\n/).filter(Boolean).map(function(line) {
+    const p = document.createElement('p'); p.textContent = line; return p.outerHTML;
+  }).join('');
+  const hidden = document.createElement('input');
+  hidden.type = 'hidden'; hidden.name = fieldName; hidden.value = '';
+  wrapper.append(toolbar, content);
+  textarea.replaceWith(hidden, wrapper);
+  let savedRange = null;
+  function saveSelection() {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount && content.contains(selection.anchorNode)) savedRange = selection.getRangeAt(0).cloneRange();
+  }
+  content.addEventListener('keyup', saveSelection);
+  content.addEventListener('mouseup', saveSelection);
+  content.addEventListener('input', saveSelection);
+  toolbar.querySelectorAll('[data-command]').forEach(function(control) {
+    function runCommand() {
+      const command = control.dataset.command;
+      content.focus();
+      if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+      let value = control.dataset.value || null;
+      if (control.dataset.prompt === 'link') {
+        const url = window.prompt('Enter link URL (https://...)');
+        if (!url) return;
+        value = /^(https?:|mailto:)/i.test(url) ? url : 'https://' + url;
+        document.execCommand('createLink', false, value);
+      } else {
+        if (control.tagName === 'SELECT' || control.type === 'color') value = control.value;
+        if (command === 'formatBlock' && value) value = '<' + value + '>';
+        document.execCommand(command, false, value);
+      }
+      saveSelection();
+    }
+    if (control.tagName === 'SELECT') control.addEventListener('change', runCommand);
+    else if (control.type === 'color') control.addEventListener('input', runCommand);
+    else { control.addEventListener('mousedown', saveSelection); control.addEventListener('click', runCommand); }
+  });
+  form.addEventListener('submit', function() { hidden.value = content.innerHTML.trim(); });
+});
+
 }
 
 /* =========================================================
@@ -1986,4 +2109,53 @@ container.appendChild(card);
 
 }
 
+
+/* Rich-text editors: copy the editor HTML into the existing form field before submit. */
+document.querySelectorAll('.vm-rich-editor').forEach(function(editor){
+  const fieldName = editor.dataset.field;
+  const hidden = document.querySelector('input[type="hidden"][name="' + fieldName + '"]');
+  const content = editor.querySelector('.vm-editor-content');
+  let savedRange = null;
+  function saveSelection() {
+    const selection = window.getSelection();
+    if (selection && selection.rangeCount && content.contains(selection.anchorNode)) {
+      savedRange = selection.getRangeAt(0).cloneRange();
+    }
+  }
+  content.addEventListener('keyup', saveSelection);
+  content.addEventListener('mouseup', saveSelection);
+  content.addEventListener('input', saveSelection);
+  editor.querySelectorAll('[data-command]').forEach(function(control){
+    const runCommand = function() {
+      const command = control.dataset.command;
+      if (control.dataset.prompt === 'link') {
+        const url = window.prompt('Enter link URL (https://...)');
+        if (!url) return;
+        const safeUrl = /^(https?:|mailto:)/i.test(url) ? url : 'https://' + url;
+        content.focus();
+        if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+        document.execCommand('createLink', false, safeUrl);
+        saveSelection();
+        return;
+      }
+      content.focus();
+      if (savedRange) { const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(savedRange); }
+      let value = control.dataset.value || null;
+      if (control.tagName === 'SELECT' || control.type === 'color') value = control.value;
+      if (command === 'formatBlock' && value) value = '<' + value + '>';
+      document.execCommand(command, false, value);
+      saveSelection();
+    };
+    if (control.tagName === 'SELECT') {
+      control.addEventListener('change', runCommand);
+    } else if (control.type === 'color') {
+      control.addEventListener('input', runCommand);
+    } else {
+      control.addEventListener('mousedown', saveSelection);
+      control.addEventListener('click', runCommand);
+    }
+  });
+  const form = editor.closest('form');
+  if(form) form.addEventListener('submit', function(){ if(hidden) hidden.value = content.innerHTML.trim(); });
+});
 </script>

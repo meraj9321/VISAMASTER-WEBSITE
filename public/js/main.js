@@ -7,7 +7,6 @@
 ========================================================= */
 
 const mobileMenuButton = document.querySelector(".mobile-menu-button");
-
 const navLinks = document.querySelector(".nav-links");
 
 if (mobileMenuButton && navLinks) {
@@ -21,27 +20,18 @@ if (mobileMenuButton && navLinks) {
 ========================================================= */
 
 const newsFilterButtons = document.querySelectorAll(".news-tabs button");
-
 const newsCards = document.querySelectorAll(".news-card");
 
 if (newsFilterButtons.length && newsCards.length) {
   newsFilterButtons.forEach((button) => {
     button.addEventListener("click", () => {
-      /* Remove active from all buttons */
-
       newsFilterButtons.forEach((btn) => {
         btn.classList.remove("active");
       });
 
-      /* Add active to clicked button */
-
       button.classList.add("active");
 
-      /* Get selected category */
-
       const selectedCategory = button.dataset.filter;
-
-      /* Show / hide cards */
 
       newsCards.forEach((card) => {
         const cardCategory = card.dataset.category;
@@ -58,11 +48,6 @@ if (newsFilterButtons.length && newsCards.length) {
 
 /* =========================================================
    3. DESTINATION SEARCH
-   ---------------------------------------------------------
-   IMPORTANT:
-   This search DOES NOT call MongoDB.
-   It searches only the destination cards already
-   rendered on the page.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -82,10 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const destinationCards = document.querySelectorAll(".destination-card");
 
-  /* -------------------------------------------------------
-     Stop if Destination Search is not on this page
-  ------------------------------------------------------- */
-
   if (
     !destinationSearchBox ||
     !destinationSearchInput ||
@@ -94,14 +75,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  /* -------------------------------------------------------
-     Convert cards into searchable data
-  ------------------------------------------------------- */
-
   const destinations = Array.from(destinationCards)
     .map((card) => {
       const name = card.dataset.destinationName || "";
-
       const slug = card.dataset.destinationSlug || "";
 
       const flagElement = card.querySelector(".country-flag");
@@ -109,27 +85,18 @@ document.addEventListener("DOMContentLoaded", () => {
       const flag = flagElement ? flagElement.textContent.trim() : "🌍";
 
       return {
-        name: name,
-        slug: slug,
-        flag: flag,
-        card: card,
+        name,
+        slug,
+        flag,
+        card,
       };
     })
     .filter((destination) => destination.name);
 
-  /* -------------------------------------------------------
-     Hide suggestions
-  ------------------------------------------------------- */
-
   const hideDestinationSuggestions = () => {
     destinationSuggestions.classList.remove("show");
-
     destinationSuggestions.innerHTML = "";
   };
-
-  /* -------------------------------------------------------
-     Show message
-  ------------------------------------------------------- */
 
   const showDestinationMessage = (message, className) => {
     destinationSuggestions.innerHTML = `
@@ -140,10 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     destinationSuggestions.classList.add("show");
   };
-
-  /* -------------------------------------------------------
-     Render destination suggestions
-  ------------------------------------------------------- */
 
   const renderDestinationSuggestions = (results) => {
     if (!results.length) {
@@ -163,13 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
             class="destination-suggestion"
             data-slug="${destination.slug}"
           >
-
             <span class="destination-suggestion-flag">
               ${destination.flag}
             </span>
 
             <span class="destination-suggestion-info">
-
               <span class="destination-suggestion-name">
                 ${destination.name}
               </span>
@@ -177,9 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="destination-suggestion-action">
                 Explore visa details
               </span>
-
             </span>
-
           </button>
         `,
       )
@@ -188,16 +147,11 @@ document.addEventListener("DOMContentLoaded", () => {
     destinationSuggestions.classList.add("show");
   };
 
-  /* -------------------------------------------------------
-     Search destinations from existing cards
-  ------------------------------------------------------- */
-
   const searchDestinations = (query) => {
     const searchText = query.toLowerCase().trim();
 
     if (!searchText) {
       hideDestinationSuggestions();
-
       return;
     }
 
@@ -212,25 +166,20 @@ document.addEventListener("DOMContentLoaded", () => {
     renderDestinationSuggestions(results);
   };
 
-  /* =======================================================
-     INPUT EVENT
-  ======================================================= */
+  /* INPUT EVENT */
 
   destinationSearchInput.addEventListener("input", () => {
     const query = destinationSearchInput.value.trim();
 
     if (query.length < 1) {
       hideDestinationSuggestions();
-
       return;
     }
 
     searchDestinations(query);
   });
 
-  /* =======================================================
-     EXPLORE BUTTON
-  ======================================================= */
+  /* EXPLORE BUTTON */
 
   if (destinationSearchButton) {
     destinationSearchButton.addEventListener("click", () => {
@@ -238,17 +187,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (!query) {
         destinationSearchInput.focus();
-
         hideDestinationSuggestions();
-
         return;
       }
 
       const results = destinations.filter((destination) => {
         return destination.name.toLowerCase().includes(query.toLowerCase());
       });
-
-      /* If exact/partial destination exists */
 
       if (results.length > 0) {
         const firstResult = results[0];
@@ -260,8 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
 
-      /* Nothing found */
-
       showDestinationMessage(
         "No destination found",
         "destination-search-empty",
@@ -269,9 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  /* =======================================================
-     SUGGESTION CLICK
-  ======================================================= */
+  /* SUGGESTION CLICK */
 
   destinationSuggestions.addEventListener("click", (event) => {
     const suggestion = event.target.closest(".destination-suggestion");
@@ -289,9 +230,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = `/countries/${encodeURIComponent(slug)}/requirements`;
   });
 
-  /* =======================================================
-     CLICK OUTSIDE SEARCH
-  ======================================================= */
+  /* CLICK OUTSIDE SEARCH */
 
   document.addEventListener("click", (event) => {
     if (!event.target.closest("#destinationSearchBox")) {
@@ -299,18 +238,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* =======================================================
-     ESCAPE KEY
-  ======================================================= */
+  /* ESCAPE KEY */
 
   destinationSearchInput.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       hideDestinationSuggestions();
-
       destinationSearchInput.blur();
     }
-
-    /* Enter key */
 
     if (event.key === "Enter") {
       event.preventDefault();
@@ -324,9 +258,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 /* =========================================================
    4. HOME COUNTRY SEARCH
-   ---------------------------------------------------------
-   This existing search still uses the backend API.
-   DO NOT REMOVE / CHANGE.
+
+   Uses the existing backend API:
+   GET /countries/search?q=countryName
+
+   FEATURES:
+   - Minimum 2 characters.
+   - No normal form submission.
+   - No redirect when no country is found.
+   - Enter and Search button work correctly.
+   - Selecting a valid country opens its page.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -334,26 +275,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const suggestionsBox = document.getElementById("countrySuggestions");
 
+  const searchForm = searchInput?.closest("form");
+
   if (!searchInput || !suggestionsBox) {
     return;
   }
 
   let searchTimeout;
+  let searchRequestId = 0;
 
-  /* -------------------------------------------------------
-     Hide suggestions
-  ------------------------------------------------------- */
+  /*
+   * Keep the most recent search results.
+   */
+  let currentCountries = [];
 
+  /*
+   * Hide suggestions.
+   */
   const hideSuggestions = () => {
     suggestionsBox.classList.remove("show");
-
     suggestionsBox.innerHTML = "";
   };
 
-  /* -------------------------------------------------------
-     Show message
-  ------------------------------------------------------- */
-
+  /*
+   * Show a message.
+   */
   const showMessage = (message, className) => {
     suggestionsBox.innerHTML = `
       <div class="${className}">
@@ -364,11 +310,12 @@ document.addEventListener("DOMContentLoaded", () => {
     suggestionsBox.classList.add("show");
   };
 
-  /* -------------------------------------------------------
-     Render country suggestions
-  ------------------------------------------------------- */
-
+  /*
+   * Render country suggestions.
+   */
   const renderSuggestions = (countries) => {
+    currentCountries = countries;
+
     if (!countries.length) {
       showMessage("No country found", "country-search-empty");
 
@@ -383,13 +330,11 @@ document.addEventListener("DOMContentLoaded", () => {
             class="country-suggestion"
             data-slug="${country.slug}"
           >
-
             <span class="country-suggestion-flag">
               ${country.flag || "🌍"}
             </span>
 
             <span class="country-suggestion-info">
-
               <span class="country-suggestion-name">
                 ${country.name}
               </span>
@@ -397,9 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="country-suggestion-action">
                 View visa details
               </span>
-
             </span>
-
           </button>
         `,
       )
@@ -408,11 +351,18 @@ document.addEventListener("DOMContentLoaded", () => {
     suggestionsBox.classList.add("show");
   };
 
-  /* -------------------------------------------------------
-     Search countries using existing backend API
-  ------------------------------------------------------- */
-
+  /*
+   * Search countries through the existing backend API.
+   */
   const searchCountries = async (query) => {
+    const requestId = ++searchRequestId;
+
+    if (query.length < 2) {
+      currentCountries = [];
+      hideSuggestions();
+      return [];
+    }
+
     try {
       showMessage("Searching...", "country-search-loading");
 
@@ -426,11 +376,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const countries = await response.json();
 
+      /*
+       * Ignore an older response if the user has typed
+       * another query in the meantime.
+       */
+      if (requestId !== searchRequestId) {
+        return [];
+      }
+
       renderSuggestions(countries);
+
+      return countries;
     } catch (error) {
       console.error("Country search error:", error);
 
-      showMessage("Unable to search right now", "country-search-empty");
+      if (requestId === searchRequestId) {
+        currentCountries = [];
+
+        showMessage("Unable to search right now", "country-search-empty");
+      }
+
+      return [];
     }
   };
 
@@ -443,16 +409,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
     clearTimeout(searchTimeout);
 
+    /*
+     * Invalidate any previous request.
+     */
+    searchRequestId++;
+
+    currentCountries = [];
+
+    /*
+     * MINIMUM SEARCH LENGTH: 2 CHARACTERS
+     */
     if (query.length < 2) {
       hideSuggestions();
-
       return;
     }
 
+    /*
+     * Small delay avoids sending a request for every
+     * keystroke immediately.
+     */
     searchTimeout = setTimeout(() => {
       searchCountries(query);
     }, 250);
   });
+
+  /* =======================================================
+     FORM SUBMISSION
+
+     Stops redirect when no country is found.
+  ======================================================= */
+
+  if (searchForm) {
+    searchForm.addEventListener("submit", async (event) => {
+      /*
+       * Stop default form navigation.
+       */
+      event.preventDefault();
+
+      const query = searchInput.value.trim();
+
+      /*
+       * Do nothing if fewer than 2 characters
+       * were entered.
+       */
+      if (query.length < 2) {
+        hideSuggestions();
+        searchInput.focus();
+        return;
+      }
+
+      clearTimeout(searchTimeout);
+
+      /*
+       * Check the country against the backend.
+       */
+      const countries = await searchCountries(query);
+
+      /*
+       * No matching country:
+       * stay on the same page.
+       */
+      if (!countries.length) {
+        return;
+      }
+
+      /*
+       * Matching country found:
+       * open its country page.
+       */
+      const firstCountry = countries[0];
+
+      if (firstCountry.slug) {
+        window.location.href = `/countries/${encodeURIComponent(firstCountry.slug)}`;
+      }
+    });
+  }
 
   /* =======================================================
      COUNTRY SUGGESTION CLICK
@@ -491,7 +522,6 @@ document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       hideSuggestions();
-
       searchInput.blur();
     }
   });

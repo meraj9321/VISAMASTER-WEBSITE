@@ -194,9 +194,10 @@
                 id="name"
                 name="name"
                 placeholder="Your name"
-                autocomplete="name"
+                autocomplete="off"
                 value="<%= typeof formData !== 'undefined' && formData.name ? formData.name : '' %>"
                 required
+                
               />
 
             </div>
@@ -210,14 +211,19 @@
 
 
               <input
-                type="tel"
-                id="phone"
-                name="phone"
-                placeholder="Your phone number"
-                autocomplete="tel"
-                value="<%= typeof formData !== 'undefined' && formData.phone ? formData.phone : '' %>"
-                required
-              />
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    placeholder="Your phone number"
+                   autocomplete="off"
+                   value="<%= typeof formData !== 'undefined' && formData.phone ? formData.phone : '' %>"
+                    required
+                    inputmode="numeric"
+                    maxlength="10"
+                    minlength="10"
+                    pattern="[0-9]{10}"
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+          />
 
             </div>
 
@@ -240,7 +246,7 @@
                 id="email"
                 name="email"
                 placeholder="Your email"
-                autocomplete="email"
+                autocomplete="off"
                 value="<%= typeof formData !== 'undefined' && formData.email ? formData.email : '' %>"
                 required
               />

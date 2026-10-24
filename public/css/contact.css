@@ -2237,3 +2237,119 @@
     font-size: 15px;
   }
 }
+/* ============================================
+   VISAMASTER TEAM CARDS
+   Cream + Ash Grey + Golden Theme
+   ONLY COLORS CHANGE — DESIGN SAME
+============================================ */
+
+/* Main Card */
+.contact-team-section .team-card {
+  background: #f5f1e9 !important;
+  border-color: #d8d3c9 !important;
+  box-shadow: 4px 4px 0 #d9b65d !important;
+}
+
+/* Card Hover */
+.contact-team-section .team-card:hover {
+  background: #f5f1e9 !important;
+  border-color: #d9b65d !important;
+  box-shadow: 4px 7px 0 #d9b65d !important;
+}
+
+/* Card Number */
+.contact-team-section .team-card-number {
+  background: #f5f1e9 !important;
+  color: #343b40 !important;
+  border-color: #d9b65d !important;
+}
+
+/* Golden Decorative Icon */
+.contact-team-section .team-card::before {
+  background: #e5bd58 !important;
+  border-color: #f5f1e9 !important;
+}
+
+/* Photo Section */
+.contact-team-section .team-image-wrapper {
+  background: #dce1e3 !important;
+  border-bottom-color: #d9b65d !important;
+}
+
+/* Photo Placeholder */
+.contact-team-section .team-placeholder {
+  background: #e3e6e6 !important;
+  color: #6b7479 !important;
+}
+
+.contact-team-section .team-placeholder::before {
+  border-color: #c1c9cc !important;
+}
+
+/* Card Content */
+.contact-team-section .team-card-content {
+  background: #f5f1e9 !important;
+  color: #343b40 !important;
+}
+
+/* Designation Badge */
+.contact-team-section .team-role {
+  background: #fff0c7 !important;
+  color: #343b40 !important;
+  border-color: #e5d3a5 !important;
+}
+
+/* Name */
+.contact-team-section .team-card-content h4 {
+  color: #30383d !important;
+}
+
+/* Designation Text */
+.contact-team-section .team-card-content p {
+  color: #737b80 !important;
+}
+
+/* Contact Details */
+.contact-team-section .team-contact-link {
+  color: #454e53 !important;
+}
+
+/* Contact Icons */
+.contact-team-section .team-contact-icon {
+  background: #e2e5e5 !important;
+  color: #454e53 !important;
+  border-color: #d0d5d5 !important;
+}
+
+/* Contact Link Hover */
+.contact-team-section .team-contact-link:hover {
+  color: #a47b19 !important;
+}
+
+/* Call and Email Buttons */
+.contact-team-section .team-action-btn {
+  background: #e5bd58 !important;
+  color: #30383d !important;
+  border-color: #d9b04b !important;
+}
+
+/* Button Hover */
+.contact-team-section .team-action-btn:hover {
+  background: #343d42 !important;
+  color: #ffffff !important;
+  border-color: #343d42 !important;
+}
+
+/* WhatsApp Button */
+.contact-team-section .team-whatsapp-btn {
+  background: #e4e6e5 !important;
+  color: #343d42 !important;
+  border-color: #c9cfce !important;
+}
+
+/* WhatsApp Hover */
+.contact-team-section .team-whatsapp-btn:hover {
+  background: #d9b65d !important;
+  color: #30383d !important;
+  border-color: #d9b65d !important;
+}
