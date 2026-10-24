@@ -16,6 +16,10 @@
   <link rel="stylesheet" href="/css/navbar.css" />
   <link rel="stylesheet" href="/css/requirements.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+
+<style>
+.visa-rich-content{padding:16px 18px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#263449;line-height:1.75;overflow-wrap:anywhere}.visa-rich-content p{margin:0 0 10px}.visa-rich-content p:last-child{margin-bottom:0}.visa-rich-content ul,.visa-rich-content ol{padding-left:26px;margin:8px 0 12px}.visa-rich-content li{display:list-item;margin:4px 0}.visa-rich-content h1,.visa-rich-content h2,.visa-rich-content h3,.visa-rich-content h4{margin:12px 0 8px;color:#102d50}.visa-rich-content blockquote{margin:10px 0;padding:8px 14px;border-left:3px solid #d5ad35;background:#f8fafc}
+</style>
 </head>
 
 <body>
@@ -276,52 +280,12 @@
                     Documents Required
                   </h4>
 
-                  <% if (
-                    Array.isArray(visa.documents) &&
-                    visa.documents.some(
-                      (document) =>
-                        typeof document === "string" &&
-                        document.trim()
-                    )
-                  ) { %>
-
-                    <ul class="visa-document-list">
-
-                      <% let documentNumber = 0; %>
-                      <% visa.documents.forEach((document) => { %>
-
-                        <% if (
-                          typeof document === "string" &&
-                          document.trim()
-                        ) { %>
-
-                          <li>
-
-                            <span class="requirement-number">
-                              <%= ++documentNumber %>
-                            </span>
-
-                            <span>
-                              <%= document %>
-                            </span>
-
-                          </li>
-
-                        <% } %>
-
-                      <% }) %>
-
-                    </ul>
-
+                  <% const documentHtml = Array.isArray(visa.documents) ? visa.documents.filter(document => typeof document === "string" && document.trim()).join("\n") : ""; %>
+                  <% if (documentHtml) { %>
+                    <div class="visa-rich-content"><%- documentHtml %></div>
                   <% } else { %>
-
-                    <p class="requirements-unavailable">
-                      Please contact VisaMaster to confirm the
-                      documents required for this visa category.
-                    </p>
-
+                    <p class="requirements-unavailable">Please contact VisaMaster to confirm the documents required for this visa category.</p>
                   <% } %>
-
                 </div>
 
 
@@ -334,52 +298,12 @@
                     Eligibility Requirements
                   </h4>
 
-                  <% if (
-                    Array.isArray(visa.eligibility) &&
-                    visa.eligibility.some(
-                      (item) =>
-                        typeof item === "string" &&
-                        item.trim()
-                    )
-                  ) { %>
-
-                    <ul class="visa-document-list">
-
-                      <% let eligibilityNumber = 0; %>
-                      <% visa.eligibility.forEach((item) => { %>
-
-                        <% if (
-                          typeof item === "string" &&
-                          item.trim()
-                        ) { %>
-
-                          <li>
-
-                            <span class="requirement-number">
-                              <%= ++eligibilityNumber %>
-                            </span>
-
-                            <span>
-                              <%= item %>
-                            </span>
-
-                          </li>
-
-                        <% } %>
-
-                      <% }) %>
-
-                    </ul>
-
+                  <% const eligibilityHtml = Array.isArray(visa.eligibility) ? visa.eligibility.filter(item => typeof item === "string" && item.trim()).join("\n") : ""; %>
+                  <% if (eligibilityHtml) { %>
+                    <div class="visa-rich-content"><%- eligibilityHtml %></div>
                   <% } else { %>
-
-                    <p class="requirements-unavailable">
-                      Eligibility details are not currently
-                      available. Contact VisaMaster for assistance.
-                    </p>
-
+                    <p class="requirements-unavailable">Eligibility details are not currently available. Contact VisaMaster for assistance.</p>
                   <% } %>
-
                 </div>
 
 
