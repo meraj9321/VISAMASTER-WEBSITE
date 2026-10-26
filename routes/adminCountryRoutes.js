@@ -7,7 +7,7 @@ const {
   showEditCountry,
   updateCountry,
 } = require("../controllers/adminCountryController");
-
+const { uploadApplicationForm } = require("../middleware/uploadMiddleware");
 /* =========================================================
 COUNTRIES MANAGEMENT PAGE
 GET /admin/countries
@@ -27,6 +27,6 @@ UPDATE COUNTRY
 POST /admin/countries/:slug/edit
 ========================================================= */
 
-router.post("/countries/:slug/edit", updateCountry);
+router.post("/countries/:slug/edit", uploadApplicationForm, updateCountry);
 
 module.exports = router;

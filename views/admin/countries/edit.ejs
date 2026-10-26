@@ -36,7 +36,7 @@ return new Date(value).toLocaleString("en-IN", {
 <form
   id="countryEditForm"
   action="/admin/countries/<%= country.slug %>/edit"
-  method="POST"
+  method="POST" enctype="multipart/form-data"
 >
 
 
@@ -1670,6 +1670,68 @@ return new Date(value).toLocaleString("en-IN", {
 
   </section>
 
+<!-- APPLICATION FORM PDF -->
+
+<section class="application-form-upload-section">
+  <h3>Application Form PDF</h3>
+
+  <p>
+    Upload the application form PDF for this country.
+    Maximum file size: 5 MB.
+  </p>
+
+<% if (country.applicationForm && country.applicationForm.filename) { %> <div class="current-application-form"> <p> <strong>Current PDF:</strong>
+<%= country.applicationForm.filename %> </p>
+
+
+  <a
+    href="/countries/<%= country.slug %>/application-form"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="application-form-view-btn"
+  >
+    View Current PDF
+  </a>
+
+  <a
+    href="/countries/<%= country.slug %>/application-form/download"
+    class="application-form-download-btn"
+  >
+    Download Current PDF
+  </a>
+</div>
+
+
+<% } else { %> <p class="no-application-form">
+No application form PDF uploaded yet. </p>
+<% } %>
+
+  <div class="application-form-input">
+    <label for="applicationFormPdf">
+      <strong>
+        <%= country.applicationForm && country.applicationForm.filename
+          ? "Replace PDF (optional)"
+          : "Choose Application Form PDF" %>
+      </strong>
+    </label>
+
+
+<input
+  type="file"
+  id="applicationFormPdf"
+  name="applicationFormPdf"
+  accept=".pdf,application/pdf"
+>
+
+<small>
+  PDF files only. Maximum size: 5 MB.
+  Leave empty to keep the existing PDF unchanged.
+</small>
+
+
+  </div>
+</section>
+<!-- END APPLICATION FORM PDF -->
 
 
   <!-- =========================================

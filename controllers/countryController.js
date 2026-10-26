@@ -69,7 +69,9 @@ const getCountryRequirements = async (req, res) => {
       slug,
       isActive: true,
     })
-      .select("name slug flag visaTypes")
+      .select(
+        "name slug flag visaTypes applicationForm.filename applicationForm.contentType applicationForm.size",
+      )
       .lean();
 
     if (!country) {
@@ -93,6 +95,107 @@ const getCountryRequirements = async (req, res) => {
     return res.status(500).render("errors/500");
   }
 };
+
+/* =====================================================
+   VIEW APPLICATION FORM PDF
+===================================================== */
+
+const getApplicationForm = async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "")
+      .trim()
+      .toLowerCase();
+
+    const country = await Country.findOne({
+      slug,
+      isActive: true,
+    }).select(
+      "+applicationForm.data applicationForm.filename applicationForm.contentType",
+    );
+
+    if (!country) {
+      return res.status(404).send("Country not found.");
+    }
+
+    const applicationForm = country.applicationForm;
+
+    if (
+      !applicationForm ||
+      !applicationForm.data ||
+      applicationForm.data.length === 0
+    ) {
+      return res.status(404).send("Application form PDF not found.");
+    }
+
+    const pdfBuffer = Buffer.isBuffer(applicationForm.data)
+      ? applicationForm.data
+      : Buffer.from(applicationForm.data);
+
+    const filename = String(
+      applicationForm.filename || "application-form.pdf",
+    ).replace(/[\r\n"]/g, "_");
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Length", String(pdfBuffer.length));
+    res.setHeader("Content-Disposition", `inline; filename="${filename}"`);
+
+    return res.status(200).end(pdfBuffer);
+  } catch (error) {
+    console.error("View application form error:", error);
+    return res.status(500).send("Unable to open application form PDF.");
+  }
+};
+
+/* =====================================================
+   DOWNLOAD APPLICATION FORM PDF
+===================================================== */
+
+const downloadApplicationForm = async (req, res) => {
+  try {
+    const slug = String(req.params.slug || "")
+      .trim()
+      .toLowerCase();
+
+    const country = await Country.findOne({
+      slug,
+      isActive: true,
+    }).select(
+      "+applicationForm.data applicationForm.filename applicationForm.contentType",
+    );
+
+    if (!country) {
+      return res.status(404).send("Country not found.");
+    }
+
+    const applicationForm = country.applicationForm;
+
+    if (
+      !applicationForm ||
+      !applicationForm.data ||
+      applicationForm.data.length === 0
+    ) {
+      return res.status(404).send("Application form PDF not found.");
+    }
+
+    const pdfBuffer = Buffer.isBuffer(applicationForm.data)
+      ? applicationForm.data
+      : Buffer.from(applicationForm.data);
+
+    const filename = String(
+      applicationForm.filename || "application-form.pdf",
+    ).replace(/[\r\n"]/g, "_");
+
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Length", String(pdfBuffer.length));
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+
+    return res.status(200).end(pdfBuffer);
+  } catch (error) {
+    console.error("Download application form error:", error);
+    return res.status(500).send("Unable to download application form PDF.");
+  }
+};
+
 /* =========================================================
    SEARCH COUNTRIES
    EXISTING FUNCTION PRESERVED
@@ -138,5 +241,7 @@ module.exports = {
   getAllCountries,
   getCountryBySlug,
   getCountryRequirements,
+  getApplicationForm,
+  downloadApplicationForm,
   searchCountries,
 };

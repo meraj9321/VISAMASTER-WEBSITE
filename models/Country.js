@@ -26,17 +26,19 @@ const visaTypeSchema = new mongoose.Schema(
     // Directory categories are managed from the Admin Panel.
     // A visa may belong to more than one category (for example, Tourist + E-Visa).
     categories: {
-      type: [{
-        type: String,
-        enum: [
-          "e-visa",
-          "tourist-visa",
-          "visa-on-arrival",
-          "business-visa",
-          "stamping-visa",
-          "sticker-visa",
-        ],
-      }],
+      type: [
+        {
+          type: String,
+          enum: [
+            "e-visa",
+            "tourist-visa",
+            "visa-on-arrival",
+            "business-visa",
+            "stamping-visa",
+            "sticker-visa",
+          ],
+        },
+      ],
       default: [],
     },
 
@@ -289,6 +291,35 @@ BASIC INFORMATION
     fieldUpdatedAt: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
+    },
+    /* =========================================
+     APPLICATION FORM PDF
+  ========================================= */
+
+    applicationForm: {
+      filename: {
+        type: String,
+        trim: true,
+      },
+
+      contentType: {
+        type: String,
+        default: "application/pdf",
+      },
+
+      data: {
+        type: Buffer,
+        select: false,
+      },
+
+      size: {
+        type: Number,
+        default: 0,
+      },
+
+      uploadedAt: {
+        type: Date,
+      },
     },
   },
 

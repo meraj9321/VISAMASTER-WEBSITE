@@ -4,35 +4,29 @@ const {
   getAllCountries,
   getCountryBySlug,
   getCountryRequirements,
+  getApplicationForm,
+  downloadApplicationForm,
   searchCountries,
 } = require("../controllers/countryController");
 
 const router = express.Router();
 
-/* =========================================================
-   COUNTRY SEARCH
-========================================================= */
-
+/* SEARCH COUNTRIES */
 router.get("/search", searchCountries);
 
-/* =========================================================
-   ALL COUNTRIES
-========================================================= */
-
+/* ALL COUNTRIES */
 router.get("/", getAllCountries);
 
-/* =========================================================
-   COUNTRY REQUIREMENTS PAGE
-   NEW ROUTE
-========================================================= */
-
+/* COUNTRY REQUIREMENTS */
 router.get("/:slug/requirements", getCountryRequirements);
 
-/* =========================================================
-   COUNTRY DETAIL PAGE
-   EXISTING ROUTE - PRESERVED
-========================================================= */
+/* DOWNLOAD APPLICATION FORM PDF */
+router.get("/:slug/application-form/download", downloadApplicationForm);
 
+/* VIEW APPLICATION FORM PDF */
+router.get("/:slug/application-form", getApplicationForm);
+
+/* COUNTRY DETAIL PAGE — KEEP THIS ROUTE LAST */
 router.get("/:slug", getCountryBySlug);
 
 module.exports = router;

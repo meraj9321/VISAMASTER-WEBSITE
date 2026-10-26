@@ -82,11 +82,16 @@ function cleanVisaTypes(value) {
   const visas = getObjectArray(value);
 
   return visas
+    .filter(
+      (item) =>
+        item !== null && typeof item === "object" && !Array.isArray(item),
+    )
     .map((item) => ({
       name: item.name || "",
       slug: item.slug || "",
       description: item.description || "",
       purpose: item.purpose || "",
+
       categories: toArray(item.categories).filter((category) =>
         [
           "e-visa",
@@ -97,6 +102,7 @@ function cleanVisaTypes(value) {
           "sticker-visa",
         ].includes(category),
       ),
+
       stayDuration: item.stayDuration || "",
       validity: item.validity || "",
       processingTime: item.processingTime || "",
@@ -111,11 +117,10 @@ function cleanVisaTypes(value) {
 
       isActive: toBoolean(item.isActive),
     }))
-    .filter((item) => {
-      return item.name || item.slug || item.description || item.purpose;
-    });
+    .filter(
+      (item) => item.name || item.slug || item.description || item.purpose,
+    );
 }
-
 /* =========================================================
 FIELD TIMESTAMP HELPER
 ========================================================= */
@@ -174,6 +179,15 @@ UPDATE COUNTRY
 
 exports.updateCountry = async (req, res, next) => {
   try {
+    //console.log("Request body:", req.body);
+    //console.log("Uploaded PDF:", req.file);
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      return res
+        .status(400)
+        .send("Form data missing. Check Multer middleware and form enctype.");
+    }
+
     const oldSlug = req.params.slug;
 
     const country = await Country.findOne({
@@ -183,7 +197,6 @@ exports.updateCountry = async (req, res, next) => {
     if (!country) {
       return res.status(404).send("Country not found");
     }
-
     /* =====================================================
    FIELD TIMESTAMP OBJECT
 ===================================================== */
@@ -607,6 +620,34 @@ exports.updateCountry = async (req, res, next) => {
     );
 
     country.isActive = newIsActive;
+
+    /* =====================================================
+       APPLICATION FORM PDF
+    ===================================================== */
+
+    // Replace the existing PDF only when a new PDF is uploaded.
+    // If no file is uploaded, preserve the existing PDF.
+    if (req.file) {
+      country.applicationForm = {
+        filename: String(req.file.originalname || "application-form.pdf")
+          .replace(/[\\/]/g, "")
+          .trim(),
+
+        contentType: "application/pdf",
+
+        data: req.file.buffer,
+
+        size: req.file.size,
+
+        uploadedAt: new Date(),
+      };
+
+      if (!fieldUpdatedAt.applicationForm) {
+        fieldUpdatedAt.applicationForm = {};
+      }
+
+      fieldUpdatedAt.applicationForm.uploadedAt = new Date();
+    }
 
     /* =====================================================
    SAVE FIELD TIMESTAMPS
