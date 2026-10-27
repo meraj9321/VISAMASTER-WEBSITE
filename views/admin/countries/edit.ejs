@@ -1680,33 +1680,52 @@ return new Date(value).toLocaleString("en-IN", {
     Maximum file size: 5 MB.
   </p>
 
-<% if (country.applicationForm && country.applicationForm.filename) { %> <div class="current-application-form"> <p> <strong>Current PDF:</strong>
-<%= country.applicationForm.filename %> </p>
+  <% if (country.applicationForm && country.applicationForm.filename) { %>
 
+    <div class="current-application-form">
 
-  <a
-    href="/countries/<%= country.slug %>/application-form"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="application-form-view-btn"
-  >
-    View Current PDF
-  </a>
+      <p>
+        <strong>Current PDF:</strong>
+        <%= country.applicationForm.filename %>
+      </p>
 
-  <a
-    href="/countries/<%= country.slug %>/application-form/download"
-    class="application-form-download-btn"
-  >
-    Download Current PDF
-  </a>
-</div>
+      <a
+        href="/countries/<%= country.slug %>/application-form"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="application-form-view-btn"
+      >
+        View Current PDF
+      </a>
 
+      <a
+        href="/countries/<%= country.slug %>/application-form/download"
+        class="application-form-download-btn"
+      >
+        Download Current PDF
+      </a>
 
-<% } else { %> <p class="no-application-form">
-No application form PDF uploaded yet. </p>
-<% } %>
+      <!-- DELETE PDF BUTTON -->
+      <button
+        type="button"
+        class="application-form-delete-btn"
+        onclick="deleteApplicationFormPdf('<%= country.slug %>')"
+      >
+        Delete PDF
+      </button>
+
+    </div>
+
+  <% } else { %>
+
+    <p class="no-application-form">
+      No application form PDF uploaded yet.
+    </p>
+
+  <% } %>
 
   <div class="application-form-input">
+
     <label for="applicationFormPdf">
       <strong>
         <%= country.applicationForm && country.applicationForm.filename
@@ -1715,24 +1734,23 @@ No application form PDF uploaded yet. </p>
       </strong>
     </label>
 
+    <input
+      type="file"
+      id="applicationFormPdf"
+      name="applicationFormPdf"
+      accept=".pdf,application/pdf"
+    >
 
-<input
-  type="file"
-  id="applicationFormPdf"
-  name="applicationFormPdf"
-  accept=".pdf,application/pdf"
->
-
-<small>
-  PDF files only. Maximum size: 5 MB.
-  Leave empty to keep the existing PDF unchanged.
-</small>
-
+    <small>
+      PDF files only. Maximum size: 5 MB.
+      Leave empty to keep the existing PDF unchanged.
+    </small>
 
   </div>
-</section>
-<!-- END APPLICATION FORM PDF -->
 
+</section>
+
+<!-- END APPLICATION FORM PDF -->
 
   <!-- =========================================
        SAVE AREA
@@ -2220,4 +2238,61 @@ document.querySelectorAll('.vm-rich-editor').forEach(function(editor){
   const form = editor.closest('form');
   if(form) form.addEventListener('submit', function(){ if(hidden) hidden.value = content.innerHTML.trim(); });
 });
+
+/* =========================================
+   DELETE APPLICATION FORM PDF
+========================================= */
+
+async function deleteApplicationFormPdf(slug) {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this application form PDF? This action cannot be undone."
+  );
+
+  if (!confirmed) {
+    return;
+  }
+
+  const button = document.querySelector(
+    ".application-form-delete-btn"
+  );
+
+  if (button) {
+    button.disabled = true;
+    button.textContent = "Deleting...";
+  }
+
+  try {
+    const response = await fetch(
+      `/admin/countries/${encodeURIComponent(slug)}/application-form/delete`,
+      {
+        method: "POST",
+        headers: {
+          "Accept": "application/json"
+        },
+        credentials: "same-origin"
+      }
+    );
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.message || "Failed to delete PDF.");
+    }
+
+    alert("Application form PDF deleted successfully.");
+
+    // Refresh the page to display the updated PDF section.
+    window.location.reload();
+
+  } catch (error) {
+    console.error("PDF deletion error:", error);
+
+    alert(error.message || "Unable to delete the PDF. Please try again.");
+
+    if (button) {
+      button.disabled = false;
+      button.textContent = "Delete PDF";
+    }
+  }
+}
 </script>

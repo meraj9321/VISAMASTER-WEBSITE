@@ -649,6 +649,10 @@ exports.updateCountry = async (req, res, next) => {
       fieldUpdatedAt.applicationForm.uploadedAt = new Date();
     }
 
+    /* =========================================
+   DELETE COUNTRY APPLICATION FORM PDF
+========================================= */
+
     /* =====================================================
    SAVE FIELD TIMESTAMPS
 ===================================================== */
@@ -670,5 +674,49 @@ exports.updateCountry = async (req, res, next) => {
     console.error("Country update error:", error);
 
     next(error);
+  }
+};
+
+/* =========================================
+   DELETE COUNTRY APPLICATION FORM PDF
+========================================= */
+
+exports.deleteCountryApplicationForm = async (req, res) => {
+  try {
+    const country = await Country.findOne({
+      slug: req.params.slug,
+    });
+
+    if (!country) {
+      return res.status(404).json({
+        success: false,
+        message: "Country not found.",
+      });
+    }
+
+    if (!country.applicationForm || !country.applicationForm.filename) {
+      return res.status(404).json({
+        success: false,
+        message: "No application form PDF exists for this country.",
+      });
+    }
+
+    // Delete only the PDF field from MongoDB.
+    country.applicationForm = undefined;
+    country.markModified("applicationForm");
+
+    await country.save();
+
+    return res.status(200).json({
+      success: true,
+      message: "Application form PDF deleted successfully.",
+    });
+  } catch (error) {
+    console.error("Delete application form PDF error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete application form PDF.",
+    });
   }
 };

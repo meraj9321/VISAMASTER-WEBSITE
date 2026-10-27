@@ -6,6 +6,7 @@ const {
   showCountries,
   showEditCountry,
   updateCountry,
+  deleteCountryApplicationForm,
 } = require("../controllers/adminCountryController");
 const { uploadApplicationForm } = require("../middleware/uploadMiddleware");
 /* =========================================================
@@ -28,5 +29,10 @@ POST /admin/countries/:slug/edit
 ========================================================= */
 
 router.post("/countries/:slug/edit", uploadApplicationForm, updateCountry);
+router.post(
+  "/countries/:slug/application-form/delete",
+
+  deleteCountryApplicationForm,
+);
 
 module.exports = router;
