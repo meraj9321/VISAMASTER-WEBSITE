@@ -2935,3 +2935,140 @@
     padding: 10px 12px;
   }
 }
+/* REQUIRED DOCUMENTS LAYOUT FIX */
+.visa-documents-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.visa-document-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.visa-document-check {
+  flex: 0 0 18px;
+  color: #c69b3c;
+  font-weight: 700;
+}
+
+.visa-document-text {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  white-space: normal;
+  line-height: 1.7;
+  color: #40516a;
+}
+
+/* =========================================
+   COUNTRY DETAIL - RICH DOCUMENT CONTENT
+========================================= */
+
+.visa-documents-section {
+  width: 100%;
+  min-width: 0;
+}
+
+.visa-rich-content {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 16px 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  background: #ffffff;
+  color: #263449;
+
+  font-size: 14px;
+  line-height: 1.75;
+  text-align: left;
+
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+/* Paragraphs */
+.visa-rich-content p {
+  margin: 0 0 10px;
+  max-width: 100%;
+}
+
+.visa-rich-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* Lists */
+.visa-rich-content ul,
+.visa-rich-content ol {
+  margin: 8px 0 12px;
+  padding-left: 26px;
+}
+
+.visa-rich-content li {
+  display: list-item;
+  margin: 4px 0;
+}
+
+/* Headings */
+.visa-rich-content h1,
+.visa-rich-content h2,
+.visa-rich-content h3,
+.visa-rich-content h4 {
+  max-width: 100%;
+  margin: 12px 0 8px;
+  color: #102d50;
+  white-space: normal;
+}
+
+/* Blockquotes */
+.visa-rich-content blockquote {
+  max-width: 100%;
+  box-sizing: border-box;
+  margin: 10px 0;
+  padding: 8px 14px;
+
+  border-left: 3px solid #d5ad35;
+  background: #f8fafc;
+}
+
+/* Prevent wide elements from breaking the layout */
+.visa-rich-content img,
+.visa-rich-content table,
+.visa-rich-content pre {
+  max-width: 100%;
+}
+
+.visa-rich-content table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.visa-rich-content td,
+.visa-rich-content th {
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.visa-rich-content pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .visa-rich-content {
+    padding: 12px;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}

@@ -625,32 +625,31 @@
 
 
                 <!-- VISA DOCUMENTS -->
+<!-- VISA DOCUMENTS -->
+<% if (visa.documents && visa.documents.length > 0) { %>
 
-                <% if (visa.documents && visa.documents.length > 0) { %>
+  <div class="visa-small-section visa-documents-section">
 
-                  <div class="visa-small-section">
+    <h4>Required Documents</h4>
 
-                    <h4>
-                      Required Documents
-                    </h4>
+    <% const documentHtml = Array.isArray(visa.documents)
+      ? visa.documents
+          .filter(document => typeof document === "string" && document.trim())
+          .join("\n")
+      : "";
+    %>
 
-                    <ul>
+    <% if (documentHtml) { %>
 
-                      <% visa.documents.forEach(document => { %>
+      <div class="visa-rich-content">
+        <%- documentHtml %>
+      </div>
 
-                        <li>
-                          <span>✓</span>
-                          <%= document %>
-                        </li>
+    <% } %>
 
-                      <% }) %>
+  </div>
 
-                    </ul>
-
-                  </div>
-
-                <% } %>
-
+<% } %>
 
                 <a
                   href="/contact"
