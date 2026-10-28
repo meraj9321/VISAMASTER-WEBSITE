@@ -1629,6 +1629,48 @@ return new Date(value).toLocaleString("en-IN", {
 
 
   <!-- =========================================
+       SCHENGEN AREA STATUS
+  ========================================== -->
+
+  <section class="admin-card status-card">
+
+    <div>
+
+      <span class="section-number">12A</span>
+
+      <h2>Schengen Area</h2>
+
+      <p>
+        Enable this option if this country belongs to the Schengen Area.
+        Countries marked here can be displayed on the dedicated Schengen page.
+      </p>
+
+    </div>
+
+    <label class="switch-label">
+
+      <input
+        type="checkbox"
+        name="isSchengen"
+        value="true"
+        <%= country.isSchengen === true ? "checked" : "" %>
+      >
+
+      <span>
+        This country is part of the Schengen Area
+      </span>
+
+    </label>
+
+    <small class="field-updated">
+      Last updated:
+      <%= formatUpdatedAt(country.fieldUpdatedAt?.isSchengen) %>
+    </small>
+
+  </section>
+
+
+  <!-- =========================================
        ACTIVE STATUS
   ========================================== -->
 

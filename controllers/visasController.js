@@ -24,7 +24,9 @@ function normalizeLegacyVisaCategories(country) {
     .filter((visa) => visa && visa.isActive !== false)
     .map((visa) => {
       const existingCategories = Array.isArray(visa.categories)
-        ? visa.categories.filter((category) => VALID_DIRECTORY_CATEGORIES.has(category))
+        ? visa.categories.filter((category) =>
+            VALID_DIRECTORY_CATEGORIES.has(category),
+          )
         : [];
 
       if (existingCategories.length) {
@@ -35,11 +37,15 @@ function normalizeLegacyVisaCategories(country) {
         .trim()
         .toLowerCase()
         .replace(/[_\s]+/g, "-");
+
       const name = String(visa.name || "")
         .trim()
         .toLowerCase()
         .replace(/[_\s]+/g, "-");
-      const purpose = String(visa.purpose || "").trim().toLowerCase();
+
+      const purpose = String(visa.purpose || "")
+        .trim()
+        .toLowerCase();
 
       // Only infer clear, exact legacy visa types. Do not guess application methods.
       if (
@@ -64,17 +70,18 @@ function normalizeLegacyVisaCategories(country) {
   return normalizedCountry;
 }
 
+/*
+ * MAIN VISAS PAGE
+ * GET /visas
+ */
 const showVisasPage = async (req, res) => {
   try {
-    // The Country schema uses isActive (not active).
-    // Lean documents are sufficient for this read-only directory page.
     const databaseCountries = await Country.find({ isActive: true })
       .sort({ name: 1 })
       .select("name slug flag visaTypes")
       .lean();
 
-    // Normalize legacy records in memory so existing data works immediately.
-    // No bulk database update or destructive migration is performed.
+    // Normalize legacy visa categories in memory.
     const countries = databaseCountries.map(normalizeLegacyVisaCategories);
 
     return res.render("visas/index", {
@@ -93,4 +100,34 @@ const showVisasPage = async (req, res) => {
   }
 };
 
-module.exports = { showVisasPage };
+/*
+ * SCHENGEN COUNTRIES PAGE
+ * GET /visas/schengen
+ *
+ * Only countries with isActive: true and isSchengen: true are displayed.
+ */
+const showSchengenPage = async (req, res, next) => {
+  try {
+    const countries = await Country.find({
+      isActive: true,
+      isSchengen: true,
+    })
+      .sort({ name: 1 })
+      .select("name slug flag visaTypes isSchengen")
+      .lean();
+
+    return res.render("visas/schengen", {
+      currentPage: "schengen",
+      countries,
+      loadError: false,
+    });
+  } catch (error) {
+    console.error("SCHENGEN PAGE ERROR:", error);
+    return next(error);
+  }
+};
+
+module.exports = {
+  showVisasPage,
+  showSchengenPage,
+};

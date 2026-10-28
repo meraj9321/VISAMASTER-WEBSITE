@@ -28,7 +28,7 @@ app.use(
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      // maxAge nahi rakhenge, taaki cookie browser-session cookie rahe
+      // Browser-session cookie; no maxAge configured.
     },
   }),
 );
@@ -38,7 +38,6 @@ app.use(
 // =========================================================
 
 app.set("view engine", "ejs");
-
 app.set("views", path.join(__dirname, "views"));
 
 // =========================================================
@@ -51,12 +50,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // BODY PARSERS
 // =========================================================
 
-app.use(
-  express.urlencoded({
-    extended: true,
-  }),
-);
-
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // =========================================================
@@ -70,6 +64,9 @@ const destinationRoutes = require("./routes/destinationRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const countryRoutes = require("./routes/countryRoutes");
 const visasRoutes = require("./routes/visasRoutes");
+const eVisaRoutes = require("./routes/eVisaRoutes");
+const schengenRoutes = require("./routes/schengenRoutes");
+const newsRoutes = require("./routes/newsRoutes");
 
 // =========================================================
 // ADMIN ROUTES
@@ -80,7 +77,6 @@ const adminRoutes = require("./routes/adminRoutes");
 const adminEnquiryRoutes = require("./routes/adminEnquiryRoutes");
 const adminTeamRoutes = require("./routes/adminTeamRoutes");
 const adminAuthRoutes = require("./routes/adminAuthRoutes");
-const newsRoutes = require("./routes/newsRoutes");
 const adminNewsRoutes = require("./routes/adminNewsRoutes");
 
 // =========================================================
@@ -90,21 +86,25 @@ const adminNewsRoutes = require("./routes/adminNewsRoutes");
 const adminAuth = require("./middleware/adminAuth");
 
 // =========================================================
-// PUBLIC ROUTES
+// MOUNT PUBLIC ROUTES
 // =========================================================
 
-app.use("/", homeRoutes);
-
-app.use("/about", aboutRoutes);
-
-app.use("/services", serviceRoutes);
-
-app.use("/destinations", destinationRoutes);
-
-app.use("/contact", contactRoutes);
-
+// Main visa directory
 app.use("/visas", visasRoutes);
 
+// Dedicated Schengen countries page
+// URL: /visas/schengen
+app.use("/visas/schengen", schengenRoutes);
+
+// Existing e-Visa routes
+app.use("/visas/e-visa", eVisaRoutes);
+
+// Other public routes
+app.use("/", homeRoutes);
+app.use("/about", aboutRoutes);
+app.use("/services", serviceRoutes);
+app.use("/destinations", destinationRoutes);
+app.use("/contact", contactRoutes);
 app.use("/countries", countryRoutes);
 app.use("/news", newsRoutes);
 
@@ -120,11 +120,8 @@ app.use("/admin", adminAuthRoutes);
 // =========================================================
 
 app.use("/admin", adminAuth, adminRoutes);
-
 app.use("/admin", adminAuth, adminCountryRoutes);
-
 app.use("/admin", adminAuth, adminEnquiryRoutes);
-
 app.use("/admin", adminAuth, adminTeamRoutes);
 app.use("/admin", adminAuth, adminNewsRoutes);
 

@@ -121,6 +121,7 @@ function cleanVisaTypes(value) {
       (item) => item.name || item.slug || item.description || item.purpose,
     );
 }
+
 /* =========================================================
 FIELD TIMESTAMP HELPER
 ========================================================= */
@@ -133,6 +134,7 @@ function setFieldTimestamp(fieldUpdatedAt, fieldName, oldValue, newValue) {
     fieldUpdatedAt[fieldName] = new Date();
   }
 }
+
 /* =========================================================
 SHOW COUNTRIES MANAGEMENT PAGE
 ========================================================= */
@@ -146,7 +148,6 @@ exports.showCountries = async (req, res, next) => {
     });
   } catch (error) {
     console.error("Countries admin page error:", error);
-
     next(error);
   }
 };
@@ -179,8 +180,8 @@ UPDATE COUNTRY
 
 exports.updateCountry = async (req, res, next) => {
   try {
-    //console.log("Request body:", req.body);
-    //console.log("Uploaded PDF:", req.file);
+    // console.log("Request body:", req.body);
+    // console.log("Uploaded PDF:", req.file);
 
     if (!req.body || Object.keys(req.body).length === 0) {
       return res
@@ -197,17 +198,18 @@ exports.updateCountry = async (req, res, next) => {
     if (!country) {
       return res.status(404).send("Country not found");
     }
+
     /* =====================================================
-   FIELD TIMESTAMP OBJECT
-===================================================== */
+    FIELD TIMESTAMP OBJECT
+    ===================================================== */
 
     const fieldUpdatedAt = country.fieldUpdatedAt
       ? JSON.parse(JSON.stringify(country.fieldUpdatedAt))
       : {};
 
     /* =====================================================
-   BASIC INFORMATION
-===================================================== */
+    BASIC INFORMATION
+    ===================================================== */
 
     const newName = req.body.name || "";
     const newSlug = req.body.slug || oldSlug;
@@ -221,7 +223,6 @@ exports.updateCountry = async (req, res, next) => {
     const newHeroBadge = req.body.heroBadge || "";
 
     setFieldTimestamp(fieldUpdatedAt, "name", country.name, newName);
-
     setFieldTimestamp(fieldUpdatedAt, "slug", country.slug, newSlug);
 
     setFieldTimestamp(
@@ -232,7 +233,6 @@ exports.updateCountry = async (req, res, next) => {
     );
 
     setFieldTimestamp(fieldUpdatedAt, "flag", country.flag, newFlag);
-
     setFieldTimestamp(fieldUpdatedAt, "image", country.image, newImage);
 
     setFieldTimestamp(
@@ -282,8 +282,8 @@ exports.updateCountry = async (req, res, next) => {
     country.heroBadge = newHeroBadge;
 
     /* =====================================================
-   VISA TYPES
-===================================================== */
+    VISA TYPES
+    ===================================================== */
 
     const newVisaTypes = cleanVisaTypes(req.body.visaTypes);
 
@@ -294,8 +294,8 @@ exports.updateCountry = async (req, res, next) => {
     country.visaTypes = newVisaTypes;
 
     /* =====================================================
-   REQUIREMENTS
-===================================================== */
+    REQUIREMENTS
+    ===================================================== */
 
     const newRequirements = cleanContentSections(req.body.requirements);
 
@@ -308,8 +308,8 @@ exports.updateCountry = async (req, res, next) => {
     country.requirements = newRequirements;
 
     /* =====================================================
-   ELIGIBILITY
-===================================================== */
+    ELIGIBILITY
+    ===================================================== */
 
     const newEligibility = cleanContentSections(req.body.eligibility);
 
@@ -322,8 +322,8 @@ exports.updateCountry = async (req, res, next) => {
     country.eligibility = newEligibility;
 
     /* =====================================================
-   APPLICATION PROCESS
-===================================================== */
+    APPLICATION PROCESS
+    ===================================================== */
 
     const newApplicationProcess = cleanProcessSteps(
       req.body.applicationProcess,
@@ -339,8 +339,8 @@ exports.updateCountry = async (req, res, next) => {
     country.applicationProcess = newApplicationProcess;
 
     /* =====================================================
-   FEES
-===================================================== */
+    FEES
+    ===================================================== */
 
     const oldFees = country.fees
       ? JSON.parse(JSON.stringify(country.fees))
@@ -348,15 +348,10 @@ exports.updateCountry = async (req, res, next) => {
 
     const newFees = {
       governmentFee: req.body.fees?.governmentFee || "",
-
       serviceFee: req.body.fees?.serviceFee || "",
-
       otherCharges: req.body.fees?.otherCharges || "",
-
       totalEstimatedFee: req.body.fees?.totalEstimatedFee || "",
-
       currency: req.body.fees?.currency || "",
-
       notes: toArray(req.body.fees?.notes),
     };
 
@@ -409,8 +404,8 @@ exports.updateCountry = async (req, res, next) => {
     country.fees = newFees;
 
     /* =====================================================
-   PROCESSING
-===================================================== */
+    PROCESSING
+    ===================================================== */
 
     const oldProcessing = country.processing
       ? JSON.parse(JSON.stringify(country.processing))
@@ -418,13 +413,9 @@ exports.updateCountry = async (req, res, next) => {
 
     const newProcessing = {
       normalProcessing: req.body.processing?.normalProcessing || "",
-
       expressProcessing: req.body.processing?.expressProcessing || "",
-
       urgentProcessing: req.body.processing?.urgentProcessing || "",
-
       possibleDelays: toArray(req.body.processing?.possibleDelays),
-
       processingNotes: toArray(req.body.processing?.processingNotes),
     };
 
@@ -470,8 +461,8 @@ exports.updateCountry = async (req, res, next) => {
     country.processing = newProcessing;
 
     /* =====================================================
-   TRAVEL INFORMATION
-===================================================== */
+    TRAVEL INFORMATION
+    ===================================================== */
 
     const oldTravelInfo = country.travelInfo
       ? JSON.parse(JSON.stringify(country.travelInfo))
@@ -479,21 +470,13 @@ exports.updateCountry = async (req, res, next) => {
 
     const newTravelInfo = {
       bestTimeToVisit: req.body.travelInfo?.bestTimeToVisit || "",
-
       currency: req.body.travelInfo?.currency || "",
-
       language: req.body.travelInfo?.language || "",
-
       timezone: req.body.travelInfo?.timezone || "",
-
       capital: req.body.travelInfo?.capital || "",
-
       majorCities: toArray(req.body.travelInfo?.majorCities),
-
       flightDuration: req.body.travelInfo?.flightDuration || "",
-
       timeDifference: req.body.travelInfo?.timeDifference || "",
-
       airportInformation: req.body.travelInfo?.airportInformation || "",
     };
 
@@ -567,8 +550,8 @@ exports.updateCountry = async (req, res, next) => {
     country.travelInfo = newTravelInfo;
 
     /* =====================================================
-   TRAVEL TIPS
-===================================================== */
+    TRAVEL TIPS
+    ===================================================== */
 
     const newTravelTips = toArray(req.body.travelTips);
 
@@ -582,8 +565,8 @@ exports.updateCountry = async (req, res, next) => {
     country.travelTips = newTravelTips;
 
     /* =====================================================
-   IMPORTANT NOTES
-===================================================== */
+    IMPORTANT NOTES
+    ===================================================== */
 
     const newImportantNotes = toArray(req.body.importantNotes);
 
@@ -597,8 +580,8 @@ exports.updateCountry = async (req, res, next) => {
     country.importantNotes = newImportantNotes;
 
     /* =====================================================
-   FAQS
-===================================================== */
+    FAQS
+    ===================================================== */
 
     const newFaqs = cleanFaqs(req.body.faqs);
 
@@ -607,8 +590,25 @@ exports.updateCountry = async (req, res, next) => {
     country.faqs = newFaqs;
 
     /* =====================================================
-   ACTIVE STATUS
-===================================================== */
+    SCHENGEN AREA STATUS
+    ===================================================== */
+
+    // Checked checkbox submits "true".
+    // Unchecked checkbox is omitted from req.body, so it becomes false.
+    const newIsSchengen = toBoolean(req.body.isSchengen);
+
+    setFieldTimestamp(
+      fieldUpdatedAt,
+      "isSchengen",
+      country.isSchengen,
+      newIsSchengen,
+    );
+
+    country.isSchengen = newIsSchengen;
+
+    /* =====================================================
+    ACTIVE STATUS
+    ===================================================== */
 
     const newIsActive = toBoolean(req.body.isActive);
 
@@ -622,10 +622,10 @@ exports.updateCountry = async (req, res, next) => {
     country.isActive = newIsActive;
 
     /* =====================================================
-       APPLICATION FORM PDF
+    APPLICATION FORM PDF
     ===================================================== */
 
-    // Replace the existing PDF only when a new PDF is uploaded.
+    // Replace existing PDF only when a new PDF is uploaded.
     // If no file is uploaded, preserve the existing PDF.
     if (req.file) {
       country.applicationForm = {
@@ -634,11 +634,8 @@ exports.updateCountry = async (req, res, next) => {
           .trim(),
 
         contentType: "application/pdf",
-
         data: req.file.buffer,
-
         size: req.file.size,
-
         uploadedAt: new Date(),
       };
 
@@ -649,37 +646,34 @@ exports.updateCountry = async (req, res, next) => {
       fieldUpdatedAt.applicationForm.uploadedAt = new Date();
     }
 
-    /* =========================================
-   DELETE COUNTRY APPLICATION FORM PDF
-========================================= */
-
     /* =====================================================
-   SAVE FIELD TIMESTAMPS
-===================================================== */
+    SAVE FIELD TIMESTAMPS
+    ===================================================== */
 
     country.fieldUpdatedAt = fieldUpdatedAt;
 
     /* =====================================================
-   SAVE
-===================================================== */
+    SAVE COUNTRY
+    ===================================================== */
 
     await country.save();
 
     /* =====================================================
-   REDIRECT
-===================================================== */
+    REDIRECT
+    ===================================================== */
 
-    res.redirect("/admin/countries/" + country.slug + "/edit?updated=true");
+    return res.redirect(
+      "/admin/countries/" + country.slug + "/edit?updated=true",
+    );
   } catch (error) {
     console.error("Country update error:", error);
-
     next(error);
   }
 };
 
-/* =========================================
-   DELETE COUNTRY APPLICATION FORM PDF
-========================================= */
+/* =========================================================
+DELETE COUNTRY APPLICATION FORM PDF
+========================================================= */
 
 exports.deleteCountryApplicationForm = async (req, res) => {
   try {

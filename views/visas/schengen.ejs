@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schengen Countries & Visa Requirements | VisaMaster</title>
+  <meta name="description" content="Explore Schengen Area countries and review the visa requirements available on VisaMaster." />
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/visas.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+</head>
+<body>
+  <%- include("../partials/navbar", { currentPage: "schengen" }) %>
+
+  <main class="vm-directory-page">
+    <section class="vm-directory-section" id="schengen-directory">
+      <div class="container">
+        <div class="vm-directory-section-heading">
+          <div>
+            <span class="vm-directory-section-number">01 / SCHENGEN AREA</span>
+            <h2>Explore <span>Schengen countries.</span></h2>
+          </div>
+          <p>Browse the countries marked as part of the Schengen Area by the VisaMaster team. Select a country to review the available visa requirements.</p>
+        </div>
+
+        <div class="vm-directory-results-head">
+          <div>
+            <span class="vm-directory-results-kicker">SCHENGEN DESTINATIONS</span>
+            <h3>Schengen <span>countries</span></h3>
+            <p>Choose a country to view its available requirements.</p>
+          </div>
+          <div class="vm-directory-result-count">
+            <strong><%= (countries || []).length %></strong>
+            <span><%= (countries || []).length === 1 ? "country listed" : "countries listed" %></span>
+          </div>
+        </div>
+
+        <% if (loadError) { %>
+          <div class="vm-directory-message" role="status">
+            <strong>Schengen country list is temporarily unavailable.</strong>
+            <span>Please refresh the page or contact VisaMaster for assistance.</span>
+          </div>
+        <% } else if (!(countries || []).length) { %>
+          <div class="vm-directory-no-results">
+            <span class="vm-no-results-icon" aria-hidden="true">⌕</span>
+            <h3>No Schengen countries have been listed yet</h3>
+            <p>Countries will appear here after the VisaMaster team marks them as part of the Schengen Area in the admin panel.</p>
+            <a class="vm-directory-btn vm-btn-primary" href="/contact">Ask VisaMaster <span aria-hidden="true">→</span></a>
+          </div>
+        <% } else { %>
+          <div class="vm-country-grid" id="vmSchengenCountryGrid">
+            <% countries.forEach((country) => { %>
+              <% const flagValue = String(country.flag || "").trim(); %>
+              <% const flagIsImage = /^https?:\/\//i.test(flagValue) || flagValue.startsWith("/"); %>
+              <article class="vm-visa-country-card">
+                <div class="vm-country-card-main">
+                  <span class="vm-country-flag" aria-hidden="true">
+                    <% if (flagIsImage) { %>
+                      <img src="<%= flagValue %>" alt="" loading="lazy" />
+                    <% } else { %>
+                      <%= flagValue || "🌍" %>
+                    <% } %>
+                  </span>
+                  <div class="vm-country-card-name">
+                    <h4><%= country.name %></h4>
+                    <span>Schengen visa requirements</span>
+                  </div>
+                  <span class="vm-country-card-arrow" aria-hidden="true">↗</span>
+                </div>
+                <a class="vm-country-requirements-link" href="/countries/<%= country.slug %>/requirements">
+                  See Requirements <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            <% }) %>
+          </div>
+        <% } %>
+
+        <p class="vm-directory-disclaimer"><span aria-hidden="true">ⓘ</span> Visa rules and entry conditions can change and may depend on your nationality and travel purpose. Confirm current requirements before applying.</p>
+      </div>
+    </section>
+
+    <section class="vm-directory-cta">
+      <div class="container">
+        <div class="vm-directory-cta-box">
+          <div class="vm-cta-decoration" aria-hidden="true">✈</div>
+          <span class="vm-directory-section-number vm-light-number">NEED HELP?</span>
+          <h2>Planning a trip to <span>Europe?</span></h2>
+          <p>Contact VisaMaster for assistance understanding the next steps for your destination.</p>
+          <a href="/contact" class="vm-directory-btn vm-btn-yellow">Contact our team <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+  <script src="/js/main.js"></script>
+</body>
+</html>

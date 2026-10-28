@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>E-Visa Countries | VisaMaster</title>
+  <meta
+    name="description"
+    content="Explore E-Visa destinations and check visa requirements with VisaMaster."
+  >
+
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/e-visa.css">
+</head>
+
+<body>
+
+  <%- include("../partials/navbar") %>
+
+  <main class="evisa-page">
+
+    <!-- HERO -->
+    <section class="evisa-hero">
+      <div class="evisa-container">
+
+        <span class="evisa-eyebrow">
+          ✈ SIMPLE • DIGITAL • CONVENIENT
+        </span>
+
+        <h1>
+          Explore the World with
+          <span>E-Visa</span>
+        </h1>
+
+        <p>
+          Discover destinations offering electronic visas.
+          Find your destination and check its visa requirements
+          before planning your journey.
+        </p>
+
+        <div class="evisa-hero-points">
+          <span>✓ Digital Visa Options</span>
+          <span>✓ Country-wise Requirements</span>
+          <span>✓ Easy to Explore</span>
+        </div>
+
+        <!-- COUNTRY SEARCH -->
+        <div class="evisa-search-wrap">
+          <span class="evisa-search-icon" aria-hidden="true">⌕</span>
+
+          <input
+            type="search"
+            id="evisaCountrySearch"
+            placeholder="Search country name..."
+            aria-label="Search E-Visa countries"
+            autocomplete="off"
+          >
+
+          <button type="button" id="clearEvisaSearch" hidden>
+            Clear
+          </button>
+        </div>
+
+        <!-- RESULT COUNT -->
+        <div class="evisa-result-count" aria-live="polite">
+          <strong id="evisaCount"><%= countries.length %></strong>
+
+          <span id="evisaCountLabel">
+            <%= countries.length === 1
+              ? "destination available"
+              : "destinations available" %>
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- COUNTRY DIRECTORY -->
+    <section class="evisa-directory">
+      <div class="evisa-container">
+
+        <div class="evisa-section-heading">
+          <div>
+            <span class="evisa-section-kicker">YOUR NEXT DESTINATION</span>
+
+            <h2>E-Visa Destinations</h2>
+
+            <p>
+              Choose a country to view its available visa requirements.
+            </p>
+          </div>
+        </div>
+
+
+        <% if (countries.length > 0) { %>
+
+          <div class="evisa-country-grid" id="evisaCountryGrid">
+
+            <% countries.forEach((country) => { %>
+
+              <article
+                class="evisa-country-card"
+                data-country-name="<%= country.name.toLowerCase() %>"
+              >
+
+                <div class="evisa-card-top">
+
+                  <span class="evisa-card-flag">
+                    <%= country.flag || "🌍" %>
+                  </span>
+
+                  <span class="evisa-badge">
+                    <span class="evisa-badge-dot"></span>
+                    E-Visa Available
+                  </span>
+
+                </div>
+
+
+                <div class="evisa-card-content">
+
+                  <h3><%= country.name %></h3>
+
+                  <p>
+                    Explore electronic visa options and document requirements
+                    for <%= country.name %>.
+                  </p>
+
+
+                  <div class="evisa-type-info">
+                    <span>✈</span>
+
+                    <span>
+                      <%= Array.isArray(country.eVisaTypes)
+                        ? country.eVisaTypes.length
+                        : 0 %>
+
+                      <%= Array.isArray(country.eVisaTypes) &&
+                          country.eVisaTypes.length === 1
+                        ? "E-Visa option"
+                        : "E-Visa options" %>
+                    </span>
+                  </div>
+
+
+                 <a
+  class="evisa-requirements-btn"
+  href="/countries/<%= encodeURIComponent(country.slug) %>/requirements?visa=<%= encodeURIComponent(
+    (country.visaTypes || []).find(
+      (visa) =>
+        visa.isActive !== false &&
+        visa.slug &&
+        Array.isArray(visa.categories) &&
+        visa.categories.includes('e-visa')
+    )?.slug || 'e-visa'
+  ) %>"
+>
+  See Requirements
+  <span aria-hidden="true">→</span>
+</a>
+
+                </div>
+
+              </article>
+
+            <% }) %>
+
+          </div>
+
+
+          <!-- NO SEARCH RESULTS -->
+          <div class="evisa-no-results" id="evisaNoResults" hidden>
+
+            <span>🔎</span>
+
+            <h3>No countries found</h3>
+
+            <p>Try another country name.</p>
+
+          </div>
+
+        <% } else { %>
+
+          <!-- EMPTY STATE -->
+          <div class="evisa-empty-state">
+
+            <span>🌍</span>
+
+            <h3>E-Visa destinations coming soon</h3>
+
+            <p>
+              No active countries have been assigned to the E-Visa category yet.
+              Please check back later.
+            </p>
+
+          </div>
+
+        <% } %>
+
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- FOOTER -->
+  <%- include("../partials/footer") %>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="/js/e-visa.js" defer></script>
+  <script src="/js/main.js" defer></script>
+
+</body>
+</html>
