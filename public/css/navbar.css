@@ -366,3 +366,559 @@ Clean + Stable + Responsive
     padding: 10px;
   }
 }
+
+/* =========================================
+   VISA INFO DROPDOWN
+========================================= */
+
+.nav-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-dropdown-main {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-dropdown-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+/* Arrow button */
+
+.nav-dropdown-toggle {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 50%;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.nav-dropdown-toggle:hover {
+  background: rgba(201, 155, 59, 0.12);
+  border-color: rgba(201, 155, 59, 0.35);
+}
+
+/* Arrow animation */
+
+.nav-dropdown-arrow {
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.nav-dropdown.is-open .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown menu */
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 50%;
+
+  width: 285px;
+  padding: 9px;
+
+  background: #fffdf8;
+  border: 1px solid #e9e1d1;
+  border-radius: 15px;
+
+  box-shadow: 0 14px 35px rgba(16, 44, 78, 0.15);
+
+  transform: translateX(-50%);
+  z-index: 1500;
+
+  animation: visaDropdownShow 0.2s ease;
+}
+
+/* Always respect hidden attribute */
+
+.nav-dropdown-menu[hidden] {
+  display: none !important;
+}
+
+@keyframes visaDropdownShow {
+  from {
+    opacity: 0;
+    margin-top: 5px;
+  }
+
+  to {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+/* Dropdown links */
+
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 12px;
+  min-height: 65px;
+
+  color: #102c4e;
+  text-decoration: none;
+
+  border-radius: 11px;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-dropdown-item + .nav-dropdown-item {
+  margin-top: 4px;
+}
+
+.nav-dropdown-item:hover {
+  background: #f5efdf;
+  transform: translateX(3px);
+}
+
+/* Dropdown icons */
+
+.nav-dropdown-item-icon {
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  background: #edf2f7;
+  border-radius: 11px;
+
+  font-size: 19px;
+}
+
+/* Dropdown text */
+
+.nav-dropdown-item-text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-dropdown-item-text strong {
+  color: #102c4e;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.nav-dropdown-item-text small {
+  color: #788394;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.nav-dropdown-item-arrow {
+  color: #c99b3b;
+  font-size: 20px;
+
+  transition: transform 0.2s ease;
+}
+
+.nav-dropdown-item:hover .nav-dropdown-item-arrow {
+  transform: translateX(3px);
+}
+
+/* Active dropdown links */
+
+.nav-dropdown-item.active {
+  background: #f5efdf;
+}
+
+/* =========================================
+   MOBILE NAVIGATION
+========================================= */
+
+.mobile-menu-button {
+  display: none;
+
+  width: 42px;
+  height: 42px;
+  padding: 0;
+
+  align-items: center;
+  justify-content: center;
+
+  background: transparent;
+  border: 1px solid #e5e1d8;
+  border-radius: 10px;
+
+  color: #102c4e;
+  font-size: 25px;
+
+  cursor: pointer;
+}
+
+.mobile-nav-button {
+  display: none;
+}
+
+/* Tablet and mobile */
+
+@media (max-width: 900px) {
+  .site-header .container.navbar {
+    position: relative;
+  }
+
+  .mobile-menu-button {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+
+    padding: 16px;
+
+    background: #fffdf8;
+    border: 1px solid #e9e1d1;
+    border-radius: 0 0 16px 16px;
+
+    box-shadow: 0 15px 30px rgba(16, 44, 78, 0.12);
+
+    z-index: 1400;
+  }
+
+  .nav-links.is-active {
+    display: flex;
+  }
+
+  .nav-links > a:not(.mobile-nav-button) {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 8px 10px;
+  }
+
+  .nav-dropdown {
+    display: block;
+    width: 100%;
+  }
+
+  .nav-dropdown-main {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 10px;
+    border-radius: 9px;
+  }
+
+  .nav-dropdown-main:hover {
+    background: #f5efdf;
+  }
+
+  .nav-dropdown-link {
+    flex: 1;
+    min-height: 44px;
+  }
+
+  .nav-dropdown-toggle {
+    width: 36px;
+    height: 36px;
+  }
+
+  .nav-dropdown-menu {
+    position: static;
+    width: 100%;
+
+    margin-top: 5px;
+    padding: 7px;
+
+    transform: none;
+    animation: none;
+
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .nav-dropdown-item {
+    min-height: 60px;
+  }
+
+  .mobile-nav-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    align-self: flex-start;
+    margin-top: 8px;
+    padding: 12px 18px;
+
+    color: #fffdf8;
+    background: #102c4e;
+    border-radius: 10px;
+
+    text-decoration: none;
+    font-weight: 700;
+  }
+
+  .mobile-nav-button span {
+    color: #f0c66a;
+  }
+
+  /* Desktop CTA hidden on mobile */
+  .nav-button {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-dropdown-menu {
+    padding: 5px;
+  }
+
+  .nav-dropdown-item {
+    gap: 8px;
+    padding: 9px;
+  }
+
+  .nav-dropdown-item-text small {
+    font-size: 10px;
+  }
+}
+
+/* =========================================
+   LARGER VISA INFO DROPDOWN
+========================================= */
+
+/* Increase space around Visa-info and arrow */
+.nav-dropdown-main {
+  gap: 9px;
+}
+
+/* Make arrow button bigger */
+.nav-dropdown-toggle {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+}
+
+/* Increase arrow size */
+.nav-dropdown-arrow {
+  width: 18px;
+  height: 18px;
+  stroke-width: 2.8;
+}
+
+/* Make dropdown panel larger */
+.nav-dropdown-menu {
+  width: 320px;
+  padding: 12px;
+  border-radius: 17px;
+}
+
+/* Make each dropdown option larger */
+.nav-dropdown-item {
+  min-height: 76px;
+  padding: 14px;
+  gap: 14px;
+  border-radius: 12px;
+}
+
+/* Larger icons */
+.nav-dropdown-item-icon {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  font-size: 22px;
+  border-radius: 12px;
+}
+
+/* Larger option title */
+.nav-dropdown-item-text strong {
+  font-size: 15px;
+}
+
+/* Larger description */
+.nav-dropdown-item-text small {
+  font-size: 12px;
+}
+
+/* Larger right arrow */
+.nav-dropdown-item-arrow {
+  font-size: 23px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 900px) {
+  .nav-dropdown-main {
+    gap: 10px;
+  }
+
+  .nav-dropdown-toggle {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+  }
+
+  .nav-dropdown-arrow {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-dropdown-menu {
+    width: 100%;
+    padding: 10px;
+  }
+
+  .nav-dropdown-item {
+    min-height: 72px;
+    padding: 12px;
+  }
+}
+
+/* MOBILE VISA-INFO DROPDOWN CLICK AREA */
+@media (max-width: 900px) {
+  #visaInfoDropdown {
+    width: 100%;
+  }
+
+  #visaInfoDropdown .nav-dropdown-main {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 40px;
+  }
+
+  /* Visa-info text: normal navigation */
+  #visaInfoDropdown .nav-dropdown-link {
+    position: relative;
+    z-index: 3;
+    flex: 1;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Right 35% clickable area for dropdown */
+  #visaInfoDropdown .nav-dropdown-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35%;
+    height: 100%;
+    min-width: 0;
+    padding: 0 18px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    z-index: 4;
+    cursor: pointer;
+  }
+
+  #visaInfoDropdown .nav-dropdown-arrow {
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+  }
+
+  #visaInfoDropdown .nav-dropdown-toggle:active {
+    background: rgba(212, 175, 55, 0.15);
+  }
+
+  /* Dropdown submenu */
+  #visaInfoDropdown .nav-dropdown-menu:not([hidden]) {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+/* MOBILE VISA-INFO: SUBTLE PARTITION */
+@media (max-width: 900px) {
+  #visaInfoDropdown .nav-dropdown-main {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #f7f2e4;
+  }
+
+  /* Arrow click area - right 35% */
+  #visaInfoDropdown .nav-dropdown-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 35%;
+    height: 100%;
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    padding: 0 18px;
+    border: none;
+    border-radius: 0 10px 10px 0;
+
+    /* Slight colour difference */
+    background: #f1e8cf;
+    cursor: pointer;
+    z-index: 4;
+  }
+
+  /* Thin partition line */
+  #visaInfoDropdown .nav-dropdown-toggle::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 22%;
+    height: 56%;
+    width: 1px;
+    background: #dfd0a9;
+  }
+
+  /* Arrow styling */
+  #visaInfoDropdown .nav-dropdown-arrow {
+    width: 21px;
+    height: 21px;
+    pointer-events: none;
+    color: #17365b;
+  }
+
+  /* Subtle touch feedback */
+  #visaInfoDropdown .nav-dropdown-toggle:active {
+    background: #e9ddb9;
+  }
+}

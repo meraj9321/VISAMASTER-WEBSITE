@@ -1,5 +1,6 @@
 <header class="site-header">
   <div class="container navbar">
+    <!-- LOGO -->
     <a href="/" class="logo">
       <img
         src="/images/logo/visamaster-logo.png"
@@ -9,20 +10,98 @@
 
       <div class="logo-text">
         <div class="logo-name">Visa<span>Master</span></div>
-
         <div class="logo-tagline">WhoEver WhenEver Wherever</div>
       </div>
     </a>
 
-    <nav class="nav-links">
+    <!-- NAVIGATION -->
+    <nav class="nav-links" id="mainNavigation">
+      <!-- HOME -->
       <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">
         Home
       </a>
 
-      <a href="/visas" class="<%= currentPage === 'visas' ? 'active' : '' %>">
-        Visa-info
-      </a>
+      <!-- VISA INFO DROPDOWN -->
+      <div
+        class="nav-dropdown <%= ['visas', 'e-visa', 'schengen'].includes(currentPage) ? 'active' : '' %>"
+        id="visaInfoDropdown"
+      >
+        <div class="nav-dropdown-main">
+          <!-- Clicking text opens Visa Info page -->
+          <a
+            href="/visas"
+            class="nav-dropdown-link <%= currentPage === 'visas' ? 'active' : '' %>"
+          >
+            Visa-info
+          </a>
 
+          <!-- Clicking arrow only toggles dropdown -->
+          <button
+            class="nav-dropdown-toggle"
+            id="visaInfoDropdownToggle"
+            type="button"
+            aria-label="Open Visa Info submenu"
+            aria-expanded="false"
+            aria-controls="visaInfoSubmenu"
+          >
+            <svg
+              class="nav-dropdown-arrow"
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="m6 9 6 6 6-6"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- DROPDOWN ITEMS -->
+        <div
+          class="nav-dropdown-menu"
+          id="visaInfoSubmenu"
+          aria-labelledby="visaInfoDropdownToggle"
+          hidden
+        >
+          <!-- E-VISA -->
+          <a
+            href="/visas/e-visa"
+            class="nav-dropdown-item <%= currentPage === 'e-visa' ? 'active' : '' %>"
+          >
+            <span class="nav-dropdown-item-icon">✈</span>
+
+            <span class="nav-dropdown-item-text">
+              <strong>E-Visa</strong>
+              <small>Explore electronic visas</small>
+            </span>
+
+            <span class="nav-dropdown-item-arrow">→</span>
+          </a>
+
+          <!-- SCHENGEN VISA -->
+          <a
+            href="/visas/schengen"
+            class="nav-dropdown-item <%= currentPage === 'schengen' ? 'active' : '' %>"
+          >
+            <span class="nav-dropdown-item-icon">🌍</span>
+
+            <span class="nav-dropdown-item-text">
+              <strong>Schengen-Visa</strong>
+              <small>Explore European travel visas</small>
+            </span>
+
+            <span class="nav-dropdown-item-arrow">→</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- SERVICES -->
       <a
         href="/services"
         class="<%= currentPage === 'services' ? 'active' : '' %>"
@@ -30,6 +109,7 @@
         Our-Services
       </a>
 
+      <!-- DESTINATIONS -->
       <a
         href="/destinations"
         class="<%= currentPage === 'destinations' ? 'active' : '' %>"
@@ -37,10 +117,12 @@
         See-Requirements
       </a>
 
+      <!-- NEWS -->
       <a href="/news" class="<%= currentPage === 'news' ? 'active' : '' %>">
         Latest News
       </a>
 
+      <!-- CONTACT -->
       <a
         href="/contact"
         class="<%= currentPage === 'contact' ? 'active' : '' %>"
@@ -48,24 +130,110 @@
         Contact
       </a>
 
+      <!-- MOBILE GET STARTED -->
       <a href="/contact" class="mobile-nav-button">
         Get Started
         <span>→</span>
       </a>
     </nav>
 
+    <!-- DESKTOP GET STARTED -->
     <a href="/contact" class="nav-button">
       Get Started
       <span>→</span>
     </a>
 
+    <!-- MOBILE MENU BUTTON -->
     <button
       class="mobile-menu-button"
+      id="mobileMenuButton"
       type="button"
       aria-label="Open navigation menu"
       aria-expanded="false"
+      aria-controls="mainNavigation"
     >
       ☰
     </button>
   </div>
 </header>
+
+<!-- NAVBAR JAVASCRIPT -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dropdown = document.getElementById("visaInfoDropdown");
+    const dropdownToggle = document.getElementById("visaInfoDropdownToggle");
+    const submenu = document.getElementById("visaInfoSubmenu");
+
+    const mobileMenuButton = document.getElementById("mobileMenuButton");
+    const mainNavigation = document.getElementById("mainNavigation");
+
+    // VISA INFO DROPDOWN
+    if (dropdown && dropdownToggle && submenu) {
+      dropdownToggle.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const isOpen = !submenu.hidden;
+
+        submenu.hidden = isOpen;
+
+        dropdownToggle.setAttribute("aria-expanded", String(!isOpen));
+
+        dropdownToggle.setAttribute(
+          "aria-label",
+          isOpen ? "Open Visa Info submenu" : "Close Visa Info submenu",
+        );
+
+        dropdown.classList.toggle("is-open", !isOpen);
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function (event) {
+        if (!dropdown.contains(event.target)) {
+          submenu.hidden = true;
+
+          dropdownToggle.setAttribute("aria-expanded", "false");
+          dropdownToggle.setAttribute("aria-label", "Open Visa Info submenu");
+
+          dropdown.classList.remove("is-open");
+        }
+      });
+
+      // Close dropdown using Escape key
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          submenu.hidden = true;
+
+          dropdownToggle.setAttribute("aria-expanded", "false");
+          dropdownToggle.setAttribute("aria-label", "Open Visa Info submenu");
+
+          dropdown.classList.remove("is-open");
+        }
+      });
+    }
+
+    // MOBILE NAVIGATION
+    if (mobileMenuButton && mainNavigation) {
+      mobileMenuButton.addEventListener("click", function () {
+        const isOpen = mainNavigation.classList.toggle("is-active");
+
+        mobileMenuButton.setAttribute("aria-expanded", String(isOpen));
+
+        mobileMenuButton.setAttribute(
+          "aria-label",
+          isOpen ? "Close navigation menu" : "Open navigation menu",
+        );
+      });
+
+      // Close mobile menu after clicking a navigation link
+      mainNavigation.querySelectorAll("a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          mainNavigation.classList.remove("is-active");
+
+          mobileMenuButton.setAttribute("aria-expanded", "false");
+          mobileMenuButton.setAttribute("aria-label", "Open navigation menu");
+        });
+      });
+    }
+  });
+</script>
