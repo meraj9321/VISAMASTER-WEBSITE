@@ -922,3 +922,186 @@ Clean + Stable + Responsive
     background: #e9ddb9;
   }
 }
+/* VISA INFO MAIN BUTTON */
+.nav-dropdown-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* VISA INFO ARROW */
+.nav-dropdown-main .nav-dropdown-arrow {
+  flex-shrink: 0;
+  width: 12px;
+  height: 12px;
+  transition: transform 0.2s ease;
+}
+
+/* ROTATE ARROW WHEN OPEN */
+.nav-dropdown.is-open .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* SMALLER GAP BETWEEN DROPDOWN TEXT AND RIGHT ARROW */
+.nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-dropdown-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.nav-dropdown-item-arrow {
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+/* ACCESSIBILITY */
+.nav-dropdown-main:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+  border-radius: 3px;
+}
+/* =========================================
+   VISA INFO — MATCH OTHER NAV LINKS
+========================================= */
+
+.site-header .nav-links > #visaInfoDropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Visa-info clickable button */
+.site-header #visaInfoDropdown .nav-dropdown-main {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 5px;
+
+  min-height: 0;
+  width: auto;
+  padding: 8px 0;
+  margin: 0;
+
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  color: #102d50;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+
+  transition: color 0.25s ease;
+}
+
+/* Hover like other navbar links */
+.site-header #visaInfoDropdown .nav-dropdown-main:hover {
+  color: #f0a72d;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+
+/* Active page styling */
+.site-header #visaInfoDropdown.active .nav-dropdown-main {
+  color: #f0a72d;
+}
+
+/* Small arrow beside Visa-info */
+.site-header #visaInfoDropdown .nav-dropdown-arrow {
+  display: block;
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  margin: 0;
+  color: currentColor;
+  transition: transform 0.25s ease;
+}
+
+/* Rotate arrow on open */
+.site-header #visaInfoDropdown.is-open .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Keep dropdown item text and arrow closer */
+.site-header #visaInfoDropdown .nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-item-arrow {
+  flex-shrink: 0;
+  margin-left: 0;
+}
+
+/* =========================================
+   MOBILE VISA INFO BUTTON
+========================================= */
+
+@media (max-width: 900px) {
+  .site-header #visaInfoDropdown {
+    display: block;
+    width: 100%;
+  }
+
+  .site-header #visaInfoDropdown .nav-dropdown-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    min-height: 44px;
+    padding: 0 12px;
+
+    border-radius: 9px;
+    color: #102d50;
+    background: transparent;
+  }
+
+  .site-header #visaInfoDropdown .nav-dropdown-main:hover {
+    background: #fff6d9;
+  }
+
+  .site-header #visaInfoDropdown.active .nav-dropdown-main {
+    color: #f0a72d;
+  }
+
+  .site-header #visaInfoDropdown .nav-dropdown-menu:not([hidden]) {
+    display: block;
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+    transform: none;
+    box-sizing: border-box;
+  }
+}

@@ -2,7 +2,7 @@
    VisaMaster Visa Information Directory
    ---------------------------------------------------------
    Features:
-   1. Switch visa categories without page refresh
+   1. All Visas tab displays all countries with active visas
    2. Filter countries according to selected visa category
    3. Search countries on the client side only
    4. Update country count dynamically
@@ -10,6 +10,7 @@
    6. Clear country search
    7. Keyboard navigation for visa category tabs
    8. Display no-results message when nothing matches
+   9. Sticker Visa removed
    ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -29,11 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const noResults = document.getElementById("vmVisaNoResults");
 
-  // Country search elements
   const countrySearch = document.getElementById("vmCountrySearch");
   const clearSearch = document.getElementById("vmClearCountrySearch");
 
-  // Stop if visa category tabs do not exist
   if (!tabs.length) return;
 
   // -------------------------------------------------------
@@ -41,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
   // -------------------------------------------------------
 
   const categoryDescriptions = {
+    "all-visas":
+      "Explore all countries with active visa options listed by VisaMaster.",
+
     "e-visa":
       "Explore destinations where an electronic visa option is listed by VisaMaster.",
 
@@ -55,9 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     "stamping-visa":
       "Find visa options requiring passport submission or visa stamping, where configured.",
-
-    "sticker-visa":
-      "Explore sticker visa options and their country-specific requirements.",
   };
 
   // -------------------------------------------------------
@@ -66,7 +65,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function readRequirementsMap(card) {
     try {
-      return JSON.parse(card.dataset.requirementsMap || "{}");
+      const map = JSON.parse(card.dataset.requirementsMap || "{}");
+
+      return map && typeof map === "object" && !Array.isArray(map) ? map : {};
     } catch (error) {
       console.error("Invalid VisaMaster requirements map:", error);
       return {};
@@ -82,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------
-  // SELECT VISA CATEGORY AND FILTER COUNTRIES
+  // SELECT CATEGORY AND FILTER COUNTRIES
   // -------------------------------------------------------
 
   function selectCategory(tab, focusTab = false) {
@@ -100,41 +101,43 @@ document.addEventListener("DOMContentLoaded", () => {
       const isActive = item === tab;
 
       item.classList.toggle("is-active", isActive);
-
       item.setAttribute("aria-selected", String(isActive));
-
       item.tabIndex = isActive ? 0 : -1;
     });
 
     // -----------------------------------------------------
-    // FILTER COUNTRIES
+    // FILTER COUNTRY CARDS
     // -----------------------------------------------------
 
     cards.forEach((card) => {
       const requirementsMap = readRequirementsMap(card);
 
-      // Check whether this country supports the selected category
-      const visaSlug = requirementsMap[categorySlug];
+      // All Visas: show countries with at least one visa option.
+      // Other tabs: show countries matching that category.
+      const available =
+        categorySlug === "all-visas"
+          ? Object.values(requirementsMap).some(
+              (visaSlug) => typeof visaSlug === "string" && visaSlug.length > 0,
+            )
+          : Boolean(requirementsMap[categorySlug]);
 
-      const available = Boolean(visaSlug);
-
-      // Get country name
       const countryName =
         card.querySelector("h4")?.textContent.trim().toLowerCase() || "";
 
-      // Check whether the country matches the search
       const matchesSearch = countryName.includes(searchTerm);
 
-      // Show country only when both conditions are satisfied
       const shouldShow = available && matchesSearch;
 
       card.hidden = !shouldShow;
 
       if (shouldShow) {
-        visibleCount += 1;
+        visibleCount++;
       }
 
-      // Update requirements link for the selected category
+      // ---------------------------------------------------
+      // UPDATE REQUIREMENTS LINK
+      // ---------------------------------------------------
+
       const link = card.querySelector("[data-requirements-link]");
 
       if (link && available) {
@@ -142,7 +145,20 @@ document.addEventListener("DOMContentLoaded", () => {
           card.dataset.countryUrl ||
           link.pathname.replace(/\/requirements.*$/, "");
 
-        link.href = `${countryPath}/requirements?visa=${encodeURIComponent(visaSlug)}`;
+        // For All Visas, prefer E-Visa if available.
+        // Otherwise, use the first available visa option.
+        const visaSlug =
+          categorySlug === "all-visas"
+            ? requirementsMap["e-visa"] ||
+              Object.values(requirementsMap).find(
+                (slug) => typeof slug === "string" && slug.length > 0,
+              )
+            : requirementsMap[categorySlug];
+
+        if (visaSlug) {
+          link.href =
+            `${countryPath}/requirements?visa=` + encodeURIComponent(visaSlug);
+        }
       }
     });
 
@@ -154,7 +170,6 @@ document.addEventListener("DOMContentLoaded", () => {
       title.replaceChildren(document.createTextNode(`${categoryName} `));
 
       const span = document.createElement("span");
-
       span.textContent = "destinations";
 
       title.append(span);
@@ -167,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (description) {
       description.textContent =
         categoryDescriptions[categorySlug] ||
-        "Select a country to view the matching visa requirements.";
+        "Select a country to view the available visa requirements.";
     }
 
     // -----------------------------------------------------
@@ -191,24 +206,25 @@ document.addEventListener("DOMContentLoaded", () => {
       noResults.hidden = visibleCount > 0;
     }
 
-    // Move keyboard focus to the selected tab when requested
+    // Update clear-search button visibility
+    if (clearSearch) {
+      clearSearch.hidden = !getSearchTerm();
+    }
+
+    // Move keyboard focus when requested
     if (focusTab) {
       tab.focus();
     }
   }
 
   // -------------------------------------------------------
-  // VISA CATEGORY TAB CLICK EVENTS
+  // VISA CATEGORY TAB EVENTS
   // -------------------------------------------------------
 
   tabs.forEach((tab, index) => {
     tab.addEventListener("click", () => {
       selectCategory(tab);
     });
-
-    // -----------------------------------------------------
-    // KEYBOARD NAVIGATION
-    // -----------------------------------------------------
 
     tab.addEventListener("keydown", (event) => {
       let nextIndex;
@@ -226,7 +242,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       event.preventDefault();
-
       selectCategory(tabs[nextIndex], true);
     });
   });
@@ -241,7 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
         tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ||
         tabs[0];
 
-      // Filter the currently selected category only
       selectCategory(activeTab);
     });
   }
@@ -261,7 +275,6 @@ document.addEventListener("DOMContentLoaded", () => {
         tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ||
         tabs[0];
 
-      // Restore all countries in the selected category
       selectCategory(activeTab);
     });
   }
@@ -270,8 +283,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // INITIALIZE DIRECTORY
   // -------------------------------------------------------
 
+  // Prefer All Visas as the initial category.
   const initialTab =
-    tabs.find((tab) => tab.getAttribute("aria-selected") === "true") || tabs[0];
+    tabs.find((tab) => tab.dataset.visaCategory === "all-visas") ||
+    tabs.find((tab) => tab.getAttribute("aria-selected") === "true") ||
+    tabs[0];
 
   selectCategory(initialTab);
 });

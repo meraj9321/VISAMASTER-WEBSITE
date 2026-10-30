@@ -1,130 +1,230 @@
-/* =========================================
-   E-VISA PAGE
-========================================= */
+/* =========================================================
+   VISAMASTER — E-VISA DESTINATIONS
+   Theme: Navy Blue | Golden Yellow | Warm Cream
+   Design: Modern | Premium | Clean | Responsive
+   Compatible with: Existing e-visa.ejs and e-visa.js
+   ========================================================= */
+
+/* =========================================================
+   1. THEME VARIABLES & BASE
+   ========================================================= */
+
+:root {
+  --evisa-navy: #102c4d;
+  --evisa-navy-light: #173b60;
+  --evisa-navy-dark: #0a2039;
+
+  --evisa-gold: #e6ad27;
+  --evisa-gold-light: #f8d879;
+  --evisa-gold-pale: #fff3cf;
+
+  --evisa-cream: #fcfaf5;
+  --evisa-white: #ffffff;
+
+  --evisa-text: #17304d;
+  --evisa-muted: #728096;
+
+  --evisa-border: #e5e8ed;
+  --evisa-shadow: 0 8px 28px rgba(16, 44, 77, 0.07);
+  --evisa-shadow-hover: 0 16px 38px rgba(16, 44, 77, 0.14);
+
+  --evisa-radius: 18px;
+  --evisa-transition: 0.25s ease;
+}
+
+.evisa-page,
+.evisa-page *,
+.evisa-page *::before,
+.evisa-page *::after {
+  box-sizing: border-box;
+}
 
 .evisa-page {
-  color: #17304f;
-  background: #fbfaf6;
+  width: 100%;
+  min-height: 60vh;
+  overflow: hidden;
+  background: var(--evisa-cream);
+  color: var(--evisa-text);
+  font-family: inherit;
+}
+
+.evisa-page button,
+.evisa-page input {
+  font: inherit;
 }
 
 .evisa-container {
-  width: min(1180px, calc(100% - 40px));
+  width: min(1120px, calc(100% - 48px));
   margin-inline: auto;
 }
 
-/* HERO */
+/* =========================================================
+   2. COMPACT NAVY HERO
+   ========================================================= */
 
 .evisa-hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  padding: 76px 0 65px;
-  color: #fff;
-  text-align: center;
+  padding: 43px 0 30px;
   background:
+    radial-gradient(circle at 8% 0%, rgba(230, 173, 39, 0.09), transparent 25%),
     radial-gradient(
-      circle at 12% 15%,
-      rgba(218, 180, 78, 0.16),
+      circle at 95% 100%,
+      rgba(255, 255, 255, 0.07),
       transparent 28%
     ),
-    radial-gradient(
-      circle at 88% 80%,
-      rgba(218, 180, 78, 0.13),
-      transparent 30%
-    ),
-    #102c4d;
+    linear-gradient(
+      125deg,
+      var(--evisa-navy-dark) 0%,
+      var(--evisa-navy) 55%,
+      var(--evisa-navy-light) 100%
+    );
+  color: var(--evisa-white);
+  text-align: center;
 }
+
+/* Decorative circles */
 
 .evisa-hero::before,
 .evisa-hero::after {
   position: absolute;
-  content: "";
-  width: 240px;
-  height: 240px;
-  border: 1px solid rgba(232, 197, 109, 0.18);
+  z-index: -1;
+  width: 230px;
+  height: 230px;
+  border: 1px solid rgba(230, 173, 39, 0.19);
   border-radius: 50%;
+  content: "";
   pointer-events: none;
 }
 
 .evisa-hero::before {
-  top: -150px;
-  left: -80px;
+  top: -155px;
+  left: -95px;
 }
 
 .evisa-hero::after {
-  right: -100px;
-  bottom: -165px;
+  right: -125px;
+  bottom: -175px;
+  width: 290px;
+  height: 290px;
 }
 
 .evisa-hero .evisa-container {
   position: relative;
   z-index: 1;
+  max-width: 1000px;
 }
 
-.evisa-eyebrow,
-.evisa-section-kicker {
-  display: inline-block;
-  color: #d9b654;
-  font-size: 12px;
+/* Eyebrow */
+
+.evisa-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 12px;
+  color: var(--evisa-gold-light);
+  font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1.8px;
+  letter-spacing: 2px;
+  line-height: 1.5;
 }
+
+/* Main heading */
 
 .evisa-hero h1 {
-  max-width: 850px;
-  margin: 20px auto 16px;
-  color: #fff;
-  font-size: clamp(34px, 5vw, 58px);
-  line-height: 1.15;
+  max-width: 900px;
+  margin: 0 auto 12px;
+  color: var(--evisa-white);
+  font-size: clamp(34px, 4vw, 48px);
   font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
 }
 
 .evisa-hero h1 span {
-  color: #e5c366;
+  color: var(--evisa-gold-light);
 }
 
+/* Description */
+
 .evisa-hero > .evisa-container > p {
-  max-width: 690px;
-  margin: 0 auto;
-  color: #d8e2ed;
-  font-size: 16px;
-  line-height: 1.8;
+  max-width: 650px;
+  margin: 0 auto 17px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.75;
 }
+
+/* =========================================================
+   3. HERO BENEFITS
+   ========================================================= */
 
 .evisa-hero-points {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 12px 24px;
-  margin: 26px 0;
-  color: #f0e6c8;
-  font-size: 13px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 24px;
+  margin: 0 auto 20px;
 }
 
 .evisa-hero-points span {
   display: inline-flex;
-  gap: 7px;
   align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
 }
 
-/* SEARCH */
+.evisa-hero-points span::first-letter {
+  color: var(--evisa-gold-light);
+}
+
+/* =========================================================
+   4. COUNTRY SEARCH
+   ========================================================= */
 
 .evisa-search-wrap {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: min(570px, 100%);
-  min-height: 60px;
-  margin: 28px auto 0;
-  padding: 0 18px;
-  border: 1px solid rgba(224, 194, 112, 0.55);
-  border-radius: 15px;
-  background: #fff;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  gap: 11px;
+
+  width: min(100%, 515px);
+  height: 51px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  border: 1px solid rgba(230, 173, 39, 0.48);
+  border-radius: 12px;
+  background: var(--evisa-white);
+
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+
+  transition:
+    border-color var(--evisa-transition),
+    box-shadow var(--evisa-transition);
+}
+
+.evisa-search-wrap:focus-within {
+  border-color: var(--evisa-gold);
+  box-shadow:
+    0 0 0 3px rgba(230, 173, 39, 0.18),
+    0 8px 24px rgba(0, 0, 0, 0.13);
 }
 
 .evisa-search-icon {
-  color: #b18a2d;
-  font-size: 30px;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  color: #bc8515;
+  font-size: 27px;
   line-height: 1;
 }
 
@@ -132,304 +232,979 @@
   flex: 1;
   width: 100%;
   min-width: 0;
-  padding: 17px 0;
+  height: 100%;
+  padding: 0;
+
   border: 0;
-  outline: 0;
-  color: #17304f;
+  outline: none;
   background: transparent;
-  font: inherit;
-  font-size: 15px;
+
+  color: var(--evisa-navy);
+  font-size: 13px;
+  line-height: normal;
 }
 
 .evisa-search-wrap input::placeholder {
-  color: #8a96a5;
+  color: #8b96a5;
+  opacity: 1;
 }
 
-.evisa-search-wrap button {
-  padding: 8px 10px;
-  border: 0;
-  border-radius: 7px;
-  color: #17304f;
-  background: #f4ecd6;
-  font-weight: 700;
+.evisa-search-wrap input:focus-visible {
+  outline: none;
+}
+
+.evisa-search-wrap input::-webkit-search-cancel-button {
   cursor: pointer;
 }
 
+/* Clear button */
+
+.evisa-search-wrap button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 7px;
+
+  background: var(--evisa-gold-pale);
+  color: var(--evisa-navy);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  cursor: pointer;
+  transition:
+    background var(--evisa-transition),
+    color var(--evisa-transition);
+}
+
+.evisa-search-wrap button:hover {
+  background: var(--evisa-gold);
+  color: var(--evisa-navy-dark);
+}
+
+.evisa-search-wrap button[hidden] {
+  display: none !important;
+}
+
+/* =========================================================
+   5. SEARCH RESULT COUNT
+   ========================================================= */
+
 .evisa-result-count {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin-top: 18px;
-  color: #d8e2ed;
-  font-size: 13px;
+  gap: 5px;
+
+  margin-top: 13px;
+
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .evisa-result-count strong {
-  color: #e5c366;
-}
-
-/* DIRECTORY */
-
-.evisa-directory {
-  padding: 70px 0 85px;
-}
-
-.evisa-section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  gap: 20px;
-  margin-bottom: 32px;
-}
-
-.evisa-section-heading h2 {
-  margin: 10px 0;
-  color: #102c4d;
-  font-size: clamp(28px, 4vw, 38px);
+  color: var(--evisa-gold-light);
+  font-size: 14px;
   font-weight: 800;
 }
 
+/* =========================================================
+   6. COUNTRY DIRECTORY SECTION
+   ========================================================= */
+
+.evisa-directory {
+  position: relative;
+  padding: 39px 0 65px;
+  background: var(--evisa-cream);
+}
+
+.evisa-directory .evisa-container {
+  max-width: 1120px;
+}
+
+/* Section heading */
+
+.evisa-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 25px;
+}
+
+.evisa-section-kicker {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #b78213;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+
+.evisa-section-heading h2 {
+  margin: 0 0 9px;
+  color: var(--evisa-navy);
+  font-size: clamp(27px, 3vw, 35px);
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+}
+
 .evisa-section-heading p {
+  max-width: 580px;
   margin: 0;
-  color: #6b7788;
+  color: var(--evisa-muted);
+  font-size: 13px;
   line-height: 1.7;
 }
 
-/* COUNTRY GRID */
+/* =========================================================
+   7. COUNTRY GRID
+   ========================================================= */
 
 .evisa-country-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
   gap: 22px;
 }
 
+/* =========================================================
+   8. COUNTRY CARD
+   ========================================================= */
+
 .evisa-country-card {
+  position: relative;
   display: flex;
   flex-direction: column;
+
   min-width: 0;
-  padding: 23px;
-  border: 1px solid #e6e1d5;
-  border-radius: 20px;
-  background: #fff;
-  box-shadow: 0 7px 22px rgba(16, 44, 77, 0.045);
+  min-height: 285px;
+  overflow: hidden;
+
+  border: 1px solid var(--evisa-border);
+  border-radius: var(--evisa-radius);
+  background: var(--evisa-white);
+
+  box-shadow: 0 4px 16px rgba(16, 44, 77, 0.035);
+
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    border-color 0.2s ease;
+    transform var(--evisa-transition),
+    border-color var(--evisa-transition),
+    box-shadow var(--evisa-transition);
+}
+
+.evisa-country-card::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+
+  height: 3px;
+
+  background: linear-gradient(
+    90deg,
+    var(--evisa-navy),
+    var(--evisa-gold),
+    var(--evisa-gold-light)
+  );
+
+  content: "";
+  opacity: 0;
+  transition: opacity var(--evisa-transition);
 }
 
 .evisa-country-card:hover {
   transform: translateY(-5px);
-  border-color: #d8bc70;
-  box-shadow: 0 16px 35px rgba(16, 44, 77, 0.1);
+  border-color: rgba(230, 173, 39, 0.65);
+  box-shadow: var(--evisa-shadow-hover);
 }
+
+.evisa-country-card:hover::before {
+  opacity: 1;
+}
+
+/* Card top */
 
 .evisa-card-top {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  margin-bottom: 22px;
+
+  padding: 20px 20px 13px;
 }
 
+/* Country flag */
+
 .evisa-card-flag {
-  display: grid;
-  place-items: center;
-  width: 66px;
-  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 62px;
+  height: 48px;
   overflow: hidden;
-  border: 1px solid #eee8d9;
-  border-radius: 13px;
-  background: #fbfaf6;
-  font-size: 36px;
+
+  border: 1px solid #f0e8d6;
+  border-radius: 10px;
+
+  background: #fffbf0;
+
+  font-size: 32px;
+  line-height: 1;
 }
+
+/* Badge */
 
 .evisa-badge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
+  justify-content: center;
+  gap: 6px;
+
+  max-width: calc(100% - 72px);
   padding: 7px 10px;
-  border: 1px solid #e7dfc6;
-  border-radius: 999px;
-  color: #776022;
-  background: #fbf6e8;
-  font-size: 11px;
-  font-weight: 800;
-  white-space: nowrap;
+
+  border: 1px solid #f0e5c7;
+  border-radius: 30px;
+
+  background: #fffaf0;
+  color: #8b6415;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
 }
 
 .evisa-badge-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+
   border-radius: 50%;
-  background: #c6a13e;
+  background: #c9951e;
+
+  box-shadow: 0 0 0 3px rgba(230, 173, 39, 0.12);
 }
+
+/* =========================================================
+   9. COUNTRY CARD CONTENT
+   ========================================================= */
 
 .evisa-card-content {
   display: flex;
   flex: 1;
   flex-direction: column;
   align-items: flex-start;
+
+  padding: 4px 20px 20px;
 }
 
 .evisa-card-content h3 {
-  margin: 0 0 10px;
-  color: #102c4d;
-  font-size: 22px;
+  margin: 0 0 9px;
+
+  color: var(--evisa-navy);
+  font-size: 21px;
   font-weight: 800;
+  letter-spacing: -0.4px;
+  line-height: 1.35;
+
+  overflow-wrap: anywhere;
 }
 
 .evisa-card-content > p {
-  margin: 0 0 18px;
-  color: #697789;
-  font-size: 14px;
+  margin: 0 0 16px;
+
+  color: var(--evisa-muted);
+  font-size: 12px;
+  font-weight: 400;
   line-height: 1.75;
 }
+
+/* Visa option information */
 
 .evisa-type-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin: 0 0 22px;
-  color: #52647a;
-  font-size: 12px;
-  font-weight: 700;
+  gap: 9px;
+
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 16px;
+  padding: 11px 12px;
+
+  border: 1px solid #f0eadc;
+  border-radius: 9px;
+
+  background: #fcfaf5;
+  color: #53657a;
+
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
 .evisa-type-info > span:first-child {
-  color: #bd9636;
-  font-size: 17px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 27px;
+  height: 27px;
+  flex-shrink: 0;
+
+  border-radius: 7px;
+
+  background: var(--evisa-gold-pale);
+  color: #9c7015;
+
+  font-size: 14px;
 }
+
+.evisa-type-info > span:last-child {
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   10. SEE REQUIREMENTS BUTTON
+   ========================================================= */
 
 .evisa-requirements-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+
   width: 100%;
+  min-height: 45px;
   margin-top: auto;
-  padding: 14px 16px;
-  border: 1px solid #102c4d;
-  border-radius: 11px;
-  color: #fff;
-  background: #102c4d;
+  padding: 11px 14px;
+
+  border: 1px solid var(--evisa-navy);
+  border-radius: 9px;
+
+  background: var(--evisa-navy);
+  color: var(--evisa-white);
+
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
   text-decoration: none;
-  font-size: 13px;
-  font-weight: 800;
+
   transition:
-    background 0.2s ease,
-    border-color 0.2s ease;
+    background var(--evisa-transition),
+    border-color var(--evisa-transition),
+    color var(--evisa-transition),
+    box-shadow var(--evisa-transition);
 }
 
 .evisa-requirements-btn span {
-  color: #e5c366;
-  font-size: 19px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  width: 25px;
+  height: 25px;
+
+  border-radius: 7px;
+
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--evisa-gold-light);
+
+  font-size: 16px;
+
+  transition:
+    transform var(--evisa-transition),
+    background var(--evisa-transition);
 }
 
 .evisa-requirements-btn:hover {
-  border-color: #b18a2d;
-  background: #1a416c;
+  border-color: var(--evisa-gold);
+  background: var(--evisa-gold);
+  color: var(--evisa-navy-dark);
+  box-shadow: 0 5px 14px rgba(230, 173, 39, 0.2);
 }
 
-/* EMPTY STATES */
+.evisa-requirements-btn:hover span {
+  transform: translateX(3px);
+  background: rgba(16, 44, 77, 0.1);
+  color: var(--evisa-navy-dark);
+}
 
-.evisa-no-results,
-.evisa-empty-state {
-  padding: 55px 20px;
-  border: 1px dashed #d8d0bc;
-  border-radius: 18px;
-  background: #fff;
+.evisa-requirements-btn:focus-visible {
+  outline: 3px solid rgba(230, 173, 39, 0.5);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   11. NO SEARCH RESULTS
+   ========================================================= */
+
+.evisa-no-results {
+  margin-top: 10px;
+  padding: 45px 24px;
+
+  border: 1px dashed #d9dfe7;
+  border-radius: var(--evisa-radius);
+
+  background: var(--evisa-white);
   text-align: center;
 }
 
-.evisa-no-results > span,
-.evisa-empty-state > span {
-  font-size: 42px;
-}
-
-.evisa-no-results h3,
-.evisa-empty-state h3 {
-  margin: 15px 0 8px;
-  color: #102c4d;
-  font-size: 23px;
-}
-
-.evisa-no-results p,
-.evisa-empty-state p {
-  max-width: 500px;
-  margin: 0 auto;
-  color: #697789;
-  line-height: 1.7;
-}
-
-[hidden] {
+.evisa-no-results[hidden] {
   display: none !important;
 }
 
-/* RESPONSIVE */
+.evisa-no-results > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-@media (max-width: 950px) {
-  .evisa-country-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
-  }
+  width: 58px;
+  height: 58px;
+  margin-bottom: 15px;
 
-  .evisa-country-card {
-    padding: 19px;
+  border-radius: 17px;
+
+  background: var(--evisa-gold-pale);
+  color: var(--evisa-navy);
+
+  font-size: 26px;
+}
+
+.evisa-no-results h3 {
+  margin: 0 0 9px;
+
+  color: var(--evisa-navy);
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.evisa-no-results p {
+  margin: 0;
+
+  color: var(--evisa-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   12. EMPTY DATABASE STATE
+   ========================================================= */
+
+.evisa-empty-state {
+  padding: 55px 25px;
+
+  border: 1px dashed #ded8c9;
+  border-radius: var(--evisa-radius);
+
+  background: var(--evisa-white);
+  text-align: center;
+}
+
+.evisa-empty-state > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 68px;
+  height: 68px;
+  margin-bottom: 17px;
+
+  border-radius: 20px;
+
+  background: var(--evisa-gold-pale);
+  font-size: 32px;
+}
+
+.evisa-empty-state h3 {
+  margin: 0 0 10px;
+
+  color: var(--evisa-navy);
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.evisa-empty-state p {
+  max-width: 520px;
+  margin: 0 auto;
+
+  color: var(--evisa-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   13. ACCESSIBILITY & REDUCED MOTION
+   ========================================================= */
+
+.evisa-page a:focus-visible,
+.evisa-page button:focus-visible {
+  outline: 3px solid rgba(230, 173, 39, 0.75);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evisa-page *,
+  .evisa-page *::before,
+  .evisa-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
-@media (max-width: 600px) {
+/* =========================================================
+   14. TABLET RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 1024px) {
   .evisa-container {
-    width: min(100% - 28px, 1180px);
+    width: min(100% - 40px, 900px);
   }
 
   .evisa-hero {
-    padding: 54px 0 45px;
+    padding-top: 39px;
+    padding-bottom: 29px;
   }
 
   .evisa-hero h1 {
-    font-size: 35px;
-  }
-
-  .evisa-hero > .evisa-container > p {
-    font-size: 14px;
-  }
-
-  .evisa-hero-points {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    font-size: 12px;
-  }
-
-  .evisa-search-wrap {
-    min-height: 54px;
-    padding-inline: 13px;
-  }
-
-  .evisa-search-wrap input {
-    font-size: 14px;
-  }
-
-  .evisa-directory {
-    padding: 48px 0 60px;
-  }
-
-  .evisa-section-heading {
-    margin-bottom: 23px;
+    font-size: clamp(33px, 4.5vw, 43px);
   }
 
   .evisa-country-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .evisa-country-card {
+    min-height: 275px;
+  }
+}
+
+/* =========================================================
+   15. MOBILE RESPONSIVENESS
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .evisa-container {
+    width: calc(100% - 32px);
+  }
+
+  .evisa-hero {
+    padding: 31px 0 25px;
+  }
+
+  .evisa-hero::before {
+    width: 160px;
+    height: 160px;
+    top: -115px;
+    left: -85px;
+  }
+
+  .evisa-hero::after {
+    width: 190px;
+    height: 190px;
+    right: -115px;
+    bottom: -125px;
+  }
+
+  .evisa-eyebrow {
+    gap: 5px;
+    margin-bottom: 10px;
+    font-size: 9px;
+    letter-spacing: 1.3px;
+  }
+
+  .evisa-hero h1 {
+    max-width: 480px;
+    margin-bottom: 12px;
+
+    font-size: clamp(28px, 7.2vw, 36px);
+    letter-spacing: -0.8px;
+    line-height: 1.2;
+  }
+
+  .evisa-hero > .evisa-container > p {
+    max-width: 480px;
+    margin-bottom: 15px;
+
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .evisa-hero-points {
+    gap: 8px 13px;
+    margin-bottom: 17px;
+  }
+
+  .evisa-hero-points span {
+    font-size: 10px;
+  }
+
+  .evisa-search-wrap {
+    width: 100%;
+    height: 48px;
+    gap: 9px;
+    padding: 0 12px;
+    border-radius: 10px;
+  }
+
+  .evisa-search-icon {
+    font-size: 24px;
+  }
+
+  .evisa-search-wrap input {
+    font-size: 12px;
+  }
+
+  .evisa-result-count {
+    margin-top: 11px;
+    font-size: 11px;
+  }
+
+  .evisa-result-count strong {
+    font-size: 13px;
+  }
+
+  /* Directory */
+
+  .evisa-directory {
+    padding: 29px 0 42px;
+  }
+
+  .evisa-section-heading {
+    margin-bottom: 19px;
+  }
+
+  .evisa-section-kicker {
+    margin-bottom: 7px;
+    font-size: 9px;
+    letter-spacing: 1.6px;
+  }
+
+  .evisa-section-heading h2 {
+    margin-bottom: 7px;
+    font-size: 27px;
+    letter-spacing: -0.5px;
+  }
+
+  .evisa-section-heading p {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* Country cards */
+
+  .evisa-country-grid {
+    grid-template-columns: minmax(0, 1fr);
     gap: 15px;
   }
 
   .evisa-country-card {
-    padding: 20px;
+    min-height: 0;
+    border-radius: 15px;
   }
 
   .evisa-card-top {
-    margin-bottom: 17px;
+    padding: 16px 16px 10px;
+  }
+
+  .evisa-card-flag {
+    width: 55px;
+    height: 43px;
+    border-radius: 9px;
+    font-size: 28px;
+  }
+
+  .evisa-badge {
+    max-width: calc(100% - 65px);
+    padding: 6px 8px;
+    font-size: 9px;
+  }
+
+  .evisa-card-content {
+    padding: 4px 16px 16px;
+  }
+
+  .evisa-card-content h3 {
+    margin-bottom: 7px;
+    font-size: 20px;
+  }
+
+  .evisa-card-content > p {
+    margin-bottom: 13px;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .evisa-type-info {
+    margin-bottom: 13px;
+    padding: 9px 10px;
+  }
+
+  .evisa-requirements-btn {
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+
+  .evisa-no-results,
+  .evisa-empty-state {
+    padding: 35px 17px;
+    border-radius: 14px;
+  }
+
+  .evisa-no-results h3,
+  .evisa-empty-state h3 {
+    font-size: 20px;
+  }
+
+  .evisa-no-results p,
+  .evisa-empty-state p {
+    font-size: 12px;
+  }
+}
+
+/* =========================================================
+   16. SMALL MOBILE DEVICES
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .evisa-container {
+    width: calc(100% - 24px);
+  }
+
+  .evisa-hero {
+    padding-top: 27px;
+    padding-bottom: 23px;
+  }
+
+  .evisa-hero h1 {
+    font-size: 27px;
+  }
+
+  .evisa-hero-points {
+    gap: 7px 10px;
+  }
+
+  .evisa-hero-points span {
+    font-size: 9px;
+  }
+
+  .evisa-section-heading h2 {
+    font-size: 24px;
+  }
+
+  .evisa-card-top {
+    gap: 8px;
+  }
+
+  .evisa-badge {
+    font-size: 8px;
+  }
+}
+/* =========================================
+   E-VISA SEARCH AUTOCOMPLETE
+   ========================================= */
+
+.evisa-hero .evisa-container {
+  overflow: visible;
+}
+
+.evisa-search-wrap {
+  position: relative;
+  z-index: 20;
+}
+
+/* Suggestions dropdown */
+
+.evisa-suggestions {
+  position: relative;
+  z-index: 30;
+
+  width: min(515px, 100%);
+  max-height: 290px;
+  overflow-y: auto;
+
+  margin: 8px auto 0;
+
+  border: 1px solid #e5e8ed;
+  border-radius: 12px;
+
+  background: #ffffff;
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.2);
+
+  text-align: left;
+
+  scrollbar-width: thin;
+  scrollbar-color: #d4b15e #f8f6f0;
+}
+
+.evisa-suggestions[hidden] {
+  display: none !important;
+}
+
+/* Individual suggestion */
+
+.evisa-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 57px;
+  padding: 10px 14px;
+
+  border: 0;
+  border-bottom: 1px solid #f0f1f4;
+
+  background: #ffffff;
+  color: #102c4d;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition: background 0.2s ease;
+}
+
+.evisa-suggestion:last-child {
+  border-bottom: 0;
+}
+
+.evisa-suggestion:hover,
+.evisa-suggestion.is-active {
+  background: #fff7e4;
+}
+
+.evisa-suggestion:focus-visible {
+  outline: 2px solid #e6ad27;
+  outline-offset: -3px;
+}
+
+/* Country flag */
+
+.evisa-suggestion-flag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 37px;
+  height: 37px;
+  flex-shrink: 0;
+
+  border: 1px solid #f0e8d6;
+  border-radius: 9px;
+
+  background: #fcfaf5;
+
+  font-size: 22px;
+}
+
+/* Country name */
+
+.evisa-suggestion-name {
+  flex: 1;
+  min-width: 0;
+
+  color: #102c4d;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  overflow-wrap: anywhere;
+}
+
+/* Arrow */
+
+.evisa-suggestion-arrow {
+  flex-shrink: 0;
+
+  color: #b78213;
+
+  font-size: 18px;
+
+  transition: transform 0.2s ease;
+}
+
+.evisa-suggestion:hover .evisa-suggestion-arrow,
+.evisa-suggestion.is-active .evisa-suggestion-arrow {
+  transform: translateX(3px);
+}
+
+/* No matching countries */
+
+.evisa-suggestion-empty {
+  padding: 20px 15px;
+
+  color: #728096;
+
+  font-size: 13px;
+  text-align: center;
+}
+
+/* Highlight the selected country card */
+
+.evisa-country-card.evisa-card-highlight {
+  border-color: #e6ad27;
+
+  box-shadow:
+    0 0 0 3px rgba(230, 173, 39, 0.22),
+    0 12px 30px rgba(16, 44, 77, 0.12);
+
+  animation: evisaCardHighlight 0.7s ease-in-out 2;
+}
+
+@keyframes evisaCardHighlight {
+  0%,
+  100% {
+    border-color: #e6ad27;
+  }
+
+  50% {
+    border-color: #102c4d;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 640px) {
+  .evisa-suggestions {
+    max-height: 250px;
+    margin-top: 7px;
+    border-radius: 10px;
+  }
+
+  .evisa-suggestion {
+    min-height: 53px;
+    padding: 9px 11px;
+    gap: 10px;
+  }
+
+  .evisa-suggestion-flag {
+    width: 34px;
+    height: 34px;
+    font-size: 20px;
+  }
+
+  .evisa-suggestion-name {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .evisa-country-card.evisa-card-highlight {
+    animation: none;
   }
 }

@@ -1,5 +1,6 @@
 <header class="site-header">
   <div class="container navbar">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     <!-- LOGO -->
     <a href="/" class="logo">
       <img
@@ -10,7 +11,7 @@
 
       <div class="logo-text">
         <div class="logo-name">Visa<span>Master</span></div>
-        <div class="logo-tagline">WhoEver WhenEver Wherever</div>
+        <div class="logo-tagline">Your Trusted Visa Partner</div>
       </div>
     </a>
 
@@ -26,49 +27,50 @@
         class="nav-dropdown <%= ['visas', 'e-visa', 'schengen'].includes(currentPage) ? 'active' : '' %>"
         id="visaInfoDropdown"
       >
-        <div class="nav-dropdown-main">
-          <!-- Clicking text opens Visa Info page -->
-          <a
-            href="/visas"
-            class="nav-dropdown-link <%= currentPage === 'visas' ? 'active' : '' %>"
-          >
-            Visa-info
-          </a>
+        <!-- CLICK ANYWHERE HERE TO TOGGLE DROPDOWN -->
+        <button
+          class="nav-dropdown-main"
+          id="visaInfoDropdownToggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="visaInfoSubmenu"
+        >
+          <span class="nav-dropdown-label">Visa-info</span>
 
-          <!-- Clicking arrow only toggles dropdown -->
-          <button
-            class="nav-dropdown-toggle"
-            id="visaInfoDropdownToggle"
-            type="button"
-            aria-label="Open Visa Info submenu"
-            aria-expanded="false"
-            aria-controls="visaInfoSubmenu"
+          <svg
+            class="nav-dropdown-arrow"
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
           >
-            <svg
-              class="nav-dropdown-arrow"
-              xmlns="http://www.w3.org/2000/svg"
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              aria-hidden="true"
-            >
-              <path d="m6 9 6 6 6-6"></path>
-            </svg>
-          </button>
-        </div>
+            <path d="m6 9 6 6 6-6"></path>
+          </svg>
+        </button>
 
         <!-- DROPDOWN ITEMS -->
-        <div
-          class="nav-dropdown-menu"
-          id="visaInfoSubmenu"
-          aria-labelledby="visaInfoDropdownToggle"
-          hidden
-        >
+        <div class="nav-dropdown-menu" id="visaInfoSubmenu" hidden>
+          <!-- MAIN VISA INFORMATION PAGE -->
+          <a
+            href="/visas"
+            class="nav-dropdown-item <%= currentPage === 'visas' ? 'active' : '' %>"
+          >
+            <span class="nav-dropdown-item-icon">▤</span>
+
+            <span class="nav-dropdown-item-text">
+              <strong>All Visa Information</strong>
+              <small>Explore all visa categories</small>
+            </span>
+
+            <span class="nav-dropdown-item-arrow">→</span>
+          </a>
+
           <!-- E-VISA -->
           <a
             href="/visas/e-visa"
@@ -169,45 +171,44 @@
 
     // VISA INFO DROPDOWN
     if (dropdown && dropdownToggle && submenu) {
+      function closeVisaDropdown() {
+        submenu.hidden = true;
+
+        dropdownToggle.setAttribute("aria-expanded", "false");
+
+        dropdown.classList.remove("is-open");
+      }
+
+      function toggleVisaDropdown() {
+        const isCurrentlyOpen = !submenu.hidden;
+
+        submenu.hidden = isCurrentlyOpen;
+
+        dropdownToggle.setAttribute("aria-expanded", String(!isCurrentlyOpen));
+
+        dropdown.classList.toggle("is-open", !isCurrentlyOpen);
+      }
+
+      // Clicking anywhere on Visa-info opens/closes the dropdown.
       dropdownToggle.addEventListener("click", function (event) {
         event.preventDefault();
         event.stopPropagation();
 
-        const isOpen = !submenu.hidden;
-
-        submenu.hidden = isOpen;
-
-        dropdownToggle.setAttribute("aria-expanded", String(!isOpen));
-
-        dropdownToggle.setAttribute(
-          "aria-label",
-          isOpen ? "Open Visa Info submenu" : "Close Visa Info submenu",
-        );
-
-        dropdown.classList.toggle("is-open", !isOpen);
+        toggleVisaDropdown();
       });
 
-      // Close dropdown when clicking outside
+      // Close when clicking outside.
       document.addEventListener("click", function (event) {
         if (!dropdown.contains(event.target)) {
-          submenu.hidden = true;
-
-          dropdownToggle.setAttribute("aria-expanded", "false");
-          dropdownToggle.setAttribute("aria-label", "Open Visa Info submenu");
-
-          dropdown.classList.remove("is-open");
+          closeVisaDropdown();
         }
       });
 
-      // Close dropdown using Escape key
+      // Close with Escape.
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape") {
-          submenu.hidden = true;
-
-          dropdownToggle.setAttribute("aria-expanded", "false");
-          dropdownToggle.setAttribute("aria-label", "Open Visa Info submenu");
-
-          dropdown.classList.remove("is-open");
+          closeVisaDropdown();
+          dropdownToggle.focus();
         }
       });
     }
@@ -225,12 +226,13 @@
         );
       });
 
-      // Close mobile menu after clicking a navigation link
+      // Close mobile menu after selecting a navigation link.
       mainNavigation.querySelectorAll("a").forEach(function (link) {
         link.addEventListener("click", function () {
           mainNavigation.classList.remove("is-active");
 
           mobileMenuButton.setAttribute("aria-expanded", "false");
+
           mobileMenuButton.setAttribute("aria-label", "Open navigation menu");
         });
       });

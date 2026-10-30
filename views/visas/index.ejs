@@ -22,49 +22,43 @@
   <%- include("../partials/navbar", { currentPage: "visas" }) %>
 
   <% const visaDirectoryCategories = [
-    {
-      slug: "e-visa",
-      name: "E-Visa",
-      eyebrow: "ONLINE APPLICATION",
-      icon: "↗",
-      description: "Explore destinations where an electronic visa option is listed by VisaMaster."
-    },
-    {
-      slug: "tourist-visa",
-      name: "Tourist Visa",
-      eyebrow: "HOLIDAY & LEISURE",
-      icon: "✈",
-      description: "Find tourist visa options for holidays, sightseeing and leisure travel."
-    },
-    {
-      slug: "visa-on-arrival",
-      name: "Visa on Arrival",
-      eyebrow: "ARRIVAL PROCESS",
-      icon: "⌁",
-      description: "Check destinations where Visa on Arrival assistance is listed."
-    },
-    {
-      slug: "business-visa",
-      name: "Business Visa",
-      eyebrow: "BUSINESS TRAVEL",
-      icon: "▣",
-      description: "Explore business visa options for meetings, events and professional visits."
-    },
-    {
-      slug: "stamping-visa",
-      name: "Stamping Visa",
-      eyebrow: "PASSPORT SUBMISSION",
-      icon: "▤",
-      description: "Find visa options requiring passport submission or visa stamping, where configured."
-    },
-    {
-      slug: "sticker-visa",
-      name: "Sticker Visa",
-      eyebrow: "CONSULATE / EMBASSY",
-      icon: "▧",
-      description: "Explore sticker visa options and their country-specific requirements."
-    }
-  ]; %>
+  {
+    slug: "all-visas",
+    name: "All - Visas",
+    eyebrow: "ALL VISA CATEGORIES",
+    icon: "◎",
+    description: "Explore all countries with active visa options listed by VisaMaster."
+  },
+  {
+    slug: "e-visa",
+    name: "E-Visa",
+    eyebrow: "ONLINE APPLICATION",
+    icon: "↗",
+    description: "Explore destinations where an electronic visa option is listed by VisaMaster."
+  },
+  {
+    slug: "tourist-visa",
+    name: "Tourist Visa",
+    eyebrow: "HOLIDAY & LEISURE",
+    icon: "✈",
+    description: "Find tourist visa options for holidays, sightseeing and leisure travel."
+  },
+  {
+    slug: "visa-on-arrival",
+    name: "Visa on Arrival",
+    eyebrow: "ARRIVAL PROCESS",
+    icon: "⌁",
+    description: "Check destinations where Visa on Arrival assistance is listed."
+  },
+  {
+    slug: "business-visa",
+    name: "Business Visa",
+    eyebrow: "BUSINESS TRAVEL",
+    icon: "▣",
+    description: "Explore business visa options for meetings, events and professional visits."
+  },
+  
+]; %>
 
   <main class="vm-directory-page">
 
@@ -104,14 +98,22 @@
 
           <% visaDirectoryCategories.forEach((category, index) => { %>
 
-            <% const categoryCount = (countries || []).filter((country) =>
-              (country.visaTypes || []).some((visa) =>
-                visa.isActive !== false &&
-                visa.slug &&
-                Array.isArray(visa.categories) &&
-                visa.categories.includes(category.slug)
-              )
-            ).length; %>
+            <% const categoryCount = (countries || []).filter((country) => {
+  const activeVisas = (country.visaTypes || []).filter((visa) =>
+    visa.isActive !== false &&
+    visa.slug &&
+    Array.isArray(visa.categories) &&
+    visa.categories.length > 0
+  );
+
+  if (category.slug === "all-visas") {
+    return activeVisas.length > 0;
+  }
+
+  return activeVisas.some((visa) =>
+    visa.categories.includes(category.slug)
+  );
+}).length; %>
 
             <button
               type="button"
@@ -251,11 +253,11 @@
                 %>
 
                 <article
-                  class="vm-visa-country-card"
-                  data-country-url="/countries/<%= country.slug %>"
-                  data-requirements-map="<%= JSON.stringify(categoryVisaMap) %>"
-                  <%= categoryVisaMap["e-visa"] ? "" : "hidden" %>
-                >
+  class="vm-visa-country-card"
+  data-country-url="/countries/<%= country.slug %>"
+  data-requirements-map="<%= JSON.stringify(categoryVisaMap) %>"
+  <%= Object.keys(categoryVisaMap).length ? "" : "hidden" %>
+>
 
                   <div class="vm-country-card-main">
 
