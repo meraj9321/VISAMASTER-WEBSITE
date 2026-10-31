@@ -2353,3 +2353,126 @@
   color: #30383d !important;
   border-color: #d9b65d !important;
 }
+
+/* =========================================
+   VISAMASTER ENQUIRY BUTTON LOADING EFFECT
+   Works with #enquirySubmitBtn and .is-loading
+========================================= */
+
+.enquiry-submit-btn {
+  position: relative;
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  box-sizing: border-box;
+
+  border: 2px solid #102d50;
+  border-radius: 11px;
+  background: #ffc43d;
+  color: #09264b;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+
+  cursor: pointer;
+  box-shadow: 3px 4px 0 #102d50;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.enquiry-submit-btn:hover:not(:disabled):not(.is-loading) {
+  background: #ffd45e;
+  transform: translate(-1px, -1px);
+  box-shadow: 4px 5px 0 #102d50;
+}
+
+.enquiry-submit-btn:active:not(:disabled):not(.is-loading) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 #102d50;
+}
+
+.enquiry-submit-btn:focus-visible {
+  outline: 3px solid rgba(16, 45, 80, 0.35);
+  outline-offset: 4px;
+}
+
+.enquiry-btn-text {
+  display: inline-block;
+}
+
+.enquiry-btn-arrow {
+  display: inline-block;
+  font-size: 17px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.enquiry-submit-btn:hover:not(:disabled):not(.is-loading) .enquiry-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Spinner is hidden until JavaScript adds .is-loading */
+.enquiry-btn-spinner {
+  display: none;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  box-sizing: border-box;
+  border: 2px solid rgba(9, 38, 75, 0.22);
+  border-top-color: #09264b;
+  border-right-color: #09264b;
+  border-radius: 50%;
+}
+
+/* Active loading state */
+.enquiry-submit-btn.is-loading,
+.enquiry-submit-btn:disabled {
+  background: #f2bd37;
+  cursor: wait;
+  opacity: 1;
+}
+
+.enquiry-submit-btn.is-loading {
+  pointer-events: none;
+  transform: none;
+  box-shadow: 3px 4px 0 #102d50;
+}
+
+.enquiry-submit-btn.is-loading .enquiry-btn-spinner {
+  display: inline-block;
+  animation: enquirySpinnerRotate 0.7s linear infinite;
+}
+
+.enquiry-submit-btn.is-loading .enquiry-btn-arrow {
+  display: none;
+}
+
+.enquiry-submit-btn.is-loading .enquiry-btn-text {
+  letter-spacing: 0.1px;
+}
+
+@keyframes enquirySpinnerRotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .enquiry-submit-btn,
+  .enquiry-btn-arrow {
+    transition: none;
+  }
+
+  .enquiry-submit-btn.is-loading .enquiry-btn-spinner {
+    animation-duration: 1.5s;
+  }
+}

@@ -1,0 +1,558 @@
+/* ==========================================
+   VISAMASTER PURE HTML + CSS LOADER
+   Navy Blue | Golden Yellow | Sketch Style
+========================================== */
+
+#vm-page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Website remains visible underneath */
+  background: rgba(7, 25, 49, 0.18);
+
+  opacity: 1;
+  visibility: visible;
+
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+#vm-page-loader.vm-loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Main loader container */
+
+.vm-loader {
+  --vm-gold: #e8b73e;
+  --vm-light-gold: #ffdf80;
+  --vm-navy: #09264b;
+  --vm-cream: #fff9e9;
+
+  position: relative;
+  width: min(86vw, 340px);
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+/* ==========================================
+   CIRCULAR FLIGHT PATH
+========================================== */
+
+.vm-loader-orbit {
+  position: absolute;
+  inset: 2%;
+  border-radius: 50%;
+}
+
+/* Dashed circular line */
+
+.vm-loader-dotted-ring {
+  position: absolute;
+  inset: 2%;
+  border: 2px dashed var(--vm-gold);
+  border-radius: 48% 52% 47% 53% / 51% 46% 54% 49%;
+
+  transform: rotate(-12deg);
+
+  animation: vm-ring-sketch 5s ease-in-out infinite;
+}
+
+/* Second partial sketch ring */
+
+.vm-loader-dotted-ring::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+
+  border: 1px solid rgba(232, 183, 62, 0.55);
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+
+  border-radius: 50%;
+  transform: rotate(20deg);
+}
+
+/* ==========================================
+   MOVING AIRPLANE
+========================================== */
+
+.vm-loader-plane-position {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+
+  animation: vm-plane-orbit 6s linear infinite;
+}
+
+.vm-loader-plane {
+  position: absolute;
+  top: -2%;
+  left: 50%;
+
+  display: block;
+
+  color: var(--vm-gold);
+  font-size: 30px;
+  line-height: 1;
+
+  transform: translateX(-50%) rotate(45deg);
+
+  text-shadow:
+    1px 1px 0 var(--vm-navy),
+    2px 2px 0 rgba(9, 38, 75, 0.2);
+
+  filter: drop-shadow(0 2px 3px rgba(9, 38, 75, 0.18));
+}
+
+/* ==========================================
+   TRAVEL DOODLES
+========================================== */
+
+.vm-doodle {
+  position: absolute;
+  display: block;
+
+  color: var(--vm-gold);
+  line-height: 1;
+
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Clouds */
+
+.vm-cloud {
+  color: var(--vm-cream);
+  font-family: Arial, sans-serif;
+
+  -webkit-text-stroke: 0.7px var(--vm-gold);
+
+  text-shadow:
+    1px 1px 0 var(--vm-navy),
+    -1px 0 0 var(--vm-navy);
+
+  animation: vm-doodle-float 2.8s ease-in-out infinite;
+}
+
+.vm-cloud-one {
+  top: 12%;
+  left: 5%;
+  font-size: 39px;
+  transform: rotate(-8deg);
+}
+
+.vm-cloud-two {
+  right: 1%;
+  bottom: 24%;
+  font-size: 35px;
+
+  animation-delay: -1.2s;
+}
+
+/* Location pin inspired doodle */
+
+.vm-location {
+  top: 37%;
+  left: 0;
+
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--vm-gold);
+  font-size: 25px;
+
+  border: 2px solid var(--vm-gold);
+  border-radius: 50% 50% 50% 10%;
+
+  transform: rotate(-45deg);
+}
+
+/* Sketch-style sparkles */
+
+.vm-spark {
+  font-size: 27px;
+  font-weight: bold;
+
+  animation: vm-sparkle 1.8s ease-in-out infinite;
+}
+
+.vm-spark-one {
+  top: 25%;
+  right: 7%;
+}
+
+.vm-spark-two {
+  bottom: 13%;
+  left: 13%;
+
+  animation-delay: -0.8s;
+}
+
+/* ==========================================
+   CENTRAL BRAND
+========================================== */
+
+.vm-loader-brand {
+  position: relative;
+  z-index: 2;
+
+  width: 80%;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  animation: vm-brand-appear 0.7s ease both;
+}
+
+/* VM monogram */
+
+.vm-loader-monogram {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 4px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(65px, 18vw, 94px);
+  font-weight: 900;
+  line-height: 0.95;
+
+  letter-spacing: -12px;
+
+  -webkit-text-stroke: 1px #b88724;
+
+  filter: drop-shadow(2px 3px 0 rgba(9, 38, 75, 0.2));
+}
+
+.vm-monogram-v {
+  color: var(--vm-cream);
+
+  text-shadow:
+    2px 2px 0 var(--vm-gold),
+    -1px -1px 0 var(--vm-gold);
+}
+
+.vm-monogram-m {
+  color: var(--vm-gold);
+
+  text-shadow:
+    2px 2px 0 var(--vm-cream),
+    4px 4px 0 rgba(9, 38, 75, 0.5);
+}
+
+/* VisaMaster brand name */
+
+.vm-loader-brand-name {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 2px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(25px, 7vw, 34px);
+  font-weight: 800;
+  letter-spacing: -1.3px;
+
+  white-space: nowrap;
+
+  -webkit-text-stroke: 0.25px var(--vm-navy);
+
+  text-shadow: 1px 2px 0 rgba(9, 38, 75, 0.12);
+}
+
+.vm-loader-brand-name span {
+  color: var(--vm-cream);
+}
+
+.vm-loader-brand-name strong {
+  color: var(--vm-gold);
+  font-weight: 900;
+}
+
+/* Decorative divider */
+
+.vm-loader-divider {
+  width: 85%;
+  height: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  margin-top: 4px;
+}
+
+.vm-loader-divider span {
+  height: 2px;
+  flex: 1;
+
+  background: linear-gradient(90deg, transparent, var(--vm-gold));
+}
+
+.vm-loader-divider span:last-child {
+  transform: scaleX(-1);
+}
+
+.vm-loader-divider i {
+  width: 6px;
+  height: 6px;
+
+  background: var(--vm-gold);
+
+  transform: rotate(45deg);
+}
+
+/* Tagline */
+
+.vm-loader-tagline {
+  margin: 2px 0 0;
+
+  color: var(--vm-cream);
+
+  font-size: clamp(10px, 3vw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  white-space: nowrap;
+
+  text-shadow: 1px 1px 0 var(--vm-navy);
+}
+
+/* Tiny travel doodles */
+
+.vm-loader-travel-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+
+  margin-top: 9px;
+
+  color: var(--vm-gold);
+  font-size: 17px;
+}
+
+.vm-loader-travel-icons span:nth-child(2) {
+  font-size: 21px;
+
+  animation: vm-mini-plane 2s ease-in-out infinite;
+}
+
+/* ==========================================
+   LOADING STATUS
+========================================== */
+
+.vm-loader-status {
+  position: absolute;
+  top: calc(100% + 15px);
+
+  width: 100%;
+  text-align: center;
+}
+
+.vm-loader-status-track {
+  width: 145px;
+  height: 5px;
+
+  margin: 0 auto;
+
+  overflow: hidden;
+
+  border: 1px solid var(--vm-gold);
+  border-radius: 20px;
+
+  background: rgba(9, 38, 75, 0.12);
+}
+
+.vm-loader-status-progress {
+  width: 35%;
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(90deg, #c99425, #ffe28b);
+
+  animation: vm-progress-slide 1.3s ease-in-out infinite alternate;
+}
+
+.vm-loader-status p {
+  margin: 9px 0 0;
+
+  color: var(--vm-cream);
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 2px;
+
+  text-shadow: 1px 1px 2px var(--vm-navy);
+}
+
+.vm-loading-dots {
+  display: inline-block;
+  width: 16px;
+  text-align: left;
+
+  animation: vm-dots 1.2s steps(4, end) infinite;
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+@keyframes vm-plane-orbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vm-ring-sketch {
+  0%,
+  100% {
+    border-radius: 48% 52% 47% 53% / 51% 46% 54% 49%;
+  }
+
+  50% {
+    border-radius: 52% 48% 53% 47% / 46% 54% 49% 51%;
+  }
+}
+
+@keyframes vm-doodle-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+
+  50% {
+    translate: 0 -5px;
+  }
+}
+
+@keyframes vm-sparkle {
+  0%,
+  100% {
+    opacity: 0.55;
+    scale: 0.9;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1.12;
+  }
+}
+
+@keyframes vm-brand-appear {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vm-mini-plane {
+  0%,
+  100% {
+    transform: translateX(-3px) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateX(3px) rotate(5deg);
+  }
+}
+
+@keyframes vm-progress-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(185%);
+  }
+}
+
+@keyframes vm-dots {
+  0% {
+    opacity: 0.25;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0.4;
+  }
+}
+
+/* ==========================================
+   MOBILE RESPONSIVENESS
+========================================== */
+
+@media (max-width: 480px) {
+  .vm-loader {
+    width: min(84vw, 290px);
+  }
+
+  .vm-loader-monogram {
+    font-size: clamp(60px, 19vw, 78px);
+    letter-spacing: -9px;
+  }
+
+  .vm-loader-brand-name {
+    font-size: clamp(24px, 7.2vw, 30px);
+  }
+
+  .vm-cloud-one {
+    font-size: 32px;
+  }
+
+  .vm-cloud-two {
+    font-size: 30px;
+  }
+
+  .vm-loader-plane {
+    font-size: 25px;
+  }
+}
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .vm-loader-plane-position,
+  .vm-loader-dotted-ring,
+  .vm-cloud,
+  .vm-spark,
+  .vm-loader-travel-icons span,
+  .vm-loader-status-progress,
+  .vm-loading-dots {
+    animation-duration: 8s;
+  }
+}

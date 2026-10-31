@@ -173,10 +173,11 @@
         ================================================== -->
 
         <form
-          action="/contact"
-          method="POST"
-          class="visa-contact-form"
-        >
+  id="enquiryForm"
+  action="/contact"
+  method="POST"
+  class="visa-contact-form"
+>
 
           <!-- NAME + PHONE -->
 
@@ -444,12 +445,12 @@
 
           <!-- SUBMIT -->
 
-          <button
-            type="submit"
-            class="contact-submit-btn"
-          >
-            Send Enquiry →
-          </button>
+        
+<button type="submit" class="enquiry-submit-btn" id="enquirySubmitBtn">
+  <span class="enquiry-btn-text">Send Enquiry</span>
+  <span class="enquiry-btn-arrow" aria-hidden="true">→</span>
+  <span class="enquiry-btn-spinner" aria-hidden="true"></span>
+</button>
 
 
           <p class="contact-form-note">
@@ -1424,7 +1425,7 @@
 
   <script src="/js/main.js"></script>
 
-
+  
   <!-- =========================================================
        SUCCESS POPUP JAVASCRIPT
   ========================================================= -->
@@ -1434,6 +1435,42 @@
     document.addEventListener(
       "DOMContentLoaded",
       function () {
+
+        // -----------------------------------------------
+        // ENQUIRY FORM LOADING STATE
+        // Preserve the normal POST submission and server-side
+        // validation/redirect flow.
+        // -----------------------------------------------
+        const enquiryForm = document.getElementById("enquiryForm");
+        const enquirySubmitBtn = document.getElementById("enquirySubmitBtn");
+        const enquiryBtnText = enquirySubmitBtn
+          ? enquirySubmitBtn.querySelector(".enquiry-btn-text")
+          : null;
+
+        if (enquiryForm && enquirySubmitBtn) {
+          enquiryForm.addEventListener("submit", function (event) {
+            // Native required/pattern validation normally blocks this event;
+            // this check also guards against custom submit triggers.
+            if (!enquiryForm.checkValidity()) {
+              event.preventDefault();
+              enquiryForm.reportValidity();
+              return;
+            }
+
+            // Avoid duplicate submissions on repeated clicks.
+            if (enquirySubmitBtn.classList.contains("is-loading")) {
+              event.preventDefault();
+              return;
+            }
+
+            enquirySubmitBtn.classList.add("is-loading");
+            enquirySubmitBtn.disabled = true;
+            enquirySubmitBtn.setAttribute("aria-busy", "true");
+            if (enquiryBtnText) {
+              enquiryBtnText.textContent = "Sending Enquiry...";
+            }
+          });
+        }
 
         const popup =
           document.getElementById(
