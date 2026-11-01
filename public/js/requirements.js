@@ -1,22 +1,12 @@
 /* =========================================================
-VISAMASTER VISA REQUIREMENTS CATEGORY TABS
-------------------------------------------
-
-Features:
-
-1. Switch visa categories without page refresh
-2. Read selected visa category from URL
-3. Activate the correct tab after redirect
-4. Smooth tab navigation
-5. Mobile-friendly category navigation
-6. Swipe left/right to change categories
-7. Keyboard navigation with ArrowLeft, ArrowRight,
-   Home and End keys
-8. Does not modify main.js
-
-Example URLs:
-/countries/uae/requirements?visa=tourist
-/countries/uae/requirements?visa=business
+   VISAMASTER REQUIREMENTS — SUBCATEGORY TABS
+   Features:
+   - Smooth fade and slide transitions
+   - Animated content switching
+   - Keyboard navigation
+   - Mobile swipe navigation
+   - URL subcategory updates
+   - Reduced-motion accessibility
 ========================================================= */
 
 (() => {
@@ -24,59 +14,32 @@ Example URLs:
 
   const initializeVisaTabs = () => {
     const tabList = document.querySelector(".visa-category-tabs");
-
-    // Stop if this is not the visa requirements page.
-    if (!tabList) {
-      return;
-    }
+    if (!tabList) return;
 
     const tabs = Array.from(tabList.querySelectorAll("[data-visa-tab]"));
-
     const panels = Array.from(document.querySelectorAll("[data-visa-panel]"));
-
     const status = document.querySelector(".visa-category-slider-status");
 
-    // Stop safely if tabs or panels are missing.
-    if (!tabs.length || !panels.length) {
-      return;
-    }
+    if (!tabs.length || !panels.length) return;
 
-    // Respect the user's reduced-motion preference.
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    );
-
-    /* =====================================================
-   FIND CATEGORY FROM URL
-===================================================== */
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     const params = new URLSearchParams(window.location.search);
 
-    const requestedVisa = (params.get("visa") || "").trim().toLowerCase();
+    const requestedSubcategory = (
+      params.get("subcategory") ||
+      params.get("visa") ||
+      ""
+    )
+      .trim()
+      .toLowerCase();
 
-    /*
-  Match the URL category against the database visa slug.
-
-  Example:
-  ?visa=tourist
-  matches data-visa-slug="tourist"
-*/
-
-    let activeIndex = -1;
-
-    if (requestedVisa) {
-      activeIndex = tabs.findIndex((tab) => {
-        const slug = (tab.dataset.visaSlug || "").trim().toLowerCase();
-
-        return slug === requestedVisa;
-      });
-    }
-
-    /*
-  Backward compatibility:
-  If no matching URL category exists, retain the
-  category already marked as selected in the EJS.
-*/
+    let activeIndex = requestedSubcategory
+      ? tabs.findIndex(
+          (tab) =>
+            (tab.dataset.visaSlug || "").toLowerCase() === requestedSubcategory,
+        )
+      : -1;
 
     if (activeIndex < 0) {
       activeIndex = tabs.findIndex(
@@ -84,112 +47,187 @@ Example URLs:
       );
     }
 
-    // Final fallback.
-    if (activeIndex < 0) {
-      activeIndex = 0;
-    }
+    if (activeIndex < 0) activeIndex = 0;
 
-    /* =====================================================
-   ACTIVATE SELECTED CATEGORY
-===================================================== */
+    let transitionId = 0;
 
     const activateTab = (index, options = {}) => {
-      if (index < 0 || index >= tabs.length) {
+      if (index < 0 || index >= tabs.length) return;
+
+      if (index === activeIndex && options.initial !== true) {
+        if (options.focus) tabs[index].focus();
         return;
       }
 
+      const previousIndex = activeIndex;
       activeIndex = index;
 
-      // Update selected tab states.
-      tabs.forEach((tab, tabIndex) => {
-        const isSelected = tabIndex === index;
+      transitionId++;
+      const currentTransition = transitionId;
 
-        tab.setAttribute("aria-selected", String(isSelected));
+      const animate = !reducedMotion.matches && !options.initial;
 
-        tab.setAttribute("tabindex", isSelected ? "0" : "-1");
+      // Update tab states.
+      tabs.forEach((tab, i) => {
+        const selected = i === index;
+
+        tab.setAttribute("aria-selected", String(selected));
+        tab.setAttribute("tabindex", selected ? "0" : "-1");
       });
 
-      // Show only the selected requirements panel.
-      panels.forEach((panel, panelIndex) => {
-        const isSelected = panelIndex === index;
+      // Find the outgoing and incoming panels.
+      const outgoingPanel = panels[previousIndex];
+      const incomingPanel = panels[index];
 
-        panel.hidden = !isSelected;
-
-        panel.classList.toggle("is-active", isSelected);
+      panels.forEach((panel) => {
+        if (panel.getAnimations) {
+          panel.getAnimations().forEach((animation) => animation.cancel());
+        }
       });
 
-      // Update the category counter.
-      if (status) {
-        status.textContent = `Showing category ${index + 1} of ${tabs.length}`;
+      // Hide all panels except the new active panel.
+      panels.forEach((panel, i) => {
+        if (i !== index && i !== previousIndex) {
+          panel.hidden = true;
+          panel.classList.remove("is-active", "is-entering", "is-leaving");
+        }
+      });
+
+      if (outgoingPanel && outgoingPanel !== incomingPanel) {
+        outgoingPanel.classList.remove("is-active", "is-entering");
+        outgoingPanel.classList.add("is-leaving");
       }
 
-      // Scroll the selected tab into view.
+      incomingPanel.hidden = false;
+      incomingPanel.classList.remove("is-leaving", "is-entering");
+      incomingPanel.classList.add("is-active");
+
+      // Smooth content transition.
+      if (animate && incomingPanel.animate) {
+        incomingPanel.animate(
+          [
+            {
+              opacity: 0,
+              transform: "translateX(14px)",
+            },
+            {
+              opacity: 1,
+              transform: "translateX(0)",
+            },
+          ],
+          {
+            duration: 300,
+            easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+            fill: "none",
+          },
+        );
+
+        if (
+          outgoingPanel &&
+          outgoingPanel !== incomingPanel &&
+          outgoingPanel.animate
+        ) {
+          const exitAnimation = outgoingPanel.animate(
+            [
+              {
+                opacity: 1,
+                transform: "translateX(0)",
+              },
+              {
+                opacity: 0,
+                transform: "translateX(-10px)",
+              },
+            ],
+            {
+              duration: 160,
+              easing: "ease-in",
+              fill: "forwards",
+            },
+          );
+
+          exitAnimation.finished
+            .then(() => {
+              if (currentTransition !== transitionId) return;
+
+              outgoingPanel.hidden = true;
+              outgoingPanel.classList.remove("is-leaving");
+            })
+            .catch(() => {
+              // Animation was cancelled by a rapid tab switch.
+            });
+        }
+      } else {
+        panels.forEach((panel, i) => {
+          panel.hidden = i !== index;
+          panel.classList.toggle("is-active", i === index);
+          panel.classList.remove("is-entering", "is-leaving");
+        });
+      }
+
+      // Update status text.
+      if (status) {
+        status.textContent = `Showing purpose ${index + 1} of ${tabs.length}`;
+      }
+
+      // Keep the selected tab visible.
       if (options.scrollTab) {
         tabs[index].scrollIntoView({
-          behavior: prefersReducedMotion.matches ? "auto" : "smooth",
+          behavior: reducedMotion.matches ? "auto" : "smooth",
           block: "nearest",
           inline: "nearest",
         });
       }
 
-      // Move keyboard focus when requested.
       if (options.focus) {
         tabs[index].focus();
       }
+
+      // Update URL without reloading the page.
+      if (options.updateUrl) {
+        const url = new URL(window.location.href);
+
+        url.searchParams.set("subcategory", tabs[index].dataset.visaSlug || "");
+
+        window.history.replaceState({}, "", url);
+      }
     };
 
-    /* =====================================================
-   CATEGORY CLICK EVENTS
-===================================================== */
-
+    // Click navigation.
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => {
         activateTab(index, {
           scrollTab: true,
+          updateUrl: true,
         });
       });
 
-      /* ===================================================
-     KEYBOARD NAVIGATION
-  =================================================== */
-
+      // Keyboard navigation.
       tab.addEventListener("keydown", (event) => {
-        let nextIndex = index;
+        let next = index;
 
-        switch (event.key) {
-          case "ArrowRight":
-            nextIndex = (index + 1) % tabs.length;
-            break;
-
-          case "ArrowLeft":
-            nextIndex = (index - 1 + tabs.length) % tabs.length;
-            break;
-
-          case "Home":
-            nextIndex = 0;
-            break;
-
-          case "End":
-            nextIndex = tabs.length - 1;
-            break;
-
-          default:
-            return;
+        if (event.key === "ArrowRight") {
+          next = (index + 1) % tabs.length;
+        } else if (event.key === "ArrowLeft") {
+          next = (index - 1 + tabs.length) % tabs.length;
+        } else if (event.key === "Home") {
+          next = 0;
+        } else if (event.key === "End") {
+          next = tabs.length - 1;
+        } else {
+          return;
         }
 
         event.preventDefault();
 
-        activateTab(nextIndex, {
+        activateTab(next, {
           focus: true,
           scrollTab: true,
+          updateUrl: true,
         });
       });
     });
 
-    /* =====================================================
-   MOBILE SWIPE NAVIGATION
-===================================================== */
-
+    // Mobile swipe navigation.
     const panelsContainer = document.querySelector(".visa-tab-panels");
 
     if (panelsContainer) {
@@ -199,9 +237,7 @@ Example URLs:
       panelsContainer.addEventListener(
         "touchstart",
         (event) => {
-          if (!event.changedTouches.length) {
-            return;
-          }
+          if (!event.changedTouches.length) return;
 
           startX = event.changedTouches[0].clientX;
           startY = event.changedTouches[0].clientY;
@@ -212,35 +248,24 @@ Example URLs:
       panelsContainer.addEventListener(
         "touchend",
         (event) => {
-          if (!event.changedTouches.length) {
+          if (!event.changedTouches.length) return;
+
+          const dx = event.changedTouches[0].clientX - startX;
+          const dy = event.changedTouches[0].clientY - startY;
+
+          if (Math.abs(dx) < 65 || Math.abs(dx) < Math.abs(dy) * 1.25) {
             return;
           }
 
-          const endX = event.changedTouches[0].clientX;
-          const endY = event.changedTouches[0].clientY;
-
-          const deltaX = endX - startX;
-          const deltaY = endY - startY;
-
-          // Ignore small movements and vertical scrolling.
-          if (
-            Math.abs(deltaX) < 65 ||
-            Math.abs(deltaX) < Math.abs(deltaY) * 1.25
-          ) {
-            return;
-          }
-
-          // Swipe left: next category.
-          if (deltaX < 0 && activeIndex < tabs.length - 1) {
+          if (dx < 0 && activeIndex < tabs.length - 1) {
             activateTab(activeIndex + 1, {
               scrollTab: true,
+              updateUrl: true,
             });
-          }
-
-          // Swipe right: previous category.
-          else if (deltaX > 0 && activeIndex > 0) {
+          } else if (dx > 0 && activeIndex > 0) {
             activateTab(activeIndex - 1, {
               scrollTab: true,
+              updateUrl: true,
             });
           }
         },
@@ -248,16 +273,16 @@ Example URLs:
       );
     }
 
-    /* =====================================================
-   INITIALIZE SELECTED CATEGORY
-===================================================== */
+    // Initialize without animation.
+    const initialIndex = activeIndex;
+    activeIndex = -1;
 
-    activateTab(activeIndex, {
-      scrollTab: Boolean(requestedVisa && activeIndex >= 0),
+    activateTab(initialIndex, {
+      initial: true,
+      scrollTab: Boolean(requestedSubcategory),
     });
   };
 
-  // Initialize safely after the HTML has loaded.
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initializeVisaTabs, {
       once: true,

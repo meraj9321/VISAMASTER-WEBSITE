@@ -28,7 +28,6 @@ app.use(
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
-      // Browser-session cookie; no maxAge configured.
     },
   }),
 );
@@ -64,8 +63,6 @@ const destinationRoutes = require("./routes/destinationRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const countryRoutes = require("./routes/countryRoutes");
 const visasRoutes = require("./routes/visasRoutes");
-const eVisaRoutes = require("./routes/eVisaRoutes");
-const schengenRoutes = require("./routes/schengenRoutes");
 const newsRoutes = require("./routes/newsRoutes");
 
 // =========================================================
@@ -89,17 +86,6 @@ const adminAuth = require("./middleware/adminAuth");
 // MOUNT PUBLIC ROUTES
 // =========================================================
 
-// Main visa directory
-app.use("/visas", visasRoutes);
-
-// Dedicated Schengen countries page
-// URL: /visas/schengen
-app.use("/visas/schengen", schengenRoutes);
-
-// Existing e-Visa routes
-app.use("/visas/e-visa", eVisaRoutes);
-
-// Other public routes
 app.use("/", homeRoutes);
 app.use("/about", aboutRoutes);
 app.use("/services", serviceRoutes);
@@ -107,6 +93,9 @@ app.use("/destinations", destinationRoutes);
 app.use("/contact", contactRoutes);
 app.use("/countries", countryRoutes);
 app.use("/news", newsRoutes);
+
+// All visa-related pages
+app.use("/visas", visasRoutes);
 
 // =========================================================
 // ADMIN LOGIN / LOGOUT

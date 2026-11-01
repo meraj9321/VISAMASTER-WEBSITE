@@ -1,22 +1,44 @@
 const multer = require("multer");
 
+const storage = multer.memoryStorage();
+
 const uploadApplicationForm = multer({
-  storage: multer.memoryStorage(),
+  storage,
 
   limits: {
-    fileSize: 5 * 1024 * 1024, // Maximum 5 MB
-    files: 1,
+    fileSize: 5 * 1024 * 1024, // 5 MB
+    files: 50,
   },
 
   fileFilter: (req, file, cb) => {
-    const isPdfName = /.pdf$/i.test(file.originalname || "");
+    const allowedCategories = ["e-visa", "sticker-visa", "visa-on-arrival"];
 
-    if (file.mimetype !== "application/pdf" || !isPdfName) {
-      return cb(new Error("Please upload a PDF file only."));
+    const match = file.fieldname.match(
+      /^subcategoryPdf\[([a-z0-9-]+)\]\[([a-z0-9-]+)\]$/,
+    );
+
+    if (!match) {
+      return cb(new Error(`Invalid PDF field name: ${file.fieldname}`));
+    }
+
+    const categorySlug = match[1];
+
+    if (!allowedCategories.includes(categorySlug)) {
+      return cb(new Error("Invalid visa category."));
+    }
+
+    const isPdf =
+      file.mimetype === "application/pdf" &&
+      file.originalname.toLowerCase().endsWith(".pdf");
+
+    if (!isPdf) {
+      return cb(new Error("Only PDF files are allowed."));
     }
 
     cb(null, true);
   },
-}).single("applicationFormPdf");
+}).any();
 
-module.exports = { uploadApplicationForm };
+module.exports = {
+  uploadApplicationForm,
+};

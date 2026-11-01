@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visa on Arrival Destinations | VisaMaster</title>
+  <meta name="description" content="Explore countries offering Visa on Arrival options with VisaMaster." />
+
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+
+  <style>
+    /* Visa on Arrival page: deliberately independent from the All Visas directory */
+    .va-page {
+      --va-navy: #102b4e;
+      --va-blue: #1e4773;
+      --va-gold: #e8ad32;
+      --va-cream: #fffaf0;
+      --va-ink: #172b43;
+      color: var(--va-ink);
+      background: #fff;
+      overflow: hidden;
+    }
+    .va-container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .va-hero {
+      position: relative;
+      isolation: isolate;
+      padding: 76px 0 88px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(232,173,50,.22), transparent 25%),
+        radial-gradient(circle at 8% 100%, rgba(84,139,190,.22), transparent 32%),
+        linear-gradient(118deg, #0c2340 0%, #163d66 58%, #214f79 100%);
+    }
+    .va-hero::before, .va-hero::after {
+      content: ""; position: absolute; z-index: -1; border: 1px dashed rgba(255,255,255,.22);
+      border-radius: 50%; transform: rotate(-22deg);
+    }
+    .va-hero::before { width: 430px; height: 170px; right: -55px; top: 25px; }
+    .va-hero::after { width: 330px; height: 130px; right: 15px; top: 58px; }
+    .va-hero-inner { display: grid; grid-template-columns: 1.25fr .75fr; gap: 50px; align-items: center; }
+    .va-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+      color: #f4c65f; font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase;
+    }
+    .va-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--va-gold); }
+    .va-hero h1 { max-width: 700px; margin: 0; color: #fff; font-size: clamp(38px, 5.3vw, 66px); line-height: 1.04; letter-spacing: -.045em; }
+    .va-hero h1 span { color: #f2c45b; font-family: Georgia, serif; font-style: italic; font-weight: 500; }
+    .va-hero-copy { max-width: 610px; margin: 22px 0 0; color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.85; }
+    .va-hero-points { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 28px; }
+    .va-hero-points span { color: #f8f3e9; font-size: 12px; font-weight: 600; }
+    .va-hero-points b { margin-right: 7px; color: #f2c45b; }
+    .va-passport {
+      justify-self: end; position: relative; width: min(100%, 290px); min-height: 310px; padding: 28px;
+      border: 1px solid rgba(255,255,255,.3); border-radius: 18px 18px 42px 18px;
+      background: linear-gradient(145deg, #f6d779, #dba83c); color: #173657;
+      box-shadow: 18px 22px 0 rgba(4,19,36,.18), 0 25px 60px rgba(0,0,0,.2);
+      transform: rotate(5deg);
+    }
+    .va-passport::before { content: "✈"; position: absolute; right: 24px; top: 15px; color: rgba(16,43,78,.28); font-size: 40px; }
+    .va-passport-mark { display: grid; place-items: center; width: 78px; height: 78px; margin: 26px auto 20px; border: 2px solid rgba(16,43,78,.45); border-radius: 50%; font-size: 37px; }
+    .va-passport small { display: block; text-align: center; font-size: 9px; font-weight: 800; letter-spacing: .24em; }
+    .va-passport strong { display: block; margin-top: 9px; text-align: center; font-family: Georgia,serif; font-size: 24px; letter-spacing: .08em; }
+    .va-passport-line { height: 1px; margin-top: 22px; background: rgba(16,43,78,.3); }
+    .va-search-area { position: relative; z-index: 2; margin-top: -35px; }
+    .va-search-panel {
+      position: relative; gap: 16px; padding: 19px 22px;
+      border: 1px solid #e7dfcf; border-radius: 18px;
+      background: linear-gradient(110deg, #fff 0%, #fffdf8 100%);
+      box-shadow: 0 16px 42px rgba(9,31,55,.13);
+    }
+    .va-search-symbol {
+      flex-basis: 50px; width: 50px; height: 50px; border-radius: 15px;
+      background: linear-gradient(145deg, #fff1c9, #f8df9e);
+      box-shadow: inset 0 0 0 1px rgba(184,130,28,.12);
+      font-size: 25px;
+    }
+    .va-search-content label {
+      margin-bottom: 7px; color: #a27419; font-size: 9px;
+      letter-spacing: .16em; font-weight: 900;
+    }
+    .va-search-content input {
+      min-height: 27px; font-size: 15px; font-weight: 600;
+    }
+    .va-search-content input::placeholder { color: #9aa4ae; font-weight: 400; }
+    .va-search-hint {
+      flex: 0 0 auto; padding: 8px 11px; border: 1px solid #eee5d2;
+      border-radius: 20px; background: #fffaf0; color: #98701f;
+      font-size: 9px; font-weight: 900; letter-spacing: .1em;
+    }
+    #vmClearCountrySearch {
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      width: auto; height: 34px; padding: 0 11px; border: 1px solid #e4e8ec;
+      border-radius: 9px; background: #f5f7f9; color: #536579;
+      cursor: pointer; font-size: 18px; transition: background .2s ease, border-color .2s ease;
+    }
+    #vmClearCountrySearch:hover { border-color: #d8bd7d; background: #fff6df; }
+    #vmClearCountrySearch[hidden] { display: none !important; }
+    .va-clear-text { font-size: 11px; font-weight: 700; }
+    .va-search-panel {
+      display: flex; align-items: center; gap: 18px; padding: 20px 24px;
+      border: 1px solid #e9e4d9; border-radius: 16px; background: #fff;
+      box-shadow: 0 14px 38px rgba(20,43,68,.10);
+    }
+    .va-search-symbol { display: grid; flex: 0 0 44px; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #fff4d8; color: #a8730c; font-size: 22px; }
+    .va-search-content { flex: 1; min-width: 0; }
+    .va-search-content label { display: block; margin-bottom: 5px; color: var(--va-ink); font-size: 12px; font-weight: 800; }
+    .va-search-content input { width: 100%; padding: 5px 0; border: 0; outline: 0; background: transparent; color: var(--va-ink); font: inherit; font-size: 14px; }
+    .va-search-content input::placeholder { color: #8995a3; }
+    .va-search-content input:focus { outline: none; }
+    .va-search-content:focus-within { outline: 2px solid rgba(232,173,50,.28); outline-offset: 7px; border-radius: 3px; }
+    #vmClearCountrySearch { border: 0; background: #f1f4f7; border-radius: 50%; width: 30px; height: 30px; color: #52677d; cursor: pointer; font-size: 19px; }
+    .va-directory { padding: 72px 0 78px; background: linear-gradient(180deg, #fff 0%, #fbfaf6 100%); }
+    .va-section-top { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 28px; }
+    .va-section-kicker { color: #a7781d; font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .va-section-top h2 { margin: 9px 0 7px; color: var(--va-navy); font-size: clamp(26px, 3vw, 36px); letter-spacing: -.035em; }
+    .va-section-top p { margin: 0; color: #738092; font-size: 13px; line-height: 1.6; }
+    .va-count { flex: 0 0 auto; min-width: 100px; padding: 12px 17px; border: 1px solid #eadfca; border-radius: 13px; background: #fff; text-align: center; }
+    .va-count strong { display: block; color: var(--va-navy); font-size: 27px; line-height: 1.1; }
+    .va-count span { color: #8490a0; font-size: 10px; }
+    .va-country-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .va-country-card {
+      position: relative; display: flex; flex-direction: column; min-height: 188px; padding: 20px;
+      border: 1px solid #e8e6df; border-radius: 17px; background: #fff;
+      box-shadow: 0 5px 18px rgba(16,43,78,.045); transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .va-country-card:hover { transform: translateY(-5px); border-color: #e4bd66; box-shadow: 0 16px 32px rgba(16,43,78,.11); }
+    .va-country-card[hidden], #vmCountryGrid[hidden] { display: none !important; }
+    .va-card-top { display: flex; align-items: center; gap: 13px; }
+    .va-flag {
+      display: grid; flex: 0 0 58px; place-items: center; width: 58px; height: 48px; overflow: hidden;
+      border: 1px solid #e9e8e2; border-radius: 11px; background: #f7f5ef; color: #607080; font-size: 26px;
+    }
+    .va-flag img { width: 100%; height: 100%; object-fit: cover; }
+    .va-flag-fallback { font-size: 25px; }
+    .va-country-info { min-width: 0; flex: 1; }
+    .va-country-info h3 { overflow: hidden; margin: 0 0 7px; color: var(--va-navy); font-size: 16px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .va-available { display: inline-flex; align-items: center; gap: 6px; color: #65806d; font-size: 10px; font-weight: 700; }
+    .va-available::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #58a875; }
+    .va-card-index { position: absolute; top: 19px; right: 19px; color: #c3cbd2; font-size: 11px; font-weight: 800; }
+    .va-card-link {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding: 12px 14px;
+      border-radius: 9px; background: var(--va-navy); color: #fff; font-size: 11px; font-weight: 800; text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .va-card-link:hover { background: #214f79; transform: translateX(2px); }
+    .va-card-link span { color: #f2c45b; font-size: 17px; }
+    .va-message { padding: 30px; border: 1px dashed #d8cba9; border-radius: 15px; background: #fffdf7; color: #657184; text-align: center; }
+    .va-message strong { display: block; margin-bottom: 7px; color: var(--va-navy); }
+    .va-no-results { padding: 38px 20px; border: 1px dashed #d8cba9; border-radius: 15px; background: #fffdf7; text-align: center; }
+    .va-no-results[hidden] { display: none !important; }
+    .va-no-results h3 { margin: 8px 0; color: var(--va-navy); }
+    .va-no-results p { color: #788596; font-size: 13px; }
+    .va-contact-link { display: inline-flex; margin-top: 8px; padding: 11px 18px; border-radius: 8px; background: var(--va-navy); color: #fff; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .va-disclaimer { display: flex; gap: 10px; margin: 24px 0 0; padding: 15px 17px; border-left: 3px solid var(--va-gold); border-radius: 0 9px 9px 0; background: #f5f3ed; color: #727d89; font-size: 11px; line-height: 1.7; }
+    .va-disclaimer b { color: #a7781d; }
+    .va-steps { padding: 76px 0; background: #f1f4f6; }
+    .va-steps-heading { max-width: 650px; margin-bottom: 30px; }
+    .va-steps-heading h2 { margin: 10px 0; color: var(--va-navy); font-size: clamp(27px, 3vw, 37px); letter-spacing: -.035em; }
+    .va-steps-heading p { color: #778393; font-size: 13px; line-height: 1.7; }
+    .va-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .va-step { position: relative; padding: 25px; border: 1px solid #e1e6e9; border-radius: 14px; background: #fff; }
+    .va-step-no { color: #c08b24; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+    .va-step-icon { display: grid; place-items: center; width: 43px; height: 43px; margin: 17px 0; border-radius: 12px; background: #fff3d5; color: #9b6b13; font-size: 20px; }
+    .va-step h3 { margin: 0 0 8px; color: var(--va-navy); font-size: 16px; }
+    .va-step p { margin: 0; color: #7a8795; font-size: 12px; line-height: 1.7; }
+    .va-note { padding: 0 0 75px; background: #f1f4f6; }
+    .va-note-inner { display: flex; align-items: center; gap: 20px; padding: 25px 28px; border-radius: 16px; background: #102b4e; color: #fff; }
+    .va-note-icon { display: grid; flex: 0 0 46px; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #f2c45b; color: #102b4e; font-size: 23px; font-weight: 900; }
+    .va-note-copy { flex: 1; }
+    .va-note-copy h3 { margin: 0 0 6px; color: #fff; font-size: 17px; }
+    .va-note-copy p { margin: 0; color: rgba(255,255,255,.72); font-size: 12px; line-height: 1.7; }
+    .va-note-link { flex: 0 0 auto; padding: 11px 16px; border-radius: 8px; background: #f2c45b; color: #102b4e; font-size: 11px; font-weight: 800; text-decoration: none; }
+    @media (max-width: 850px) {
+      .va-hero { padding: 58px 0 75px; }
+      .va-hero-inner { grid-template-columns: 1fr .55fr; gap: 22px; }
+      .va-passport { width: 220px; min-height: 260px; padding: 20px; }
+      .va-country-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .va-container { width: min(100% - 30px, 480px); }
+      .va-hero { padding: 48px 0 68px; }
+      .va-hero-inner { display: block; }
+      .va-hero h1 { font-size: 42px; }
+      .va-hero-copy { font-size: 13px; }
+      .va-passport { display: none; }
+      .va-search-panel { gap: 10px; padding: 13px; flex-wrap: wrap; }
+      .va-search-symbol { flex-basis: 43px; width: 43px; height: 43px; }
+      .va-search-content { flex-basis: calc(100% - 60px); }
+      .va-search-hint { display: none; }
+      #vmClearCountrySearch { margin-left: 53px; }
+      .va-search-area { margin-top: -27px; }
+      .va-directory { padding: 55px 0 58px; }
+      .va-section-top { align-items: start; }
+      .va-section-top h2 { font-size: 27px; }
+      .va-count { min-width: 72px; padding: 9px 10px; }
+      .va-count strong { font-size: 23px; }
+      .va-country-grid { grid-template-columns: 1fr; gap: 12px; }
+      .va-country-card { min-height: 165px; padding: 16px; }
+      .va-steps { padding: 55px 0; }
+      .va-steps-grid { grid-template-columns: 1fr; }
+      .va-note { padding-bottom: 55px; }
+      .va-note-inner { align-items: flex-start; flex-wrap: wrap; padding: 20px; }
+      .va-note-link { margin-left: 66px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .va-country-card, .va-card-link { transition: none; }
+    }
+  </style>
+</head>
+
+<body>
+  <%- include("../partials/navbar", { currentPage: "visa-on-arrival" }) %>
+
+  <%
+    const directoryCountries = Array.isArray(countries) ? countries : [];
+
+    const flagPath = (flag) => {
+      const value = String(flag || "").trim();
+      if (value.startsWith("public/")) return value.replace(/^public/, "");
+      if (value && !value.startsWith("/") && !/^https?:\/\//i.test(value)) return "/" + value;
+      return value;
+    };
+
+    const isFlagImage = (flag) => {
+      const value = String(flag || "").trim();
+      return /^(https?:\/\/|\/|images\/|public\/)/i.test(value) &&
+        /\.(png|jpe?g|svg|webp)(\?.*)?$/i.test(value);
+    };
+  %>
+
+  <main class="va-page">
+    <section class="va-hero">
+      <div class="va-container va-hero-inner">
+        <div>
+          <span class="va-eyebrow">VisaMaster / Digital travel desk</span>
+          <h1>Land with ease.<br /> <span>Get Visa on Arrival.</span></h1>
+          <p class="va-hero-copy">
+            Explore destinations with an active Visa on Arrival category. Find your country,
+            review the available visa options and get a clearer picture of the next steps.
+          </p>
+          <div class="va-hero-points">
+            <span><b>✓</b> Country directory</span>
+            <span><b>✓</b> Requirements access</span>
+            <span><b>✓</b> Guided next steps</span>
+          </div>
+        </div>
+        <div class="va-passport" aria-hidden="true">
+          <small>VISAMASTER • TRAVEL DOCUMENT</small>
+          <div class="va-passport-mark">✈</div>
+          <strong>VISA ON ARRIVAL</strong>
+          <div class="va-passport-line"></div>
+          <div class="va-passport-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="va-search-area">
+      <div class="va-container">
+        <div class="va-search-panel">
+          <span class="va-search-symbol" aria-hidden="true">⌕</span>
+          <div class="va-search-content">
+            <label for="vmCountrySearch">SEARCH YOUR DESTINATION</label>
+            <input
+              type="search"
+              id="vmCountrySearch"
+              placeholder="Enter a country name (e.g. Singapore)..."
+              autocomplete="off"
+              aria-label="Search Visa on Arrival countries"
+            />
+          </div>
+          <span class="va-search-hint">VISA ON ARRIVAL DIRECTORY</span>
+          <button type="button" id="vmClearCountrySearch" aria-label="Clear country search" hidden>
+            <span aria-hidden="true">&times;</span>
+            <span class="va-clear-text">Clear</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <section class="va-directory" id="visa-directory">
+      <div class="va-container">
+        <div class="va-section-top">
+          <div>
+            <span class="va-section-kicker">Your next destination</span>
+            <h2>Where would you like to go?</h2>
+            <p>Choose a country to view its Visa on Arrival options and requirements.</p>
+          </div>
+          <div class="va-count">
+            <strong id="vmCountryCount"><%= directoryCountries.length %></strong>
+            <span id="vmCountryCountLabel">countries found</span>
+          </div>
+        </div>
+
+        <% if (typeof loadError !== "undefined" && loadError) { %>
+          <div class="va-message" role="status">
+            <strong>The Visa on Arrival directory is temporarily unavailable.</strong>
+            Please refresh the page or contact our team for assistance.
+          </div>
+        <% } else if (directoryCountries.length === 0) { %>
+          <div class="va-message" role="status">
+            <strong>No Visa on Arrival destinations are currently listed.</strong>
+            Please check again later or contact our team for assistance.
+          </div>
+        <% } else { %>
+          <div class="va-country-grid vm-country-grid" id="vmCountryGrid">
+            <% directoryCountries.forEach((country, index) => {
+              const countryFlag = String(country.flag || "").trim();
+              const countryFlagIsImage = isFlagImage(countryFlag);
+              const countryFlagPath = flagPath(countryFlag);
+            %>
+              <article
+                class="va-country-card vm-visa-country-card"
+                data-country-slug="<%= country.slug %>"
+                data-country-name="<%= country.name %>"
+              >
+                <span class="va-card-index"><%= String(index + 1).padStart(2, "0") %></span>
+                <div class="va-card-top">
+                  <span class="va-flag" aria-hidden="true">
+                    <% if (countryFlagIsImage) { %>
+                      <img
+                        src="<%= countryFlagPath %>"
+                        alt="<%= country.name %> flag"
+                        loading="lazy"
+                        onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+                      />
+                      <span class="va-flag-fallback" hidden>🌍</span>
+                    <% } else { %>
+                      <span class="va-flag-fallback"><%= countryFlag || "🌍" %></span>
+                    <% } %>
+                  </span>
+                  <div class="va-country-info">
+                    <h3><%= country.name %></h3>
+                    <span class="va-available">Visa on Arrival category listed</span>
+                  </div>
+                </div>
+                <a
+                  class="va-card-link vm-country-requirements-link"
+                  href="/countries/<%= country.slug %>/requirements/visa-on-arrival?returnTo=/visas/visa-on-arrival"
+                >
+                  <span style="color:inherit;font-size:11px;">Explore Visa on Arrival requirements</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            <% }) %>
+          </div>
+
+          <div class="va-no-results vm-directory-no-results" id="vmVisaNoResults" hidden>
+            <h3>No matching destination</h3>
+            <p>Try another country name or contact our team for assistance.</p>
+            <a class="va-contact-link" href="/contact">Ask VisaMaster →</a>
+          </div>
+        <% } %>
+
+        <p class="va-disclaimer">
+          <b>ⓘ Important:</b>
+          Visa on Arrival availability, eligibility, fees and application methods may vary by nationality
+          and travel purpose. Confirm current rules before submitting an application.
+        </p>
+      </div>
+    </section>
+
+    <section class="va-steps" aria-labelledby="evStepsTitle">
+      <div class="va-container">
+        <div class="va-steps-heading">
+          <span class="va-section-kicker">A simple route forward</span>
+          <h2 id="evStepsTitle">Your Visa on Arrival journey, made clearer.</h2>
+          <p>Start with a destination, understand the visa options and review the information before proceeding.</p>
+        </div>
+        <div class="va-steps-grid">
+          <article class="va-step">
+            <span class="va-step-no">STEP 01</span>
+            <span class="va-step-icon" aria-hidden="true">⌕</span>
+            <h3>Find a country</h3>
+            <p>Search the directory and choose the destination you plan to visit.</p>
+          </article>
+          <article class="va-step">
+            <span class="va-step-no">STEP 02</span>
+            <span class="va-step-icon" aria-hidden="true">◎</span>
+            <h3>Explore visa options</h3>
+            <p>Review the active Visa on Arrival purposes and information available for that country.</p>
+          </article>
+          <article class="va-step">
+            <span class="va-step-no">STEP 03</span>
+            <span class="va-step-icon" aria-hidden="true">✓</span>
+            <h3>Check requirements</h3>
+            <p>Read the eligibility and document details, or contact our team if you need help.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="va-note">
+      <div class="va-container">
+        <div class="va-note-inner">
+          <span class="va-note-icon" aria-hidden="true">!</span>
+          <div class="va-note-copy">
+            <h3>Visa rules can change.</h3>
+            <p>Eligibility, fees, processing times and required documents may differ by nationality and travel purpose. Always confirm the latest rules before applying.</p>
+          </div>
+          <a class="va-note-link" href="/contact">Talk to our team →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <%- include("../partials/footer") %>
+
+  <script src="/js/main.js"></script>
+  <script>
+    (() => {
+      const searchInput = document.getElementById("vmCountrySearch");
+      const clearButton = document.getElementById("vmClearCountrySearch");
+      const countryGrid = document.getElementById("vmCountryGrid");
+      const countElement = document.getElementById("vmCountryCount");
+      const countLabel = document.getElementById("vmCountryCountLabel");
+      const noResults = document.getElementById("vmVisaNoResults");
+
+      if (!searchInput || !countryGrid) return;
+
+      const countryCards = Array.from(
+        countryGrid.querySelectorAll(".va-country-card")
+      );
+
+      const normalize = (value) =>
+        String(value || "")
+          .toLocaleLowerCase()
+          .normalize("NFD")
+          .replace(/[\\u0300-\\u036f]/g, "")
+          .trim();
+
+      const filterCountries = () => {
+        const query = normalize(searchInput.value);
+        let visibleCount = 0;
+
+        countryCards.forEach((card) => {
+          const countryName = normalize(
+            card.dataset.countryName || card.querySelector("h3")?.textContent
+          );
+          const matches = !query || countryName.includes(query);
+
+          card.hidden = !matches;
+          if (matches) visibleCount += 1;
+        });
+
+        if (countElement) countElement.textContent = String(visibleCount);
+        if (countLabel) {
+          countLabel.textContent = visibleCount === 1
+            ? "country found"
+            : "countries found";
+        }
+
+        if (noResults) {
+          noResults.hidden = visibleCount !== 0;
+        }
+
+        clearButton.hidden = searchInput.value.length === 0;
+        countryGrid.hidden = visibleCount === 0;
+      };
+
+      searchInput.addEventListener("input", filterCountries);
+      clearButton.addEventListener("click", () => {
+        searchInput.value = "";
+        filterCountries();
+        searchInput.focus();
+      });
+
+      filterCountries();
+    })();
+  </script>
+</body>
+</html>

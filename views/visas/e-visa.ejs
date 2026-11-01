@@ -1,220 +1,473 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Visa Destinations | VisaMaster</title>
+  <meta name="description" content="Explore countries offering E-Visa options with VisaMaster." />
 
-  <title>E-Visa Countries | VisaMaster</title>
-  <meta
-    name="description"
-    content="Explore E-Visa destinations and check visa requirements with VisaMaster."
-  >
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
 
-  <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/navbar.css">
-  <link rel="stylesheet" href="/css/footer.css">
-  <link rel="stylesheet" href="/css/e-visa.css">
+  <style>
+    /* E-Visa page: deliberately independent from the All Visas directory */
+    .ev-page {
+      --ev-navy: #102b4e;
+      --ev-blue: #1e4773;
+      --ev-gold: #e8ad32;
+      --ev-cream: #fffaf0;
+      --ev-ink: #172b43;
+      color: var(--ev-ink);
+      background: #fff;
+      overflow: hidden;
+    }
+    .ev-container { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+    .ev-hero {
+      position: relative;
+      isolation: isolate;
+      padding: 76px 0 88px;
+      color: #fff;
+      background:
+        radial-gradient(circle at 82% 20%, rgba(232,173,50,.22), transparent 25%),
+        radial-gradient(circle at 8% 100%, rgba(84,139,190,.22), transparent 32%),
+        linear-gradient(118deg, #0c2340 0%, #163d66 58%, #214f79 100%);
+    }
+    .ev-hero::before, .ev-hero::after {
+      content: ""; position: absolute; z-index: -1; border: 1px dashed rgba(255,255,255,.22);
+      border-radius: 50%; transform: rotate(-22deg);
+    }
+    .ev-hero::before { width: 430px; height: 170px; right: -55px; top: 25px; }
+    .ev-hero::after { width: 330px; height: 130px; right: 15px; top: 58px; }
+    .ev-hero-inner { display: grid; grid-template-columns: 1.25fr .75fr; gap: 50px; align-items: center; }
+    .ev-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px;
+      color: #f4c65f; font-size: 11px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase;
+    }
+    .ev-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--ev-gold); }
+    .ev-hero h1 { max-width: 700px; margin: 0; color: #fff; font-size: clamp(38px, 5.3vw, 66px); line-height: 1.04; letter-spacing: -.045em; }
+    .ev-hero h1 span { color: #f2c45b; font-family: Georgia, serif; font-style: italic; font-weight: 500; }
+    .ev-hero-copy { max-width: 610px; margin: 22px 0 0; color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.85; }
+    .ev-hero-points { display: flex; flex-wrap: wrap; gap: 12px 22px; margin-top: 28px; }
+    .ev-hero-points span { color: #f8f3e9; font-size: 12px; font-weight: 600; }
+    .ev-hero-points b { margin-right: 7px; color: #f2c45b; }
+    .ev-passport {
+      justify-self: end; position: relative; width: min(100%, 290px); min-height: 310px; padding: 28px;
+      border: 1px solid rgba(255,255,255,.3); border-radius: 18px 18px 42px 18px;
+      background: linear-gradient(145deg, #f6d779, #dba83c); color: #173657;
+      box-shadow: 18px 22px 0 rgba(4,19,36,.18), 0 25px 60px rgba(0,0,0,.2);
+      transform: rotate(5deg);
+    }
+    .ev-passport::before { content: "✈"; position: absolute; right: 24px; top: 15px; color: rgba(16,43,78,.28); font-size: 40px; }
+    .ev-passport-mark { display: grid; place-items: center; width: 78px; height: 78px; margin: 26px auto 20px; border: 2px solid rgba(16,43,78,.45); border-radius: 50%; font-size: 37px; }
+    .ev-passport small { display: block; text-align: center; font-size: 9px; font-weight: 800; letter-spacing: .24em; }
+    .ev-passport strong { display: block; margin-top: 9px; text-align: center; font-family: Georgia,serif; font-size: 24px; letter-spacing: .08em; }
+    .ev-passport-line { height: 1px; margin-top: 22px; background: rgba(16,43,78,.3); }
+    .ev-search-area { position: relative; z-index: 2; margin-top: -35px; }
+    .ev-search-panel {
+      position: relative; gap: 16px; padding: 19px 22px;
+      border: 1px solid #e7dfcf; border-radius: 18px;
+      background: linear-gradient(110deg, #fff 0%, #fffdf8 100%);
+      box-shadow: 0 16px 42px rgba(9,31,55,.13);
+    }
+    .ev-search-symbol {
+      flex-basis: 50px; width: 50px; height: 50px; border-radius: 15px;
+      background: linear-gradient(145deg, #fff1c9, #f8df9e);
+      box-shadow: inset 0 0 0 1px rgba(184,130,28,.12);
+      font-size: 25px;
+    }
+    .ev-search-content label {
+      margin-bottom: 7px; color: #a27419; font-size: 9px;
+      letter-spacing: .16em; font-weight: 900;
+    }
+    .ev-search-content input {
+      min-height: 27px; font-size: 15px; font-weight: 600;
+    }
+    .ev-search-content input::placeholder { color: #9aa4ae; font-weight: 400; }
+    .ev-search-hint {
+      flex: 0 0 auto; padding: 8px 11px; border: 1px solid #eee5d2;
+      border-radius: 20px; background: #fffaf0; color: #98701f;
+      font-size: 9px; font-weight: 900; letter-spacing: .1em;
+    }
+    #vmClearCountrySearch {
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      width: auto; height: 34px; padding: 0 11px; border: 1px solid #e4e8ec;
+      border-radius: 9px; background: #f5f7f9; color: #536579;
+      cursor: pointer; font-size: 18px; transition: background .2s ease, border-color .2s ease;
+    }
+    #vmClearCountrySearch:hover { border-color: #d8bd7d; background: #fff6df; }
+    #vmClearCountrySearch[hidden] { display: none !important; }
+    .ev-clear-text { font-size: 11px; font-weight: 700; }
+    .ev-search-panel {
+      display: flex; align-items: center; gap: 18px; padding: 20px 24px;
+      border: 1px solid #e9e4d9; border-radius: 16px; background: #fff;
+      box-shadow: 0 14px 38px rgba(20,43,68,.10);
+    }
+    .ev-search-symbol { display: grid; flex: 0 0 44px; place-items: center; width: 44px; height: 44px; border-radius: 13px; background: #fff4d8; color: #a8730c; font-size: 22px; }
+    .ev-search-content { flex: 1; min-width: 0; }
+    .ev-search-content label { display: block; margin-bottom: 5px; color: var(--ev-ink); font-size: 12px; font-weight: 800; }
+    .ev-search-content input { width: 100%; padding: 5px 0; border: 0; outline: 0; background: transparent; color: var(--ev-ink); font: inherit; font-size: 14px; }
+    .ev-search-content input::placeholder { color: #8995a3; }
+    .ev-search-content input:focus { outline: none; }
+    .ev-search-content:focus-within { outline: 2px solid rgba(232,173,50,.28); outline-offset: 7px; border-radius: 3px; }
+    #vmClearCountrySearch { border: 0; background: #f1f4f7; border-radius: 50%; width: 30px; height: 30px; color: #52677d; cursor: pointer; font-size: 19px; }
+    .ev-directory { padding: 72px 0 78px; background: linear-gradient(180deg, #fff 0%, #fbfaf6 100%); }
+    .ev-section-top { display: flex; align-items: end; justify-content: space-between; gap: 25px; margin-bottom: 28px; }
+    .ev-section-kicker { color: #a7781d; font-size: 10px; font-weight: 800; letter-spacing: .2em; text-transform: uppercase; }
+    .ev-section-top h2 { margin: 9px 0 7px; color: var(--ev-navy); font-size: clamp(26px, 3vw, 36px); letter-spacing: -.035em; }
+    .ev-section-top p { margin: 0; color: #738092; font-size: 13px; line-height: 1.6; }
+    .ev-count { flex: 0 0 auto; min-width: 100px; padding: 12px 17px; border: 1px solid #eadfca; border-radius: 13px; background: #fff; text-align: center; }
+    .ev-count strong { display: block; color: var(--ev-navy); font-size: 27px; line-height: 1.1; }
+    .ev-count span { color: #8490a0; font-size: 10px; }
+    .ev-country-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .ev-country-card {
+      position: relative; display: flex; flex-direction: column; min-height: 188px; padding: 20px;
+      border: 1px solid #e8e6df; border-radius: 17px; background: #fff;
+      box-shadow: 0 5px 18px rgba(16,43,78,.045); transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+    .ev-country-card:hover { transform: translateY(-5px); border-color: #e4bd66; box-shadow: 0 16px 32px rgba(16,43,78,.11); }
+    .ev-country-card[hidden], #vmCountryGrid[hidden] { display: none !important; }
+    .ev-card-top { display: flex; align-items: center; gap: 13px; }
+    .ev-flag {
+      display: grid; flex: 0 0 58px; place-items: center; width: 58px; height: 48px; overflow: hidden;
+      border: 1px solid #e9e8e2; border-radius: 11px; background: #f7f5ef; color: #607080; font-size: 26px;
+    }
+    .ev-flag img { width: 100%; height: 100%; object-fit: cover; }
+    .ev-flag-fallback { font-size: 25px; }
+    .ev-country-info { min-width: 0; flex: 1; }
+    .ev-country-info h3 { overflow: hidden; margin: 0 0 7px; color: var(--ev-navy); font-size: 16px; font-weight: 800; text-overflow: ellipsis; white-space: nowrap; }
+    .ev-available { display: inline-flex; align-items: center; gap: 6px; color: #65806d; font-size: 10px; font-weight: 700; }
+    .ev-available::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: #58a875; }
+    .ev-card-index { position: absolute; top: 19px; right: 19px; color: #c3cbd2; font-size: 11px; font-weight: 800; }
+    .ev-card-link {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; padding: 12px 14px;
+      border-radius: 9px; background: var(--ev-navy); color: #fff; font-size: 11px; font-weight: 800; text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .ev-card-link:hover { background: #214f79; transform: translateX(2px); }
+    .ev-card-link span { color: #f2c45b; font-size: 17px; }
+    .ev-message { padding: 30px; border: 1px dashed #d8cba9; border-radius: 15px; background: #fffdf7; color: #657184; text-align: center; }
+    .ev-message strong { display: block; margin-bottom: 7px; color: var(--ev-navy); }
+    .ev-no-results { padding: 38px 20px; border: 1px dashed #d8cba9; border-radius: 15px; background: #fffdf7; text-align: center; }
+    .ev-no-results[hidden] { display: none !important; }
+    .ev-no-results h3 { margin: 8px 0; color: var(--ev-navy); }
+    .ev-no-results p { color: #788596; font-size: 13px; }
+    .ev-contact-link { display: inline-flex; margin-top: 8px; padding: 11px 18px; border-radius: 8px; background: var(--ev-navy); color: #fff; font-size: 12px; font-weight: 700; text-decoration: none; }
+    .ev-disclaimer { display: flex; gap: 10px; margin: 24px 0 0; padding: 15px 17px; border-left: 3px solid var(--ev-gold); border-radius: 0 9px 9px 0; background: #f5f3ed; color: #727d89; font-size: 11px; line-height: 1.7; }
+    .ev-disclaimer b { color: #a7781d; }
+    .ev-steps { padding: 76px 0; background: #f1f4f6; }
+    .ev-steps-heading { max-width: 650px; margin-bottom: 30px; }
+    .ev-steps-heading h2 { margin: 10px 0; color: var(--ev-navy); font-size: clamp(27px, 3vw, 37px); letter-spacing: -.035em; }
+    .ev-steps-heading p { color: #778393; font-size: 13px; line-height: 1.7; }
+    .ev-steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .ev-step { position: relative; padding: 25px; border: 1px solid #e1e6e9; border-radius: 14px; background: #fff; }
+    .ev-step-no { color: #c08b24; font-size: 11px; font-weight: 900; letter-spacing: .12em; }
+    .ev-step-icon { display: grid; place-items: center; width: 43px; height: 43px; margin: 17px 0; border-radius: 12px; background: #fff3d5; color: #9b6b13; font-size: 20px; }
+    .ev-step h3 { margin: 0 0 8px; color: var(--ev-navy); font-size: 16px; }
+    .ev-step p { margin: 0; color: #7a8795; font-size: 12px; line-height: 1.7; }
+    .ev-note { padding: 0 0 75px; background: #f1f4f6; }
+    .ev-note-inner { display: flex; align-items: center; gap: 20px; padding: 25px 28px; border-radius: 16px; background: #102b4e; color: #fff; }
+    .ev-note-icon { display: grid; flex: 0 0 46px; place-items: center; width: 46px; height: 46px; border-radius: 50%; background: #f2c45b; color: #102b4e; font-size: 23px; font-weight: 900; }
+    .ev-note-copy { flex: 1; }
+    .ev-note-copy h3 { margin: 0 0 6px; color: #fff; font-size: 17px; }
+    .ev-note-copy p { margin: 0; color: rgba(255,255,255,.72); font-size: 12px; line-height: 1.7; }
+    .ev-note-link { flex: 0 0 auto; padding: 11px 16px; border-radius: 8px; background: #f2c45b; color: #102b4e; font-size: 11px; font-weight: 800; text-decoration: none; }
+    @media (max-width: 850px) {
+      .ev-hero { padding: 58px 0 75px; }
+      .ev-hero-inner { grid-template-columns: 1fr .55fr; gap: 22px; }
+      .ev-passport { width: 220px; min-height: 260px; padding: 20px; }
+      .ev-country-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 600px) {
+      .ev-container { width: min(100% - 30px, 480px); }
+      .ev-hero { padding: 48px 0 68px; }
+      .ev-hero-inner { display: block; }
+      .ev-hero h1 { font-size: 42px; }
+      .ev-hero-copy { font-size: 13px; }
+      .ev-passport { display: none; }
+      .ev-search-panel { gap: 10px; padding: 13px; flex-wrap: wrap; }
+      .ev-search-symbol { flex-basis: 43px; width: 43px; height: 43px; }
+      .ev-search-content { flex-basis: calc(100% - 60px); }
+      .ev-search-hint { display: none; }
+      #vmClearCountrySearch { margin-left: 53px; }
+      .ev-search-area { margin-top: -27px; }
+      .ev-directory { padding: 55px 0 58px; }
+      .ev-section-top { align-items: start; }
+      .ev-section-top h2 { font-size: 27px; }
+      .ev-count { min-width: 72px; padding: 9px 10px; }
+      .ev-count strong { font-size: 23px; }
+      .ev-country-grid { grid-template-columns: 1fr; gap: 12px; }
+      .ev-country-card { min-height: 165px; padding: 16px; }
+      .ev-steps { padding: 55px 0; }
+      .ev-steps-grid { grid-template-columns: 1fr; }
+      .ev-note { padding-bottom: 55px; }
+      .ev-note-inner { align-items: flex-start; flex-wrap: wrap; padding: 20px; }
+      .ev-note-link { margin-left: 66px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ev-country-card, .ev-card-link { transition: none; }
+    }
+  </style>
 </head>
 
 <body>
+  <%- include("../partials/navbar", { currentPage: "e-visa" }) %>
 
-  <%- include("../partials/navbar") %>
+  <%
+    const eVisaCountries = Array.isArray(countries) ? countries : [];
 
-  <main class="evisa-page">
+    const flagPath = (flag) => {
+      const value = String(flag || "").trim();
+      if (value.startsWith("public/")) return value.replace(/^public/, "");
+      if (value && !value.startsWith("/") && !/^https?:\/\//i.test(value)) return "/" + value;
+      return value;
+    };
 
-    <!-- HERO -->
-    <section class="evisa-hero">
-      <div class="evisa-container">
+    const isFlagImage = (flag) => {
+      const value = String(flag || "").trim();
+      return /^(https?:\/\/|\/|images\/|public\/)/i.test(value) &&
+        /\.(png|jpe?g|svg|webp)(\?.*)?$/i.test(value);
+    };
+  %>
 
-        <span class="evisa-eyebrow">
-          ✈ SIMPLE • DIGITAL • CONVENIENT
-        </span>
-
-        <h1>
-          Explore the World with
-          <span>E-Visa</span>
-        </h1>
-
-        <p>
-          Discover destinations offering electronic visas.
-          Find your destination and check its visa requirements
-          before planning your journey.
-        </p>
-
-        <div class="evisa-hero-points">
-          <span>✓ Digital Visa Options</span>
-          <span>✓ Country-wise Requirements</span>
-          <span>✓ Easy to Explore</span>
+  <main class="ev-page">
+    <section class="ev-hero">
+      <div class="ev-container ev-hero-inner">
+        <div>
+          <span class="ev-eyebrow">VisaMaster / Digital travel desk</span>
+          <h1>Travel lighter.<br />Go <span> E-Visa.</span></h1>
+          <p class="ev-hero-copy">
+            Explore destinations with an active E-Visa category. Find your country,
+            review the available visa options and get a clearer picture of the next steps.
+          </p>
+          <div class="ev-hero-points">
+            <span><b>✓</b> Country directory</span>
+            <span><b>✓</b> Requirements access</span>
+            <span><b>✓</b> Guided next steps</span>
+          </div>
         </div>
+        <div class="ev-passport" aria-hidden="true">
+          <small>VISAMASTER • TRAVEL DOCUMENT</small>
+          <div class="ev-passport-mark">✈</div>
+          <strong>E-VISA</strong>
+          <div class="ev-passport-line"></div>
+          <div class="ev-passport-line"></div>
+        </div>
+      </div>
+    </section>
 
-        <!-- COUNTRY SEARCH -->
-        <div class="evisa-search-wrap">
-          <span class="evisa-search-icon" aria-hidden="true">⌕</span>
-
-          <input
-            type="search"
-            id="evisaCountrySearch"
-            placeholder="Search country name..."
-            aria-label="Search E-Visa countries"
-            autocomplete="off"
-          >
-
-          <button type="button" id="clearEvisaSearch" hidden>
-            Clear
+    <div class="ev-search-area">
+      <div class="ev-container">
+        <div class="ev-search-panel">
+          <span class="ev-search-symbol" aria-hidden="true">⌕</span>
+          <div class="ev-search-content">
+            <label for="vmCountrySearch">SEARCH YOUR DESTINATION</label>
+            <input
+              type="search"
+              id="vmCountrySearch"
+              placeholder="Enter a country name (e.g. Singapore)..."
+              autocomplete="off"
+              aria-label="Search E-Visa countries"
+            />
+          </div>
+          <span class="ev-search-hint">E-VISA DIRECTORY</span>
+          <button type="button" id="vmClearCountrySearch" aria-label="Clear country search" hidden>
+            <span aria-hidden="true">&times;</span>
+            <span class="ev-clear-text">Clear</span>
           </button>
         </div>
-
-        <!-- RESULT COUNT -->
-        <div class="evisa-result-count" aria-live="polite">
-          <strong id="evisaCount"><%= countries.length %></strong>
-
-          <span id="evisaCountLabel">
-            <%= countries.length === 1
-              ? "destination available"
-              : "destinations available" %>
-          </span>
-        </div>
-
       </div>
-    </section>
+    </div>
 
-
-    <!-- COUNTRY DIRECTORY -->
-    <section class="evisa-directory">
-      <div class="evisa-container">
-
-        <div class="evisa-section-heading">
+    <section class="ev-directory" id="visa-directory">
+      <div class="ev-container">
+        <div class="ev-section-top">
           <div>
-            <span class="evisa-section-kicker">YOUR NEXT DESTINATION</span>
-
-            <h2>E-Visa Destinations</h2>
-
-            <p>
-              Choose a country to view its available visa requirements.
-            </p>
+            <span class="ev-section-kicker">Your next destination</span>
+            <h2>Where would you like to go?</h2>
+            <p>Choose a country to view its E-Visa options and requirements.</p>
+          </div>
+          <div class="ev-count">
+            <strong id="vmCountryCount"><%= eVisaCountries.length %></strong>
+            <span id="vmCountryCountLabel">countries found</span>
           </div>
         </div>
 
-
-        <% if (countries.length > 0) { %>
-
-          <div class="evisa-country-grid" id="evisaCountryGrid">
-
-            <% countries.forEach((country) => { %>
-
-              <article
-                class="evisa-country-card"
-                data-country-name="<%= country.name.toLowerCase() %>"
-              >
-
-                <div class="evisa-card-top">
-
-                  <span class="evisa-card-flag">
-                    <%= country.flag || "🌍" %>
-                  </span>
-
-                  <span class="evisa-badge">
-                    <span class="evisa-badge-dot"></span>
-                    E-Visa Available
-                  </span>
-
-                </div>
-
-
-                <div class="evisa-card-content">
-
-                  <h3><%= country.name %></h3>
-
-                  <p>
-                    Explore electronic visa options and document requirements
-                    for <%= country.name %>.
-                  </p>
-
-
-                  <div class="evisa-type-info">
-                    <span>✈</span>
-
-                    <span>
-                      <%= Array.isArray(country.eVisaTypes)
-                        ? country.eVisaTypes.length
-                        : 0 %>
-
-                      <%= Array.isArray(country.eVisaTypes) &&
-                          country.eVisaTypes.length === 1
-                        ? "E-Visa option"
-                        : "E-Visa options" %>
-                    </span>
-                  </div>
-
-
-                 <a
-  class="evisa-requirements-btn"
-  href="/countries/<%= encodeURIComponent(country.slug) %>/requirements?visa=<%= encodeURIComponent(
-    (country.visaTypes || []).find(
-      (visa) =>
-        visa.isActive !== false &&
-        visa.slug &&
-        Array.isArray(visa.categories) &&
-        visa.categories.includes('e-visa')
-    )?.slug || 'e-visa'
-  ) %>"
->
-  See Requirements
-  <span aria-hidden="true">→</span>
-</a>
-
-                </div>
-
-              </article>
-
-            <% }) %>
-
+        <% if (typeof loadError !== "undefined" && loadError) { %>
+          <div class="ev-message" role="status">
+            <strong>The E-Visa directory is temporarily unavailable.</strong>
+            Please refresh the page or contact our team for assistance.
           </div>
-
-
-          <!-- NO SEARCH RESULTS -->
-          <div class="evisa-no-results" id="evisaNoResults" hidden>
-
-            <span>🔎</span>
-
-            <h3>No countries found</h3>
-
-            <p>Try another country name.</p>
-
+        <% } else if (eVisaCountries.length === 0) { %>
+          <div class="ev-message" role="status">
+            <strong>No E-Visa destinations are currently listed.</strong>
+            Please check again later or contact our team for assistance.
           </div>
-
         <% } else { %>
-
-          <!-- EMPTY STATE -->
-          <div class="evisa-empty-state">
-
-            <span>🌍</span>
-
-            <h3>E-Visa destinations coming soon</h3>
-
-            <p>
-              No active countries have been assigned to the E-Visa category yet.
-              Please check back later.
-            </p>
-
+          <div class="ev-country-grid vm-country-grid" id="vmCountryGrid">
+            <% eVisaCountries.forEach((country, index) => {
+              const countryFlag = String(country.flag || "").trim();
+              const countryFlagIsImage = isFlagImage(countryFlag);
+              const countryFlagPath = flagPath(countryFlag);
+            %>
+              <article
+                class="ev-country-card vm-visa-country-card"
+                data-country-slug="<%= country.slug %>"
+                data-country-name="<%= country.name %>"
+              >
+                <span class="ev-card-index"><%= String(index + 1).padStart(2, "0") %></span>
+                <div class="ev-card-top">
+                  <span class="ev-flag" aria-hidden="true">
+                    <% if (countryFlagIsImage) { %>
+                      <img
+                        src="<%= countryFlagPath %>"
+                        alt="<%= country.name %> flag"
+                        loading="lazy"
+                        onerror="this.style.display='none'; this.nextElementSibling.hidden=false;"
+                      />
+                      <span class="ev-flag-fallback" hidden>🌍</span>
+                    <% } else { %>
+                      <span class="ev-flag-fallback"><%= countryFlag || "🌍" %></span>
+                    <% } %>
+                  </span>
+                  <div class="ev-country-info">
+                    <h3><%= country.name %></h3>
+                    <span class="ev-available">E-Visa category listed</span>
+                  </div>
+                </div>
+                <a
+                  class="ev-card-link vm-country-requirements-link"
+                  href="/countries/<%= country.slug %>/requirements/e-visa"
+                >
+                  <span style="color:inherit;font-size:11px;">Explore E-Visa requirements</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            <% }) %>
           </div>
 
+          <div class="ev-no-results vm-directory-no-results" id="vmVisaNoResults" hidden>
+            <h3>No matching destination</h3>
+            <p>Try another country name or contact our team for assistance.</p>
+            <a class="ev-contact-link" href="/contact">Ask VisaMaster →</a>
+          </div>
         <% } %>
 
+        <p class="ev-disclaimer">
+          <b>ⓘ Important:</b>
+          E-Visa availability, eligibility, fees and application methods may vary by nationality
+          and travel purpose. Confirm current rules before submitting an application.
+        </p>
       </div>
     </section>
 
+    <section class="ev-steps" aria-labelledby="evStepsTitle">
+      <div class="ev-container">
+        <div class="ev-steps-heading">
+          <span class="ev-section-kicker">A simple route forward</span>
+          <h2 id="evStepsTitle">Your E-Visa journey, made clearer.</h2>
+          <p>Start with a destination, understand the visa options and review the information before proceeding.</p>
+        </div>
+        <div class="ev-steps-grid">
+          <article class="ev-step">
+            <span class="ev-step-no">STEP 01</span>
+            <span class="ev-step-icon" aria-hidden="true">⌕</span>
+            <h3>Find a country</h3>
+            <p>Search the directory and choose the destination you plan to visit.</p>
+          </article>
+          <article class="ev-step">
+            <span class="ev-step-no">STEP 02</span>
+            <span class="ev-step-icon" aria-hidden="true">◎</span>
+            <h3>Explore visa options</h3>
+            <p>Review the active E-Visa purposes and information available for that country.</p>
+          </article>
+          <article class="ev-step">
+            <span class="ev-step-no">STEP 03</span>
+            <span class="ev-step-icon" aria-hidden="true">✓</span>
+            <h3>Check requirements</h3>
+            <p>Read the eligibility and document details, or contact our team if you need help.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="ev-note">
+      <div class="ev-container">
+        <div class="ev-note-inner">
+          <span class="ev-note-icon" aria-hidden="true">!</span>
+          <div class="ev-note-copy">
+            <h3>Visa rules can change.</h3>
+            <p>Eligibility, fees, processing times and required documents may differ by nationality and travel purpose. Always confirm the latest rules before applying.</p>
+          </div>
+          <a class="ev-note-link" href="/contact">Talk to our team →</a>
+        </div>
+      </div>
+    </section>
   </main>
 
-
-  <!-- FOOTER -->
   <%- include("../partials/footer") %>
 
+  <script src="/js/main.js"></script>
+  <script>
+    (() => {
+      const searchInput = document.getElementById("vmCountrySearch");
+      const clearButton = document.getElementById("vmClearCountrySearch");
+      const countryGrid = document.getElementById("vmCountryGrid");
+      const countElement = document.getElementById("vmCountryCount");
+      const countLabel = document.getElementById("vmCountryCountLabel");
+      const noResults = document.getElementById("vmVisaNoResults");
 
-  <!-- JAVASCRIPT -->
-  <script src="/js/e-visa.js" defer></script>
-  <script src="/js/main.js" defer></script>
+      if (!searchInput || !countryGrid) return;
 
+      const countryCards = Array.from(
+        countryGrid.querySelectorAll(".ev-country-card")
+      );
+
+      const normalize = (value) =>
+        String(value || "")
+          .toLocaleLowerCase()
+          .normalize("NFD")
+          .replace(/[\\u0300-\\u036f]/g, "")
+          .trim();
+
+      const filterCountries = () => {
+        const query = normalize(searchInput.value);
+        let visibleCount = 0;
+
+        countryCards.forEach((card) => {
+          const countryName = normalize(
+            card.dataset.countryName || card.querySelector("h3")?.textContent
+          );
+          const matches = !query || countryName.includes(query);
+
+          card.hidden = !matches;
+          if (matches) visibleCount += 1;
+        });
+
+        if (countElement) countElement.textContent = String(visibleCount);
+        if (countLabel) {
+          countLabel.textContent = visibleCount === 1
+            ? "country found"
+            : "countries found";
+        }
+
+        if (noResults) {
+          noResults.hidden = visibleCount !== 0;
+        }
+
+        clearButton.hidden = searchInput.value.length === 0;
+        countryGrid.hidden = visibleCount === 0;
+      };
+
+      searchInput.addEventListener("input", filterCountries);
+      clearButton.addEventListener("click", () => {
+        searchInput.value = "";
+        filterCountries();
+        searchInput.focus();
+      });
+
+      filterCountries();
+    })();
+  </script>
 </body>
 </html>

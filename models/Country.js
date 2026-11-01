@@ -1,10 +1,48 @@
 const mongoose = require("mongoose");
 
 /* =========================================================
-VISA TYPE SCHEMA
+   APPLICATION FORM PDF SCHEMA
+   Each subcategory has its own independent PDF.
 ========================================================= */
 
-const visaTypeSchema = new mongoose.Schema(
+const applicationFormSchema = new mongoose.Schema(
+  {
+    filename: {
+      type: String,
+      trim: true,
+    },
+
+    contentType: {
+      type: String,
+      default: "application/pdf",
+    },
+
+    data: {
+      type: Buffer,
+      select: false,
+    },
+
+    size: {
+      type: Number,
+      default: 0,
+    },
+
+    uploadedAt: {
+      type: Date,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+/* =========================================================
+   SUBCATEGORY SCHEMA
+   Each subcategory has its own requirements,
+   eligibility and application form PDF.
+========================================================= */
+
+const subCategorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,65 +54,19 @@ const visaTypeSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      lowercase: true,
     },
 
     purpose: {
       type: String,
       trim: true,
+      default: "",
     },
 
-    // Directory categories are managed from the Admin Panel.
-    // A visa may belong to more than one category (for example, Tourist + E-Visa).
-    categories: {
-      type: [
-        {
-          type: String,
-          enum: [
-            "e-visa",
-            "tourist-visa",
-            "visa-on-arrival",
-            "business-visa",
-            "stamping-visa",
-            "sticker-visa",
-          ],
-        },
-      ],
-      default: [],
-    },
-
-    stayDuration: {
+    description: {
       type: String,
       trim: true,
-    },
-
-    validity: {
-      type: String,
-      trim: true,
-    },
-
-    processingTime: {
-      type: String,
-      trim: true,
-    },
-
-    entryType: {
-      type: String,
-      trim: true,
-    },
-
-    governmentFee: {
-      type: String,
-      trim: true,
-    },
-
-    serviceFee: {
-      type: String,
-      trim: true,
-    },
-
-    totalFee: {
-      type: String,
-      trim: true,
+      default: "",
     },
 
     eligibility: {
@@ -82,19 +74,20 @@ const visaTypeSchema = new mongoose.Schema(
       default: [],
     },
 
-    documents: {
+    requirements: {
       type: [String],
       default: [],
-    },
-
-    description: {
-      type: String,
-      trim: true,
     },
 
     isActive: {
       type: Boolean,
       default: true,
+    },
+
+    // Independent PDF for this subcategory
+    applicationForm: {
+      type: applicationFormSchema,
+      default: undefined,
     },
   },
   {
@@ -103,14 +96,154 @@ const visaTypeSchema = new mongoose.Schema(
 );
 
 /* =========================================================
-COUNTRY SCHEMA
+   VISA CATEGORY SCHEMA
+   Only 3 main categories are allowed.
+========================================================= */
+
+const visaCategorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    slug: {
+      type: String,
+      required: true,
+      enum: ["e-visa", "sticker-visa", "visa-on-arrival"],
+      trim: true,
+      lowercase: true,
+    },
+
+    isActive: {
+      type: Boolean,
+      default: true,
+    },
+
+    subCategories: {
+      type: [subCategorySchema],
+      default: [],
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+/* =========================================================
+   DEFAULT VISA CATEGORIES
+========================================================= */
+
+const defaultVisaCategories = () => [
+  {
+    name: "E-Visa",
+    slug: "e-visa",
+    isActive: true,
+    subCategories: [],
+  },
+  {
+    name: "Sticker Visa",
+    slug: "sticker-visa",
+    isActive: true,
+    subCategories: [],
+  },
+  {
+    name: "Visa on Arrival",
+    slug: "visa-on-arrival",
+    isActive: true,
+    subCategories: [],
+  },
+];
+
+/* =========================================================
+   TRAVEL INFORMATION SCHEMA
+========================================================= */
+
+const travelInfoSchema = new mongoose.Schema(
+  {
+    bestTimeToVisit: {
+      type: String,
+      trim: true,
+    },
+
+    currency: {
+      type: String,
+      trim: true,
+    },
+
+    language: {
+      type: String,
+      trim: true,
+    },
+
+    timezone: {
+      type: String,
+      trim: true,
+    },
+
+    capital: {
+      type: String,
+      trim: true,
+    },
+
+    majorCities: {
+      type: [String],
+      default: [],
+    },
+
+    flightDuration: {
+      type: String,
+      trim: true,
+    },
+
+    timeDifference: {
+      type: String,
+      trim: true,
+    },
+
+    airportInformation: {
+      type: String,
+      trim: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+/* =========================================================
+   FAQ SCHEMA
+========================================================= */
+
+const faqSchema = new mongoose.Schema(
+  {
+    question: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    answer: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+  },
+  {
+    _id: false,
+  },
+);
+
+/* =========================================================
+   COUNTRY SCHEMA
 ========================================================= */
 
 const countrySchema = new mongoose.Schema(
   {
-    /* =====================================================
-    BASIC INFORMATION
-    ===================================================== */
+    /* =========================================
+       1. BASIC COUNTRY INFORMATION
+    ========================================= */
 
     name: {
       type: String,
@@ -152,190 +285,122 @@ const countrySchema = new mongoose.Schema(
       trim: true,
     },
 
-    startingFee: {
-      type: String,
-      trim: true,
-    },
-
-    startingProcessingTime: {
-      type: String,
-      trim: true,
-    },
-
     heroBadge: {
       type: String,
       trim: true,
     },
 
-    /* =====================================================
-    VISA TYPES
-    ===================================================== */
+    /* =========================================
+       2. VISA CATEGORIES
+       E-Visa, Sticker Visa, Visa on Arrival
 
-    visaTypes: {
-      type: [visaTypeSchema],
-      default: [],
+       Each subcategory has its own PDF.
+    ========================================= */
+
+    visaCategories: {
+      type: [visaCategorySchema],
+
+      default: defaultVisaCategories,
+
+      validate: {
+        validator: function (categories) {
+          const requiredSlugs = ["e-visa", "sticker-visa", "visa-on-arrival"];
+
+          if (!Array.isArray(categories)) {
+            return false;
+          }
+
+          if (categories.length !== 3) {
+            return false;
+          }
+
+          const actualSlugs = categories.map((category) => category.slug);
+
+          return (
+            requiredSlugs.every((slug) => actualSlugs.includes(slug)) &&
+            new Set(actualSlugs).size === 3
+          );
+        },
+
+        message:
+          "Every country must have exactly 3 unique visa categories: E-Visa, Sticker Visa and Visa on Arrival.",
+      },
     },
 
-    /* =====================================================
-    REQUIREMENTS
-    ===================================================== */
-
-    requirements: {
-      type: [mongoose.Schema.Types.Mixed],
-      default: [],
-    },
-
-    /* =====================================================
-    ELIGIBILITY
-    ===================================================== */
-
-    eligibility: {
-      type: [mongoose.Schema.Types.Mixed],
-      default: [],
-    },
-
-    /* =====================================================
-    APPLICATION PROCESS
-    ===================================================== */
-
-    applicationProcess: {
-      type: [mongoose.Schema.Types.Mixed],
-      default: [],
-    },
-
-    /* =====================================================
-    ENTRY REQUIREMENTS
-    ===================================================== */
-
-    entryRequirements: {
-      type: [mongoose.Schema.Types.Mixed],
-      default: [],
-    },
-
-    /* =====================================================
-    RESTRICTIONS
-    ===================================================== */
-
-    restrictions: {
-      type: [mongoose.Schema.Types.Mixed],
-      default: [],
-    },
-
-    /* =====================================================
-    FEES
-    ===================================================== */
-
-    fees: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {},
-    },
-
-    /* =====================================================
-    PROCESSING
-    ===================================================== */
-
-    processing: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {},
-    },
-
-    /* =====================================================
-    TRAVEL INFORMATION
-    ===================================================== */
+    /* =========================================
+       3. TRAVEL INFORMATION
+    ========================================= */
 
     travelInfo: {
-      type: mongoose.Schema.Types.Mixed,
-      default: {},
+      type: travelInfoSchema,
+      default: () => ({}),
     },
 
-    /* =====================================================
-    TRAVEL TIPS
-    ===================================================== */
+    /* =========================================
+       4. TRAVEL TIPS
+    ========================================= */
 
     travelTips: {
       type: [String],
       default: [],
     },
 
-    /* =====================================================
-    IMPORTANT NOTES
-    ===================================================== */
+    /* =========================================
+       5. IMPORTANT NOTES
+    ========================================= */
 
     importantNotes: {
       type: [String],
       default: [],
     },
 
-    /* =====================================================
-    FAQS
-    ===================================================== */
+    /* =========================================
+       6. FAQS
+    ========================================= */
 
     faqs: {
-      type: [mongoose.Schema.Types.Mixed],
+      type: [faqSchema],
       default: [],
     },
 
-    /* =====================================================
-    COUNTRY STATUS
-    ===================================================== */
+    /* =========================================
+       7. LEGACY COUNTRY-LEVEL PDF
+       Kept temporarily for old records.
+       New uploads belong to subcategories.
+    ========================================= */
+
+    applicationForm: {
+      type: applicationFormSchema,
+      default: undefined,
+    },
+
+    /* =========================================
+       8. COUNTRY STATUS
+    ========================================= */
 
     isActive: {
       type: Boolean,
       default: true,
     },
 
-    /* =====================================================
-    SCHENGEN COUNTRY STATUS
-    ===================================================== */
+    /* =========================================
+       9. SCHENGEN COUNTRY STATUS
+    ========================================= */
 
     isSchengen: {
       type: Boolean,
       default: false,
     },
 
-    /* =====================================================
-    FIELD LEVEL UPDATE TIMESTAMPS
-    ===================================================== */
+    /* =========================================
+       10. FIELD LEVEL UPDATE TRACKING
+    ========================================= */
 
     fieldUpdatedAt: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
     },
-
-    /* =========================================
-    APPLICATION FORM PDF
-    ========================================= */
-
-    applicationForm: {
-      filename: {
-        type: String,
-        trim: true,
-      },
-
-      contentType: {
-        type: String,
-        default: "application/pdf",
-      },
-
-      data: {
-        type: Buffer,
-        select: false,
-      },
-
-      size: {
-        type: Number,
-        default: 0,
-      },
-
-      uploadedAt: {
-        type: Date,
-      },
-    },
   },
-
-  /* =======================================================
-  AUTOMATIC DOCUMENT TIMESTAMPS
-  ======================================================= */
 
   {
     timestamps: true,
@@ -343,7 +408,7 @@ const countrySchema = new mongoose.Schema(
 );
 
 /* =========================================================
-MODEL
+   MODEL EXPORT
 ========================================================= */
 
 module.exports = mongoose.model("Country", countrySchema);

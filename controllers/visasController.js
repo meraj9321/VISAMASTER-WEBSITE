@@ -1,88 +1,106 @@
 const Country = require("../models/Country");
 
-const VALID_DIRECTORY_CATEGORIES = new Set([
-  "e-visa",
-  "tourist-visa",
-  "visa-on-arrival",
-  "business-visa",
-  "stamping-visa",
-  "sticker-visa",
-]);
+/* =========================================================
+   NORMALIZE COUNTRY VISA CATEGORIES
 
-/*
- * Backward compatibility for older Country documents.
- * Older records have visaTypes but no `categories` field. We can safely
- * infer only the purpose categories from an exact, unambiguous legacy name/slug.
- * Application methods (E-Visa, Visa on Arrival, Stamping, Sticker) are NOT
- * inferred because the old schema does not prove how that visa is submitted.
- * This is a read-time normalization only; it does not mutate MongoDB records.
- */
-function normalizeLegacyVisaCategories(country) {
-  const normalizedCountry = { ...country };
+   Keeps only active categories and active subcategories
+   for pages that need normalized visa category data.
+========================================================= */
 
-  normalizedCountry.visaTypes = (country.visaTypes || [])
-    .filter((visa) => visa && visa.isActive !== false)
-    .map((visa) => {
-      const existingCategories = Array.isArray(visa.categories)
-        ? visa.categories.filter((category) =>
-            VALID_DIRECTORY_CATEGORIES.has(category),
-          )
-        : [];
+const normalizeCountryVisaCategories = (country) => {
+  const visaCategories = Array.isArray(country.visaCategories)
+    ? country.visaCategories
+    : [];
 
-      if (existingCategories.length) {
-        return { ...visa, categories: [...new Set(existingCategories)] };
-      }
+  return {
+    ...country,
 
-      const slug = String(visa.slug || "")
-        .trim()
-        .toLowerCase()
-        .replace(/[_\s]+/g, "-");
+    visaCategories: visaCategories
+      .filter(
+        (category) =>
+          category &&
+          category.isActive !== false &&
+          Array.isArray(category.subCategories) &&
+          category.subCategories.some(
+            (subCategory) => subCategory && subCategory.isActive !== false,
+          ),
+      )
+      .map((category) => ({
+        ...category,
 
-      const name = String(visa.name || "")
-        .trim()
-        .toLowerCase()
-        .replace(/[_\s]+/g, "-");
+        subCategories: category.subCategories.filter(
+          (subCategory) => subCategory && subCategory.isActive !== false,
+        ),
+      })),
+  };
+};
 
-      const purpose = String(visa.purpose || "")
-        .trim()
-        .toLowerCase();
+/* =========================================================
+   GET COUNTRIES BY MAIN VISA CATEGORY
 
-      // Only infer clear, exact legacy visa types. Do not guess application methods.
-      if (
-        ["tourist", "tourist-visa"].includes(slug) ||
-        ["tourist-visa"].includes(name) ||
-        purpose === "tourism and leisure"
-      ) {
-        return { ...visa, categories: ["tourist-visa"] };
-      }
+   Displays countries having:
+   - Active country
+   - Active parent visa category
 
-      if (
-        ["business", "business-visa"].includes(slug) ||
-        ["business-visa"].includes(name) ||
-        purpose === "business activities"
-      ) {
-        return { ...visa, categories: ["business-visa"] };
-      }
+   Subcategories are NOT required.
+========================================================= */
 
-      return { ...visa, categories: [] };
-    });
-
-  return normalizedCountry;
-}
-
-/*
- * MAIN VISAS PAGE
- * GET /visas
- */
-const showVisasPage = async (req, res) => {
+const getCountriesByVisaCategory = async ({
+  categorySlug,
+  categoryName,
+  viewName,
+  currentPage,
+  req,
+  res,
+}) => {
   try {
-    const databaseCountries = await Country.find({ isActive: true })
+    const countries = await Country.find({
+      isActive: true,
+
+      visaCategories: {
+        $elemMatch: {
+          slug: categorySlug,
+          isActive: true,
+        },
+      },
+    })
       .sort({ name: 1 })
-      .select("name slug flag visaTypes")
+      .select("name slug flag image")
       .lean();
 
-    // Normalize legacy visa categories in memory.
-    const countries = databaseCountries.map(normalizeLegacyVisaCategories);
+    return res.render(viewName, {
+      currentPage,
+      countries,
+      loadError: false,
+    });
+  } catch (error) {
+    console.error(`${categoryName.toUpperCase()} PAGE ERROR:`, error);
+
+    return res.status(500).render(viewName, {
+      currentPage,
+      countries: [],
+      loadError: true,
+    });
+  }
+};
+
+/* =========================================================
+   MAIN VISAS PAGE
+   GET /visas
+
+   Displays all active countries.
+========================================================= */
+
+const showVisasPage = async (req, res) => {
+  try {
+    const databaseCountries = await Country.find({
+      isActive: true,
+    })
+      .sort({ name: 1 })
+      .select("name slug flag image visaCategories")
+      .lean();
+
+    const countries = databaseCountries.map(normalizeCountryVisaCategories);
 
     return res.render("visas/index", {
       currentPage: "visas",
@@ -100,21 +118,90 @@ const showVisasPage = async (req, res) => {
   }
 };
 
-/*
- * SCHENGEN COUNTRIES PAGE
- * GET /visas/schengen
- *
- * Only countries with isActive: true and isSchengen: true are displayed.
- */
+/* =========================================================
+   E-VISA COUNTRIES PAGE
+   GET /visas/e-visa
+
+   Displays countries having:
+   - Active country
+   - Active E-Visa main category
+
+   Subcategories are NOT required.
+========================================================= */
+
+const showEVisaPage = async (req, res) => {
+  return getCountriesByVisaCategory({
+    categorySlug: "e-visa",
+    categoryName: "E-Visa",
+    viewName: "visas/e-visa",
+    currentPage: "e-visa",
+    req,
+    res,
+  });
+};
+
+/* =========================================================
+   STICKER VISA COUNTRIES PAGE
+   GET /visas/sticker-visa
+
+   Displays countries having:
+   - Active country
+   - Active Sticker Visa main category
+
+   Subcategories are NOT required.
+========================================================= */
+
+const showStickerVisaPage = async (req, res) => {
+  return getCountriesByVisaCategory({
+    categorySlug: "sticker-visa",
+    categoryName: "Sticker Visa",
+    viewName: "visas/sticker-visa",
+    currentPage: "sticker-visa",
+    req,
+    res,
+  });
+};
+
+/* =========================================================
+   VISA ON ARRIVAL COUNTRIES PAGE
+   GET /visas/visa-on-arrival
+
+   Displays countries having:
+   - Active country
+   - Active Visa on Arrival main category
+
+   Subcategories are NOT required.
+========================================================= */
+
+const showVisaOnArrivalPage = async (req, res) => {
+  return getCountriesByVisaCategory({
+    categorySlug: "visa-on-arrival",
+    categoryName: "Visa on Arrival",
+    viewName: "visas/visa-on-arrival",
+    currentPage: "visa-on-arrival",
+    req,
+    res,
+  });
+};
+
+/* =========================================================
+   SCHENGEN COUNTRIES PAGE
+   GET /visas/schengen
+
+   Only active Schengen countries.
+========================================================= */
+
 const showSchengenPage = async (req, res, next) => {
   try {
-    const countries = await Country.find({
+    const databaseCountries = await Country.find({
       isActive: true,
       isSchengen: true,
     })
       .sort({ name: 1 })
-      .select("name slug flag visaTypes isSchengen")
+      .select("name slug flag image visaCategories isSchengen")
       .lean();
+
+    const countries = databaseCountries.map(normalizeCountryVisaCategories);
 
     return res.render("visas/schengen", {
       currentPage: "schengen",
@@ -123,11 +210,19 @@ const showSchengenPage = async (req, res, next) => {
     });
   } catch (error) {
     console.error("SCHENGEN PAGE ERROR:", error);
+
     return next(error);
   }
 };
 
+/* =========================================================
+   EXPORT CONTROLLERS
+========================================================= */
+
 module.exports = {
   showVisasPage,
+  showEVisaPage,
+  showStickerVisaPage,
+  showVisaOnArrivalPage,
   showSchengenPage,
 };

@@ -1355,3 +1355,10 @@
     flex-direction: column;
   }
 }
+.country-suggestion-flag {
+  width: 36px;
+  height: 26px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
+}

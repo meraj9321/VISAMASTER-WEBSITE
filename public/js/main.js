@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", () => {
    - No normal form submission.
    - No redirect when no country is found.
    - Enter and Search button work correctly.
-   - Selecting a valid country opens its page.
+   - Selecting a valid country opens its visa category page.
 ========================================================= */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -313,39 +313,44 @@ document.addEventListener("DOMContentLoaded", () => {
   /*
    * Render country suggestions.
    */
+
+  /*
+   * Render country suggestions.
+   */
   const renderSuggestions = (countries) => {
     currentCountries = countries;
 
     if (!countries.length) {
       showMessage("No country found", "country-search-empty");
-
       return;
     }
 
     suggestionsBox.innerHTML = countries
-      .map(
-        (country) => `
-          <button
-            type="button"
-            class="country-suggestion"
-            data-slug="${country.slug}"
-          >
-            <span class="country-suggestion-flag">
-              ${country.flag || "🌍"}
+      .map((country) => {
+        const flag = country.flag
+          ? `<img src="${country.flag}" alt="${country.name} flag" class="country-suggestion-flag" loading="lazy">`
+          : `<span class="country-suggestion-flag">🌍</span>`;
+
+        return `
+        <button
+          type="button"
+          class="country-suggestion"
+          data-slug="${country.slug}"
+        >
+          ${flag}
+
+          <span class="country-suggestion-info">
+            <span class="country-suggestion-name">
+              ${country.name}
             </span>
 
-            <span class="country-suggestion-info">
-              <span class="country-suggestion-name">
-                ${country.name}
-              </span>
-
-              <span class="country-suggestion-action">
-                View visa details
-              </span>
+            <span class="country-suggestion-action">
+              View visa details
             </span>
-          </button>
-        `,
-      )
+          </span>
+        </button>
+      `;
+      })
       .join("");
 
     suggestionsBox.classList.add("show");
@@ -475,12 +480,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
       /*
        * Matching country found:
-       * open its country page.
+       * open its visa category page.
        */
       const firstCountry = countries[0];
 
       if (firstCountry.slug) {
-        window.location.href = `/countries/${encodeURIComponent(firstCountry.slug)}`;
+        window.location.href = `/countries/${encodeURIComponent(firstCountry.slug)}/visa-categories`;
       }
     });
   }
@@ -502,7 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    window.location.href = `/countries/${encodeURIComponent(slug)}`;
+    window.location.href = `/countries/${encodeURIComponent(slug)}/visa-categories`;
   });
 
   /* =======================================================

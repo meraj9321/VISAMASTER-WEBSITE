@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -7,572 +7,622 @@
 
   <title><%= country.name %> Visa Requirements | VisaMaster</title>
 
-<meta
- name="description"
- content="Check visa categories, required documents and eligibility for <%= country.name %>."
-/>
+  <meta
+    name="description"
+    content="Check visa eligibility and required documents for <%= country.name %>."
+  />
 
   <link rel="stylesheet" href="/css/global.css" />
   <link rel="stylesheet" href="/css/navbar.css" />
   <link rel="stylesheet" href="/css/requirements.css" />
   <link rel="stylesheet" href="/css/footer.css" />
-
-<style>
-.visa-rich-content{padding:16px 18px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;color:#263449;line-height:1.75;overflow-wrap:anywhere}.visa-rich-content p{margin:0 0 10px}.visa-rich-content p:last-child{margin-bottom:0}.visa-rich-content ul,.visa-rich-content ol{padding-left:26px;margin:8px 0 12px}.visa-rich-content li{display:list-item;margin:4px 0}.visa-rich-content h1,.visa-rich-content h2,.visa-rich-content h3,.visa-rich-content h4{margin:12px 0 8px;color:#102d50}.visa-rich-content blockquote{margin:10px 0;padding:8px 14px;border-left:3px solid #d5ad35;background:#f8fafc}
-</style>
 </head>
 
 <body>
 
-<%- include("../partials/navbar") %>
+  <%- include("../partials/navbar") %>
+
+  <%
+    const activeSelectedCategory =
+      typeof selectedCategory !== "undefined" && selectedCategory
+        ? selectedCategory
+        : null;
+
+    const activeSubCategories = Array.isArray(subCategories)
+      ? subCategories.filter(sub => sub && sub.isActive !== false)
+      : activeSelectedCategory &&
+        Array.isArray(activeSelectedCategory.subCategories)
+        ? activeSelectedCategory.subCategories.filter(
+            sub => sub && sub.isActive !== false
+          )
+        : [];
+
+    const categorySelectionUrl =
+      `/countries/${encodeURIComponent(country.slug)}/visa-categories`;
+
+    /*
+      Preserve the original page from which the user entered
+      the country visa category page.
+
+      Example:
+      /countries/france/visa-categories?returnTo=%2Fvisas%2Fschengen
+
+      Requirements Back should return to that category page,
+      including its original returnTo parameter.
+    */
+
+  const categorySelectionBackUrl =
+  typeof returnTo === "string" && returnTo.trim()
+    ? returnTo.trim()
+    : categorySelectionUrl;
+
+    const flagValue = String(country.flag || "").trim();
+
+    const isFlagImage =
+      /^(https?:\/\/|\/|images\/|public\/)/i.test(flagValue) &&
+      /\.(png|jpe?g|svg|webp)(\?.*)?$/i.test(flagValue);
+
+    let flagImagePath = flagValue;
+
+    if (flagImagePath.startsWith("public/")) {
+      flagImagePath = flagImagePath.replace(/^public/, "");
+    } else if (
+      flagImagePath &&
+      !flagImagePath.startsWith("/") &&
+      !/^https?:\/\//i.test(flagImagePath)
+    ) {
+      flagImagePath = "/" + flagImagePath;
+    }
+  %>
 
   <main class="requirements-page">
 
-<!-- =====================================================
-     HERO
-====================================================== -->
+    <!-- HERO SECTION -->
 
-<section class="requirements-hero">
+    <section class="requirements-hero">
 
-  <div class="requirements-container">
+      <div class="requirements-container">
 
-    <a href="/destinations" class="requirements-back">
-      ← Back to Destinations
-    </a>
-
-    <div class="requirements-country">
-
-      <span class="requirements-country-flag">
-        <%= country.flag || "🌍" %>
-      </span>
-
-      <div>
-
-        <span class="requirements-eyebrow">
-          VISA DOCUMENT CHECKLIST
-        </span>
-
-        <h1>
-          <%= country.name %> Visa Requirements
-        </h1>
-
-        <p>
-          Select the visa category that matches your travel purpose
-          and check its document requirements.
-        </p>
-
-      </div>
-
-    </div>
-
-    <div class="requirements-summary">
-
-      <span>📄 Document Checklist</span>
-
-      <span>
-        <%= visaTypes.length %> Visa Categories
-      </span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     REQUIREMENTS CONTENT
-====================================================== -->
-
-<section class="requirements-content">
-
-  <div class="requirements-container">
-
-    <div class="requirements-section-heading">
-
-      <span class="requirements-eyebrow">
-        PREPARE YOUR DOCUMENTS
-      </span>
-
-      <h2>Choose Your Visa Category</h2>
-
-      <p>
-        Tap a category to view its requirements. Swipe the category
-        bar horizontally on mobile to see more visa types.
-      </p>
-
-    </div>
-
-
-    <% if (visaTypes.length > 0) { %>
-
-      <!-- ===============================================
-           VISA CATEGORY TABS
-      ================================================ -->
-
-      <div class="visa-category-tabs-wrap">
-
-        <div
-          class="visa-category-tabs"
-          role="tablist"
-          aria-label="<%= country.name %> visa categories"
+        <a
+          href="<%= categorySelectionBackUrl %>"
+          class="requirements-back"
+          id="requirementsBackButton"
+          aria-label="Go back to the visa categories page"
         >
+          <span>←</span>
+          <span>Back</span>
+        </a>
 
-          <% visaTypes.forEach((visa, index) => { %>
+        <div class="requirements-country">
 
-            <button
-              type="button"
-              class="visa-category-tab"
-              id="visa-tab-<%= index %>"
-              role="tab"
-              aria-controls="visa-panel-<%= index %>"
-              aria-selected="<%= index === 0 ? 'true' : 'false' %>"
-              tabindex="<%= index === 0 ? '0' : '-1' %>"
-              data-visa-tab="<%= index %>"
-              data-visa-slug="<%= visa.slug || '' %>"
-            >
+          <div class="requirements-country-flag">
 
-              <span class="visa-category-tab-number">
-                <%= String(index + 1).padStart(2, "0") %>
+            <% if (isFlagImage) { %>
+
+              <img
+                src="<%= flagImagePath %>"
+                alt="<%= country.name %> flag"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+              />
+
+              <span
+                class="requirements-flag-fallback"
+                style="display:none;"
+              >
+                🌍
               </span>
 
-              <span class="visa-category-tab-name">
-                <%= visa.name || "Visa Category" %>
+            <% } else { %>
+
+              <span class="requirements-flag-emoji">
+                <%= flagValue || "🌍" %>
               </span>
 
-            </button>
+            <% } %>
 
-          <% }) %>
+          </div>
+
+          <div class="requirements-country-info">
+
+            <span class="requirements-eyebrow">
+              VISA DOCUMENT CHECKLIST
+            </span>
+
+            <h1>
+              <%= country.name %> Visa Requirements
+            </h1>
+
+            <p>
+              Review the eligibility criteria and document checklist
+              for your selected visa purpose.
+            </p>
+
+          </div>
 
         </div>
 
-        <p
-          class="visa-category-slider-status"
-          aria-live="polite"
-        >
-          Showing category 1 of <%= visaTypes.length %>
-        </p>
+        <div class="requirements-summary">
+
+          <div class="requirements-summary-item">
+            <span class="requirements-summary-icon">📄</span>
+            <span>Document Checklist</span>
+          </div>
+
+          <div class="requirements-summary-count">
+            <strong><%= activeSubCategories.length %></strong>
+            <span>Available Visa Purposes</span>
+          </div>
+
+        </div>
 
       </div>
 
+    </section>
 
-      <!-- ===============================================
-           VISA REQUIREMENTS PANELS
-      ================================================ -->
 
-      <div class="visa-requirements-list visa-tab-panels">
+    <!-- REQUIREMENTS CONTENT -->
 
-        <% visaTypes.forEach((visa, index) => { %>
+    <section class="requirements-content">
 
-          <section
-            class="visa-tab-panel <%= index === 0 ? 'is-active' : '' %>"
-            id="visa-panel-<%= index %>"
-            role="tabpanel"
-            aria-labelledby="visa-tab-<%= index %>"
-            data-visa-panel="<%= index %>"
-            data-visa-slug="<%= visa.slug || '' %>"
-            <%= index === 0 ? '' : 'hidden' %>
+      <div class="requirements-container">
+
+        <% if (activeSelectedCategory) { %>
+
+          <div class="requirements-section-heading">
+
+            <span class="requirements-eyebrow">
+              PREPARE YOUR DOCUMENTS
+            </span>
+
+            <h2>
+              <%= activeSelectedCategory.name %> Requirements
+            </h2>
+
+            <p>
+              Select your visa purpose below to view its eligibility
+              criteria and required documents.
+            </p>
+
+          </div>
+
+
+          <!-- BACK TO CATEGORY SELECTION -->
+
+          <a
+            class="requirements-back-category"
+            href="<%= categorySelectionBackUrl %>"
           >
+            ← Choose another visa category
+          </a>
 
-            <article
-              class="visa-requirement-card"
-              id="visa-<%= visa.slug || index %>"
-            >
 
-              <!-- VISA HEADER -->
+          <% if (activeSubCategories.length > 0) { %>
 
-              <div class="visa-requirement-header">
+            <!-- VISA PURPOSE TABS -->
 
-                <div class="visa-category-number">
-                  <%= String(index + 1).padStart(2, "0") %>
-                </div>
+            <div class="visa-category-tabs-wrap">
 
-                <div class="visa-category-info">
+              <div
+                class="visa-category-tabs"
+                role="tablist"
+                aria-label="<%= activeSelectedCategory.name %> visa purposes"
+              >
 
-                  <h3>
-                    <%= visa.name || "Visa Category" %>
-                  </h3>
+                <% activeSubCategories.forEach((sub, index) => { %>
 
-                  <% if (visa.purpose) { %>
+                  <button
+                    type="button"
+                    class="visa-category-tab"
+                    id="visa-tab-<%= index %>"
+                    role="tab"
+                    aria-controls="visa-panel-<%= index %>"
+                    aria-selected="<%= index === 0 ? 'true' : 'false' %>"
+                    tabindex="<%= index === 0 ? '0' : '-1' %>"
+                    data-visa-tab="<%= index %>"
+                    data-visa-slug="<%= sub.slug %>"
+                  >
 
-                    <p>
-                      <%= visa.purpose %>
-                    </p>
+                    <span class="visa-category-tab-number">
+                      <%= String(index + 1).padStart(2, "0") %>
+                    </span>
 
-                  <% } %>
+                    <span class="visa-category-tab-name">
+                      <%= sub.name %>
+                    </span>
 
-                </div>
+                  </button>
 
-                <% if (visa.entryType) { %>
-
-                  <span class="visa-entry-badge">
-                    <%= visa.entryType %>
-                  </span>
-
-                <% } %>
+                <% }) %>
 
               </div>
 
+              <p
+                class="visa-category-slider-status"
+                aria-live="polite"
+              >
+                Showing purpose 1 of <%= activeSubCategories.length %>
+              </p>
 
-              <!-- VISA DETAILS -->
+            </div>
 
-              <div class="visa-requirement-details">
 
-                <% if (visa.stayDuration || visa.processingTime || visa.validity) { %>
+            <!-- VISA REQUIREMENTS PANELS -->
 
-                  <div class="visa-quick-details">
+            <div class="visa-requirements-list visa-tab-panels">
 
-                    <% if (visa.stayDuration) { %>
+              <% activeSubCategories.forEach((sub, index) => { %>
 
-                      <div>
+                <%
+                  // Preserve original pasted text and line breaks.
 
-                        <span>Stay Duration</span>
+                  const eligibilityText = Array.isArray(sub.eligibility)
+                    ? sub.eligibility
+                        .map(item => typeof item === "string" ? item : "")
+                        .join("\n")
+                    : typeof sub.eligibility === "string"
+                      ? sub.eligibility
+                      : "";
 
-                        <strong>
-                          <%= visa.stayDuration %>
-                        </strong>
+                  const requirementsText = Array.isArray(sub.requirements)
+                    ? sub.requirements
+                        .map(item => typeof item === "string" ? item : "")
+                        .join("\n")
+                    : typeof sub.requirements === "string"
+                      ? sub.requirements
+                      : "";
+                %>
+
+                <section
+                  class="visa-tab-panel <%= index === 0 ? 'is-active' : '' %>"
+                  id="visa-panel-<%= index %>"
+                  role="tabpanel"
+                  aria-labelledby="visa-tab-<%= index %>"
+                  data-visa-panel="<%= index %>"
+                  data-visa-slug="<%= sub.slug %>"
+                  <%= index === 0 ? "" : "hidden" %>
+                >
+
+                  <article
+                    class="visa-requirement-card"
+                    id="visa-<%= sub.slug %>"
+                  >
+
+                    <!-- VISA HEADER -->
+
+                    <div class="visa-requirement-header">
+
+                      <div class="visa-category-number">
+                        <%= String(index + 1).padStart(2, "0") %>
+                      </div>
+
+                      <div class="visa-category-info">
+
+                        <h3>
+                          <%= sub.name %>
+                        </h3>
+
+                        <% if (sub.purpose) { %>
+
+                          <p>
+                            <%= sub.purpose %>
+                          </p>
+
+                        <% } %>
 
                       </div>
 
-                    <% } %>
-
-
-                    <% if (visa.validity) { %>
-
-                      <div>
-
-                        <span>Visa Validity</span>
-
-                        <strong>
-                          <%= visa.validity %>
-                        </strong>
-
-                      </div>
-
-                    <% } %>
-
-
-                    <% if (visa.processingTime) { %>
-
-                      <div>
-
-                        <span>Processing Time</span>
-
-                        <strong>
-                          <%= visa.processingTime %>
-                        </strong>
-
-                      </div>
-
-                    <% } %>
-
-                  </div>
-
-                <% } %>
-
-
-                <!-- DOCUMENTS REQUIRED -->
-
-                <div class="visa-document-section">
-
-                  <h4>
-                    <span>📄</span>
-                    Documents Required
-                  </h4>
-
-                  <% const documentHtml = Array.isArray(visa.documents) ? visa.documents.filter(document => typeof document === "string" && document.trim()).join("\n") : ""; %>
-                  <% if (documentHtml) { %>
-                    <div class="visa-rich-content"><%- documentHtml %></div>
-                  <% } else { %>
-                    <p class="requirements-unavailable">Please contact VisaMaster to confirm the documents required for this visa category.</p>
-                  <% } %>
-                </div>
-
-
-                <!-- ELIGIBILITY REQUIREMENTS -->
-
-                <div class="visa-document-section">
-
-                  <h4>
-                    <span>✓</span>
-                    Eligibility Requirements
-                  </h4>
-
-                  <% const eligibilityHtml = Array.isArray(visa.eligibility) ? visa.eligibility.filter(item => typeof item === "string" && item.trim()).join("\n") : ""; %>
-                  <% if (eligibilityHtml) { %>
-                    <div class="visa-rich-content"><%- eligibilityHtml %></div>
-                  <% } else { %>
-                    <p class="requirements-unavailable">Eligibility details are not currently available. Contact VisaMaster for assistance.</p>
-                  <% } %>
-                </div>
-
-
-                <!-- VISA FEES -->
-
-                <% if (
-                  visa.governmentFee ||
-                  visa.serviceFee ||
-                  visa.totalFee
-                ) { %>
-
-                  <div class="visa-document-section">
-
-                    <h4>
-                      <span>₹</span>
-                      Visa Fees
-                    </h4>
-
-                    <div class="visa-quick-details">
-
-                      <% if (visa.governmentFee) { %>
-
-                        <div>
-
-                          <span>Government Fee</span>
-
-                          <strong>
-                            <%= visa.governmentFee %>
-                          </strong>
-
-                        </div>
-
-                      <% } %>
-
-
-                      <% if (visa.serviceFee) { %>
-
-                        <div>
-
-                          <span>Service Fee</span>
-
-                          <strong>
-                            <%= visa.serviceFee %>
-                          </strong>
-
-                        </div>
-
-                      <% } %>
-
-
-                      <% if (visa.totalFee) { %>
-
-                        <div>
-
-                          <span>Total Estimated Fee</span>
-
-                          <strong>
-                            <%= visa.totalFee %>
-                          </strong>
-
-                        </div>
-
-                      <% } %>
+                      <span class="visa-entry-badge">
+                        <%= activeSelectedCategory.name %>
+                      </span>
 
                     </div>
 
-                  </div>
 
-                <% } %>
+                    <div class="visa-requirement-details">
 
+                      <!-- ABOUT THIS VISA -->
 
-                <!-- ASSISTANCE CTA -->
+                      <% if (sub.description) { %>
 
-                <div class="visa-requirement-footer">
+                        <div class="visa-document-section">
 
-                  <p>
-                    Need help preparing your documents?
-                  </p>
+                          <h4>
+                            <span>ℹ️</span>
+                            About this visa
+                          </h4>
 
-                  <a
-                    href="/contact"
-                    class="visa-requirement-cta"
-                  >
-                    Get Assistance →
-                  </a>
+                          <div class="visa-rich-content">
+                            <p><%= sub.description %></p>
+                          </div>
 
-                </div>
+                        </div>
 
-              </div>
-
-            </article>
-
-          </section>
-
-        <% }) %>
-
-      </div>
+                      <% } %>
 
 
-    <% } else { %>
+                      <!-- ELIGIBILITY -->
 
-      <!-- NO VISA DATA -->
+                      <div class="visa-document-section">
 
-      <div class="requirements-empty">
+                        <h4>
+                          <span>✓</span>
+                          Eligibility Requirements
+                        </h4>
 
-        <span>📋</span>
+                        <% if (eligibilityText.trim().length > 0) { %>
 
-        <h3>Visa Requirements Coming Soon</h3>
+                          <div class="visa-plain-text"><%= eligibilityText %></div>
 
-        <p>
-          Visa category requirements for <%= country.name %>
-          are not currently available online.
-        </p>
+                        <% } else { %>
 
-        <a
-          href="/contact"
-          class="visa-requirement-cta"
-        >
-          Contact VisaMaster →
-        </a>
+                          <p class="requirements-unavailable">
+                            Eligibility details are not currently available.
+                            Contact VisaMaster for assistance.
+                          </p>
 
-      </div>
+                        <% } %>
 
-    <% } %>
+                      </div>
 
 
-    <!-- ===============================================
-         IMPORTANT INFORMATION
-    ================================================ -->
+                      <!-- DOCUMENTS REQUIRED -->
 
-    <div class="requirements-important-note">
+                      <div class="visa-document-section">
 
-      <span class="requirements-note-icon">
-        ℹ️
-      </span>
+                        <h4>
+                          <span>📄</span>
+                          Documents Required
+                        </h4>
 
-      <div>
+                        <% if (requirementsText.trim().length > 0) { %>
 
-        <h3>Important Information</h3>
+                          <div class="visa-plain-text"><%= requirementsText %></div>
 
-        <p>
-          Required documents may vary according to the applicant's
-          circumstances, visa category and applicable immigration
-          rules. Additional documents may be requested by the
-          relevant authority. Confirm the latest requirements
-          before applying.
-        </p>
+                        <% } else { %>
 
-      </div>
+                          <p class="requirements-unavailable">
+                            Please contact VisaMaster to confirm the
+                            documents required for this visa.
+                          </p>
 
-    </div>
+                        <% } %>
 
-  </div>
+                      </div>
 
-</section>
 
-<% if (country.applicationForm && country.applicationForm.filename) { %>
-  <section class="application-form-section">
-    <div class="application-form-icon">
-      <span>PDF</span>
-    </div>
+                      <!-- SUBCATEGORY APPLICATION FORM PDF -->
 
-    <div class="application-form-content">
-      <div class="application-form-label">OFFICIAL DOCUMENT</div>
+                      <% if (sub.applicationForm && sub.applicationForm.filename) { %>
 
-      <h3>Application Form</h3>
+                        <section class="application-form-section">
 
-      <p class="application-form-description">
-        Download the official visa application form for
-        <strong><%= country.name %></strong>.
-        Complete the form before submitting your visa application.
-      </p>
+                          <div class="application-form-icon">
+                            <span>PDF</span>
+                          </div>
 
-      <div class="application-form-file">
-        <div class="application-form-file-icon">
-          <svg
-            width="23"
-            height="23"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.8"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-            <path d="M14 2v6h6"/>
-            <path d="M8 13h8M8 17h6"/>
-          </svg>
-        </div>
+                          <div class="application-form-content">
 
-        <div class="application-form-file-info">
-          <span class="application-form-filename">
-            <%= country.applicationForm.filename %>
+                            <div class="application-form-label">
+                              OFFICIAL DOCUMENT
+                            </div>
+
+                            <h3>
+                              Application Form
+                            </h3>
+
+                            <p class="application-form-description">
+                              Download the application form for
+                              <strong>
+                                <%= country.name %> - <%= sub.name %>
+                              </strong>.
+                              Complete the form before submitting your visa application.
+                            </p>
+
+                            <div class="application-form-file">
+
+                              <div class="application-form-file-icon">
+                                📄
+                              </div>
+
+                              <div class="application-form-file-info">
+
+                                <span class="application-form-filename">
+                                  <%= sub.applicationForm.filename %>
+                                </span>
+
+                                <span class="application-form-file-type">
+                                  PDF Document
+                                </span>
+
+                              </div>
+
+                            </div>
+
+                            <div class="application-form-actions">
+
+                              <a
+                                href="/countries/<%= encodeURIComponent(country.slug) %>/application-form/<%= encodeURIComponent(activeSelectedCategory.slug) %>/<%= encodeURIComponent(sub.slug) %>"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="application-form-view-btn"
+                              >
+                                View Application Form
+                              </a>
+
+                              <a
+                                href="/countries/<%= encodeURIComponent(country.slug) %>/application-form/<%= encodeURIComponent(activeSelectedCategory.slug) %>/<%= encodeURIComponent(sub.slug) %>/download"
+                                class="application-form-download-btn"
+                              >
+                                Download PDF
+                              </a>
+
+                            </div>
+
+                          </div>
+
+                          <div
+                            class="application-form-decoration"
+                            aria-hidden="true"
+                          >
+                            ✦
+                          </div>
+
+                        </section>
+
+                      <% } %>
+
+
+                      <!-- ASSISTANCE CTA -->
+
+                      <div class="visa-requirement-footer">
+
+                        <div>
+                          <strong>
+                            Need help preparing your documents?
+                          </strong>
+
+                          <p>
+                            Our team is here to assist you.
+                          </p>
+                        </div>
+
+                        <a
+                          href="/contact"
+                          class="visa-requirement-cta"
+                        >
+                          Get Assistance →
+                        </a>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+
+                </section>
+
+              <% }) %>
+
+            </div>
+
+          <% } else { %>
+
+            <div class="requirements-empty">
+
+              <span class="requirements-empty-icon">
+                📋
+              </span>
+
+              <h3>
+                Requirements Coming Soon
+              </h3>
+
+              <p>
+                Visa purposes and requirements for this category
+                are not currently available.
+              </p>
+
+              <a href="/contact" class="visa-requirement-cta">
+                Contact VisaMaster →
+              </a>
+
+            </div>
+
+          <% } %>
+
+        <% } else { %>
+
+          <div class="requirements-empty">
+
+            <span class="requirements-empty-icon">
+              📋
+            </span>
+
+            <h3>
+              Visa Category Not Found
+            </h3>
+
+            <p>
+              Please select an available visa category for
+              <%= country.name %>.
+            </p>
+
+            <a
+              href="<%= categorySelectionUrl %>"
+              class="visa-requirement-cta"
+            >
+              View Visa Categories →
+            </a>
+
+          </div>
+
+        <% } %>
+
+
+        <!-- IMPORTANT INFORMATION -->
+
+        <div class="requirements-important-note">
+
+          <span class="requirements-note-icon">
+            ℹ️
           </span>
 
-          <span class="application-form-file-type">
-            PDF Document
-          </span>
+          <div>
+
+            <h3>
+              Important Information
+            </h3>
+
+            <p>
+              Required documents may vary according to the applicant's
+              circumstances, visa category and applicable immigration rules.
+              Additional documents may be requested by the relevant authority.
+              Confirm the latest requirements before applying.
+            </p>
+
+          </div>
+
         </div>
+
       </div>
 
-      <div class="application-form-actions">
-        <a
-          href="/countries/<%= country.slug %>/application-form"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="application-form-view-btn"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-          View Application Form
-        </a>
-
-        <a
-          href="/countries/<%= country.slug %>/application-form/download"
-          class="application-form-download-btn"
-        >
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-            <path d="m7 10 5 5 5-5"/>
-            <path d="M12 15V3"/>
-          </svg>
-          Download PDF
-        </a>
-      </div>
-    </div>
-
-    <div class="application-form-decoration" aria-hidden="true">
-      ✦
-    </div>
-  </section>
-<% } %>
-
+    </section>
 
   </main>
 
-  <!-- FOOTER -->
 
-<%- include("../partials/footer") %>
-
-  <!-- JAVASCRIPT -->
+  <%- include("../partials/footer") %>
 
   <script src="/js/main.js"></script>
-
   <script src="/js/requirements.js"></script>
+
+
+  <!-- DYNAMIC PREVIOUS-PAGE NAVIGATION -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const backButton = document.getElementById(
+        "requirementsBackButton"
+      );
+
+      if (!backButton) return;
+
+      /*
+        The href already contains the correct category selection URL
+        and its original returnTo parameter.
+
+        Use that URL instead of blindly using browser history.
+      */
+
+      backButton.addEventListener("click", function (event) {
+        event.preventDefault();
+
+        window.location.href = backButton.getAttribute("href");
+      });
+
+    });
+  </script>
 
 </body>
 </html>

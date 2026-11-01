@@ -1,7 +1,7 @@
 const Country = require("../models/Country");
 
 /* =========================================================
-HELPER FUNCTIONS
+   HELPER FUNCTIONS
 ========================================================= */
 
 function toArray(value) {
@@ -19,112 +19,48 @@ function toArray(value) {
     .filter(Boolean);
 }
 
-function toBoolean(value) {
-  return value === "true" || value === true || value === "on";
-}
-
-function getObjectArray(value) {
-  if (!value) {
+/*
+  Preserve pasted requirement text:
+  - Line breaks
+  - Blank lines
+  - Indentation
+  - Numbering
+  - Spacing
+*/
+function toPreservedTextArray(value) {
+  if (value === undefined || value === null || value === "") {
     return [];
   }
+
+  const text = Array.isArray(value)
+    ? value.map((item) => String(item ?? "")).join("\n")
+    : String(value);
+
+  return text === "" ? [] : [text];
+}
+
+function toBoolean(value) {
+  return value === "true" || value === true || value === "on" || value === "1";
+}
+
+/*
+  Express may parse nested form fields as arrays or objects.
+*/
+function getObjectArray(value) {
+  if (!value) return [];
 
   if (Array.isArray(value)) {
     return value;
   }
 
-  return Object.values(value);
+  if (typeof value === "object") {
+    return Object.keys(value)
+      .sort((a, b) => Number(a) - Number(b))
+      .map((key) => value[key]);
+  }
+
+  return [];
 }
-
-function cleanContentSections(value) {
-  const sections = getObjectArray(value);
-
-  return sections
-    .map((item) => ({
-      title: item.title || "",
-      icon: item.icon || "",
-      description: item.description || "",
-      items: toArray(item.items),
-    }))
-    .filter((item) => {
-      return item.title || item.icon || item.description || item.items.length;
-    });
-}
-
-function cleanProcessSteps(value) {
-  const steps = getObjectArray(value);
-
-  return steps
-    .map((item, index) => ({
-      step: Number(item.step) || index + 1,
-      title: item.title || "",
-      description: item.description || "",
-      icon: item.icon || "",
-    }))
-    .filter((item) => {
-      return item.title || item.description || item.icon;
-    });
-}
-
-function cleanFaqs(value) {
-  const faqs = getObjectArray(value);
-
-  return faqs
-    .map((item) => ({
-      question: item.question || "",
-      answer: item.answer || "",
-    }))
-    .filter((item) => {
-      return item.question || item.answer;
-    });
-}
-
-function cleanVisaTypes(value) {
-  const visas = getObjectArray(value);
-
-  return visas
-    .filter(
-      (item) =>
-        item !== null && typeof item === "object" && !Array.isArray(item),
-    )
-    .map((item) => ({
-      name: item.name || "",
-      slug: item.slug || "",
-      description: item.description || "",
-      purpose: item.purpose || "",
-
-      categories: toArray(item.categories).filter((category) =>
-        [
-          "e-visa",
-          "tourist-visa",
-          "visa-on-arrival",
-          "business-visa",
-          "stamping-visa",
-          "sticker-visa",
-        ].includes(category),
-      ),
-
-      stayDuration: item.stayDuration || "",
-      validity: item.validity || "",
-      processingTime: item.processingTime || "",
-      entryType: item.entryType || "",
-
-      governmentFee: item.governmentFee || "",
-      serviceFee: item.serviceFee || "",
-      totalFee: item.totalFee || "",
-
-      eligibility: toArray(item.eligibility),
-      documents: toArray(item.documents),
-
-      isActive: toBoolean(item.isActive),
-    }))
-    .filter(
-      (item) => item.name || item.slug || item.description || item.purpose,
-    );
-}
-
-/* =========================================================
-FIELD TIMESTAMP HELPER
-========================================================= */
 
 function setFieldTimestamp(fieldUpdatedAt, fieldName, oldValue, newValue) {
   const oldString = JSON.stringify(oldValue ?? "");
@@ -136,7 +72,198 @@ function setFieldTimestamp(fieldUpdatedAt, fieldName, oldValue, newValue) {
 }
 
 /* =========================================================
-SHOW COUNTRIES MANAGEMENT PAGE
+   REQUIRED VISA CATEGORIES
+========================================================= */
+
+const REQUIRED_VISA_CATEGORIES = [
+  {
+    name: "E-Visa",
+    slug: "e-visa",
+  },
+  {
+    name: "Sticker Visa",
+    slug: "sticker-visa",
+  },
+  {
+    name: "Visa on Arrival",
+    slug: "visa-on-arrival",
+  },
+];
+
+/* =========================================================
+   PDF FIELD NAME
+
+   Example:
+   subcategoryPdf[e-visa][tourist-visa]
+========================================================= */
+
+function getSubcategoryPdfFieldName(categorySlug, subCategorySlug) {
+  return `subcategoryPdf[${categorySlug}][${subCategorySlug}]`;
+}
+
+/* =========================================================
+   NORMALIZE MULTER FILES
+   Supports .any() array and .fields() object formats.
+========================================================= */
+
+function getUploadedFiles(req) {
+  if (Array.isArray(req.files)) {
+    return req.files;
+  }
+
+  if (req.files && typeof req.files === "object") {
+    return Object.values(req.files).flat();
+  }
+
+  return req.file ? [req.file] : [];
+}
+
+/* =========================================================
+   CLEAN SUBCATEGORIES
+
+   Existing PDFs are preserved by matching the subcategory
+   slug. A newly uploaded PDF replaces only that subcategory's
+   existing PDF.
+========================================================= */
+
+function cleanSubCategories(
+  value,
+  oldSubCategories = [],
+  categorySlug,
+  uploadedFiles = [],
+) {
+  const submittedSubCategories = getObjectArray(value);
+
+  return submittedSubCategories
+    .filter((item) => item && typeof item === "object" && !Array.isArray(item))
+    .map((item) => {
+      const name = String(item.name || "").trim();
+
+      const slug = String(item.slug || "")
+        .trim()
+        .toLowerCase();
+
+      const oldSubcategory = oldSubCategories.find(
+        (oldItem) =>
+          oldItem.slug === slug ||
+          (!oldItem.slug && oldItem.name?.toLowerCase() === name.toLowerCase()),
+      );
+
+      // Preserve existing PDF when the subcategory remains.
+      let applicationForm = oldSubcategory?.applicationForm || undefined;
+
+      // Find a PDF uploaded for this exact category/subcategory.
+      const fieldName = getSubcategoryPdfFieldName(categorySlug, slug);
+
+      const uploadedFile = uploadedFiles.find(
+        (file) => file.fieldname === fieldName,
+      );
+
+      // Replace only this subcategory's PDF.
+      if (uploadedFile) {
+        applicationForm = {
+          filename: String(uploadedFile.originalname || "application-form.pdf")
+            .replace(/[\\/]/g, "")
+            .trim(),
+
+          contentType: "application/pdf",
+
+          data: uploadedFile.buffer,
+
+          size: uploadedFile.size,
+
+          uploadedAt: new Date(),
+        };
+      }
+
+      return {
+        name,
+        slug,
+
+        purpose: String(item.purpose || "").trim(),
+
+        description: String(item.description || "").trim(),
+
+        eligibility: toPreservedTextArray(item.eligibility),
+
+        requirements: toPreservedTextArray(item.requirements),
+
+        isActive: toBoolean(item.isActive),
+
+        applicationForm,
+      };
+    })
+    .filter((item) => item.name && item.slug);
+}
+
+/* =========================================================
+   CLEAN VISA CATEGORIES
+
+   Exactly 3 main categories are maintained.
+
+   Existing subcategory PDFs are preserved independently.
+========================================================= */
+
+function cleanVisaCategories(value, oldCategories = [], uploadedFiles = []) {
+  const submittedCategories = getObjectArray(value);
+
+  if (!submittedCategories.length) {
+    throw new Error(
+      "Visa categories were not received. Please check the edit form.",
+    );
+  }
+
+  return REQUIRED_VISA_CATEGORIES.map((requiredCategory) => {
+    const submittedCategory = submittedCategories.find(
+      (category) =>
+        category &&
+        String(category.slug || "").trim() === requiredCategory.slug,
+    );
+
+    if (!submittedCategory) {
+      throw new Error(
+        `Missing visa category: ${requiredCategory.name}. Please refresh the edit page and try again.`,
+      );
+    }
+
+    const oldCategory = oldCategories.find(
+      (category) => category.slug === requiredCategory.slug,
+    );
+
+    return {
+      name: requiredCategory.name,
+
+      slug: requiredCategory.slug,
+
+      isActive: toBoolean(submittedCategory.isActive),
+
+      // No category-level PDF. PDFs belong to subcategories.
+      subCategories: cleanSubCategories(
+        submittedCategory.subCategories,
+        oldCategory?.subCategories || [],
+        requiredCategory.slug,
+        uploadedFiles,
+      ),
+    };
+  });
+}
+
+/* =========================================================
+   CLEAN FAQS
+========================================================= */
+
+function cleanFaqs(value) {
+  return getObjectArray(value)
+    .filter((item) => item && typeof item === "object" && !Array.isArray(item))
+    .map((item) => ({
+      question: String(item.question || "").trim(),
+      answer: String(item.answer || "").trim(),
+    }))
+    .filter((item) => item.question || item.answer);
+}
+
+/* =========================================================
+   SHOW COUNTRIES MANAGEMENT PAGE
 ========================================================= */
 
 exports.showCountries = async (req, res, next) => {
@@ -153,7 +280,7 @@ exports.showCountries = async (req, res, next) => {
 };
 
 /* =========================================================
-SHOW EDIT PAGE
+   SHOW EDIT COUNTRY PAGE
 ========================================================= */
 
 exports.showEditCountry = async (req, res, next) => {
@@ -166,23 +293,30 @@ exports.showEditCountry = async (req, res, next) => {
       return res.status(404).send("Country not found");
     }
 
+    // Fallback for older documents.
+    if (!Array.isArray(country.visaCategories)) {
+      country.visaCategories = REQUIRED_VISA_CATEGORIES.map((category) => ({
+        ...category,
+        isActive: true,
+        subCategories: [],
+      }));
+    }
+
     res.render("admin/countries/edit", {
       country,
     });
   } catch (error) {
+    console.error("Show edit country error:", error);
     next(error);
   }
 };
 
 /* =========================================================
-UPDATE COUNTRY
+   UPDATE COUNTRY
 ========================================================= */
 
 exports.updateCountry = async (req, res, next) => {
   try {
-    // console.log("Request body:", req.body);
-    // console.log("Uploaded PDF:", req.file);
-
     if (!req.body || Object.keys(req.body).length === 0) {
       return res
         .status(400)
@@ -191,16 +325,24 @@ exports.updateCountry = async (req, res, next) => {
 
     const oldSlug = req.params.slug;
 
+    /*
+      Explicitly select nested PDF buffers.
+      Otherwise select:false prevents existing PDFs
+      from being loaded and preserved during an update.
+    */
     const country = await Country.findOne({
       slug: oldSlug,
-    });
+    }).select("+visaCategories.subCategories.applicationForm.data");
 
     if (!country) {
       return res.status(404).send("Country not found");
     }
 
+    const body = req.body;
+    const uploadedFiles = getUploadedFiles(req);
+
     /* =====================================================
-    FIELD TIMESTAMP OBJECT
+       FIELD TIMESTAMP OBJECT
     ===================================================== */
 
     const fieldUpdatedAt = country.fieldUpdatedAt
@@ -208,352 +350,173 @@ exports.updateCountry = async (req, res, next) => {
       : {};
 
     /* =====================================================
-    BASIC INFORMATION
+       1. BASIC COUNTRY INFORMATION
     ===================================================== */
 
-    const newName = req.body.name || "";
-    const newSlug = req.body.slug || oldSlug;
-    const newCountryCode = req.body.countryCode || "";
-    const newFlag = req.body.flag || "";
-    const newImage = req.body.image || "";
-    const newShortDescription = req.body.shortDescription || "";
-    const newDescription = req.body.description || "";
-    const newStartingFee = req.body.startingFee || "";
-    const newStartingProcessingTime = req.body.startingProcessingTime || "";
-    const newHeroBadge = req.body.heroBadge || "";
-
-    setFieldTimestamp(fieldUpdatedAt, "name", country.name, newName);
-    setFieldTimestamp(fieldUpdatedAt, "slug", country.slug, newSlug);
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
+    const basicFields = [
+      "name",
+      "slug",
       "countryCode",
-      country.countryCode,
-      newCountryCode,
-    );
-
-    setFieldTimestamp(fieldUpdatedAt, "flag", country.flag, newFlag);
-    setFieldTimestamp(fieldUpdatedAt, "image", country.image, newImage);
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
+      "flag",
+      "image",
       "shortDescription",
-      country.shortDescription,
-      newShortDescription,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
       "description",
-      country.description,
-      newDescription,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
-      "startingFee",
-      country.startingFee,
-      newStartingFee,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
-      "startingProcessingTime",
-      country.startingProcessingTime,
-      newStartingProcessingTime,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt,
       "heroBadge",
-      country.heroBadge,
-      newHeroBadge,
-    );
+    ];
 
-    country.name = newName;
-    country.slug = newSlug;
-    country.countryCode = newCountryCode;
-    country.flag = newFlag;
-    country.image = newImage;
-    country.shortDescription = newShortDescription;
-    country.description = newDescription;
-    country.startingFee = newStartingFee;
-    country.startingProcessingTime = newStartingProcessingTime;
-    country.heroBadge = newHeroBadge;
+    for (const field of basicFields) {
+      if (body[field] !== undefined) {
+        const newValue = String(body[field] || "").trim();
 
-    /* =====================================================
-    VISA TYPES
-    ===================================================== */
+        setFieldTimestamp(fieldUpdatedAt, field, country[field], newValue);
 
-    const newVisaTypes = cleanVisaTypes(req.body.visaTypes);
-
-    if (JSON.stringify(country.visaTypes) !== JSON.stringify(newVisaTypes)) {
-      fieldUpdatedAt.visaTypes = new Date();
+        country[field] = newValue;
+      }
     }
 
-    country.visaTypes = newVisaTypes;
-
     /* =====================================================
-    REQUIREMENTS
+       2. VISA CATEGORIES AND SUBCATEGORIES
     ===================================================== */
 
-    const newRequirements = cleanContentSections(req.body.requirements);
+    // Keep old category/subcategory PDF data before rebuilding.
+    const oldVisaCategories = (country.visaCategories || []).map((category) =>
+      category.toObject(),
+    );
 
-    if (
-      JSON.stringify(country.requirements) !== JSON.stringify(newRequirements)
-    ) {
-      fieldUpdatedAt.requirements = new Date();
-    }
+    const newVisaCategories = cleanVisaCategories(
+      body.visaCategories,
+      oldVisaCategories,
+      uploadedFiles,
+    );
 
-    country.requirements = newRequirements;
+    setFieldTimestamp(
+      fieldUpdatedAt,
+      "visaCategories",
+      oldVisaCategories,
+      newVisaCategories,
+    );
 
     /* =====================================================
-    ELIGIBILITY
+       INDIVIDUAL CATEGORY TIMESTAMPS
     ===================================================== */
 
-    const newEligibility = cleanContentSections(req.body.eligibility);
-
-    if (
-      JSON.stringify(country.eligibility) !== JSON.stringify(newEligibility)
-    ) {
-      fieldUpdatedAt.eligibility = new Date();
+    if (!fieldUpdatedAt.visaCategories) {
+      fieldUpdatedAt.visaCategories = {};
     }
 
-    country.eligibility = newEligibility;
+    for (const newCategory of newVisaCategories) {
+      const oldCategory = oldVisaCategories.find(
+        (category) => category.slug === newCategory.slug,
+      );
 
-    /* =====================================================
-    APPLICATION PROCESS
-    ===================================================== */
+      const categoryTimestampKey = newCategory.slug;
 
-    const newApplicationProcess = cleanProcessSteps(
-      req.body.applicationProcess,
-    );
+      if (!fieldUpdatedAt.visaCategories[categoryTimestampKey]) {
+        fieldUpdatedAt.visaCategories[categoryTimestampKey] = {};
+      }
 
-    if (
-      JSON.stringify(country.applicationProcess) !==
-      JSON.stringify(newApplicationProcess)
-    ) {
-      fieldUpdatedAt.applicationProcess = new Date();
+      const categoryTimestamps =
+        fieldUpdatedAt.visaCategories[categoryTimestampKey];
+
+      setFieldTimestamp(
+        categoryTimestamps,
+        "isActive",
+        oldCategory?.isActive,
+        newCategory.isActive,
+      );
+
+      setFieldTimestamp(
+        categoryTimestamps,
+        "subCategories",
+        oldCategory?.subCategories || [],
+        newCategory.subCategories,
+      );
+
+      /*
+        Record individual subcategory PDF upload timestamps.
+      */
+      for (const newSubcategory of newCategory.subCategories) {
+        const oldSubcategory = oldCategory?.subCategories?.find(
+          (item) => item.slug === newSubcategory.slug,
+        );
+
+        const hasNewPdf = uploadedFiles.some(
+          (file) =>
+            file.fieldname ===
+            getSubcategoryPdfFieldName(newCategory.slug, newSubcategory.slug),
+        );
+
+        if (hasNewPdf) {
+          if (!categoryTimestamps.subcategoryApplicationForms) {
+            categoryTimestamps.subcategoryApplicationForms = {};
+          }
+
+          categoryTimestamps.subcategoryApplicationForms[newSubcategory.slug] =
+            {
+              uploadedAt: new Date(),
+            };
+        }
+      }
     }
 
-    country.applicationProcess = newApplicationProcess;
+    country.visaCategories = newVisaCategories;
+
+    country.markModified("visaCategories");
 
     /* =====================================================
-    FEES
-    ===================================================== */
-
-    const oldFees = country.fees
-      ? JSON.parse(JSON.stringify(country.fees))
-      : {};
-
-    const newFees = {
-      governmentFee: req.body.fees?.governmentFee || "",
-      serviceFee: req.body.fees?.serviceFee || "",
-      otherCharges: req.body.fees?.otherCharges || "",
-      totalEstimatedFee: req.body.fees?.totalEstimatedFee || "",
-      currency: req.body.fees?.currency || "",
-      notes: toArray(req.body.fees?.notes),
-    };
-
-    if (!fieldUpdatedAt.fees) {
-      fieldUpdatedAt.fees = {};
-    }
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "governmentFee",
-      oldFees.governmentFee,
-      newFees.governmentFee,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "serviceFee",
-      oldFees.serviceFee,
-      newFees.serviceFee,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "otherCharges",
-      oldFees.otherCharges,
-      newFees.otherCharges,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "totalEstimatedFee",
-      oldFees.totalEstimatedFee,
-      newFees.totalEstimatedFee,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "currency",
-      oldFees.currency,
-      newFees.currency,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.fees,
-      "notes",
-      oldFees.notes,
-      newFees.notes,
-    );
-
-    country.fees = newFees;
-
-    /* =====================================================
-    PROCESSING
-    ===================================================== */
-
-    const oldProcessing = country.processing
-      ? JSON.parse(JSON.stringify(country.processing))
-      : {};
-
-    const newProcessing = {
-      normalProcessing: req.body.processing?.normalProcessing || "",
-      expressProcessing: req.body.processing?.expressProcessing || "",
-      urgentProcessing: req.body.processing?.urgentProcessing || "",
-      possibleDelays: toArray(req.body.processing?.possibleDelays),
-      processingNotes: toArray(req.body.processing?.processingNotes),
-    };
-
-    if (!fieldUpdatedAt.processing) {
-      fieldUpdatedAt.processing = {};
-    }
-
-    setFieldTimestamp(
-      fieldUpdatedAt.processing,
-      "normalProcessing",
-      oldProcessing.normalProcessing,
-      newProcessing.normalProcessing,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.processing,
-      "expressProcessing",
-      oldProcessing.expressProcessing,
-      newProcessing.expressProcessing,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.processing,
-      "urgentProcessing",
-      oldProcessing.urgentProcessing,
-      newProcessing.urgentProcessing,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.processing,
-      "possibleDelays",
-      oldProcessing.possibleDelays,
-      newProcessing.possibleDelays,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.processing,
-      "processingNotes",
-      oldProcessing.processingNotes,
-      newProcessing.processingNotes,
-    );
-
-    country.processing = newProcessing;
-
-    /* =====================================================
-    TRAVEL INFORMATION
+       3. TRAVEL INFORMATION
     ===================================================== */
 
     const oldTravelInfo = country.travelInfo
-      ? JSON.parse(JSON.stringify(country.travelInfo))
+      ? country.travelInfo.toObject
+        ? country.travelInfo.toObject()
+        : JSON.parse(JSON.stringify(country.travelInfo))
       : {};
 
+    const travelInfoBody = body.travelInfo || {};
+
     const newTravelInfo = {
-      bestTimeToVisit: req.body.travelInfo?.bestTimeToVisit || "",
-      currency: req.body.travelInfo?.currency || "",
-      language: req.body.travelInfo?.language || "",
-      timezone: req.body.travelInfo?.timezone || "",
-      capital: req.body.travelInfo?.capital || "",
-      majorCities: toArray(req.body.travelInfo?.majorCities),
-      flightDuration: req.body.travelInfo?.flightDuration || "",
-      timeDifference: req.body.travelInfo?.timeDifference || "",
-      airportInformation: req.body.travelInfo?.airportInformation || "",
+      bestTimeToVisit: String(travelInfoBody.bestTimeToVisit || "").trim(),
+
+      currency: String(travelInfoBody.currency || "").trim(),
+
+      language: String(travelInfoBody.language || "").trim(),
+
+      timezone: String(travelInfoBody.timezone || "").trim(),
+
+      capital: String(travelInfoBody.capital || "").trim(),
+
+      majorCities: toArray(travelInfoBody.majorCities),
+
+      flightDuration: String(travelInfoBody.flightDuration || "").trim(),
+
+      timeDifference: String(travelInfoBody.timeDifference || "").trim(),
+
+      airportInformation: String(
+        travelInfoBody.airportInformation || "",
+      ).trim(),
     };
 
     if (!fieldUpdatedAt.travelInfo) {
       fieldUpdatedAt.travelInfo = {};
     }
 
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "bestTimeToVisit",
-      oldTravelInfo.bestTimeToVisit,
-      newTravelInfo.bestTimeToVisit,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "currency",
-      oldTravelInfo.currency,
-      newTravelInfo.currency,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "language",
-      oldTravelInfo.language,
-      newTravelInfo.language,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "timezone",
-      oldTravelInfo.timezone,
-      newTravelInfo.timezone,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "capital",
-      oldTravelInfo.capital,
-      newTravelInfo.capital,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "majorCities",
-      oldTravelInfo.majorCities,
-      newTravelInfo.majorCities,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "flightDuration",
-      oldTravelInfo.flightDuration,
-      newTravelInfo.flightDuration,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "timeDifference",
-      oldTravelInfo.timeDifference,
-      newTravelInfo.timeDifference,
-    );
-
-    setFieldTimestamp(
-      fieldUpdatedAt.travelInfo,
-      "airportInformation",
-      oldTravelInfo.airportInformation,
-      newTravelInfo.airportInformation,
-    );
+    for (const field of Object.keys(newTravelInfo)) {
+      setFieldTimestamp(
+        fieldUpdatedAt.travelInfo,
+        field,
+        oldTravelInfo[field],
+        newTravelInfo[field],
+      );
+    }
 
     country.travelInfo = newTravelInfo;
 
     /* =====================================================
-    TRAVEL TIPS
+       4. TRAVEL TIPS
     ===================================================== */
 
-    const newTravelTips = toArray(req.body.travelTips);
+    const newTravelTips = toArray(body.travelTips);
 
     setFieldTimestamp(
       fieldUpdatedAt,
@@ -565,10 +528,10 @@ exports.updateCountry = async (req, res, next) => {
     country.travelTips = newTravelTips;
 
     /* =====================================================
-    IMPORTANT NOTES
+       5. IMPORTANT NOTES
     ===================================================== */
 
-    const newImportantNotes = toArray(req.body.importantNotes);
+    const newImportantNotes = toArray(body.importantNotes);
 
     setFieldTimestamp(
       fieldUpdatedAt,
@@ -580,22 +543,20 @@ exports.updateCountry = async (req, res, next) => {
     country.importantNotes = newImportantNotes;
 
     /* =====================================================
-    FAQS
+       6. FAQS
     ===================================================== */
 
-    const newFaqs = cleanFaqs(req.body.faqs);
+    const newFaqs = cleanFaqs(body.faqs);
 
     setFieldTimestamp(fieldUpdatedAt, "faqs", country.faqs, newFaqs);
 
     country.faqs = newFaqs;
 
     /* =====================================================
-    SCHENGEN AREA STATUS
+       7. SCHENGEN STATUS
     ===================================================== */
 
-    // Checked checkbox submits "true".
-    // Unchecked checkbox is omitted from req.body, so it becomes false.
-    const newIsSchengen = toBoolean(req.body.isSchengen);
+    const newIsSchengen = toBoolean(body.isSchengen);
 
     setFieldTimestamp(
       fieldUpdatedAt,
@@ -607,10 +568,10 @@ exports.updateCountry = async (req, res, next) => {
     country.isSchengen = newIsSchengen;
 
     /* =====================================================
-    ACTIVE STATUS
+       8. COUNTRY ACTIVE STATUS
     ===================================================== */
 
-    const newIsActive = toBoolean(req.body.isActive);
+    const newIsActive = toBoolean(body.isActive);
 
     setFieldTimestamp(
       fieldUpdatedAt,
@@ -622,11 +583,12 @@ exports.updateCountry = async (req, res, next) => {
     country.isActive = newIsActive;
 
     /* =====================================================
-    APPLICATION FORM PDF
+       9. LEGACY COUNTRY-LEVEL PDF
+
+       Old PDF is retained unless an old single-file
+       upload is explicitly submitted.
     ===================================================== */
 
-    // Replace existing PDF only when a new PDF is uploaded.
-    // If no file is uploaded, preserve the existing PDF.
     if (req.file) {
       country.applicationForm = {
         filename: String(req.file.originalname || "application-form.pdf")
@@ -634,45 +596,167 @@ exports.updateCountry = async (req, res, next) => {
           .trim(),
 
         contentType: "application/pdf",
+
         data: req.file.buffer,
+
         size: req.file.size,
+
         uploadedAt: new Date(),
       };
-
-      if (!fieldUpdatedAt.applicationForm) {
-        fieldUpdatedAt.applicationForm = {};
-      }
-
-      fieldUpdatedAt.applicationForm.uploadedAt = new Date();
     }
 
     /* =====================================================
-    SAVE FIELD TIMESTAMPS
+       10. SAVE FIELD TIMESTAMPS
     ===================================================== */
 
     country.fieldUpdatedAt = fieldUpdatedAt;
 
+    country.markModified("fieldUpdatedAt");
+
     /* =====================================================
-    SAVE COUNTRY
+       11. SAVE COUNTRY
     ===================================================== */
 
     await country.save();
 
+    console.log(`Country "${country.name}" updated successfully.`);
+
     /* =====================================================
-    REDIRECT
+       12. REDIRECT
     ===================================================== */
 
     return res.redirect(
-      "/admin/countries/" + country.slug + "/edit?updated=true",
+      `/admin/countries/${encodeURIComponent(country.slug)}/edit?updated=true`,
     );
   } catch (error) {
     console.error("Country update error:", error);
+
+    if (error.code === 11000) {
+      return res
+        .status(400)
+        .send("This country slug already exists. Please use a unique slug.");
+    }
+
+    if (error.name === "ValidationError") {
+      return res
+        .status(400)
+        .send(`Country validation failed: ${error.message}`);
+    }
+
+    if (error.message && error.message.includes("Visa categor")) {
+      return res.status(400).send(error.message);
+    }
+
     next(error);
   }
 };
 
 /* =========================================================
-DELETE COUNTRY APPLICATION FORM PDF
+   DELETE ONE SUBCATEGORY APPLICATION FORM PDF
+
+   POST /admin/countries/:slug/application-form/:categorySlug/:subCategorySlug/delete
+========================================================= */
+
+exports.deleteSubcategoryApplicationForm = async (req, res) => {
+  try {
+    const { slug, categorySlug, subCategorySlug } = req.params;
+
+    const allowedCategorySlugs = ["e-visa", "sticker-visa", "visa-on-arrival"];
+
+    if (!allowedCategorySlugs.includes(categorySlug)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid visa category.",
+      });
+    }
+
+    const country = await Country.findOne({ slug });
+
+    if (!country) {
+      return res.status(404).json({
+        success: false,
+        message: "Country not found.",
+      });
+    }
+
+    const category = country.visaCategories.find(
+      (item) => item.slug === categorySlug,
+    );
+
+    if (!category) {
+      return res.status(404).json({
+        success: false,
+        message: "Visa category not found.",
+      });
+    }
+
+    const subcategory = category.subCategories.find(
+      (item) => item.slug === subCategorySlug,
+    );
+
+    if (!subcategory) {
+      return res.status(404).json({
+        success: false,
+        message: "Visa subcategory not found.",
+      });
+    }
+
+    if (!subcategory.applicationForm?.filename) {
+      return res.status(404).json({
+        success: false,
+        message: "No application form PDF exists for this subcategory.",
+      });
+    }
+
+    // Delete only this subcategory's PDF.
+    subcategory.applicationForm = undefined;
+
+    country.markModified("visaCategories");
+
+    if (!country.fieldUpdatedAt) {
+      country.fieldUpdatedAt = {};
+    }
+
+    if (!country.fieldUpdatedAt.visaCategories) {
+      country.fieldUpdatedAt.visaCategories = {};
+    }
+
+    if (!country.fieldUpdatedAt.visaCategories[categorySlug]) {
+      country.fieldUpdatedAt.visaCategories[categorySlug] = {};
+    }
+
+    const categoryTimestamps =
+      country.fieldUpdatedAt.visaCategories[categorySlug];
+
+    if (!categoryTimestamps.subcategoryApplicationForms) {
+      categoryTimestamps.subcategoryApplicationForms = {};
+    }
+
+    categoryTimestamps.subcategoryApplicationForms[subCategorySlug] = {
+      deletedAt: new Date(),
+    };
+
+    country.markModified("fieldUpdatedAt");
+
+    await country.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `${subcategory.name} application form PDF deleted successfully.`,
+    });
+  } catch (error) {
+    console.error("Delete subcategory application form PDF error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete application form PDF.",
+    });
+  }
+};
+
+/* =========================================================
+   DELETE OLD COUNTRY-LEVEL APPLICATION FORM PDF
+   Kept for backward compatibility.
 ========================================================= */
 
 exports.deleteCountryApplicationForm = async (req, res) => {
@@ -695,9 +779,19 @@ exports.deleteCountryApplicationForm = async (req, res) => {
       });
     }
 
-    // Delete only the PDF field from MongoDB.
     country.applicationForm = undefined;
+
     country.markModified("applicationForm");
+
+    if (!country.fieldUpdatedAt) {
+      country.fieldUpdatedAt = {};
+    }
+
+    country.fieldUpdatedAt.applicationForm = {
+      deletedAt: new Date(),
+    };
+
+    country.markModified("fieldUpdatedAt");
 
     await country.save();
 
@@ -706,7 +800,7 @@ exports.deleteCountryApplicationForm = async (req, res) => {
       message: "Application form PDF deleted successfully.",
     });
   } catch (error) {
-    console.error("Delete application form PDF error:", error);
+    console.error("Delete country application form PDF error:", error);
 
     return res.status(500).json({
       success: false,

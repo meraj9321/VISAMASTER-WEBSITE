@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title><%= country.name %> Visa Categories | VisaMaster</title>
+
+  <meta
+    name="description"
+    content="Explore available E-Visa, Sticker Visa and Visa on Arrival options for <%= country.name %>."
+  />
+
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/requirements.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+</head>
+
+<body>
+
+  <%- include("../partials/navbar", { currentPage: "countries" }) %>
+
+  <%
+    const availableVisaCategories = Array.isArray(visaCategories)
+      ? visaCategories.filter(category =>
+          category &&
+          category.isActive !== false &&
+          Array.isArray(category.subCategories) &&
+          category.subCategories.some(
+            sub => sub && sub.isActive !== false
+          )
+        )
+      : [];
+
+    const allowedReturnPaths = [
+      "/visas",
+      "/visas/schengen",
+      "/visas/e-visa",
+      "/visas/sticker-visa",
+      "/visas/visa-on-arrival"
+    ];
+
+    const requestedReturnTo =
+      typeof returnTo === "string" && returnTo.trim()
+        ? returnTo.trim()
+        : "/visas";
+
+    const returnToPath = allowedReturnPaths.includes(requestedReturnTo)
+      ? requestedReturnTo
+      : "/visas";
+
+    const countryVisaCategoriesPath =
+      `/countries/${encodeURIComponent(country.slug)}/visa-categories`;
+
+    /*
+     * BACK NAVIGATION LOGIC
+     *
+     * E-Visa:
+     * /visas/e-visa
+     *
+     * Sticker Visa:
+     * /visas/sticker-visa
+     *
+     * Visa on Arrival:
+     * /visas/visa-on-arrival
+     *
+     * Schengen:
+     * Country Visa Categories page
+     * with original Schengen return URL preserved.
+     */
+
+    const requirementsReturnTo = encodeURIComponent(
+  countryVisaCategoriesPath +
+  `?returnTo=${encodeURIComponent(returnToPath)}`
+);
+
+    const flagValue = String(
+      country.image || country.flag || ""
+    ).trim();
+
+    const isFlagImage =
+      /^(https?:\/\/|\/|images\/|public\/)/i.test(flagValue) &&
+      /\.(png|jpe?g|svg|webp)(\?.*)?$/i.test(flagValue);
+
+    let flagImagePath = flagValue;
+
+    if (flagImagePath.startsWith("public/")) {
+      flagImagePath = flagImagePath.replace(/^public/, "");
+    } else if (
+      flagImagePath &&
+      !flagImagePath.startsWith("/") &&
+      !/^https?:\/\//i.test(flagImagePath)
+    ) {
+      flagImagePath = "/" + flagImagePath;
+    }
+  %>
+
+  <main class="visa-route-page">
+
+    <!-- HEADER SECTION -->
+
+    <section class="visa-route-header">
+
+      <div class="visa-route-container">
+
+        <a href="<%= returnToPath %>" class="visa-route-back">
+          <span>←</span> Back
+        </a>
+
+        <div class="visa-route-country">
+
+          <div class="visa-route-flag">
+
+            <% if (isFlagImage) { %>
+
+              <img
+                src="<%= flagImagePath %>"
+                alt="<%= country.name %> flag"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"
+              />
+
+              <span
+                class="visa-route-flag-fallback"
+                style="display:none;"
+              >
+                🌍
+              </span>
+
+            <% } else { %>
+
+              <span>
+                <%= flagValue || "🌍" %>
+              </span>
+
+            <% } %>
+
+          </div>
+
+          <div class="visa-route-country-info">
+
+            <span class="visa-route-eyebrow">
+              VISA INFORMATION
+            </span>
+
+            <h1>
+              <%= country.name %> Visa Options
+            </h1>
+
+            <p>
+              Select a visa category to view its available purposes and requirements.
+            </p>
+
+          </div>
+
+          <div class="visa-route-count">
+
+            <strong>
+              <%= availableVisaCategories.length %>
+            </strong>
+
+            <span>
+              Available<br />Categories
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- VISA CATEGORY CONTENT -->
+
+    <section class="visa-route-content">
+
+      <div class="visa-route-container">
+
+        <div class="visa-route-heading">
+
+          <div>
+
+            <span class="visa-route-eyebrow">
+              CHOOSE YOUR VISA ROUTE
+            </span>
+
+            <h2>
+              Select your visa category
+            </h2>
+
+          </div>
+
+          <p>
+            Choose one of the available options below.
+          </p>
+
+        </div>
+
+
+        <% if (availableVisaCategories.length > 0) { %>
+
+          <div class="visa-route-grid">
+
+            <% availableVisaCategories.forEach((category, index) => { %>
+
+              <%
+                const activeSubCategories = category.subCategories.filter(
+                  sub => sub && sub.isActive !== false
+                );
+
+                const requirementsPath =
+                  `/countries/${encodeURIComponent(country.slug)}` +
+                  `/requirements/${encodeURIComponent(category.slug)}` +
+                  `?returnTo=${requirementsReturnTo}`;
+              %>
+
+              <a
+                class="visa-route-card"
+                href="<%= requirementsPath %>"
+              >
+
+                <span class="visa-route-card-number">
+                  <%= String(index + 1).padStart(2, "0") %>
+                </span>
+
+                <span class="visa-route-card-content">
+
+                  <strong>
+                    <%= category.name %>
+                  </strong>
+
+                  <small>
+                    <%= activeSubCategories.length %>
+                    visa purpose<%= activeSubCategories.length === 1 ? "" : "s" %> available
+                  </small>
+
+                </span>
+
+                <span
+                  class="visa-route-card-arrow"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+
+              </a>
+
+            <% }) %>
+
+          </div>
+
+        <% } else { %>
+
+          <div class="visa-route-empty">
+
+            <span>📋</span>
+
+            <div>
+
+              <h3>
+                Visa Categories Coming Soon
+              </h3>
+
+              <p>
+                Visa categories for <%= country.name %> are not currently
+                available online. Contact our team for assistance.
+              </p>
+
+            </div>
+
+            <a href="/contact">
+              Contact Us →
+            </a>
+
+          </div>
+
+        <% } %>
+
+
+        <!-- IMPORTANT INFORMATION -->
+
+        <div class="visa-route-note">
+
+          <span>ⓘ</span>
+
+          <p>
+            Visa eligibility and document requirements depend on your
+            nationality and travel purpose. Always confirm the latest
+            requirements before applying.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <%- include("../partials/footer") %>
+
+  <script src="/js/main.js"></script>
+
+</body>
+</html>
