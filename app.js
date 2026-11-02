@@ -55,6 +55,9 @@ app.use(express.json());
 // =========================================================
 // PUBLIC ROUTES
 // =========================================================
+const helmet = require("helmet");
+
+app.use(helmet());
 
 const homeRoutes = require("./routes/homeRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
