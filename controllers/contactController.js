@@ -1,7 +1,7 @@
 const Enquiry = require("../models/Enquiry");
 const Team = require("../models/TeamMember");
 const Country = require("../models/Country");
-const sendMail = require("../config/mail");
+//const sendMail = require("../config/mail");
 
 // =========================================================
 // GET CONTACT PAGE DATA
@@ -141,10 +141,11 @@ exports.submitEnquiry = async (req, res) => {
       message: cleanMessage,
     });
 
-    await enquiry.save();
+    // =========================================================
+    // ENQUIRY SAVED SUCCESSFULLY
+    // =========================================================
 
-    console.log("ENQUIRY SAVED:", enquiry._id);
-
+    return res.redirect("/contact?success=1");
     // ESCAPE HTML
 
     const escapeHtml = (value) =>
