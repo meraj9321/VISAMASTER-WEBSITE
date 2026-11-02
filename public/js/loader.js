@@ -1,5 +1,5 @@
 /* =========================================
-   VISAMASTER PAGE LOADER
+   VISAMASTER MINIMAL PAGE LOADER
 ========================================= */
 
 (function () {
@@ -7,40 +7,29 @@
 
   if (!loader) return;
 
-  let pageIsReady = document.readyState === "complete";
-
-  // Hide loader when the page finishes loading.
   function hideLoader() {
-    pageIsReady = true;
-
     loader.classList.add("vm-loader-hidden");
-
-    // Remove loader from keyboard and screen-reader interaction.
     loader.setAttribute("aria-hidden", "true");
   }
 
-  // Show loader before navigating to another local page.
   function showLoader() {
-    if (pageIsReady) {
-      loader.classList.remove("vm-loader-hidden");
-      loader.setAttribute("aria-hidden", "false");
-    }
+    loader.classList.remove("vm-loader-hidden");
+    loader.setAttribute("aria-hidden", "false");
   }
 
-  // Hide loader once all page resources have loaded.
-  if (pageIsReady) {
+  // Hide loader after complete page loading
+  if (document.readyState === "complete") {
     hideLoader();
   } else {
     window.addEventListener("load", hideLoader, { once: true });
   }
 
-  // Handle navigation links.
+  // Handle internal page navigation
   document.addEventListener("click", function (event) {
     const link = event.target.closest("a[href]");
 
     if (!link) return;
 
-    // Ignore modified clicks, downloads, and non-left clicks.
     if (
       event.button !== 0 ||
       event.ctrlKey ||
@@ -55,7 +44,6 @@
 
     const href = link.getAttribute("href");
 
-    // Ignore empty links, anchors, and JavaScript links.
     if (
       !href ||
       href.startsWith("#") ||
@@ -74,19 +62,16 @@
       return;
     }
 
-    // Only handle navigation within this website.
     if (destination.origin !== window.location.origin) return;
 
-    // Don't show the loader for the current URL.
     if (destination.href === window.location.href) return;
 
+    // Show loader before navigation
     showLoader();
   });
 
-  // Restore the loader's hidden state when returning from browser cache.
-  window.addEventListener("pageshow", function (event) {
-    if (event.persisted) {
-      hideLoader();
-    }
+  // Handle browser back/forward cache
+  window.addEventListener("pageshow", function () {
+    hideLoader();
   });
 })();

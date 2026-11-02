@@ -1,7 +1,7 @@
 const Enquiry = require("../models/Enquiry");
 const Team = require("../models/TeamMember");
 const Country = require("../models/Country");
-const transporter = require("../config/mail");
+const sendMail = require("../config/mail");
 
 // =========================================================
 // GET CONTACT PAGE DATA
@@ -23,8 +23,6 @@ async function getContactPageData() {
     active: true,
   }).sort({ order: 1 });
 
-  // Fetch destinations from the existing Country collection.
-  // Include countries where isActive is true or the field is missing.
   const destinations = await Country.find({
     $or: [{ isActive: true }, { isActive: { $exists: false } }],
   })
@@ -46,22 +44,17 @@ async function getContactPageData() {
 
 exports.showContactPage = async (req, res) => {
   try {
-    const { partners, accountants, executives, destinations } =
-      await getContactPageData();
+    const pageData = await getContactPageData();
 
     res.render("contacts/index", {
       currentPage: "contact",
-      partners,
-      accountants,
-      executives,
-      destinations,
+      ...pageData,
       success: req.query.success === "1",
       error: null,
       formData: {},
     });
   } catch (error) {
     console.error("Error loading contact page:", error);
-
     res.status(500).send("Unable to load the contact page.");
   }
 };
@@ -74,11 +67,16 @@ exports.submitEnquiry = async (req, res) => {
   try {
     const { name, phone, email, destination, visaType, message } = req.body;
 
-    // -----------------------------------------------------
     // VALIDATION
-    // -----------------------------------------------------
 
-    if (!name || !phone || !email || !destination || !visaType || !message) {
+    if (
+      !name?.trim() ||
+      !phone?.trim() ||
+      !email?.trim() ||
+      !destination?.trim() ||
+      !visaType?.trim() ||
+      !message?.trim()
+    ) {
       const pageData = await getContactPageData();
 
       return res.status(400).render("contacts/index", {
@@ -111,9 +109,7 @@ exports.submitEnquiry = async (req, res) => {
       });
     }
 
-    // -----------------------------------------------------
-    // VERIFY DESTINATION AGAINST DATABASE
-    // -----------------------------------------------------
+    // VERIFY DESTINATION
 
     const selectedCountry = await Country.findOne({
       slug: cleanDestination,
@@ -132,12 +128,9 @@ exports.submitEnquiry = async (req, res) => {
       });
     }
 
-    // Use the actual country name in the saved enquiry and email.
     const destinationName = selectedCountry.name;
 
-    // -----------------------------------------------------
     // SAVE ENQUIRY TO MONGODB
-    // -----------------------------------------------------
 
     const enquiry = new Enquiry({
       name: cleanName,
@@ -150,9 +143,9 @@ exports.submitEnquiry = async (req, res) => {
 
     await enquiry.save();
 
-    // -----------------------------------------------------
-    // PREPARE EMAIL CONTENT
-    // -----------------------------------------------------
+    console.log("ENQUIRY SAVED:", enquiry._id);
+
+    // ESCAPE HTML
 
     const escapeHtml = (value) =>
       String(value)
@@ -169,13 +162,14 @@ exports.submitEnquiry = async (req, res) => {
     const safeVisaType = escapeHtml(cleanVisaType);
     const safeMessage = escapeHtml(cleanMessage).replace(/\n/g, "<br>");
 
+    // EMAIL OPTIONS
+
     const mailOptions = {
-      from: process.env.EMAIL_USER,
       to: process.env.CONTACT_RECEIVER_EMAIL,
       replyTo: cleanEmail,
       subject: `New Visa Enquiry - ${cleanName}`,
-      text: `
 
+      text: `
 New Visa Enquiry
 
 Name: ${cleanName}
@@ -186,44 +180,44 @@ Visa Type: ${cleanVisaType}
 
 Message:
 ${cleanMessage}
-, html:
-<h2>New Visa Enquiry</h2>
+      `,
 
-    <p><strong>Name:</strong> ${safeName}</p>
-    <p><strong>Phone:</strong> ${safePhone}</p>
-    <p><strong>Email:</strong> ${safeEmail}</p>
-    <p><strong>Destination:</strong> ${safeDestination}</p>
-    <p><strong>Visa Type:</strong> ${safeVisaType}</p>
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px;">
+          <h2 style="color: #173b63;">New Visa Enquiry</h2>
+          <hr>
 
-    <p><strong>Message:</strong></p>
-    <p>${safeMessage}</p>
-  `,
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Phone:</strong> ${safePhone}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
+          <p><strong>Phone:</strong> ${safePhone}</p>
+          <p><strong>Destination:</strong> ${safeDestination}</p>
+          <p><strong>Visa Type:</strong> ${safeVisaType}</p>
+
+          <h3>Message</h3>
+          <p>${safeMessage}</p>
+
+          <hr>
+          <p style="color: #777; font-size: 12px;">
+            This enquiry was submitted through VisaMaster.
+          </p>
+        </div>
+      `,
     };
 
-    // -----------------------------------------------------
-    // SEND EMAIL
-    // -----------------------------------------------------
+    // SEND EMAIL THROUGH RESEND
 
     try {
-      await transporter.sendMail(mailOptions);
+      await sendMail(mailOptions);
+      console.log("ENQUIRY EMAIL SENT SUCCESSFULLY");
     } catch (emailError) {
-      console.error("Enquiry saved, but email failed:", emailError);
+      console.error("ENQUIRY SAVED BUT EMAIL FAILED:", emailError.message);
 
-      const pageData = await getContactPageData();
-
-      return res.status(500).render("contacts/index", {
-        currentPage: "contact",
-        ...pageData,
-        success: false,
-        error:
-          "Your enquiry was saved, but the notification email could not be sent. Please contact us if needed.",
-        formData: req.body,
-      });
+      // Enquiry is already saved.
+      // Don't make the customer submit it again.
     }
 
-    // -----------------------------------------------------
-    // REDIRECT AFTER SUCCESS
-    // -----------------------------------------------------
+    // REDIRECT AFTER SUCCESSFUL DATABASE SAVE
 
     return res.redirect("/contact?success=1");
   } catch (error) {

@@ -1,36 +1,36 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
 // =========================================================
-// VISAMASTER SMTP TRANSPORTER
+// VISAMASTER EMAIL SERVICE - RESEND API
 // =========================================================
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-
-  port: Number(process.env.SMTP_PORT),
-
-  secure: process.env.SMTP_SECURE === "true",
-
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // =========================================================
-// VERIFY SMTP CONNECTION
+// SEND EMAIL
 // =========================================================
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("SMTP CONNECTION ERROR:", error);
-  } else {
-    console.log("SMTP SERVER READY");
+const sendMail = async (mailOptions) => {
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY is missing.");
   }
-});
 
-// =========================================================
-// EXPORT TRANSPORTER
-// =========================================================
+  const result = await resend.emails.send({
+    from: process.env.EMAIL_FROM,
+    to: mailOptions.to,
+    replyTo: mailOptions.replyTo,
+    subject: mailOptions.subject,
+    text: mailOptions.text,
+    html: mailOptions.html,
+  });
 
-module.exports = transporter;
+  if (result.error) {
+    throw new Error(result.error.message);
+  }
+
+  console.log("EMAIL SENT SUCCESSFULLY:", result.data?.id);
+
+  return result.data;
+};
+
+module.exports = sendMail;
