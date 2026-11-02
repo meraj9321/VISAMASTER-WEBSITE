@@ -1297,3 +1297,88 @@ Clean + Stable + Responsive
     font-size: 10px;
   }
 }
+
+/* =========================================
+   VISAMASTER - FINAL VISA INFO DROPDOWN
+========================================= */
+
+.site-header #visaInfoDropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-main {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  width: auto;
+  min-height: 40px;
+  padding: 8px 0;
+
+  border: none;
+  background: transparent;
+  color: #102d50;
+
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-main:hover {
+  color: #f0a72d;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+}
+
+.site-header #visaInfoDropdown.is-open .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown visibility */
+.site-header #visaInfoDropdown .nav-dropdown-menu[hidden] {
+  display: none !important;
+}
+
+.site-header #visaInfoDropdown .nav-dropdown-menu:not([hidden]) {
+  display: block;
+}
+
+/* MOBILE */
+@media (max-width: 900px) {
+  .site-header #visaInfoDropdown {
+    display: block;
+    width: 100%;
+  }
+
+  .site-header #visaInfoDropdown .nav-dropdown-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 46px;
+    padding: 0 13px;
+    border-radius: 10px;
+    background: #f7f2e4;
+    box-sizing: border-box;
+  }
+
+  .site-header #visaInfoDropdown .nav-dropdown-menu:not([hidden]) {
+    position: static;
+    width: 100%;
+    margin-top: 7px;
+    padding: 7px;
+    transform: none;
+    box-sizing: border-box;
+    box-shadow: none;
+  }
+}

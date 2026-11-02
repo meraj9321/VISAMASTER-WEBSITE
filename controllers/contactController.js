@@ -208,16 +208,6 @@ ${cleanMessage}
 
     // SEND EMAIL THROUGH RESEND
 
-    try {
-      await sendMail(mailOptions);
-      console.log("ENQUIRY EMAIL SENT SUCCESSFULLY");
-    } catch (emailError) {
-      console.error("ENQUIRY SAVED BUT EMAIL FAILED:", emailError.message);
-
-      // Enquiry is already saved.
-      // Don't make the customer submit it again.
-    }
-
     // REDIRECT AFTER SUCCESSFUL DATABASE SAVE
 
     return res.redirect("/contact?success=1");
