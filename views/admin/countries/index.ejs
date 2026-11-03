@@ -1,131 +1,63 @@
+
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta charset="UTF-8">
+    <title>Manage Countries | VisaMaster</title>
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+    <meta name="description" content="Manage VisaMaster countries and visa information">
 
-<title>Manage Countries | VisaMaster</title>
-
-<meta
-    name="description"
-    content="Manage VisaMaster countries and visa information"
->
-
-<link rel="stylesheet" href="/css/admin.css">
-<link rel="stylesheet" href="/css/admin-countries.css">
-
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin-countries.css">
 </head>
 
 <body>
 
 <div class="admin-layout">
 
-
-    <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
-
     <%- include('../../partials/admin-sidebar', { currentPage: 'countries' }) %>
-
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
 
     <main class="admin-main">
 
-
         <!-- TOPBAR -->
-
         <header class="admin-topbar">
-
             <div>
+                <div class="admin-eyebrow">COUNTRY MANAGEMENT</div>
 
-                <div class="admin-eyebrow">
-                    COUNTRY MANAGEMENT
-                </div>
+                <h1>Manage Countries</h1>
 
-                <h1>
-                    Manage Countries
-                </h1>
-
-                <p>
-                    View and update visa information for all countries.
-                </p>
-
+                <p>View and update visa information for all countries.</p>
             </div>
-
 
             <div class="admin-topbar-actions">
-
-                <a
-                    href="/admin"
-                    class="view-site-button"
-                >
+                <a href="/admin" class="view-site-button">
                     ← Dashboard
                 </a>
-
             </div>
-
         </header>
-
-
-        <!-- =================================================
-             CONTENT
-        ================================================== -->
 
         <section class="admin-content">
 
-
-            <!-- =================================================
-                 SUMMARY
-            ================================================== -->
-
+            <!-- SUMMARY -->
             <div class="admin-card">
-
-
                 <div>
+                    <span class="admin-card-label">Total Countries</span>
 
-                    <span class="admin-card-label">
-                        Total Countries
-                    </span>
+                    <h2><%= countries.length %></h2>
 
-
-                    <h2>
-                        <%= countries.length %>
-                    </h2>
-
-
-                    <p>
-                        Countries available in your visa database.
-                    </p>
-
+                    <p>Countries available in your visa database.</p>
                 </div>
-
-
             </div>
 
-
-            <!-- =================================================
-                 SEARCH
-            ================================================== -->
-
+            <!-- SEARCH -->
             <div class="admin-card">
-
-
                 <div class="countries-search">
-
 
                     <label for="countrySearch">
                         Search Countries
                     </label>
-
 
                     <input
                         type="text"
@@ -134,85 +66,76 @@
                         autocomplete="off"
                     >
 
-
                 </div>
-
-
             </div>
 
-
-            <!-- =================================================
-                 COUNTRY LIST
-            ================================================== -->
-
+            <!-- COUNTRY LIST -->
             <div class="admin-card">
 
-
                 <div class="admin-card-header">
-
-
                     <div>
-
-                        <h2>
-                            All Countries
-                        </h2>
-
-                        <p>
-                            Select a country to edit its visa information.
-                        </p>
-
+                        <h2>All Countries</h2>
+                        <p>Select a country to edit its visa information.</p>
                     </div>
-
-
                 </div>
-
 
                 <% if (countries.length > 0) { %>
 
-
                     <div class="countries-table-wrapper">
 
-
-                        <table
-                            class="countries-table"
-                            id="countriesTable"
-                        >
-
+                        <table class="countries-table" id="countriesTable">
 
                             <thead>
-
                                 <tr>
-
-                                    <th>
-                                        Country
-                                    </th>
-
-                                    <th>
-                                        Code
-                                    </th>
-
-                                    <th>
-                                        Visa Types
-                                    </th>
-
-                                    <th>
-                                        Status
-                                    </th>
-
-                                    <th>
-                                        Action
-                                    </th>
-
+                                    <th>Country</th>
+                                    <th>Code</th>
+                                    <th>Visa Categories</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
                                 </tr>
-
                             </thead>
-
 
                             <tbody>
 
+                                <% countries.forEach(function(country) {
 
-                                <% countries.forEach(function(country) { %>
+                                    const visaCategories = Array.isArray(country.visaCategories)
+                                        ? country.visaCategories
+                                        : [];
 
+                                    const activeCategories = visaCategories.filter(
+                                        category => category.isActive === true
+                                    );
+
+                                    const totalSubCategories = visaCategories.reduce(
+                                        (total, category) => {
+                                            return total + (
+                                                Array.isArray(category.subCategories)
+                                                    ? category.subCategories.length
+                                                    : 0
+                                            );
+                                        },
+                                        0
+                                    );
+
+                                    const activeSubCategories = visaCategories.reduce(
+                                        (total, category) => {
+                                            if (category.isActive !== true) return total;
+
+                                            const subCategories = Array.isArray(category.subCategories)
+                                                ? category.subCategories
+                                                : [];
+
+                                            return total + subCategories.filter(
+                                                subCategory => subCategory.isActive === true
+                                            ).length;
+                                        },
+                                        0
+                                    );
+
+                                    const countryImage = country.flag || country.image;
+
+                                %>
 
                                     <tr
                                         class="country-row"
@@ -220,126 +143,113 @@
                                         data-code="<%= country.countryCode || '' %>"
                                     >
 
-
                                         <!-- COUNTRY -->
-
                                         <td>
-
 
                                             <div class="country-table-country">
 
+                                                <% if (countryImage) { %>
 
-                                                <%
-    const countryImage = country.image || country.flag;
-%>
+                                                    <img
+                                                        src="<%= countryImage %>"
+                                                        alt="<%= country.name || 'Country' %>"
+                                                        class="country-table-flag"
+                                                        loading="lazy"
+                                                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                                                    >
 
-<% if (countryImage) { %>
+                                                    <div
+                                                        class="country-table-flag-placeholder"
+                                                        style="display:none;"
+                                                    >
+                                                        🌍
+                                                    </div>
 
-    <img
-        src="<%= countryImage %>"
-        alt="<%= country.name || 'Country' %>"
-        class="country-table-flag"
-        loading="lazy"
-        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-    >
+                                                <% } else { %>
 
-    <div
-        class="country-table-flag-placeholder"
-        style="display: none;"
-    >
-        🌍
-    </div>
+                                                    <div class="country-table-flag-placeholder">
+                                                        🌍
+                                                    </div>
 
-<% } else { %>
-
-    <div class="country-table-flag-placeholder">
-        🌍
-    </div>
-
-<% } %> 
-
+                                                <% } %>
 
                                                 <div>
-
-
                                                     <strong>
                                                         <%= country.name || 'Unnamed Country' %>
                                                     </strong>
 
-
                                                     <% if (country.slug) { %>
-
                                                         <span>
                                                             /<%= country.slug %>
                                                         </span>
-
                                                     <% } %>
-
-
                                                 </div>
-
 
                                             </div>
 
-
                                         </td>
 
-
-                                        <!-- CODE -->
-
+                                        <!-- COUNTRY CODE -->
                                         <td>
-
                                             <%= country.countryCode || '—' %>
+                                        </td>
+
+                                        <!-- NEW VISA CATEGORIES -->
+                                        <td>
+
+                                            <div class="visa-category-summary">
+
+                                                <strong>
+                                                    <%= activeCategories.length %> / <%= visaCategories.length %>
+                                                    Active Categories
+                                                </strong>
+
+                                                <div class="visa-category-list">
+
+                                                    <% visaCategories.forEach(function(category) { %>
+
+                                                        <span class="status-badge <%= category.isActive === true ? 'status-active' : 'status-inactive' %>">
+
+                                                            <%= category.name || category.category || 'Visa Category' %>
+
+                                                        </span>
+
+                                                    <% }); %>
+
+                                                </div>
+
+                                                <small>
+                                                    <%= activeSubCategories %> active subcategories
+                                                    / <%= totalSubCategories %> total
+                                                </small>
+
+                                            </div>
 
                                         </td>
 
-
-                                        <!-- VISA TYPES -->
-
+                                        <!-- COUNTRY STATUS -->
                                         <td>
-
-                                            <%= Array.isArray(country.visaTypes)
-                                                ? country.visaTypes.length
-                                                : 0
-                                            %>
-
-                                        </td>
-
-
-                                        <!-- STATUS -->
-
-                                        <td>
-
 
                                             <% if (country.isActive === false) { %>
-
 
                                                 <span class="status-badge status-inactive">
                                                     Inactive
                                                 </span>
 
-
                                             <% } else { %>
-
 
                                                 <span class="status-badge status-active">
                                                     Active
                                                 </span>
 
-
                                             <% } %>
-
 
                                         </td>
 
-
                                         <!-- ACTION -->
-
                                         <td>
 
-
                                             <% if (country.slug) { %>
-
 
                                                 <a
                                                     href="/admin/countries/<%= country.slug %>/edit"
@@ -348,140 +258,80 @@
                                                     ✏️ Edit
                                                 </a>
 
-
                                             <% } else { %>
 
-
-                                                <span>
-                                                    No slug
-                                                </span>
-
+                                                <span>No slug</span>
 
                                             <% } %>
 
-
                                         </td>
-
 
                                     </tr>
 
-
                                 <% }); %>
-
 
                             </tbody>
 
-
                         </table>
-
 
                     </div>
 
-
                 <% } else { %>
 
-
-                    <!-- =================================================
-                         EMPTY STATE
-                    ================================================== -->
-
+                    <!-- EMPTY STATE -->
                     <div class="countries-empty-state">
 
+                        <div class="empty-state-icon">🌍</div>
 
-                        <div class="empty-state-icon">
-                            🌍
-                        </div>
-
-
-                        <h3>
-                            No countries available
-                        </h3>
-
+                        <h3>No countries available</h3>
 
                         <p>
                             There are currently no countries in your database.
                         </p>
 
-
                     </div>
-
 
                 <% } %>
 
-
             </div>
-
 
         </section>
 
-
     </main>
-
 
 </div>
 
-
-<!-- =========================================================
-     COUNTRY SEARCH
-========================================================== -->
-
+<!-- COUNTRY SEARCH -->
 <script>
 
-    const searchInput =
-        document.getElementById("countrySearch");
+    const searchInput = document.getElementById("countrySearch");
 
-    const countryRows =
-        document.querySelectorAll(".country-row");
-
+    const countryRows = document.querySelectorAll(".country-row");
 
     if (searchInput) {
 
-        searchInput.addEventListener(
-            "input",
-            function () {
+        searchInput.addEventListener("input", function () {
 
-                const searchText =
-                    this.value
-                        .toLowerCase()
-                        .trim();
+            const searchText = this.value.toLowerCase().trim();
 
+            countryRows.forEach(function (row) {
 
-                countryRows.forEach(
-                    function (row) {
+                const name = (row.dataset.name || "").toLowerCase();
 
-                        const name =
-                            (row.dataset.name || "")
-                                .toLowerCase();
+                const code = (row.dataset.code || "").toLowerCase();
 
+                row.style.display =
+                    name.includes(searchText) || code.includes(searchText)
+                        ? ""
+                        : "none";
 
-                        const code =
-                            (row.dataset.code || "")
-                                .toLowerCase();
+            });
 
-
-                        if (
-                            name.includes(searchText) ||
-                            code.includes(searchText)
-                        ) {
-
-                            row.style.display = "";
-
-                        } else {
-
-                            row.style.display = "none";
-
-                        }
-
-                    }
-                );
-
-            }
-        );
+        });
 
     }
 
 </script>
 
 </body>
-
 </html>
