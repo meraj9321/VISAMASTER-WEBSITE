@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,12 +14,20 @@
   <link rel="stylesheet" href="/css/global.css" />
   <link rel="stylesheet" href="/css/navbar.css" />
   <link rel="stylesheet" href="/css/visas.css" />
+  <link rel="stylesheet" href="/css/schengen.css" />
   <link rel="stylesheet" href="/css/footer.css" />
+
+  <script src="/js/main.js" defer></script>
+  <script src="/js/schengen.js" defer></script>
 </head>
 
 <body>
 
   <%- include("../partials/navbar", { currentPage: "schengen" }) %>
+
+  <%
+    const schengenCountries = Array.isArray(countries) ? countries : [];
+  %>
 
   <main class="vm-directory-page">
 
@@ -45,6 +52,53 @@
           </p>
         </div>
 
+        <!-- SEARCH -->
+        <div class="schengen-search-wrapper">
+          <div class="schengen-search-box">
+
+            <span class="schengen-search-icon" aria-hidden="true">⌕</span>
+
+            <div class="schengen-search-field">
+              <label for="schengenCountrySearch">
+                SEARCH SCHENGEN COUNTRIES
+              </label>
+
+              <input
+                type="search"
+                id="schengenCountrySearch"
+                placeholder="Search a country, e.g. France, Germany..."
+                autocomplete="off"
+                aria-label="Search Schengen countries"
+                aria-autocomplete="list"
+                aria-controls="schengenSuggestions"
+                aria-expanded="false"
+                role="combobox"
+              />
+
+              <div
+                class="schengen-suggestions"
+                id="schengenSuggestions"
+                role="listbox"
+                aria-label="Schengen country suggestions"
+                hidden
+              ></div>
+            </div>
+
+            <button
+              type="button"
+              id="schengenClearSearch"
+              class="schengen-clear-button"
+              aria-label="Clear search"
+              hidden
+            >
+              <span aria-hidden="true">&times;</span>
+              <span>Clear</span>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- RESULTS HEADING -->
         <div class="vm-directory-results-head">
           <div>
             <span class="vm-directory-results-kicker">
@@ -61,10 +115,10 @@
           </div>
 
           <div class="vm-directory-result-count">
-            <strong><%= (countries || []).length %></strong>
+            <strong id="schengenCountryCount"><%= schengenCountries.length %></strong>
 
-            <span>
-              <%= (countries || []).length === 1
+            <span id="schengenCountryCountLabel">
+              <%= schengenCountries.length === 1
                 ? "country listed"
                 : "countries listed" %>
             </span>
@@ -83,7 +137,7 @@
             </span>
           </div>
 
-        <% } else if (!(countries || []).length) { %>
+        <% } else if (!schengenCountries.length) { %>
 
           <div class="vm-directory-no-results">
             <span class="vm-no-results-icon" aria-hidden="true">⌕</span>
@@ -102,9 +156,10 @@
 
         <% } else { %>
 
+          <!-- COUNTRY GRID -->
           <div class="vm-country-grid" id="vmSchengenCountryGrid">
 
-            <% countries.forEach((country) => { %>
+            <% schengenCountries.forEach((country, index) => { %>
 
               <%
                 const flagValue = String(country.flag || "").trim();
@@ -126,7 +181,11 @@
                 }
               %>
 
-              <article class="vm-visa-country-card">
+              <article
+                class="vm-visa-country-card schengen-country-card"
+                data-country-name="<%= country.name %>"
+                data-country-slug="<%= country.slug %>"
+              >
 
                 <div class="vm-country-card-main">
 
@@ -140,9 +199,13 @@
                         loading="lazy"
                       />
 
+                      <span class="schengen-flag-fallback" hidden>🌍</span>
+
                     <% } else { %>
 
-                      <%= flagValue || "🌍" %>
+                      <span class="schengen-flag-fallback">
+                        <%= flagValue || "🌍" %>
+                      </span>
 
                     <% } %>
 
@@ -160,7 +223,7 @@
                 </div>
 
                 <a
-                  class="vm-country-requirements-link"
+                  class="vm-country-requirements-link schengen-requirements-link"
                   href="/countries/<%= encodeURIComponent(country.slug) %>/visa-categories?returnTo=%2Fvisas%2Fschengen"
                 >
                   Explore Visa Categories
@@ -171,6 +234,30 @@
 
             <% }) %>
 
+          </div>
+
+          <!-- NO SEARCH RESULTS -->
+          <div
+            class="schengen-no-results"
+            id="schengenNoResults"
+            role="status"
+            hidden
+          >
+            <span class="vm-no-results-icon" aria-hidden="true">⌕</span>
+
+            <h3>No matching Schengen country found</h3>
+
+            <p>
+              Try another country name or check your spelling.
+            </p>
+
+            <button
+              type="button"
+              id="schengenResetSearch"
+              class="vm-directory-btn vm-btn-primary"
+            >
+              Show all countries
+            </button>
           </div>
 
         <% } %>
@@ -186,6 +273,7 @@
       </div>
     </section>
 
+    <!-- CTA -->
     <section class="vm-directory-cta">
       <div class="container">
 
@@ -216,8 +304,6 @@
   </main>
 
   <%- include("../partials/footer") %>
-
-  <script src="/js/main.js"></script>
 
 </body>
 </html>

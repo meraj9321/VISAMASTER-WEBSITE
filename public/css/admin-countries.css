@@ -476,3 +476,23 @@
     min-width: 190px;
   }
 }
+.visa-category-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.visa-category-summary > strong {
+  font-size: 13px;
+}
+
+.visa-category-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.visa-category-summary small {
+  color: #777;
+  font-size: 11px;
+}

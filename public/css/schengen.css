@@ -1,0 +1,277 @@
+/* =====================================================
+   SCHENGEN PAGE SEARCH
+===================================================== */
+
+.schengen-search-wrapper {
+  position: relative;
+  z-index: 10;
+  margin: 28px 0 35px;
+}
+
+.schengen-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 21px;
+  border: 1px solid #e5e2da;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(16, 43, 78, 0.07);
+}
+
+.schengen-search-icon {
+  display: grid;
+  flex: 0 0 44px;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #fff3d5;
+  color: #a7781d;
+  font-size: 25px;
+}
+
+.schengen-search-field {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.schengen-search-field label {
+  display: block;
+  margin-bottom: 6px;
+  color: #a7781d;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.schengen-search-field input {
+  width: 100%;
+  min-height: 27px;
+  padding: 4px 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #172b43;
+  font: inherit;
+  font-size: 14px;
+}
+
+.schengen-search-field input::placeholder {
+  color: #929daa;
+  font-weight: 400;
+}
+
+.schengen-search-field:focus-within {
+  outline: 2px solid rgba(232, 173, 50, 0.25);
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+
+.schengen-clear-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 0 11px;
+  border: 1px solid #e4e8ec;
+  border-radius: 8px;
+  background: #f5f7f9;
+  color: #536579;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.schengen-clear-button:hover {
+  border-color: #d8bd7d;
+  background: #fff6df;
+}
+
+.schengen-clear-button span:last-child {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.schengen-clear-button[hidden] {
+  display: none !important;
+}
+
+/* SUGGESTIONS */
+
+.schengen-suggestions {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: -8px;
+  right: -8px;
+  z-index: 30;
+  max-height: 340px;
+  overflow-y: auto;
+  padding: 7px;
+  border: 1px solid #e8e3d8;
+  border-radius: 13px;
+  background: #fff;
+  box-shadow: 0 16px 38px rgba(16, 43, 78, 0.16);
+}
+
+.schengen-suggestions[hidden] {
+  display: none !important;
+}
+
+.schengen-suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #172b43;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.schengen-suggestion-item:hover,
+.schengen-suggestion-item.active {
+  background: #fff6e2;
+}
+
+.schengen-suggestion-flag {
+  display: grid;
+  flex: 0 0 38px;
+  place-items: center;
+  width: 38px;
+  height: 32px;
+  overflow: hidden;
+  border: 1px solid #ece8de;
+  border-radius: 7px;
+  background: #f7f5ef;
+  font-size: 19px;
+}
+
+.schengen-suggestion-flag img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.schengen-suggestion-details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.schengen-suggestion-name {
+  overflow: hidden;
+  color: #102b4e;
+  font-size: 13px;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.schengen-suggestion-action {
+  color: #9b7a37;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.schengen-suggestion-arrow {
+  color: #a7781d;
+  font-size: 18px;
+}
+
+.schengen-suggestion-empty {
+  padding: 17px 12px;
+  color: #778393;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* FILTERED COUNTRY CARDS */
+
+.schengen-country-card[hidden] {
+  display: none !important;
+}
+
+.schengen-flag-fallback {
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+}
+
+.schengen-no-results {
+  padding: 38px 20px;
+  border: 1px dashed #d8cba9;
+  border-radius: 15px;
+  background: #fffdf7;
+  text-align: center;
+}
+
+.schengen-no-results[hidden] {
+  display: none !important;
+}
+
+.schengen-no-results h3 {
+  margin: 10px 0;
+  color: #102b4e;
+}
+
+.schengen-no-results p {
+  margin-bottom: 18px;
+  color: #788596;
+  font-size: 13px;
+}
+
+.schengen-no-results button {
+  border: 0;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 600px) {
+  .schengen-search-wrapper {
+    margin: 22px 0 28px;
+  }
+
+  .schengen-search-box {
+    gap: 11px;
+    padding: 13px;
+    flex-wrap: wrap;
+  }
+
+  .schengen-search-icon {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .schengen-search-field {
+    flex-basis: calc(100% - 55px);
+  }
+
+  .schengen-clear-button {
+    margin-left: 51px;
+  }
+
+  .schengen-suggestions {
+    left: -51px;
+    right: -5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .schengen-suggestion-item {
+    transition: none;
+  }
+}

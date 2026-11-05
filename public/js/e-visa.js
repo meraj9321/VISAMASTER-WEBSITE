@@ -1,382 +1,379 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const searchInput = document.getElementById("evisaCountrySearch");
-  const clearButton = document.getElementById("clearEvisaSearch");
-  const countryGrid = document.getElementById("evisaCountryGrid");
-  const noResults = document.getElementById("evisaNoResults");
-  const countElement = document.getElementById("evisaCount");
-  const countLabel = document.getElementById("evisaCountLabel");
+/* =========================================================
+   VISAMASTER - E-VISA AUTOCOMPLETE SEARCH
+   All E-Visa search functionality in this file
+   Helmet CSP compatible
+========================================================= */
 
-  if (!searchInput || !countryGrid) return;
+document.addEventListener("DOMContentLoaded", function () {
+  "use strict";
 
-  const searchWrap = searchInput.closest(".evisa-search-wrap");
-  if (!searchWrap) return;
+  // =======================================================
+  // ELEMENTS
+  // =======================================================
 
-  const cards = Array.from(countryGrid.querySelectorAll(".evisa-country-card"));
+  const searchInput = document.getElementById("vmCountrySearch");
+  const clearButton = document.getElementById("vmClearCountrySearch");
+  const countryGrid = document.getElementById("vmCountryGrid");
+  const countElement = document.getElementById("vmCountryCount");
+  const noResults = document.getElementById("vmVisaNoResults");
 
-  let activeIndex = -1;
-  let matches = [];
-  let highlightedCard = null;
+  if (!searchInput || !countryGrid) {
+    console.warn("[E-Visa] Search elements not found.");
+    return;
+  }
 
-  // --------------------------------------------------
-  // CREATE AUTOCOMPLETE DROPDOWN
-  // --------------------------------------------------
+  // =======================================================
+  // AVAILABLE COUNTRIES FROM EXISTING EJS CARDS
+  // =======================================================
 
-  const suggestions = document.createElement("div");
+  const countryCards = Array.from(
+    countryGrid.querySelectorAll(".vm-visa-country-card"),
+  );
 
-  suggestions.className = "evisa-suggestions";
-  suggestions.id = "evisaSearchSuggestions";
-  suggestions.setAttribute("role", "listbox");
-  suggestions.setAttribute("aria-label", "Matching countries");
-  suggestions.hidden = true;
+  const countries = countryCards
+    .map((card) => {
+      const nameElement = card.querySelector(".ev-country-info h3");
+      const linkElement = card.querySelector(".vm-country-requirements-link");
+      const flagElement = card.querySelector(".ev-flag img");
 
-  searchWrap.insertAdjacentElement("afterend", suggestions);
+      return {
+        name: card.dataset.countryName || nameElement?.textContent.trim() || "",
+        slug: card.dataset.countrySlug || "",
+        href: linkElement?.getAttribute("href") || "",
+        flag: flagElement?.getAttribute("src") || "",
+      };
+    })
+    .filter((country) => country.name && country.href);
+
+  console.log(`[E-Visa] ${countries.length} countries loaded.`);
+
+  // =======================================================
+  // CREATE SUGGESTION DROPDOWN
+  // =======================================================
+
+  const searchContent = searchInput.closest(".ev-search-content");
+
+  if (!searchContent) {
+    console.error("[E-Visa] Search container not found.");
+    return;
+  }
+
+  const suggestionsBox = document.createElement("div");
+
+  suggestionsBox.id = "vmEVisaSuggestions";
+  suggestionsBox.className = "ev-suggestions";
+  suggestionsBox.setAttribute("role", "listbox");
+  suggestionsBox.hidden = true;
+
+  searchContent.appendChild(suggestionsBox);
 
   searchInput.setAttribute("role", "combobox");
   searchInput.setAttribute("aria-autocomplete", "list");
+  searchInput.setAttribute("aria-controls", suggestionsBox.id);
   searchInput.setAttribute("aria-expanded", "false");
-  searchInput.setAttribute("aria-controls", suggestions.id);
 
-  // --------------------------------------------------
-  // COUNTRY NAME
-  // --------------------------------------------------
+  // =======================================================
+  // STATE
+  // =======================================================
 
-  function getCountryName(card) {
-    return (
-      card.dataset.countryName ||
-      card.querySelector("h3")?.textContent ||
-      ""
-    ).trim();
+  let currentSuggestions = [];
+  let activeIndex = -1;
+
+  // =======================================================
+  // NORMALIZE TEXT
+  // =======================================================
+
+  function normalizeText(value) {
+    return String(value || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .trim();
   }
 
-  // --------------------------------------------------
-  // CLOSE DROPDOWN
-  // --------------------------------------------------
+  // =======================================================
+  // SHOW SUGGESTIONS
+  // =======================================================
 
-  function closeSuggestions() {
-    suggestions.hidden = true;
+  function showSuggestions() {
+    suggestionsBox.hidden = false;
+    searchInput.setAttribute("aria-expanded", "true");
+  }
+
+  // =======================================================
+  // HIDE SUGGESTIONS
+  // =======================================================
+
+  function hideSuggestions() {
+    suggestionsBox.hidden = true;
     searchInput.setAttribute("aria-expanded", "false");
     searchInput.removeAttribute("aria-activedescendant");
 
     activeIndex = -1;
   }
 
-  // --------------------------------------------------
-  // UPDATE ACTIVE SUGGESTION
-  // --------------------------------------------------
+  // =======================================================
+  // CLEAR SUGGESTIONS
+  // =======================================================
 
-  function setActiveSuggestion(index) {
-    const items = Array.from(suggestions.querySelectorAll(".evisa-suggestion"));
-
-    if (!items.length) {
-      activeIndex = -1;
-      return;
-    }
-
-    activeIndex = Math.max(0, Math.min(index, items.length - 1));
-
-    items.forEach((item, itemIndex) => {
-      const isActive = itemIndex === activeIndex;
-
-      item.classList.toggle("is-active", isActive);
-      item.setAttribute("aria-selected", String(isActive));
-    });
-
-    const activeItem = items[activeIndex];
-
-    searchInput.setAttribute("aria-activedescendant", activeItem.id);
-
-    activeItem.scrollIntoView({
-      block: "nearest",
-      behavior: "auto",
-    });
-  }
-
-  // --------------------------------------------------
-  // TEMPORARILY HIGHLIGHT SELECTED COUNTRY
-  // --------------------------------------------------
-
-  function highlightCountry(card) {
-    if (highlightedCard) {
-      highlightedCard.classList.remove("evisa-card-highlight");
-    }
-
-    highlightedCard = card;
-    card.classList.add("evisa-card-highlight");
-
-    window.setTimeout(() => {
-      card.classList.remove("evisa-card-highlight");
-
-      if (highlightedCard === card) {
-        highlightedCard = null;
-      }
-    }, 2200);
-  }
-
-  // --------------------------------------------------
-  // SELECT COUNTRY AND SCROLL TO CARD
-  // --------------------------------------------------
-
-  function selectCountry(card) {
-    if (!card) return;
-
-    const countryName = getCountryName(card);
-
-    searchInput.value = countryName;
-
-    // Keep all country cards visible.
-    cards.forEach((countryCard) => {
-      countryCard.hidden = false;
-    });
-
-    // Restore the original destination count.
-    if (countElement) {
-      countElement.textContent = String(cards.length);
-    }
-
-    if (countLabel) {
-      countLabel.textContent =
-        cards.length === 1 ? "destination available" : "destinations available";
-    }
-
-    if (noResults) {
-      noResults.hidden = true;
-    }
-
-    if (clearButton) {
-      clearButton.hidden = false;
-    }
-
-    closeSuggestions();
-
-    // Scroll to the selected country.
-    card.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-
-    highlightCountry(card);
-    searchInput.blur();
-  }
-
-  // --------------------------------------------------
-  // RENDER MATCHING SUGGESTIONS
-  // --------------------------------------------------
-
-  function renderSuggestions(query) {
-    suggestions.replaceChildren();
+  function clearSuggestions() {
+    suggestionsBox.replaceChildren();
+    currentSuggestions = [];
     activeIndex = -1;
 
-    if (!query) {
-      closeSuggestions();
-      return;
-    }
-
-    matches = cards.filter((card) => {
-      return getCountryName(card).toLowerCase().includes(query);
-    });
-
-    if (!matches.length) {
-      const emptyMessage = document.createElement("div");
-
-      emptyMessage.className = "evisa-suggestion-empty";
-      emptyMessage.textContent = "No matching countries found";
-
-      suggestions.appendChild(emptyMessage);
-
-      suggestions.hidden = false;
-      searchInput.setAttribute("aria-expanded", "true");
-
-      return;
-    }
-
-    matches.forEach((card, index) => {
-      const countryName = getCountryName(card);
-
-      const item = document.createElement("button");
-
-      item.type = "button";
-      item.className = "evisa-suggestion";
-      item.id = `evisa-suggestion-${index}`;
-      item.setAttribute("role", "option");
-      item.setAttribute("aria-selected", "false");
-
-      // Country flag
-      const flag = card.querySelector(".evisa-card-flag");
-
-      const flagElement = document.createElement("span");
-      flagElement.className = "evisa-suggestion-flag";
-      flagElement.setAttribute("aria-hidden", "true");
-      flagElement.textContent = flag?.textContent.trim() || "🌍";
-
-      // Country name
-      const nameElement = document.createElement("span");
-      nameElement.className = "evisa-suggestion-name";
-      nameElement.textContent = countryName;
-
-      // Right arrow
-      const arrowElement = document.createElement("span");
-      arrowElement.className = "evisa-suggestion-arrow";
-      arrowElement.setAttribute("aria-hidden", "true");
-      arrowElement.textContent = "→";
-
-      item.append(flagElement, nameElement, arrowElement);
-
-      // Clicking a suggestion scrolls to its country card.
-      item.addEventListener("click", () => {
-        selectCountry(card);
-      });
-
-      suggestions.appendChild(item);
-    });
-
-    suggestions.hidden = false;
-    searchInput.setAttribute("aria-expanded", "true");
+    searchInput.removeAttribute("aria-activedescendant");
   }
 
-  // --------------------------------------------------
-  // SEARCH INPUT
-  // --------------------------------------------------
+  // =======================================================
+  // UPDATE ACTIVE SUGGESTION
+  // =======================================================
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase();
+  function updateActiveSuggestion() {
+    const buttons = suggestionsBox.querySelectorAll(".ev-suggestion-item");
+
+    buttons.forEach((button, index) => {
+      const active = index === activeIndex;
+
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-selected", String(active));
+
+      if (active) {
+        searchInput.setAttribute("aria-activedescendant", button.id);
+
+        button.scrollIntoView({
+          block: "nearest",
+        });
+      }
+    });
+  }
+
+  // =======================================================
+  // OPEN COUNTRY REQUIREMENTS
+  // =======================================================
+
+  function openCountry(country) {
+    if (!country || !country.href) return;
+
+    window.location.assign(country.href);
+  }
+
+  // =======================================================
+  // RENDER COUNTRY SUGGESTIONS
+  // =======================================================
+
+  function renderSuggestions(results) {
+    clearSuggestions();
+
+    if (!results.length) {
+      const emptyMessage = document.createElement("div");
+
+      emptyMessage.className = "ev-suggestion-empty";
+      emptyMessage.textContent = "No matching E-Visa country found.";
+
+      suggestionsBox.appendChild(emptyMessage);
+
+      showSuggestions();
+      return;
+    }
+
+    currentSuggestions = results;
+
+    results.forEach((country, index) => {
+      const button = document.createElement("button");
+
+      button.type = "button";
+      button.className = "ev-suggestion-item";
+      button.id = `ev-suggestion-${index}`;
+      button.setAttribute("role", "option");
+      button.setAttribute("aria-selected", "false");
+
+      // Country flag
+      const flagWrapper = document.createElement("span");
+      flagWrapper.className = "ev-suggestion-flag";
+
+      if (country.flag) {
+        const img = document.createElement("img");
+
+        img.src = country.flag;
+        img.alt = "";
+        img.loading = "lazy";
+
+        flagWrapper.appendChild(img);
+      } else {
+        flagWrapper.textContent = "🌍";
+      }
+
+      // Country information
+      const info = document.createElement("span");
+      info.className = "ev-suggestion-info";
+
+      const countryName = document.createElement("strong");
+      countryName.textContent = country.name;
+
+      const description = document.createElement("small");
+      description.textContent = "View E-Visa requirements";
+
+      info.appendChild(countryName);
+      info.appendChild(description);
+
+      // Arrow
+      const arrow = document.createElement("span");
+      arrow.className = "ev-suggestion-arrow";
+      arrow.textContent = "→";
+
+      button.appendChild(flagWrapper);
+      button.appendChild(info);
+      button.appendChild(arrow);
+
+      // Country selection
+      button.addEventListener("click", function () {
+        openCountry(country);
+      });
+
+      suggestionsBox.appendChild(button);
+    });
+
+    showSuggestions();
+  }
+
+  // =======================================================
+  // SEARCH COUNTRIES
+  // =======================================================
+
+  function searchCountries(query) {
+    const searchText = normalizeText(query);
+
+    if (!searchText) {
+      clearSuggestions();
+      hideSuggestions();
+      return;
+    }
+
+    const results = countries.filter((country) => {
+      const name = normalizeText(country.name);
+      const slug = normalizeText(country.slug);
+
+      return name.includes(searchText) || slug.includes(searchText);
+    });
+
+    // Show maximum 8 suggestions
+    renderSuggestions(results.slice(0, 8));
+  }
+
+  // =======================================================
+  // SEARCH INPUT EVENT
+  // =======================================================
+
+  searchInput.addEventListener("input", function () {
+    const query = searchInput.value.trim();
 
     if (clearButton) {
       clearButton.hidden = query.length === 0;
     }
 
-    // Do not filter or hide country cards while typing.
-    cards.forEach((card) => {
-      card.hidden = false;
-    });
-
-    if (noResults) {
-      noResults.hidden = true;
-    }
-
-    renderSuggestions(query);
+    searchCountries(query);
   });
 
-  // --------------------------------------------------
+  // =======================================================
   // KEYBOARD NAVIGATION
-  // --------------------------------------------------
+  // =======================================================
 
-  searchInput.addEventListener("keydown", (event) => {
-    const items = suggestions.querySelectorAll(".evisa-suggestion");
-
+  searchInput.addEventListener("keydown", function (event) {
     if (event.key === "ArrowDown") {
-      if (suggestions.hidden) {
-        renderSuggestions(searchInput.value.trim().toLowerCase());
-      }
+      if (!currentSuggestions.length) return;
 
-      if (suggestions.querySelector(".evisa-suggestion")) {
-        event.preventDefault();
-        setActiveSuggestion(activeIndex + 1);
-      }
+      event.preventDefault();
 
-      return;
-    }
+      activeIndex = (activeIndex + 1) % currentSuggestions.length;
 
-    if (event.key === "ArrowUp") {
-      if (!suggestions.hidden && items.length) {
-        event.preventDefault();
+      updateActiveSuggestion();
+    } else if (event.key === "ArrowUp") {
+      if (!currentSuggestions.length) return;
 
-        setActiveSuggestion(
-          activeIndex <= 0 ? items.length - 1 : activeIndex - 1,
-        );
-      }
+      event.preventDefault();
 
-      return;
-    }
+      activeIndex =
+        activeIndex <= 0 ? currentSuggestions.length - 1 : activeIndex - 1;
 
-    if (event.key === "Enter") {
-      if (!suggestions.hidden) {
-        event.preventDefault();
+      updateActiveSuggestion();
+    } else if (event.key === "Enter") {
+      if (!currentSuggestions.length) return;
 
-        const selectedCard =
-          activeIndex >= 0 ? matches[activeIndex] : matches[0];
+      event.preventDefault();
 
-        if (selectedCard) {
-          selectCountry(selectedCard);
-        }
-      }
+      const selectedCountry =
+        currentSuggestions[activeIndex >= 0 ? activeIndex : 0];
 
-      return;
-    }
-
-    if (event.key === "Escape") {
-      closeSuggestions();
+      openCountry(selectedCountry);
+    } else if (event.key === "Escape") {
+      hideSuggestions();
     }
   });
 
-  // --------------------------------------------------
-  // CLEAR SEARCH
-  // --------------------------------------------------
+  // =======================================================
+  // CLEAR SEARCH BUTTON
+  // =======================================================
 
   if (clearButton) {
-    clearButton.addEventListener("click", () => {
+    clearButton.addEventListener("click", function () {
       searchInput.value = "";
 
-      cards.forEach((card) => {
-        card.hidden = false;
-      });
-
-      if (countElement) {
-        countElement.textContent = String(cards.length);
-      }
-
-      if (countLabel) {
-        countLabel.textContent =
-          cards.length === 1
-            ? "destination available"
-            : "destinations available";
-      }
-
-      if (noResults) {
-        noResults.hidden = true;
-      }
+      clearSuggestions();
+      hideSuggestions();
 
       clearButton.hidden = true;
 
-      closeSuggestions();
       searchInput.focus();
     });
   }
 
-  // --------------------------------------------------
-  // CLOSE WHEN CLICKING OUTSIDE
-  // --------------------------------------------------
+  // =======================================================
+  // CLICK OUTSIDE SEARCH
+  // =======================================================
 
-  document.addEventListener("click", (event) => {
-    if (
-      !searchWrap.contains(event.target) &&
-      !suggestions.contains(event.target)
-    ) {
-      closeSuggestions();
+  document.addEventListener("click", function (event) {
+    if (!searchContent.contains(event.target)) {
+      hideSuggestions();
     }
   });
 
-  // --------------------------------------------------
+  // =======================================================
+  // BROKEN FLAG IMAGE FALLBACK
+  // =======================================================
+
+  document.addEventListener(
+    "error",
+    function (event) {
+      const img = event.target;
+
+      if (!(img instanceof HTMLImageElement) || !img.closest(".ev-flag")) {
+        return;
+      }
+
+      img.hidden = true;
+
+      const fallback = img.nextElementSibling;
+
+      if (fallback) {
+        fallback.hidden = false;
+      }
+    },
+    true,
+  );
+
+  // =======================================================
   // INITIAL STATE
-  // --------------------------------------------------
-
-  cards.forEach((card) => {
-    card.hidden = false;
-  });
-
-  if (countElement) {
-    countElement.textContent = String(cards.length);
-  }
-
-  if (countLabel) {
-    countLabel.textContent =
-      cards.length === 1 ? "destination available" : "destinations available";
-  }
-
-  if (noResults) {
-    noResults.hidden = true;
-  }
+  // =======================================================
 
   if (clearButton) {
     clearButton.hidden = true;
   }
+
+  hideSuggestions();
+
+  if (countElement) {
+    countElement.textContent = String(countries.length);
+  }
+
+  console.log("[E-Visa] Autocomplete search ready.");
 });

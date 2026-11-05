@@ -302,36 +302,7 @@
 </div>
 
 <!-- COUNTRY SEARCH -->
-<script>
-
-    const searchInput = document.getElementById("countrySearch");
-
-    const countryRows = document.querySelectorAll(".country-row");
-
-    if (searchInput) {
-
-        searchInput.addEventListener("input", function () {
-
-            const searchText = this.value.toLowerCase().trim();
-
-            countryRows.forEach(function (row) {
-
-                const name = (row.dataset.name || "").toLowerCase();
-
-                const code = (row.dataset.code || "").toLowerCase();
-
-                row.style.display =
-                    name.includes(searchText) || code.includes(searchText)
-                        ? ""
-                        : "none";
-
-            });
-
-        });
-
-    }
-
-</script>
+<script src="/js/admin-countries.js" defer></script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const session = require("express-session");
+const helmet = require("helmet");
 
 // =========================================================
 // LOAD ENVIRONMENT VARIABLES
@@ -15,9 +16,15 @@ require("dotenv").config();
 const app = express();
 
 // =========================================================
+// TRUST PROXY
+// =========================================================
+
+app.set("trust proxy", 1);
+
+// =========================================================
 // SESSION
 // =========================================================
-app.set("trust proxy", 1);
+
 app.use(
   session({
     name: "adminSession",
@@ -40,6 +47,43 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // =========================================================
+// HELMET SECURITY
+// =========================================================
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+
+        // External JavaScript from your own website
+        scriptSrc: ["'self'"],
+
+        // Keep inline styles working for existing pages
+        styleSrc: ["'self'", "'unsafe-inline'"],
+
+        // Images and flags
+        imgSrc: ["'self'", "data:", "https:", "blob:"],
+
+        // Fonts
+        fontSrc: ["'self'", "data:", "https:"],
+
+        // Same-origin AJAX and fetch requests
+        connectSrc: ["'self'"],
+
+        // Security restrictions
+        objectSrc: ["'none'"],
+        frameSrc: ["'self'"],
+
+        // Enable HTTPS upgrade only in production
+        upgradeInsecureRequests:
+          process.env.NODE_ENV === "production" ? [] : null,
+      },
+    },
+  }),
+);
+
+// =========================================================
 // STATIC FILES
 // =========================================================
 
@@ -55,9 +99,6 @@ app.use(express.json());
 // =========================================================
 // PUBLIC ROUTES
 // =========================================================
-const helmet = require("helmet");
-
-app.use(helmet());
 
 const homeRoutes = require("./routes/homeRoutes");
 const aboutRoutes = require("./routes/aboutRoutes");
@@ -96,8 +137,6 @@ app.use("/destinations", destinationRoutes);
 app.use("/contact", contactRoutes);
 app.use("/countries", countryRoutes);
 app.use("/news", newsRoutes);
-
-// All visa-related pages
 app.use("/visas", visasRoutes);
 
 // =========================================================
