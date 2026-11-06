@@ -265,12 +265,39 @@ const getCountryRequirements = async (req, res) => {
       return res.status(404).render("errors/404");
     }
 
+    /*
+     * IMPORTANT:
+     * Fetch all country information fields required by
+     * requirements.ejs.
+     *
+     * Previously these fields were missing from .select(),
+     * so EJS was receiving undefined values.
+     */
+
     const country = await Country.findOne({
       slug,
       isActive: true,
     })
       .select(
-        "name slug flag visaCategories applicationForm.filename applicationForm.contentType applicationForm.size applicationForm.uploadedAt",
+        [
+          "name",
+          "slug",
+          "countryCode",
+          "flag",
+          "image",
+          "shortDescription",
+          "description",
+          "heroBadge",
+          "visaCategories",
+          "travelInfo",
+          "travelTips",
+          "importantNotes",
+          "faqs",
+          "applicationForm.filename",
+          "applicationForm.contentType",
+          "applicationForm.size",
+          "applicationForm.uploadedAt",
+        ].join(" "),
       )
       .lean();
 

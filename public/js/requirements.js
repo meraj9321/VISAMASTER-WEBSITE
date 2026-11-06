@@ -1,24 +1,56 @@
 /* =========================================================
-   VISAMASTER REQUIREMENTS — SUBCATEGORY TABS
+   VISAMASTER REQUIREMENTS PAGE
    Features:
-   - Smooth fade and slide transitions
-   - Animated content switching
+   - Visa purpose tab switching
+   - Smooth transitions
+   - URL subcategory updates
    - Keyboard navigation
    - Mobile swipe navigation
-   - URL subcategory updates
+   - Country image fallback
    - Reduced-motion accessibility
 ========================================================= */
 
 (() => {
   "use strict";
 
-  const initializeVisaTabs = () => {
+  const initializeRequirementsPage = () => {
+    /* =========================================
+       COUNTRY IMAGE FALLBACK
+    ========================================= */
+
+    document
+      .querySelectorAll(".requirements-country-image")
+      .forEach((image) => {
+        image.addEventListener(
+          "error",
+          () => {
+            image.hidden = true;
+
+            const fallback = image.nextElementSibling;
+
+            if (fallback) {
+              fallback.hidden = false;
+            }
+          },
+          { once: true },
+        );
+      });
+
+    /* =========================================
+       VISA TABS
+    ========================================= */
+
     const tabList = document.querySelector(".visa-category-tabs");
+
     if (!tabList) return;
 
     const tabs = Array.from(tabList.querySelectorAll("[data-visa-tab]"));
+
     const panels = Array.from(document.querySelectorAll("[data-visa-panel]"));
+
     const status = document.querySelector(".visa-category-slider-status");
+
+    const panelsContainer = document.querySelector(".visa-tab-panels");
 
     if (!tabs.length || !panels.length) return;
 
@@ -34,6 +66,10 @@
       .trim()
       .toLowerCase();
 
+    /* =========================================
+       FIND INITIAL TAB
+    ========================================= */
+
     let activeIndex = requestedSubcategory
       ? tabs.findIndex(
           (tab) =>
@@ -47,99 +83,136 @@
       );
     }
 
-    if (activeIndex < 0) activeIndex = 0;
+    if (activeIndex < 0) {
+      activeIndex = 0;
+    }
 
     let transitionId = 0;
+
+    /* =========================================
+       ACTIVATE TAB
+    ========================================= */
 
     const activateTab = (index, options = {}) => {
       if (index < 0 || index >= tabs.length) return;
 
       if (index === activeIndex && options.initial !== true) {
-        if (options.focus) tabs[index].focus();
+        if (options.focus) {
+          tabs[index].focus();
+        }
+
         return;
       }
 
       const previousIndex = activeIndex;
+
       activeIndex = index;
 
       transitionId++;
+
       const currentTransition = transitionId;
 
-      const animate = !reducedMotion.matches && !options.initial;
+      const animate = !reducedMotion.matches && options.initial !== true;
 
-      // Update tab states.
-      tabs.forEach((tab, i) => {
-        const selected = i === index;
+      /* Update tab accessibility states */
+
+      tabs.forEach((tab, tabIndex) => {
+        const selected = tabIndex === index;
 
         tab.setAttribute("aria-selected", String(selected));
+
         tab.setAttribute("tabindex", selected ? "0" : "-1");
       });
 
-      // Find the outgoing and incoming panels.
-      const outgoingPanel = panels[previousIndex];
-      const incomingPanel = panels[index];
+      /* Find corresponding panels */
+
+      const incomingPanel = panels.find(
+        (panel) => Number(panel.dataset.visaPanel) === index,
+      );
+
+      const outgoingPanel = panels.find(
+        (panel) => Number(panel.dataset.visaPanel) === previousIndex,
+      );
+
+      if (!incomingPanel) return;
+
+      /* Cancel previous animations */
 
       panels.forEach((panel) => {
-        if (panel.getAnimations) {
-          panel.getAnimations().forEach((animation) => animation.cancel());
+        if (typeof panel.getAnimations === "function") {
+          panel.getAnimations().forEach((animation) => {
+            animation.cancel();
+          });
         }
       });
 
-      // Hide all panels except the new active panel.
-      panels.forEach((panel, i) => {
-        if (i !== index && i !== previousIndex) {
+      /* Hide unrelated panels */
+
+      panels.forEach((panel) => {
+        if (panel !== incomingPanel && panel !== outgoingPanel) {
           panel.hidden = true;
+
           panel.classList.remove("is-active", "is-entering", "is-leaving");
         }
       });
 
+      /* Outgoing panel */
+
       if (outgoingPanel && outgoingPanel !== incomingPanel) {
         outgoingPanel.classList.remove("is-active", "is-entering");
+
         outgoingPanel.classList.add("is-leaving");
       }
 
+      /* Incoming panel */
+
       incomingPanel.hidden = false;
+
       incomingPanel.classList.remove("is-leaving", "is-entering");
+
       incomingPanel.classList.add("is-active");
 
-      // Smooth content transition.
-      if (animate && incomingPanel.animate) {
+      /* Animate incoming content */
+
+      if (animate && typeof incomingPanel.animate === "function") {
         incomingPanel.animate(
           [
             {
               opacity: 0,
-              transform: "translateX(14px)",
+              transform: "translateY(9px)",
             },
             {
               opacity: 1,
-              transform: "translateX(0)",
+              transform: "translateY(0)",
             },
           ],
           {
-            duration: 300,
+            duration: 260,
             easing: "cubic-bezier(0.22, 1, 0.36, 1)",
             fill: "none",
           },
         );
 
+        /* Animate outgoing content */
+
         if (
           outgoingPanel &&
           outgoingPanel !== incomingPanel &&
-          outgoingPanel.animate
+          typeof outgoingPanel.animate === "function"
         ) {
           const exitAnimation = outgoingPanel.animate(
             [
               {
                 opacity: 1,
-                transform: "translateX(0)",
+                transform: "translateY(0)",
               },
               {
                 opacity: 0,
-                transform: "translateX(-10px)",
+                transform: "translateY(-5px)",
               },
             ],
             {
-              duration: 160,
+              duration: 140,
               easing: "ease-in",
               fill: "forwards",
             },
@@ -147,42 +220,56 @@
 
           exitAnimation.finished
             .then(() => {
-              if (currentTransition !== transitionId) return;
+              if (currentTransition !== transitionId) {
+                return;
+              }
 
               outgoingPanel.hidden = true;
+
               outgoingPanel.classList.remove("is-leaving");
             })
             .catch(() => {
-              // Animation was cancelled by a rapid tab switch.
+              // Animation cancelled during rapid tab switching.
             });
         }
       } else {
-        panels.forEach((panel, i) => {
-          panel.hidden = i !== index;
-          panel.classList.toggle("is-active", i === index);
+        panels.forEach((panel) => {
+          const isCurrent = panel === incomingPanel;
+
+          panel.hidden = !isCurrent;
+
+          panel.classList.toggle("is-active", isCurrent);
+
           panel.classList.remove("is-entering", "is-leaving");
         });
       }
 
-      // Update status text.
+      /* Update status */
+
       if (status) {
         status.textContent = `Showing purpose ${index + 1} of ${tabs.length}`;
       }
 
-      // Keep the selected tab visible.
+      /* Keep selected tab visible */
+
       if (options.scrollTab) {
         tabs[index].scrollIntoView({
           behavior: reducedMotion.matches ? "auto" : "smooth",
+
           block: "nearest",
+
           inline: "nearest",
         });
       }
+
+      /* Focus selected tab */
 
       if (options.focus) {
         tabs[index].focus();
       }
 
-      // Update URL without reloading the page.
+      /* Update URL without page reload */
+
       if (options.updateUrl) {
         const url = new URL(window.location.href);
 
@@ -192,7 +279,10 @@
       }
     };
 
-    // Click navigation.
+    /* =========================================
+       CLICK AND KEYBOARD NAVIGATION
+    ========================================= */
+
     tabs.forEach((tab, index) => {
       tab.addEventListener("click", () => {
         activateTab(index, {
@@ -201,25 +291,24 @@
         });
       });
 
-      // Keyboard navigation.
       tab.addEventListener("keydown", (event) => {
-        let next = index;
+        let nextIndex = index;
 
         if (event.key === "ArrowRight") {
-          next = (index + 1) % tabs.length;
+          nextIndex = (index + 1) % tabs.length;
         } else if (event.key === "ArrowLeft") {
-          next = (index - 1 + tabs.length) % tabs.length;
+          nextIndex = (index - 1 + tabs.length) % tabs.length;
         } else if (event.key === "Home") {
-          next = 0;
+          nextIndex = 0;
         } else if (event.key === "End") {
-          next = tabs.length - 1;
+          nextIndex = tabs.length - 1;
         } else {
           return;
         }
 
         event.preventDefault();
 
-        activateTab(next, {
+        activateTab(nextIndex, {
           focus: true,
           scrollTab: true,
           updateUrl: true,
@@ -227,8 +316,9 @@
       });
     });
 
-    // Mobile swipe navigation.
-    const panelsContainer = document.querySelector(".visa-tab-panels");
+    /* =========================================
+       MOBILE SWIPE NAVIGATION
+    ========================================= */
 
     if (panelsContainer) {
       let startX = 0;
@@ -240,6 +330,7 @@
           if (!event.changedTouches.length) return;
 
           startX = event.changedTouches[0].clientX;
+
           startY = event.changedTouches[0].clientY;
         },
         { passive: true },
@@ -251,6 +342,7 @@
           if (!event.changedTouches.length) return;
 
           const dx = event.changedTouches[0].clientX - startX;
+
           const dy = event.changedTouches[0].clientY - startY;
 
           if (Math.abs(dx) < 65 || Math.abs(dx) < Math.abs(dy) * 1.25) {
@@ -273,8 +365,12 @@
       );
     }
 
-    // Initialize without animation.
+    /* =========================================
+       INITIALIZE SELECTED TAB
+    ========================================= */
+
     const initialIndex = activeIndex;
+
     activeIndex = -1;
 
     activateTab(initialIndex, {
@@ -283,11 +379,15 @@
     });
   };
 
+  /* =========================================
+     DOM READY
+  ========================================= */
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeVisaTabs, {
+    document.addEventListener("DOMContentLoaded", initializeRequirementsPage, {
       once: true,
     });
   } else {
-    initializeVisaTabs();
+    initializeRequirementsPage();
   }
 })();
