@@ -60,8 +60,7 @@ app.use(
         scriptSrc: ["'self'"],
 
         // Keep inline styles working for existing pages
-        styleSrc: ["'self'", "'unsafe-inline'"],
-
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
         // Images and flags
         imgSrc: ["'self'", "data:", "https:", "blob:"],
 
@@ -73,7 +72,13 @@ app.use(
 
         // Security restrictions
         objectSrc: ["'none'"],
-        frameSrc: ["'self'"],
+
+        // Allow Google Maps iframe
+        frameSrc: [
+          "'self'",
+          "https://maps.google.com",
+          "https://www.google.com",
+        ],
 
         // Enable HTTPS upgrade only in production
         upgradeInsecureRequests:
