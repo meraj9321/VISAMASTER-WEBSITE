@@ -1,0 +1,63 @@
+/* =========================================
+   REQUIREMENTS: MAIN HEADINGS + SUB-POINTERS
+========================================= */
+
+.vmr-document-list .vmr-requirement-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+  min-width: 0;
+}
+
+.vmr-requirement-content,
+.vmr-eligibility-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.vmr-requirement-title,
+.vmr-eligibility-title {
+  display: block;
+  font-weight: 700;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.vmr-requirement-pointers,
+.vmr-eligibility-pointers {
+  margin: 8px 0 0;
+  padding-left: 22px;
+  list-style: disc;
+}
+
+.vmr-requirement-pointers li,
+.vmr-eligibility-pointers li {
+  display: list-item;
+  margin: 5px 0;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.vmr-eligibility-list .vmr-eligibility-group {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 18px;
+  min-width: 0;
+}
+
+.vmr-eligibility-pointers {
+  margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .vmr-document-list .vmr-requirement-group {
+    gap: 10px;
+  }
+
+  .vmr-requirement-pointers,
+  .vmr-eligibility-pointers {
+    padding-left: 18px;
+  }
+}

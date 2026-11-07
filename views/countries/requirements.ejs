@@ -91,6 +91,71 @@
     typeof country.description === "string"
       ? country.description.trim()
       : "";
+
+
+  // Convert admin-entered plain text into heading + pointer groups.
+  // Blank lines separate main headings. Lines beginning with -, •, *, or
+  // numbering such as 1. / 1) become pointers. Wrapped continuation lines
+  // are joined to the preceding heading or pointer.
+  function parseRequirementGroups(value) {
+    const rawText = Array.isArray(value)
+      ? value.map(item => String(item ?? "")).join("\n\n")
+      : String(value ?? "");
+
+    const lines = rawText.replace(/\r\n/g, "\n").split("\n");
+    const groups = [];
+    let currentGroup = null;
+
+    function saveGroup() {
+      if (currentGroup && currentGroup.heading.trim()) {
+        currentGroup.pointers = currentGroup.pointers.filter(Boolean);
+        groups.push(currentGroup);
+      }
+      currentGroup = null;
+    }
+
+    lines.forEach(rawLine => {
+      const line = rawLine.trim();
+
+      if (!line) {
+        saveGroup();
+        return;
+      }
+
+      const pointerMatch = line.match(/^(?:[-•*]|\d+[.)])\s+(.+)$/);
+
+      if (pointerMatch) {
+        if (!currentGroup) {
+          currentGroup = {
+            heading: "Additional Information",
+            pointers: []
+          };
+        }
+
+        currentGroup.pointers.push(pointerMatch[1].trim());
+        return;
+      }
+
+      if (!currentGroup) {
+        currentGroup = {
+          heading: line,
+          pointers: []
+        };
+        return;
+      }
+
+      if (currentGroup.pointers.length > 0) {
+        const lastPointerIndex = currentGroup.pointers.length - 1;
+        currentGroup.pointers[lastPointerIndex] += " " + line;
+      } else {
+        currentGroup.heading += " " + line;
+      }
+    });
+
+    saveGroup();
+    return groups;
+  }
+
 %>
 
 <!DOCTYPE html>
@@ -110,6 +175,7 @@
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/navbar.css">
   <link rel="stylesheet" href="/css/requirements.css">
+  <link rel="stylesheet" href="/css/requirements-formatting.css">
   <link rel="stylesheet" href="/css/requirements-country-info.css">
   <link rel="stylesheet" href="/css/footer.css">
 </head>
@@ -249,25 +315,8 @@
               <% activeSubCategories.forEach((sub, index) => { %>
 
                 <%
-                  const requirementsList = Array.isArray(sub.requirements)
-                    ? sub.requirements.filter(
-                        item => typeof item === "string" && item.trim()
-                      )
-                    : typeof sub.requirements === "string"
-                      ? sub.requirements.split(/\r?\n/).filter(
-                          item => item.trim()
-                        )
-                      : [];
-
-                  const eligibilityList = Array.isArray(sub.eligibility)
-                    ? sub.eligibility.filter(
-                        item => typeof item === "string" && item.trim()
-                      )
-                    : typeof sub.eligibility === "string"
-                      ? sub.eligibility.split(/\r?\n/).filter(
-                          item => item.trim()
-                        )
-                      : [];
+                  const requirementsList = parseRequirementGroups(sub.requirements);
+                  const eligibilityList = parseRequirementGroups(sub.eligibility);
 
                   const applicationForm =
                     sub.applicationForm &&
@@ -336,15 +385,31 @@
 
                           <ol class="vmr-document-list">
 
-                            <% requirementsList.forEach((item, itemIndex) => { %>
+                            <% requirementsList.forEach((group, itemIndex) => { %>
 
-                              <li>
+                              <li class="vmr-requirement-group">
 
                                 <span class="vmr-list-number">
                                   <%= String(itemIndex + 1).padStart(2, "0") %>
                                 </span>
 
-                                <span><%= item %></span>
+                                <div class="vmr-requirement-content">
+
+                                  <strong class="vmr-requirement-title">
+                                    <%= group.heading %>
+                                  </strong>
+
+                                  <% if (group.pointers.length > 0) { %>
+
+                                    <ul class="vmr-requirement-pointers">
+                                      <% group.pointers.forEach(pointer => { %>
+                                        <li><%= pointer %></li>
+                                      <% }) %>
+                                    </ul>
+
+                                  <% } %>
+
+                                </div>
 
                               </li>
 
@@ -384,11 +449,30 @@
 
                           <ul class="vmr-eligibility-list">
 
-                            <% eligibilityList.forEach(item => { %>
+                            <% eligibilityList.forEach(group => { %>
 
-                              <li>
+                              <li class="vmr-eligibility-group">
+
                                 <span class="vmr-eligibility-check">✓</span>
-                                <span><%= item %></span>
+
+                                <div class="vmr-eligibility-content">
+
+                                  <strong class="vmr-eligibility-title">
+                                    <%= group.heading %>
+                                  </strong>
+
+                                  <% if (group.pointers.length > 0) { %>
+
+                                    <ul class="vmr-eligibility-pointers">
+                                      <% group.pointers.forEach(pointer => { %>
+                                        <li><%= pointer %></li>
+                                      <% }) %>
+                                    </ul>
+
+                                  <% } %>
+
+                                </div>
+
                               </li>
 
                             <% }) %>
