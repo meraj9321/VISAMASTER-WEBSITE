@@ -183,7 +183,6 @@ content="Explore the latest visa updates, travel news, and destination informati
 <%- include("../partials/footer") %>
 
 <script src="/js/main.js"></script>
-
-<script> document.addEventListener("DOMContentLoaded", () => { const filterButtons = document.querySelectorAll(".news-filter"); const cards = document.querySelectorAll(".all-news-card"); const emptyMessage = document.querySelector(".news-empty-filter"); filterButtons.forEach((button) => { button.addEventListener("click", () => { filterButtons.forEach((item) => { item.classList.remove("active"); }); button.classList.add("active"); const selectedCategory = button.dataset.filter; let visibleCards = 0; cards.forEach((card) => { const matches = selectedCategory === "all" || card.dataset.category === selectedCategory; card.hidden = !matches; if (matches) { visibleCards++; } }); if (emptyMessage) { emptyMessage.hidden = visibleCards > 0; } }); }); }); </script>
+<script src="/js/news-filter.js" defer></script>
 
 </body> </html>

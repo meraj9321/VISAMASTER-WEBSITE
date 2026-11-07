@@ -724,3 +724,9 @@ RESPONSIVE
     transition: none;
   }
 }
+/* News category filtering */
+
+.all-news-card[hidden],
+.news-empty-filter[hidden] {
+  display: none !important;
+}
