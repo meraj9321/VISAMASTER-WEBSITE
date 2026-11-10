@@ -45,6 +45,15 @@ const normalizeCountryVisaCategories = (country) => {
    Subcategories are NOT required.
 ========================================================= */
 
+/* =========================================================
+   GET COUNTRIES BY MAIN VISA CATEGORY
+
+   Displays countries having:
+   - Active country
+   - Exact matching active parent category
+   - At least one active subcategory
+========================================================= */
+
 const getCountriesByVisaCategory = async ({
   categorySlug,
   categoryName,
@@ -60,17 +69,55 @@ const getCountriesByVisaCategory = async ({
       visaCategories: {
         $elemMatch: {
           slug: categorySlug,
-          isActive: true,
+          isActive: { $ne: false },
+
+          subCategories: {
+            $elemMatch: {
+              isActive: { $ne: false },
+            },
+          },
         },
       },
     })
       .sort({ name: 1 })
-      .select("name slug flag image")
+      .select("name slug flag image visaCategories")
       .lean();
+
+    // Keep ONLY the requested category and its active subcategories.
+    const filteredCountries = countries
+      .map((country) => {
+        const selectedCategory = (country.visaCategories || []).find(
+          (category) =>
+            category &&
+            category.slug === categorySlug &&
+            category.isActive !== false,
+        );
+
+        if (!selectedCategory) return null;
+
+        const activeSubCategories = (
+          selectedCategory.subCategories || []
+        ).filter(
+          (subCategory) => subCategory && subCategory.isActive !== false,
+        );
+
+        if (!activeSubCategories.length) return null;
+
+        return {
+          ...country,
+          visaCategories: [
+            {
+              ...selectedCategory,
+              subCategories: activeSubCategories,
+            },
+          ],
+        };
+      })
+      .filter(Boolean);
 
     return res.render(viewName, {
       currentPage,
-      countries,
+      countries: filteredCountries,
       loadError: false,
     });
   } catch (error) {
