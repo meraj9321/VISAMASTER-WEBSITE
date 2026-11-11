@@ -796,3 +796,24 @@
     flex-basis: 38px;
   }
 }
+/* MOBILE: CHATBOT ON LEFT, CONTACT BUTTONS ON RIGHT */
+
+@media (max-width: 600px) {
+  .vm-chatbot {
+    position: fixed !important;
+    left: 14px !important;
+    right: auto !important;
+    bottom: 14px !important;
+    top: auto !important;
+    z-index: 100001;
+  }
+
+  .vm-chat-window {
+    position: fixed !important;
+    left: 10px !important;
+    right: auto !important;
+    bottom: 75px !important;
+    width: calc(100vw - 20px) !important;
+    max-width: none;
+  }
+}
