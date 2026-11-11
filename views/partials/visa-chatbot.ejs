@@ -1,0 +1,136 @@
+<link rel="stylesheet" href="/css/visa-chatbot.css" />
+
+<div class="vm-chatbot" id="vmChatbot">
+  <!-- Floating Chat Button -->
+  <button
+    type="button"
+    class="vm-chat-toggle"
+    id="vmChatToggle"
+    aria-label="Open chat assistant"
+    aria-expanded="false"
+  >
+    <span class="vm-chat-toggle-icon">
+      <svg
+        viewBox="0 0 24 24"
+        width="25"
+        height="25"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <rect
+          x="5"
+          y="7"
+          width="14"
+          height="12"
+          rx="3"
+          stroke="#102d50"
+          stroke-width="2"
+        />
+        <path
+          d="M12 4V7"
+          stroke="#102d50"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+        <circle cx="9" cy="12" r="1.3" fill="#102d50" />
+        <circle cx="15" cy="12" r="1.3" fill="#102d50" />
+        <path
+          d="M9 16H15"
+          stroke="#102d50"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        />
+        <path
+          d="M3 11V15M21 11V15"
+          stroke="#102d50"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </span>
+
+    <span class="vm-chat-toggle-text">Chat Bot</span>
+    <span class="vm-chat-notification"></span>
+  </button>
+
+  <!-- Chat Window -->
+  <section
+    class="vm-chat-window"
+    id="vmChatWindow"
+    aria-label="VisaMaster AI Assistant"
+    aria-hidden="true"
+  >
+    <!-- Header -->
+    <header class="vm-chat-header">
+      <div class="vm-chat-avatar">
+        <i class="fa-solid fa-robot" aria-hidden="true"></i>
+      </div>
+
+      <div class="vm-chat-header-info">
+        <strong>VisaMaster Assistant</strong>
+        <span><i></i> AI Assistant</span>
+      </div>
+
+      <button
+        type="button"
+        id="vmChatClose"
+        class="vm-chat-close"
+        aria-label="Close chatbot"
+      >
+        &times;
+      </button>
+    </header>
+
+    <!-- Messages -->
+    <div class="vm-chat-messages" id="vmChatMessages">
+      <div class="vm-chat-message bot">
+        <div class="vm-chat-bubble">
+          Hello! 👋 Welcome to VisaMaster. I can help you understand visa
+          requirements, eligibility, fees and processing times. Where are you
+          planning to travel?
+        </div>
+      </div>
+    </div>
+
+    <!-- Suggested Questions -->
+    <div class="vm-chat-suggestions" id="vmChatSuggestions">
+      <button
+        type="button"
+        data-question="What are the Saudi tourist visa requirements?"
+      >
+        Saudi visa requirements
+      </button>
+
+      <button type="button" data-question="What are the Dubai visa fees?">
+        Dubai visa fees
+      </button>
+
+      <button type="button" data-question="Which countries offer E-Visa?">
+        E-Visa destinations
+      </button>
+    </div>
+
+    <!-- Message Input -->
+    <form class="vm-chat-form" id="vmChatForm">
+      <input
+        type="text"
+        id="vmChatInput"
+        placeholder="Ask about your visa..."
+        maxlength="1000"
+        autocomplete="off"
+        required
+      />
+
+      <button type="submit" id="vmChatSend" aria-label="Send message">➤</button>
+    </form>
+
+    <!-- Footer -->
+    <div class="vm-chat-footer">
+      AI-generated information. Please confirm important visa details with our
+      team.
+    </div>
+  </section>
+</div>
+
+<script src="/js/visa-chatbot.js" defer></script>

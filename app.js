@@ -124,6 +124,7 @@ const adminEnquiryRoutes = require("./routes/adminEnquiryRoutes");
 const adminTeamRoutes = require("./routes/adminTeamRoutes");
 const adminAuthRoutes = require("./routes/adminAuthRoutes");
 const adminNewsRoutes = require("./routes/adminNewsRoutes");
+const chatbotRoutes = require("./routes/chatbotRoutes");
 
 // =========================================================
 // ADMIN AUTH MIDDLEWARE
@@ -143,6 +144,7 @@ app.use("/contact", contactRoutes);
 app.use("/countries", countryRoutes);
 app.use("/news", newsRoutes);
 app.use("/visas", visasRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 
 // =========================================================
 // ADMIN LOGIN / LOGOUT
