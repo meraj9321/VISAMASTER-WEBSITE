@@ -113,6 +113,7 @@ const contactRoutes = require("./routes/contactRoutes");
 const countryRoutes = require("./routes/countryRoutes");
 const visasRoutes = require("./routes/visasRoutes");
 const newsRoutes = require("./routes/newsRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // =========================================================
 // ADMIN ROUTES
@@ -145,6 +146,7 @@ app.use("/countries", countryRoutes);
 app.use("/news", newsRoutes);
 app.use("/visas", visasRoutes);
 app.use("/api/chatbot", chatbotRoutes);
+app.use("/auth", authRoutes);
 
 // =========================================================
 // ADMIN LOGIN / LOGOUT

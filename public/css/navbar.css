@@ -1382,3 +1382,147 @@ Clean + Stable + Responsive
     box-shadow: none;
   }
 }
+/* ==========================================
+   GET STARTED DROPDOWN
+========================================== */
+
+.get-started-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* GET STARTED BUTTON
+   Uses your existing .nav-button styling.
+*/
+
+.get-started-dropdown .nav-button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* DROPDOWN MENU */
+
+.get-started-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+
+  width: 215px;
+  padding: 8px;
+
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+
+  z-index: 9999;
+
+  animation: getStartedFade 0.2s ease;
+}
+
+/* HIDDEN STATE */
+
+.get-started-menu[hidden] {
+  display: none !important;
+}
+
+/* DROPDOWN POINTER */
+
+.get-started-menu::before {
+  content: "";
+
+  position: absolute;
+  top: -7px;
+  right: 25px;
+
+  width: 13px;
+  height: 13px;
+
+  background: #ffffff;
+
+  border-top: 1px solid #e8e8e8;
+  border-left: 1px solid #e8e8e8;
+
+  transform: rotate(45deg);
+}
+
+/* DROPDOWN LINKS */
+
+.get-started-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  padding: 13px 12px;
+
+  color: #102b4e;
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  border-radius: 8px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+/* ICON */
+
+.get-started-menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+
+  color: #102b4e;
+  flex-shrink: 0;
+}
+
+/* HOVER EFFECT */
+
+.get-started-menu-item:hover {
+  background: #fff7e8;
+  color: #e9a329;
+}
+
+.get-started-menu-item:hover .get-started-menu-icon {
+  color: #e9a329;
+}
+
+/* DIVIDER BETWEEN OPTIONS */
+
+.get-started-menu-item + .get-started-menu-item {
+  border-top: 1px solid #eeeeee;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/* ANIMATION */
+
+@keyframes getStartedFade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  .get-started-dropdown {
+    display: none;
+  }
+}
