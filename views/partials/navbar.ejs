@@ -1,7 +1,10 @@
+<!-- ==========================================
+     PAGE LOADER
+========================================== -->
+
 <link rel="stylesheet" href="/css/loader.css" />
 <script src="/js/loader.js" defer></script>
 
-<!-- MINIMAL VISAMASTER LOADER -->
 <div id="vm-page-loader" role="status" aria-label="Loading VisaMaster">
   <div class="vm-loader-simple">
     <div class="vm-spinner"></div>
@@ -10,10 +13,12 @@
   </div>
 </div>
 
+<!-- ==========================================
+     NAVBAR
+========================================== -->
+
 <header class="site-header">
   <div class="container navbar">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-
     <!-- LOGO -->
     <a href="/" class="logo">
       <img
@@ -28,14 +33,20 @@
       </div>
     </a>
 
-    <!-- NAVIGATION -->
+    <!-- ======================================
+         NAVIGATION LINKS
+    ======================================= -->
+
     <nav class="nav-links" id="mainNavigation">
       <!-- HOME -->
       <a href="/" class="<%= currentPage === 'home' ? 'active' : '' %>">
         Home
       </a>
 
-      <!-- VISA INFO DROPDOWN -->
+      <!-- ==================================
+           VISA INFO DROPDOWN
+      =================================== -->
+
       <div
         class="nav-dropdown <%= ['visas', 'e-visa', 'sticker-visa', 'visa-on-arrival', 'schengen'].includes(currentPage) ? 'active' : '' %>"
         id="visaInfoDropdown"
@@ -66,8 +77,9 @@
           </svg>
         </button>
 
-        <!-- VISA INFO ITEMS -->
+        <!-- VISA INFO SUBMENU -->
         <div class="nav-dropdown-menu" id="visaInfoSubmenu" hidden>
+          <!-- ALL VISAS -->
           <a
             href="/visas"
             class="nav-dropdown-item <%= currentPage === 'visas' ? 'active' : '' %>"
@@ -173,14 +185,78 @@
         Contact
       </a>
 
-      <!-- MOBILE GET STARTED -->
-      <a href="/contact" class="mobile-nav-button">
-        Get Started
-        <span>→</span>
-      </a>
+      <!-- ==================================
+           MOBILE GET STARTED DROPDOWN
+      =================================== -->
+
+      <div class="mobile-get-started-dropdown">
+        <button
+          type="button"
+          class="mobile-nav-button"
+          id="mobileGetStartedToggle"
+          aria-expanded="false"
+          aria-controls="mobileGetStartedMenu"
+        >
+          Get Started
+
+          <span>→</span>
+        </button>
+
+        <!-- MOBILE DROPDOWN MENU -->
+        <div class="mobile-get-started-menu" id="mobileGetStartedMenu" hidden>
+          <!-- LOGIN / SIGNUP -->
+          <a href="/auth/login" class="get-started-menu-item">
+            <span class="get-started-menu-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="10" cy="7" r="4"></circle>
+                <path d="M20 8v6"></path>
+                <path d="M23 11h-6"></path>
+              </svg>
+            </span>
+
+            <span>Login / Signup</span>
+          </a>
+
+          <!-- ADMIN -->
+          <a href="/admin/login" class="get-started-menu-item">
+            <span class="get-started-menu-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="19"
+                height="19"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </span>
+
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
     </nav>
 
-    <!-- DESKTOP GET STARTED DROPDOWN -->
+    <!-- ======================================
+         DESKTOP GET STARTED DROPDOWN
+    ======================================= -->
+
     <div class="get-started-dropdown" id="getStartedDropdown">
       <button
         class="nav-button"
@@ -190,10 +266,11 @@
         aria-controls="getStartedMenu"
       >
         Get Started
+
         <span>→</span>
       </button>
 
-      <!-- DROPDOWN MENU -->
+      <!-- DESKTOP DROPDOWN MENU -->
       <div class="get-started-menu" id="getStartedMenu" hidden>
         <!-- LOGIN / SIGNUP -->
         <a href="/auth/login" class="get-started-menu-item">
@@ -243,7 +320,10 @@
       </div>
     </div>
 
-    <!-- MOBILE MENU BUTTON -->
+    <!-- ======================================
+         MOBILE HAMBURGER BUTTON
+    ======================================= -->
+
     <button
       class="mobile-menu-button"
       id="mobileMenuButton"
@@ -257,5 +337,8 @@
   </div>
 </header>
 
-<!-- NAVBAR JAVASCRIPT -->
+<!-- ==========================================
+     NAVBAR JAVASCRIPT
+========================================== -->
+
 <script src="/js/navbar.js" defer></script>
