@@ -2476,3 +2476,138 @@
     animation-duration: 1.5s;
   }
 }
+
+/* =========================================================
+   VISAMASTER TEAM CARDS - PHOTO REMOVAL + OUTER CARD FINISH
+   Keeps all existing content, colours, typography and buttons.
+   Only removes the photo area and improves the outer card.
+========================================================= */
+
+/* Remove photo/avatar area from every team card */
+.contact-team-section .team-image-wrapper {
+  display: none !important;
+}
+
+/* Use the full card width for the existing content */
+.contact-team-section .team-partners .team-card,
+.contact-team-section .team-accountants .team-card {
+  display: block !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  min-height: 0 !important;
+}
+
+/* Keep existing inner content styling intact */
+.contact-team-section .team-card-content {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+/* Premium outer card styling */
+.contact-team-section .team-card {
+  border: 1px solid #d8d3c9 !important;
+  border-radius: 22px !important;
+  box-shadow:
+    0 5px 14px rgba(31, 42, 50, 0.08),
+    4px 5px 0 #d9b65d !important;
+  transition:
+    transform 0.22s ease,
+    box-shadow 0.22s ease,
+    border-color 0.22s ease !important;
+}
+
+/* Subtle lift - no changes to the content itself */
+.contact-team-section .team-card:hover {
+  transform: translateY(-4px) !important;
+  border-color: #d9b65d !important;
+  box-shadow:
+    0 12px 24px rgba(31, 42, 50, 0.12),
+    5px 7px 0 #d9b65d !important;
+}
+
+/* Retain the compact single-column layout on small screens */
+@media (max-width: 700px) {
+  .contact-team-section .team-partners .team-card,
+  .contact-team-section .team-accountants .team-card {
+    display: block !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0 !important;
+  }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .contact-team-section .team-card {
+    transition: none !important;
+  }
+
+  .contact-team-section .team-card:hover {
+    transform: none !important;
+  }
+}
+
+/* =========================================================
+   TEAM CARD REFINEMENTS
+   Fix role/number overlap and constrain partner card width
+========================================================= */
+
+/* Keep the card number clear of the role badge on every team card */
+.contact-team-section .team-card-content .team-role {
+  margin-left: 42px;
+  max-width: calc(100% - 42px);
+}
+
+/* Partners: prevent two cards from stretching across the full page */
+.contact-team-section .team-partners {
+  grid-template-columns: repeat(2, minmax(0, 360px));
+  max-width: 744px;
+  justify-content: start;
+}
+
+/* Keep partner cards compact after removing the image column */
+.contact-team-section .team-partners .team-card-content {
+  padding: 24px 22px 22px !important;
+}
+
+/* Avoid excessive card height while keeping all existing content */
+.contact-team-section .team-partners .team-card-content h4 {
+  font-size: 23px;
+}
+
+/* Responsive partner layout */
+@media (max-width: 700px) {
+  .contact-team-section .team-partners {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 100%;
+  }
+
+  .contact-team-section .team-card-content .team-role {
+    margin-left: 40px;
+    max-width: calc(100% - 40px);
+  }
+}
+
+/* =========================================================
+   ACCOUNTANTS - MATCH PARTNER CARD WIDTH
+   Keeps the existing card content and styling unchanged.
+========================================================= */
+
+.contact-team-section .team-accountants {
+  grid-template-columns: repeat(2, minmax(0, 360px)) !important;
+  column-gap: 20px;
+  max-width: 744px !important;
+  justify-content: start;
+}
+
+/* Match the compact content spacing used by partner cards */
+.contact-team-section .team-accountants .team-card-content {
+  padding: 24px 22px 22px !important;
+}
+
+/* Stack accountant cards on smaller screens */
+@media (max-width: 700px) {
+  .contact-team-section .team-accountants {
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: 100% !important;
+  }
+}
